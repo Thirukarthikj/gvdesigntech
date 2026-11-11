@@ -1,0 +1,86 @@
+[
+  {
+    "id": "GVD-1794394833579-580",
+    "fullName": "Praveen Raj",
+    "mobileNumber": "+91 9842154321",
+    "email": "praveen.cad@gmail.com",
+    "course": "Python",
+    "preferredMode": "Live Online — Weekday Evening Batch",
+    "message": "",
+    "createdAt": "2026-11-11T11:00:33.579Z",
+    "ip": "::1",
+    "status": "New"
+  },
+  {
+    "id": "GVD-1794391206181-939",
+    "fullName": "Anand Mohan",
+    "mobileNumber": "+91 9655364707",
+    "email": "anand.cad@gmail.com",
+    "course": "C++",
+    "preferredMode": "Live Online — Weekday Evening Batch",
+    "message": "Please WhatsApp me the batch schedule and course fee details.",
+    "createdAt": "2026-11-11T10:00:06.181Z",
+    "ip": "::1",
+    "status": "New"
+  },
+  {
+    "id": "GVD-1794391002552-873",
+    "fullName": "Praveen Raj",
+    "mobileNumber": "+91 9842154321",
+    "email": "karthik.cad@example.com",
+    "course": "SolidCAM",
+    "preferredMode": "Live Online — Weekday Evening Batch",
+    "message": "",
+    "createdAt": "2026-11-11T09:56:42.552Z",
+    "ip": "::1",
+    "status": "New"
+  },
+  {
+    "id": "GVD-1794390926786-285",
+    "fullName": "Praveen Raj",
+    "mobileNumber": "+91 9655364707",
+    "email": "praveen.cad@gmail.com",
+    "course": "AutoCAD",
+    "preferredMode": "Live Online — Weekday Evening Batch",
+    "message": "Please send syllabus details for 2D & 3D civil AutoCAD.",
+    "createdAt": "2026-11-11T09:55:26.786Z",
+    "ip": "::1",
+    "status": "New"
+  },
+  {
+    "id": "GVD-1794390831360-696",
+    "fullName": "Karthik Subramanian",
+    "mobileNumber": "+91 9655364707",
+    "email": "karthik.cad@example.com",
+    "course": "SolidWorks",
+    "preferredMode": "Live Online — Weekday Evening Batch (Mon–Fri)",
+    "message": "Interested in upcoming live online SolidWorks batch.",
+    "createdAt": "2026-11-11T09:53:51.360Z",
+    "ip": "::1",
+    "status": "New"
+  },
+  {
+    "id": "GVD-1794382160221-383",
+    "fullName": "Karthik Subramanian",
+    "mobileNumber": "+91 9842154321",
+    "email": "karthik.subramanian@gmail.com",
+    "course": "SolidWorks",
+    "preferredMode": "Live Online — Weekday Evening Batch",
+    "message": "Interested in live online SolidWorks batch.",
+    "createdAt": "2026-11-11T07:29:20.221Z",
+    "ip": "::1",
+    "status": "New"
+  },
+  {
+    "id": "GVD-1794378863164-130",
+    "fullName": "Karthik Subramanian",
+    "mobileNumber": "+91 9655364707",
+    "email": "karthik.subramanian@gmail.com",
+    "course": "SolidWorks",
+    "preferredMode": "Offline",
+    "message": "Looking for weekend batch in SolidWorks parametric modeling and assembly drafting.",
+    "createdAt": "2026-11-11T06:34:23.165Z",
+    "ip": "::1",
+    "status": "New"
+  }
+]

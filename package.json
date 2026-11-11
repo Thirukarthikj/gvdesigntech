@@ -1,0 +1,11 @@
+{
+  "name": "gv-design-tech-platform",
+  "version": "1.0.0",
+  "description": "GV DESIGN TECH - Technical Training Institute Platform",
+  "scripts": {
+    "server": "node server/src/server.js",
+    "client": "npm --prefix client run dev",
+    "build": "npm --prefix client run build"
+  }
+}
+

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gvdesigntech.com/sitemap.xml
+
