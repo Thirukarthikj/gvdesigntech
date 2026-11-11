@@ -1,7 +1,6 @@
 import React from 'react';
 import { HeroSection } from '../components/home/HeroSection';
 import { SoftwareMarqueeStrip } from '../components/home/SoftwareMarqueeStrip';
-import { MethodologySection } from '../components/home/MethodologySection';
 import { DisciplinesSection } from '../components/home/DisciplinesSection';
 import { PedagogicalPillarsSection } from '../components/home/PedagogicalPillarsSection';
 import { TrainingFormatsSection } from '../components/home/TrainingFormatsSection';
@@ -19,28 +18,25 @@ export const HomePage: React.FC = () => {
       {/* 21st.dev / OriginKit Software Suites Infinite Marquee Ribbon */}
       <SoftwareMarqueeStrip />
 
-      {/* 02 — METHODOLOGY */}
-      <MethodologySection />
-
-      {/* 03 — ALL 6 CURATED DISCIPLINES */}
+      {/* 02 — ALL 6 CURATED DISCIPLINES */}
       <DisciplinesSection />
 
-      {/* 04 — FIVE PEDAGOGICAL PILLARS */}
+      {/* 03 — FIVE PEDAGOGICAL PILLARS */}
       <PedagogicalPillarsSection />
 
-      {/* 05 — TRAINING FORMATS (LIVE ONLINE SCHEDULES) */}
+      {/* 04 — TRAINING FORMATS (LIVE ONLINE SCHEDULES) */}
       <TrainingFormatsSection />
 
-      {/* 06 — HIGH-CONTRAST INTEGRITY PROMISE BANNER */}
+      {/* 05 — HIGH-CONTRAST INTEGRITY PROMISE BANNER */}
       <IntegrityBannerSection />
 
-      {/* 07 — ENROLMENT CONVERSATION & APPLICATION FORM */}
+      {/* 06 — ENROLMENT CONVERSATION & APPLICATION FORM */}
       <EnrolmentConversationSection />
 
-      {/* 08 — FREQUENTLY ANSWERED QUERIES (FAQ) */}
+      {/* 07 — FREQUENTLY ANSWERED QUERIES (FAQ) */}
       <FAQAccordionSection />
 
-      {/* 09 — FINAL NEXT SKILL CTA */}
+      {/* 08 — FINAL NEXT SKILL CTA */}
       <FinalNextSkillCTA />
     </div>
   );
