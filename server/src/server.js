@@ -123,9 +123,9 @@ app.post('/api/enquire', (req, res) => {
     errors.mobileNumber = 'Please provide a valid 10-digit Indian mobile number (e.g. 9655364707).';
   }
 
-  // Email validation
+  // Email validation (optional in frontend, but if supplied must be valid)
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!email || typeof email !== 'string' || !emailRegex.test(email.trim())) {
+  if (email && typeof email === 'string' && email.trim().length > 0 && !emailRegex.test(email.trim())) {
     errors.email = 'Please provide a valid email address.';
   }
 

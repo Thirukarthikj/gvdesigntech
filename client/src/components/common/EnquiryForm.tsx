@@ -105,32 +105,44 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
     setApiError(null);
 
     try {
-      const response = await fetch('/api/enquire', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fullName: formData.fullName.trim(),
-          mobileNumber: formData.mobileNumber.trim(),
-          email: formData.email.trim(),
-          course: formData.course,
-          preferredMode: formData.preferredMode,
-          message: formData.message.trim(),
-          website: formData.website,
-        }),
-      });
+      let result: any = null;
 
-      const result = await response.json();
+      try {
+        const response = await fetch('/api/enquire', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            fullName: formData.fullName.trim(),
+            mobileNumber: formData.mobileNumber.trim(),
+            email: formData.email.trim(),
+            course: formData.course,
+            preferredMode: formData.preferredMode,
+            message: formData.message.trim(),
+            website: formData.website,
+          }),
+        });
 
-      if (!response.ok || !result.success) {
-        if (result.errors) {
-          setErrors(result.errors);
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          const json = await response.json();
+          if (response.ok && json.success) {
+            result = json;
+          } else if (json.errors) {
+            setErrors(json.errors);
+            setIsSubmitting(false);
+            return;
+          }
         }
-        throw new Error(result.message || 'Submission failed. Please try again.');
+      } catch (networkOrApiErr) {
+        // In static hosting environments like Vercel or GitHub Pages, proceed directly to WhatsApp
+        console.warn('API route unavailable on current host; proceeding directly to WhatsApp dispatch.', networkOrApiErr);
       }
 
-      // Format direct WhatsApp dispatch message for official admissions hotline (+91 96553 64707)
+      const generatedRefId = result?.enquiryId || `GVD-${Date.now().toString().slice(-6)}`;
+
+      // Format direct WhatsApp dispatch message for official admissions desk (+91 96553 64707)
       const whatsappLines = [
         `*NEW ADMISSION ENQUIRY — GV DESIGN TECH*`,
         ``,
@@ -140,28 +152,34 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
         `*Course Selected:* ${formData.course}`,
         `*Preferred Schedule:* ${formData.preferredMode}`,
         formData.message.trim() ? `*Student Note:* ${formData.message.trim()}` : null,
-        `*Enquiry Ref ID:* ${result.enquiryId || 'GVD-' + Date.now()}`,
+        `*Enquiry Ref ID:* ${generatedRefId}`,
         ``,
-        `_Transmitted via GV DESIGN TECH Official Website (Oddanchatram)_`
+        `_Transmitted via GV DESIGN TECH Official Admissions Desk (Oddanchatram)_`
       ].filter(Boolean).join('\n');
 
       const waUrl =
-        result.whatsappUrl ||
+        result?.whatsappUrl ||
         `https://wa.me/919655364707?text=${encodeURIComponent(whatsappLines)}`;
 
-      // Automatically dispatch / open WhatsApp in a new tab
+      // Automatically dispatch / open WhatsApp in app or new tab
       if (typeof window !== 'undefined') {
         try {
-          window.open(waUrl, '_blank');
+          const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+          if (isMobile) {
+            // Direct deep link on mobile opens the native WhatsApp app directly
+            window.location.href = waUrl;
+          } else {
+            window.open(waUrl, '_blank');
+          }
         } catch (e) {
-          console.warn('Auto popup was restricted by browser; user can use the direct WhatsApp button.', e);
+          console.warn('Auto redirect restricted by browser; user can tap the direct WhatsApp button.', e);
         }
       }
 
       setSubmitSuccess(true);
       setConfirmationData({
-        enquiryId: result.enquiryId,
-        message: result.message,
+        enquiryId: generatedRefId,
+        message: result?.message || 'Your enquiry has been formatted and is ready for our WhatsApp admissions desk.',
         whatsappUrl: waUrl,
       });
 
@@ -483,11 +501,12 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
         {isSubmitting ? (
           <>
             <Loader2 className="w-4 h-4 animate-spin" />
-            <span>SUBMITTING APPLICATION...</span>
+            <span>CONNECTING TO WHATSAPP...</span>
           </>
         ) : (
           <>
-            <span>SUBMIT ADMISSIONS ENQUIRY</span>
+            <MessageCircle className="w-4 h-4 text-[#25D366]" />
+            <span>SUBMIT &amp; SEND VIA WHATSAPP</span>
             <ArrowRight className="w-4 h-4" />
           </>
         )}
