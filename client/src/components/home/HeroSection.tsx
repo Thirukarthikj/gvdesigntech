@@ -4,7 +4,7 @@ import { ArrowRight, Cpu } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { CadRotatingGizmoTopLeft } from './CadRotatingGizmoTopLeft';
 import { CadRotatingAssemblyRight } from './CadRotatingAssemblyRight';
-import { HeroBuilding3DBackground } from './HeroBuilding3DBackground';
+import { CadBackgroundBuildingPlan } from './CadBackgroundBuildingPlan';
 
 export const HeroSection: React.FC = () => {
   return (
@@ -17,48 +17,50 @@ export const HeroSection: React.FC = () => {
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         
-        {/* 3D Rotating Architectural Building Model in the Background */}
-        <div className="absolute top-0 sm:top-2 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[280px] sm:h-[340px] md:h-[400px] flex items-center justify-center pointer-events-none -z-0 overflow-visible select-none">
-          <HeroBuilding3DBackground />
-        </div>
+        {/* Headline Area: 3D Building Model as Background with Text Appearing on Top */}
+        <div className="relative mb-6 sm:mb-8 pt-2 sm:pt-4">
+          
+          {/* 3D Rotating Architectural Building Model in Background */}
+          <CadBackgroundBuildingPlan />
 
-        {/* Foreground Content: Text Appears Directly On The 3D Building Model */}
-        <div className="relative z-10">
-          {/* 21st.dev Style Eyebrow Pill with Live Pulse & Spring Entrance */}
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#FAF9F7]/90 backdrop-blur-xs border border-[#E5E5E2] shadow-subtle mb-5 mx-auto hover:border-[#DC2626]/40 transition-colors cursor-default"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#DC2626] opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#DC2626]" />
-            </span>
-            <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-wider text-neutral-800 uppercase">
-              ONLINE LEARNING CLASSES
-            </span>
-          </motion.div>
+          {/* Foreground Text Layer: Appears Directly on the 3D Building Model */}
+          <div className="relative z-10">
+            {/* 21st.dev Style Eyebrow Pill with Live Pulse & Spring Entrance */}
+            <motion.div
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#E5E5E2] shadow-subtle mb-5 mx-auto hover:border-[#DC2626]/40 transition-colors cursor-default"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#DC2626] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#DC2626]" />
+              </span>
+              <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-wider text-neutral-800 uppercase">
+                ONLINE LEARNING CLASSES
+              </span>
+            </motion.div>
 
-          {/* Editorial Headline with Smooth Upward Stagger */}
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-            className="font-editorial text-3xl sm:text-4xl md:text-5xl lg:text-[54px] leading-[1.14] text-neutral-950 tracking-tight font-normal mb-4 sm:mb-5 max-w-4xl mx-auto"
-          >
-            Online Learning Classes Built for Real Industry Competence.
-          </motion.h1>
+            {/* Editorial Headline with Smooth Upward Stagger */}
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+              className="font-editorial text-3xl sm:text-4xl md:text-5xl lg:text-[54px] leading-[1.14] text-neutral-950 tracking-tight font-normal mb-4 sm:mb-5 max-w-4xl mx-auto drop-shadow-xs"
+            >
+              Online Learning Classes Built for Real Industry Competence.
+            </motion.h1>
 
-          {/* Subhead: Single Line Centered in Screen */}
-          <motion.p
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-            className="text-sm sm:text-base md:text-lg text-neutral-600 max-w-4xl mx-auto mb-6 sm:mb-8 font-sans font-normal leading-relaxed"
-          >
-            Master industry-standard engineering, coding, and design through live interactive online classes.
-          </motion.p>
+            {/* Subhead: Single Line Centered in Screen */}
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
+              className="text-sm sm:text-base md:text-lg text-neutral-700 max-w-4xl mx-auto font-sans font-normal leading-relaxed"
+            >
+              Master industry-standard engineering, coding, and design through live interactive online classes.
+            </motion.p>
+          </div>
         </div>
 
         {/* Visual: Centered directly before the Explore Courses button */}
