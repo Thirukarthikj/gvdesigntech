@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Monitor, Cpu } from 'lucide-react';
+import { ArrowRight, Cpu } from 'lucide-react';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 
 export const HeroSection: React.FC = () => {
@@ -65,10 +65,10 @@ export const HeroSection: React.FC = () => {
 
               <div className="group">
                 <div className="font-editorial text-2xl sm:text-3xl lg:text-4xl text-neutral-950 font-normal leading-none mb-1 group-hover:text-[#E8592B] transition-colors">
-                  6
+                  25+
                 </div>
                 <div className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-neutral-500 leading-tight">
-                  Curated Disciplines
+                  Technical Courses
                 </div>
               </div>
 
@@ -92,40 +92,15 @@ export const HeroSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Stacked Photographic Lab Visuals */}
-          <div className="lg:col-span-5 flex flex-col gap-4 sm:gap-6">
-            
-            {/* Visual 1: Mechanical & CAD Lab */}
-            <div className="card-interactive group relative bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] overflow-hidden shadow-subtle">
-              <div className="aspect-[16/10] overflow-hidden bg-neutral-100 relative">
-                <img
-                  src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=900&q=80"
-                  alt="Mechanical and Design CAD Laboratory at GV DESIGN TECH Oddanchatram"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  loading="eager"
-                />
-                <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 bg-neutral-950/85 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-mono px-2 sm:px-2.5 py-1 rounded border border-white/10 shadow-sm flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B] animate-pulse" />
-                  <span>LIVE ONLINE CAD</span>
-                </div>
-              </div>
-              <div className="p-3 sm:p-3.5 flex items-center justify-between bg-white border-t border-[#EAEAE7]">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#E8592B]" />
-                  <span className="text-[10px] sm:text-[11px] font-mono font-medium tracking-wide uppercase text-neutral-800 truncate">
-                    MECHANICAL &amp; DESIGN CAD — LIVE ONLINE SESSIONS
-                  </span>
-                </div>
-                <Monitor className="w-4 h-4 text-neutral-400 group-hover:text-[#E8592B] transition-colors shrink-0" />
-              </div>
-            </div>
+          {/* Right Column: Visual Showcase */}
+          <div className="lg:col-span-5 flex flex-col gap-4 sm:gap-6 justify-center">
 
-            {/* Visual 2: Computer Science & Digital Lab */}
+            {/* Visual: Computer Science & Digital Live Workshop */}
             <div className="card-interactive group relative bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] overflow-hidden shadow-subtle">
               <div className="aspect-[16/10] overflow-hidden bg-neutral-100 relative">
                 <img
                   src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80"
-                  alt="Computer Science and Digital Software Laboratory at GV DESIGN TECH Oddanchatram"
+                  alt="Computer Science and Digital Software Live Online Session at GV DESIGN TECH Oddanchatram"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   loading="eager"
                 />
@@ -138,7 +113,7 @@ export const HeroSection: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#E8592B]" />
                   <span className="text-[10px] sm:text-[11px] font-mono font-medium tracking-wide uppercase text-neutral-800 truncate">
-                    COMPUTER SCIENCE &amp; DIGITAL LAB — LIVE ONLINE CLASSES
+                    COMPUTER SCIENCE &amp; DIGITAL DESIGN — LIVE ONLINE CLASSES
                   </span>
                 </div>
                 <Cpu className="w-4 h-4 text-neutral-400 group-hover:text-[#E8592B] transition-colors shrink-0" />
