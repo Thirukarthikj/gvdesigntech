@@ -16,6 +16,11 @@ export const HeroSection: React.FC = () => {
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         
+        {/* Mobile View: 3D Building Plan at Top-Left */}
+        <div className="xl:hidden flex justify-start mb-4 sm:mb-6">
+          <CadRotatingAssemblyRight variant="mobile" />
+        </div>
+
         {/* 21st.dev Style Eyebrow Pill with Live Pulse & Spring Entrance */}
         <motion.div
           initial={{ opacity: 0, y: -12 }}
