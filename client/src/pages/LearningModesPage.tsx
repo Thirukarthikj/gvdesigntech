@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useEnquiryModal } from '../context/EnquiryModalContext';
 import {
   MonitorCheck,
@@ -27,8 +27,8 @@ export const LearningModesPage: React.FC = () => {
         {/* Header Hero */}
         <div className="border-b border-[#EAEAE7] pb-10 space-y-3 max-w-3xl">
           <div className="inline-flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-            <span className="text-[11px] font-mono font-semibold text-[#E8592B] uppercase tracking-widest block">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+            <span className="text-[11px] font-mono font-semibold text-[#DC2626] uppercase tracking-widest block">
               100% LIVE INTERACTIVE TECHNICAL TRAINING
             </span>
           </div>
@@ -47,7 +47,7 @@ export const LearningModesPage: React.FC = () => {
           <div className="card-interactive bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] p-8 sm:p-10 shadow-subtle flex flex-col justify-between space-y-6 group">
             <div className="space-y-6">
               <div className="flex items-center justify-between font-mono text-xs">
-                <span className="text-[#E8592B] uppercase tracking-wider font-semibold">
+                <span className="text-[#DC2626] uppercase tracking-wider font-semibold">
                   MONDAY – FRIDAY EVENINGS
                 </span>
                 <span className="text-neutral-500">
@@ -56,7 +56,7 @@ export const LearningModesPage: React.FC = () => {
               </div>
 
               <div>
-                <h2 className="font-editorial text-3xl font-normal text-neutral-950 mb-3 group-hover:text-[#E8592B] transition-colors">
+                <h2 className="font-editorial text-3xl font-normal text-neutral-950 mb-3 group-hover:text-[#DC2626] transition-colors">
                   Weekday Evening Batches
                 </h2>
                 <p className="text-sm text-neutral-600 leading-relaxed">
@@ -70,19 +70,19 @@ export const LearningModesPage: React.FC = () => {
                 </h3>
                 <ul className="space-y-2.5 text-xs sm:text-sm text-neutral-600">
                   <li className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                     <span>Live two-way screen sharing with real-time software walkthroughs</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                     <span>Daily hands-on drills in CAD modeling, full-stack programming, or UI design</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                     <span>Daily designated 1:1 mentor doubt-clearing window after each lecture</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                     <span>Progressive milestone reviews that reinforce steady retention throughout the week</span>
                   </li>
                 </ul>
@@ -90,7 +90,7 @@ export const LearningModesPage: React.FC = () => {
 
               <div className="p-4 bg-white rounded border border-[#E5E5E2] space-y-2 text-xs font-mono text-neutral-600">
                 <div className="flex items-center gap-2 text-neutral-900 font-semibold">
-                  <Clock className="w-3.5 h-3.5 text-[#E8592B]" /> Timing Slots:
+                  <Clock className="w-3.5 h-3.5 text-[#DC2626]" /> Timing Slots:
                 </div>
                 <p className="font-sans text-neutral-600 pl-5">
                   Evening slots between 6:00 PM – 9:00 PM (Configured based on batch consensus)
@@ -116,7 +116,7 @@ export const LearningModesPage: React.FC = () => {
           <div className="card-interactive bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] p-8 sm:p-10 shadow-subtle flex flex-col justify-between space-y-6 group">
             <div className="space-y-6">
               <div className="flex items-center justify-between font-mono text-xs">
-                <span className="text-[#E8592B] uppercase tracking-wider font-semibold">
+                <span className="text-[#DC2626] uppercase tracking-wider font-semibold">
                   SATURDAY &amp; SUNDAY INTENSIVES
                 </span>
                 <span className="text-neutral-500">
@@ -125,7 +125,7 @@ export const LearningModesPage: React.FC = () => {
               </div>
 
               <div>
-                <h2 className="font-editorial text-3xl font-normal text-neutral-950 mb-3 group-hover:text-[#E8592B] transition-colors">
+                <h2 className="font-editorial text-3xl font-normal text-neutral-950 mb-3 group-hover:text-[#DC2626] transition-colors">
                   Weekend Intensive Batches
                 </h2>
                 <p className="text-sm text-neutral-600 leading-relaxed">
@@ -139,19 +139,19 @@ export const LearningModesPage: React.FC = () => {
                 </h3>
                 <ul className="space-y-2.5 text-xs sm:text-sm text-neutral-600">
                   <li className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                     <span>In-depth live architectural, drafting, and programming walkthroughs</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                     <span>End-to-end project assembly milestones with real industry specifications</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                     <span>Personalized 1:1 portfolio review sessions to prepare industry dossiers</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                     <span>Mid-week async mentor support for assignment submissions and guidance</span>
                   </li>
                 </ul>
@@ -159,7 +159,7 @@ export const LearningModesPage: React.FC = () => {
 
               <div className="p-4 bg-white rounded border border-[#E5E5E2] space-y-2 text-xs font-mono text-neutral-600">
                 <div className="flex items-center gap-2 text-neutral-900 font-semibold">
-                  <Calendar className="w-3.5 h-3.5 text-[#E8592B]" /> Timing Slots:
+                  <Calendar className="w-3.5 h-3.5 text-[#DC2626]" /> Timing Slots:
                 </div>
                 <p className="font-sans text-neutral-600 pl-5">
                   Saturdays &amp; Sundays: Morning or Afternoon blocks with intermittent interactive breaks
@@ -186,7 +186,7 @@ export const LearningModesPage: React.FC = () => {
         {/* 4 Pillars of Our Online Delivery */}
         <div className="space-y-8">
           <div className="text-center max-w-2xl mx-auto">
-            <div className="text-[10px] font-mono uppercase tracking-widest text-[#E8592B] font-semibold mb-2">
+            <div className="text-[10px] font-mono uppercase tracking-widest text-[#DC2626] font-semibold mb-2">
               THE VIRTUAL WORKSHOP ADVANTAGE
             </div>
             <h2 className="font-editorial text-3xl sm:text-4xl font-normal text-neutral-950">
@@ -199,7 +199,7 @@ export const LearningModesPage: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="p-6 bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] space-y-3">
-              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] flex items-center justify-center text-[#E8592B]">
+              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] flex items-center justify-center text-[#DC2626]">
                 <Video className="w-5 h-5" />
               </div>
               <h3 className="text-base font-bold text-neutral-950">
@@ -211,7 +211,7 @@ export const LearningModesPage: React.FC = () => {
             </div>
 
             <div className="p-6 bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] space-y-3">
-              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] flex items-center justify-center text-[#E8592B]">
+              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] flex items-center justify-center text-[#DC2626]">
                 <HelpCircle className="w-5 h-5" />
               </div>
               <h3 className="text-base font-bold text-neutral-950">
@@ -223,7 +223,7 @@ export const LearningModesPage: React.FC = () => {
             </div>
 
             <div className="p-6 bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] space-y-3">
-              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] flex items-center justify-center text-[#E8592B]">
+              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] flex items-center justify-center text-[#DC2626]">
                 <Layers className="w-5 h-5" />
               </div>
               <h3 className="text-base font-bold text-neutral-950">
@@ -235,7 +235,7 @@ export const LearningModesPage: React.FC = () => {
             </div>
 
             <div className="p-6 bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] space-y-3">
-              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] flex items-center justify-center text-[#E8592B]">
+              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] flex items-center justify-center text-[#DC2626]">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <h3 className="text-base font-bold text-neutral-950">
@@ -259,7 +259,7 @@ export const LearningModesPage: React.FC = () => {
                 Compare structure and pace between our two live online training options.
               </p>
             </div>
-            <div className="font-mono text-xs text-[#E8592B] font-semibold">
+            <div className="font-mono text-xs text-[#DC2626] font-semibold">
               100% LIVE INTERACTIVE SESSIONS
             </div>
           </div>
@@ -313,7 +313,7 @@ export const LearningModesPage: React.FC = () => {
         <div className="p-8 bg-white rounded-lg border border-[#E5E5E2] shadow-subtle flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
             <div className="flex items-center gap-2">
-              <Laptop className="w-4 h-4 text-[#E8592B]" />
+              <Laptop className="w-4 h-4 text-[#DC2626]" />
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-900">
                 HARDWARE &amp; SOFTWARE REQUIREMENTS
               </span>

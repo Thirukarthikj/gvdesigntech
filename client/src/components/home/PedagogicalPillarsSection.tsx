@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 
 const PILLARS = [
   {
@@ -41,8 +41,8 @@ export const PedagogicalPillarsSection: React.FC = () => {
         {/* Section Header */}
         <div className="mb-10 sm:mb-12">
           <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-[#FAF9F7] border border-[#E5E5E2] shadow-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-            <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-widest text-[#E8592B] uppercase">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+            <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-widest text-[#DC2626] uppercase">
               OUR METHODOLOGY
             </span>
           </div>
@@ -63,7 +63,7 @@ export const PedagogicalPillarsSection: React.FC = () => {
               className="card-interactive group p-5 sm:p-6 bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] flex flex-col justify-between"
             >
               <div>
-                <div className="font-editorial text-3xl sm:text-4xl text-neutral-900 group-hover:text-[#E8592B] font-normal mb-2 sm:mb-3 transition-colors">
+                <div className="font-editorial text-3xl sm:text-4xl text-neutral-900 group-hover:text-[#DC2626] font-normal mb-2 sm:mb-3 transition-colors">
                   {pillar.num}
                 </div>
                 <h3 className="text-sm font-bold text-neutral-950 mb-1.5 sm:mb-2 tracking-tight group-hover:text-neutral-900">
@@ -75,7 +75,7 @@ export const PedagogicalPillarsSection: React.FC = () => {
               </div>
 
               <div className="mt-5 sm:mt-6 pt-3 sm:pt-4 border-t border-[#EAEAE7]">
-                <span className="w-4 h-0.5 bg-neutral-300 group-hover:w-10 group-hover:bg-[#E8592B] transition-all duration-300 block" />
+                <span className="w-4 h-0.5 bg-neutral-300 group-hover:w-10 group-hover:bg-[#DC2626] transition-all duration-300 block" />
               </div>
             </div>
           ))}

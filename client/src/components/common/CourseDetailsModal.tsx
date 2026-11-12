@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { Course } from '../../types';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 import {
@@ -59,7 +59,7 @@ export const CourseDetailsModal: React.FC<CourseDetailsModalProps> = ({
         {/* Modal Header */}
         <div className="bg-[#FAF9F7] text-neutral-900 p-6 border-b border-[#EAEAE7] flex items-start justify-between">
           <div className="space-y-1">
-            <div className="text-[10px] font-mono font-semibold uppercase tracking-widest text-[#E8592B]">
+            <div className="text-[10px] font-mono font-semibold uppercase tracking-widest text-[#DC2626]">
               {course.categoryName} • SYLLABUS SPECIFICATION
             </div>
             <h2 className="font-editorial text-2xl sm:text-3xl font-normal text-neutral-950 tracking-tight">
@@ -67,7 +67,7 @@ export const CourseDetailsModal: React.FC<CourseDetailsModalProps> = ({
             </h2>
             <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-neutral-500 pt-1">
               <span className="inline-flex items-center gap-1">
-                <Globe className="w-3.5 h-3.5 text-[#E8592B]" /> 100% Live Interactive Online
+                <Globe className="w-3.5 h-3.5 text-[#DC2626]" /> 100% Live Interactive Online
               </span>
               <span>•</span>
               <span className="inline-flex items-center gap-1">
@@ -101,7 +101,7 @@ export const CourseDetailsModal: React.FC<CourseDetailsModalProps> = ({
           {course.softwareCovered && course.softwareCovered.length > 0 && (
             <div>
               <h3 className="text-xs font-mono uppercase tracking-wider text-neutral-500 mb-2 flex items-center gap-1.5">
-                <Layers className="w-3.5 h-3.5 text-[#E8592B]" /> Software &amp; Tools Covered
+                <Layers className="w-3.5 h-3.5 text-[#DC2626]" /> Software &amp; Tools Covered
               </h3>
               <div className="flex flex-wrap gap-2">
                 {course.softwareCovered.map((tool) => (
@@ -120,7 +120,7 @@ export const CourseDetailsModal: React.FC<CourseDetailsModalProps> = ({
           {course.keyTopics && course.keyTopics.length > 0 && (
             <div>
               <h3 className="text-xs font-mono uppercase tracking-wider text-neutral-500 mb-3 flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-[#E8592B]" /> Core Syllabus Topics
+                <BookOpen className="w-3.5 h-3.5 text-[#DC2626]" /> Core Syllabus Topics
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {course.keyTopics.map((topic, idx) => (
@@ -128,7 +128,7 @@ export const CourseDetailsModal: React.FC<CourseDetailsModalProps> = ({
                     key={idx}
                     className="p-3 bg-[#FAF9F7] rounded border border-[#E5E5E2] text-xs text-neutral-700 flex items-start gap-2"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B] shrink-0 mt-1.5" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626] shrink-0 mt-1.5" />
                     <span>{topic}</span>
                   </div>
                 ))}
@@ -140,7 +140,7 @@ export const CourseDetailsModal: React.FC<CourseDetailsModalProps> = ({
           {course.learningOutcomes && course.learningOutcomes.length > 0 && (
             <div>
               <h3 className="text-xs font-mono uppercase tracking-wider text-neutral-500 mb-3 flex items-center gap-1.5">
-                <Target className="w-3.5 h-3.5 text-[#E8592B]" /> Practical Outcomes &amp; Deliverables
+                <Target className="w-3.5 h-3.5 text-[#DC2626]" /> Practical Outcomes &amp; Deliverables
               </h3>
               <div className="space-y-2">
                 {course.learningOutcomes.map((outcome, idx) => (

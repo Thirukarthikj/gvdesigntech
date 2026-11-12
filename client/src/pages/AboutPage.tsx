@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useEnquiryModal } from '../context/EnquiryModalContext';
 import {
   Compass,
@@ -21,8 +21,8 @@ export const AboutPage: React.FC = () => {
       <div className="max-w-7xl 2xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 mb-16">
         <div className="border-b border-[#EAEAE7] pb-10 space-y-3 max-w-3xl">
           <div className="inline-flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-            <span className="text-[11px] font-mono font-semibold uppercase tracking-widest text-[#E8592B] block">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+            <span className="text-[11px] font-mono font-semibold uppercase tracking-widest text-[#DC2626] block">
               INSTITUTE PROFILE • ODDANCHATRAM
             </span>
           </div>
@@ -34,7 +34,7 @@ export const AboutPage: React.FC = () => {
           </p>
           <div className="pt-2 flex flex-wrap items-center gap-5 text-xs font-mono text-neutral-500">
             <span className="flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-[#E8592B]" /> Oddanchatram, Tamil Nadu, India
+              <MapPin className="w-3.5 h-3.5 text-[#DC2626]" /> Oddanchatram, Tamil Nadu, India
             </span>
             <span className="text-neutral-300">•</span>
             <span className="flex items-center gap-1.5">
@@ -55,8 +55,8 @@ export const AboutPage: React.FC = () => {
 
           <div className="max-w-2xl space-y-2">
             <div className="inline-flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-              <span className="text-[10px] font-mono font-semibold uppercase tracking-widest text-[#E8592B] block">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+              <span className="text-[10px] font-mono font-semibold uppercase tracking-widest text-[#DC2626] block">
                 TARGET LEARNERS
               </span>
             </div>
@@ -71,7 +71,7 @@ export const AboutPage: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="card-interactive bg-white rounded-lg p-5 border border-[#E5E5E2] shadow-subtle flex flex-col justify-between">
               <div>
-                <div className="w-9 h-9 rounded-md bg-[#FAF9F7] border border-[#EAEAE7] text-[#E8592B] flex items-center justify-center mb-3">
+                <div className="w-9 h-9 rounded-md bg-[#FAF9F7] border border-[#EAEAE7] text-[#DC2626] flex items-center justify-center mb-3">
                   <GraduationCap className="w-4 h-4" />
                 </div>
                 <h3 className="font-editorial text-base font-normal text-neutral-950 mb-1.5">
@@ -85,7 +85,7 @@ export const AboutPage: React.FC = () => {
 
             <div className="card-interactive bg-white rounded-lg p-5 border border-[#E5E5E2] shadow-subtle flex flex-col justify-between">
               <div>
-                <div className="w-9 h-9 rounded-md bg-[#FAF9F7] border border-[#EAEAE7] text-[#E8592B] flex items-center justify-center mb-3">
+                <div className="w-9 h-9 rounded-md bg-[#FAF9F7] border border-[#EAEAE7] text-[#DC2626] flex items-center justify-center mb-3">
                   <Wrench className="w-4 h-4" />
                 </div>
                 <h3 className="font-editorial text-base font-normal text-neutral-950 mb-1.5">
@@ -99,7 +99,7 @@ export const AboutPage: React.FC = () => {
 
             <div className="card-interactive bg-white rounded-lg p-5 border border-[#E5E5E2] shadow-subtle flex flex-col justify-between">
               <div>
-                <div className="w-9 h-9 rounded-md bg-[#FAF9F7] border border-[#EAEAE7] text-[#E8592B] flex items-center justify-center mb-3">
+                <div className="w-9 h-9 rounded-md bg-[#FAF9F7] border border-[#EAEAE7] text-[#DC2626] flex items-center justify-center mb-3">
                   <BookOpen className="w-4 h-4" />
                 </div>
                 <h3 className="font-editorial text-base font-normal text-neutral-950 mb-1.5">
@@ -113,7 +113,7 @@ export const AboutPage: React.FC = () => {
 
             <div className="card-interactive bg-white rounded-lg p-5 border border-[#E5E5E2] shadow-subtle flex flex-col justify-between">
               <div>
-                <div className="w-9 h-9 rounded-md bg-[#FAF9F7] border border-[#EAEAE7] text-[#E8592B] flex items-center justify-center mb-3">
+                <div className="w-9 h-9 rounded-md bg-[#FAF9F7] border border-[#EAEAE7] text-[#DC2626] flex items-center justify-center mb-3">
                   <Users2 className="w-4 h-4" />
                 </div>
                 <h3 className="font-editorial text-base font-normal text-neutral-950 mb-1.5">
@@ -149,8 +149,8 @@ export const AboutPage: React.FC = () => {
           {/* Foreground Text */}
           <div className="relative z-10 space-y-1.5 text-center md:text-left max-w-xl">
             <div className="inline-flex items-center gap-2 mb-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-              <span className="text-[10px] font-mono font-semibold uppercase tracking-widest text-[#E8592B]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+              <span className="text-[10px] font-mono font-semibold uppercase tracking-widest text-[#DC2626]">
                 ADMISSIONS DESK • ODDANCHATRAM
               </span>
             </div>
@@ -166,7 +166,7 @@ export const AboutPage: React.FC = () => {
           <div className="relative z-10 flex flex-wrap items-center gap-3 shrink-0">
             <button
               onClick={() => openEnquiryModal()}
-              className="btn-shimmer btn-tactile group px-6 py-3.5 rounded bg-[#E8592B] hover:bg-[#D4481E] text-white font-mono font-semibold text-xs uppercase tracking-wider transition-all shadow-[0_4px_14px_rgba(232,89,43,0.39)]"
+              className="btn-shimmer btn-tactile group px-6 py-3.5 rounded bg-[#DC2626] hover:bg-[#B91C1C] text-white font-mono font-semibold text-xs uppercase tracking-wider transition-all shadow-[0_4px_14px_rgba(220,38,38,0.39)]"
             >
               <span>Enquire Now</span>
               <ArrowRight className="w-3.5 h-3.5 inline ml-1.5 transition-transform group-hover:translate-x-1" />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { ChevronDown, Plus, Minus } from 'lucide-react';
 
 const FAQS = [
@@ -48,8 +48,8 @@ export const FAQAccordionSection: React.FC = () => {
         {/* Section Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center gap-2 mb-3 px-3 py-1 rounded-full bg-white border border-[#E5E5E2] shadow-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-            <span className="text-[11px] font-mono font-semibold tracking-widest text-[#E8592B] uppercase">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+            <span className="text-[11px] font-mono font-semibold tracking-widest text-[#DC2626] uppercase">
               CLARIFICATIONS
             </span>
           </div>
@@ -81,7 +81,7 @@ export const FAQAccordionSection: React.FC = () => {
                   className="w-full py-4 px-5 sm:px-6 flex items-center justify-between text-left group"
                 >
                   <span className={`text-sm sm:text-base font-semibold transition-colors pr-4 ${
-                    isOpen ? 'text-[#E8592B]' : 'text-neutral-950 group-hover:text-[#E8592B]'
+                    isOpen ? 'text-[#DC2626]' : 'text-neutral-950 group-hover:text-[#DC2626]'
                   }`}>
                     {faq.question}
                   </span>

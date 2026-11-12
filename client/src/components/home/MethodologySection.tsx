@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Terminal, Users, FolderCheck, CheckCircle2 } from 'lucide-react';
 
 export const MethodologySection: React.FC = () => {
@@ -9,8 +9,8 @@ export const MethodologySection: React.FC = () => {
         {/* Section Header */}
         <div className="mb-12">
           <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white border border-[#E5E5E2] shadow-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-            <span className="text-[11px] font-mono font-semibold tracking-widest text-[#E8592B] uppercase">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+            <span className="text-[11px] font-mono font-semibold tracking-widest text-[#DC2626] uppercase">
               OUR METHODOLOGY
             </span>
           </div>
@@ -26,11 +26,11 @@ export const MethodologySection: React.FC = () => {
           {/* Left Card: Laboratory-First Instruction */}
           <div className="card-interactive lg:col-span-5 bg-white rounded-lg border border-[#E5E5E2] p-8 shadow-subtle flex flex-col justify-between h-full group">
             <div>
-              <div className="w-10 h-10 rounded-md bg-[#FAF9F7] border border-[#EAEAE7] flex items-center justify-center text-neutral-900 mb-6 group-hover:border-[#E8592B]/50 transition-colors">
-                <Terminal className="w-5 h-5 text-[#E8592B]" />
+              <div className="w-10 h-10 rounded-md bg-[#FAF9F7] border border-[#EAEAE7] flex items-center justify-center text-neutral-900 mb-6 group-hover:border-[#DC2626]/50 transition-colors">
+                <Terminal className="w-5 h-5 text-[#DC2626]" />
               </div>
 
-              <h3 className="text-xl font-bold text-neutral-950 mb-3 tracking-tight group-hover:text-[#E8592B] transition-colors">
+              <h3 className="text-xl font-bold text-neutral-950 mb-3 tracking-tight group-hover:text-[#DC2626] transition-colors">
                 Laboratory-First Instruction
               </h3>
 
@@ -56,11 +56,11 @@ export const MethodologySection: React.FC = () => {
           {/* Right Card: Why Practical Lab Training Drives Technical Careers */}
           <div className="card-interactive lg:col-span-7 bg-white rounded-lg border border-[#E5E5E2] p-8 shadow-subtle flex flex-col justify-between group">
             <div>
-              <div className="text-[10px] font-mono uppercase tracking-widest text-[#E8592B] font-semibold mb-2">
+              <div className="text-[10px] font-mono uppercase tracking-widest text-[#DC2626] font-semibold mb-2">
                 PRACTICAL COMPETENCE OVER THEORY
               </div>
 
-              <h3 className="text-xl sm:text-2xl font-bold text-neutral-950 mb-3 tracking-tight group-hover:text-[#E8592B] transition-colors">
+              <h3 className="text-xl sm:text-2xl font-bold text-neutral-950 mb-3 tracking-tight group-hover:text-[#DC2626] transition-colors">
                 Why Practical Lab Training Drives Technical Careers
               </h3>
 
@@ -72,7 +72,7 @@ export const MethodologySection: React.FC = () => {
               <div className="bg-[#FAF9F7] p-5 rounded-lg border border-[#EAEAE7] mb-8">
                 <div className="flex justify-between text-xs font-mono mb-2.5">
                   <span className="text-neutral-500">Traditional Classroom (20% Software / 80% Theory)</span>
-                  <span className="text-[#E8592B] font-bold">GV DESIGN TECH (85% Software / 15% Principles)</span>
+                  <span className="text-[#DC2626] font-bold">GV DESIGN TECH (85% Software / 15% Principles)</span>
                 </div>
                 
                 {/* Visual Ratio Bar with subtle inner shadow & glow */}
@@ -82,7 +82,7 @@ export const MethodologySection: React.FC = () => {
                     title="Traditional Classroom 20% Software"
                   />
                   <div
-                    className="w-[80%] bg-gradient-to-r from-[#E8592B] to-[#F16A3E] h-full rounded-r-full shadow-sm hover:brightness-110 transition-all duration-300 relative group/bar"
+                    className="w-[80%] bg-gradient-to-r from-[#DC2626] to-[#EF4444] h-full rounded-r-full shadow-sm hover:brightness-110 transition-all duration-300 relative group/bar"
                     title="GV DESIGN TECH 85% Practical Software"
                   >
                     <div className="absolute inset-0 bg-white/10 opacity-0 group-hover/bar:opacity-100 transition-opacity" />
@@ -90,7 +90,7 @@ export const MethodologySection: React.FC = () => {
                 </div>
                 <div className="flex justify-between text-[10px] font-mono text-neutral-400 mt-2">
                   <span>Theory Memorization</span>
-                  <span className="text-[#E8592B] font-semibold">Live Production Capability</span>
+                  <span className="text-[#DC2626] font-semibold">Live Production Capability</span>
                 </div>
               </div>
             </div>
@@ -99,7 +99,7 @@ export const MethodologySection: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#F0F0EE]">
               <div className="p-4 bg-[#FAF9F7] rounded-lg border border-[#EAEAE7] hover:border-neutral-400 transition-all">
                 <div className="flex items-center gap-2 mb-2">
-                  <Users className="w-4 h-4 text-[#E8592B]" />
+                  <Users className="w-4 h-4 text-[#DC2626]" />
                   <span className="text-xs font-bold uppercase tracking-wider text-neutral-900">
                     1:1 Mentorship Ratio
                   </span>
@@ -111,7 +111,7 @@ export const MethodologySection: React.FC = () => {
 
               <div className="p-4 bg-[#FAF9F7] rounded-lg border border-[#EAEAE7] hover:border-neutral-400 transition-all">
                 <div className="flex items-center gap-2 mb-2">
-                  <FolderCheck className="w-4 h-4 text-[#E8592B]" />
+                  <FolderCheck className="w-4 h-4 text-[#DC2626]" />
                   <span className="text-xs font-bold uppercase tracking-wider text-neutral-900">
                     Real, Reusable Portfolios
                   </span>

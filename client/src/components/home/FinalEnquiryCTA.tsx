@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 import { ArrowRight, PhoneCall } from 'lucide-react';
 
@@ -8,7 +8,7 @@ export const FinalEnquiryCTA: React.FC = () => {
   return (
     <section className="py-20 sm:py-24 bg-slate-100/70 border-b border-slate-200/90 text-center">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        <span className="text-[11px] font-bold uppercase tracking-widest text-accent-orange block">
+        <span className="text-[11px] font-bold uppercase tracking-widest text-accent-red block">
           BECOME INDUSTRY READY
         </span>
 
@@ -34,7 +34,7 @@ export const FinalEnquiryCTA: React.FC = () => {
             href="tel:+919655364707"
             className="w-full sm:w-auto px-6 py-3.5 rounded bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2"
           >
-            <PhoneCall className="w-3.5 h-3.5 text-accent-orange" />
+            <PhoneCall className="w-3.5 h-3.5 text-accent-red" />
             <span>Connect Via Phone: +91 96553 64707</span>
           </a>
         </div>

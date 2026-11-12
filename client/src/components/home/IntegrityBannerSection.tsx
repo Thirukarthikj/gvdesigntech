@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Phone, Mail, MessageCircle, ArrowRight } from 'lucide-react';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 
@@ -31,8 +31,8 @@ export const IntegrityBannerSection: React.FC = () => {
           {/* Left Text Block */}
           <div className="lg:col-span-8">
             <div className="inline-flex items-center gap-2 mb-3.5 px-3 py-1 rounded-full bg-white/95 border border-[#E5E5E2] shadow-sm backdrop-blur-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B] animate-pulse" />
-              <span className="text-[10px] font-mono font-semibold tracking-widest text-[#E8592B] uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626] animate-pulse" />
+              <span className="text-[10px] font-mono font-semibold tracking-widest text-[#DC2626] uppercase">
                 TRANSPARENCY &amp; INTEGRITY PROMISE
               </span>
             </div>
@@ -50,7 +50,7 @@ export const IntegrityBannerSection: React.FC = () => {
           <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3.5 justify-center">
             <button
               onClick={() => openEnquiryModal()}
-              className="btn-shimmer btn-tactile group inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-[#E8592B] hover:bg-[#D4481E] text-white text-xs font-semibold uppercase tracking-wider rounded transition-all shadow-[0_4px_14px_0_rgba(232,89,43,0.39)] hover:shadow-[0_6px_20px_rgba(232,89,43,0.5)]"
+              className="btn-shimmer btn-tactile group inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-[#DC2626] hover:bg-[#B91C1C] text-white text-xs font-semibold uppercase tracking-wider rounded transition-all shadow-[0_4px_14px_0_rgba(220,38,38,0.39)] hover:shadow-[0_6px_20px_rgba(220,38,38,0.5)]"
             >
               <span>ENROL FOR UPCOMING BATCHES</span>
               <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
@@ -73,18 +73,18 @@ export const IntegrityBannerSection: React.FC = () => {
         <div className="pt-8 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-neutral-600">
           <div className="flex flex-wrap items-center gap-6">
             <div className="flex items-center gap-2">
-              <Phone className="w-3.5 h-3.5 text-[#E8592B]" />
+              <Phone className="w-3.5 h-3.5 text-[#DC2626]" />
               <span className="text-neutral-500">CALL:</span>
-              <a href="tel:+919655364707" className="text-neutral-900 hover:text-[#E8592B] font-semibold transition-colors">
+              <a href="tel:+919655364707" className="text-neutral-900 hover:text-[#DC2626] font-semibold transition-colors">
                 +91 96553 64707
               </a>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <Mail className="w-3.5 h-3.5 text-[#E8592B]" />
+            <Mail className="w-3.5 h-3.5 text-[#DC2626]" />
             <span className="text-neutral-500">EMAIL:</span>
-            <a href="mailto:gvdesigntech707@gmail.com" className="text-neutral-900 hover:text-[#E8592B] font-semibold transition-colors">
+            <a href="mailto:gvdesigntech707@gmail.com" className="text-neutral-900 hover:text-[#DC2626] font-semibold transition-colors">
               gvdesigntech707@gmail.com
             </a>
           </div>

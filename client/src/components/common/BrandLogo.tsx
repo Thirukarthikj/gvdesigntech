@@ -20,8 +20,8 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       <div
         className={`relative flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-300 overflow-hidden ${
           isDark
-            ? 'bg-neutral-900 border-neutral-800 group-hover:border-brand-orange'
-            : 'bg-white border-neutral-200 shadow-sm group-hover:border-brand-orange'
+            ? 'bg-neutral-900 border-neutral-800 group-hover:border-brand-red'
+            : 'bg-white border-neutral-200 shadow-sm group-hover:border-brand-red'
         }`}
       >
         <img
@@ -35,7 +35,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       <div className="flex flex-col">
         <span
           className={`text-[15px] font-sans font-bold tracking-tight leading-none transition-colors ${
-            isDark ? 'text-white group-hover:text-brand-orange' : 'text-neutral-950 group-hover:text-brand-orange'
+            isDark ? 'text-white group-hover:text-brand-red' : 'text-neutral-950 group-hover:text-brand-red'
           }`}
         >
           GV DESIGN TECH

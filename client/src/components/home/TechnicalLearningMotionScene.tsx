@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 import { Layers, Terminal, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -31,12 +31,12 @@ export const TechnicalLearningMotionScene: React.FC = () => {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-canvas-border pb-6">
           <div className="space-y-2 max-w-2xl">
-            <span className="text-xs font-mono text-cinematic-orange uppercase tracking-widest block">
+            <span className="text-xs font-mono text-cinematic-red uppercase tracking-widest block">
               [ SCENE 04 // TECHNICAL LEARNING IN MOTION ]
             </span>
             <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tighter text-ink-pure">
               Software Mastery <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-ink-pure via-ink-secondary to-cinematic-orange">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-ink-pure via-ink-secondary to-cinematic-red">
                 Through Kinetic Practice
               </span>
             </h2>
@@ -63,13 +63,13 @@ export const TechnicalLearningMotionScene: React.FC = () => {
                 <span className="text-ink-secondary">
                   CAD, IT & DIGITAL DESIGN INTERFACES
                 </span>
-                <span className="text-cinematic-orange font-bold">ODDANCHATRAM LAB</span>
+                <span className="text-cinematic-red font-bold">ODDANCHATRAM LAB</span>
               </div>
             </div>
 
             {/* Floating Overlapping Editorial Card */}
             <div className="hidden sm:block absolute -bottom-8 -right-6 w-72 p-5 rounded-2xl bg-canvas-surface/95 backdrop-blur-md border border-canvas-border shadow-cinematic space-y-2">
-              <span className="text-[10px] font-mono text-cinematic-orange uppercase block">
+              <span className="text-[10px] font-mono text-cinematic-red uppercase block">
                 PRACTICAL RATIO
               </span>
               <p className="font-display font-bold text-sm text-ink-pure">
@@ -90,7 +90,7 @@ export const TechnicalLearningMotionScene: React.FC = () => {
                   className="p-6 rounded-2xl bg-canvas-surface border border-canvas-border hover:border-canvas-borderHover transition-all space-y-2"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs text-cinematic-orange">
+                    <span className="font-mono text-xs text-cinematic-red">
                       {pillar.num} // {pillar.tag}
                     </span>
                   </div>
@@ -107,7 +107,7 @@ export const TechnicalLearningMotionScene: React.FC = () => {
             <div className="pt-2">
               <Link
                 to="/learning-modes"
-                className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-cinematic-orange hover:text-white transition-colors"
+                className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-cinematic-red hover:text-white transition-colors"
               >
                 <span>Read About Our Learning Modes</span>
                 <ArrowRight className="w-3.5 h-3.5" />

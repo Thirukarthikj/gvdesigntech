@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 import { EnquiryForm } from './EnquiryForm';
 import { X, GraduationCap, MapPin, Clock } from 'lucide-react';
@@ -39,7 +39,7 @@ export const EnquiryModal: React.FC = () => {
         {/* Header */}
         <div className="bg-[#FAF9F7] px-6 py-5 border-b border-[#EAEAE7] flex items-start justify-between">
           <div>
-            <div className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold tracking-widest uppercase mb-1 text-[#E8592B]">
+            <div className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold tracking-widest uppercase mb-1 text-[#DC2626]">
               <GraduationCap className="w-3.5 h-3.5" /> ADMISSION ENQUIRY
             </div>
             <h2 className="font-editorial text-2xl font-normal text-neutral-950 tracking-tight">
@@ -47,7 +47,7 @@ export const EnquiryModal: React.FC = () => {
             </h2>
             <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-neutral-500 mt-1">
               <span className="flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-[#E8592B]" /> Oddanchatram, Tamil Nadu
+                <MapPin className="w-3.5 h-3.5 text-[#DC2626]" /> Oddanchatram, Tamil Nadu
               </span>
               <span className="flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5 text-neutral-400" /> Mon–Sat: 9 AM – 9 PM
@@ -68,7 +68,7 @@ export const EnquiryModal: React.FC = () => {
         {selectedCourse && (
           <div className="bg-neutral-50 border-b border-[#EAEAE7] px-6 py-2.5 text-xs font-mono text-neutral-600 flex items-center justify-between">
             <div>
-              Course of interest: <strong className="text-[#E8592B]">{selectedCourse}</strong>
+              Course of interest: <strong className="text-[#DC2626]">{selectedCourse}</strong>
             </div>
             <span className="text-[10px] text-neutral-400 uppercase">PRE-SELECTED</span>
           </div>

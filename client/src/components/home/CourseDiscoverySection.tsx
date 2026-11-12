@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
@@ -12,7 +12,7 @@ export const CourseDiscoverySection: React.FC = () => {
         {/* Header matching reference */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-slate-200/80">
           <div className="space-y-2 max-w-2xl">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-accent-orange block">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-accent-red block">
               COURSE CATALOG
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-medium tracking-tight text-slate-950">
@@ -224,7 +224,7 @@ export const CourseDiscoverySection: React.FC = () => {
               <div className="pt-2 border-t border-slate-100">
                 <Link
                   to="/courses/multimedia-graphic-design"
-                  className="text-xs font-bold uppercase tracking-wider text-slate-900 hover:text-accent-orange inline-flex items-center gap-1.5"
+                  className="text-xs font-bold uppercase tracking-wider text-slate-900 hover:text-accent-red inline-flex items-center gap-1.5"
                 >
                   <span>Explore Design Courses</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -264,7 +264,7 @@ export const CourseDiscoverySection: React.FC = () => {
               <div className="pt-2 border-t border-slate-100">
                 <Link
                   to="/courses/civil-engineering"
-                  className="text-xs font-bold uppercase tracking-wider text-slate-900 hover:text-accent-orange inline-flex items-center gap-1.5"
+                  className="text-xs font-bold uppercase tracking-wider text-slate-900 hover:text-accent-red inline-flex items-center gap-1.5"
                 >
                   <span>Explore Civil Courses</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -301,7 +301,7 @@ export const CourseDiscoverySection: React.FC = () => {
               <div className="pt-2 border-t border-slate-100">
                 <Link
                   to="/courses/cnc-programming"
-                  className="text-xs font-bold uppercase tracking-wider text-slate-900 hover:text-accent-orange inline-flex items-center gap-1.5"
+                  className="text-xs font-bold uppercase tracking-wider text-slate-900 hover:text-accent-red inline-flex items-center gap-1.5"
                 >
                   <span>Explore CNC Courses</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -335,7 +335,7 @@ export const CourseDiscoverySection: React.FC = () => {
               <div className="pt-2 border-t border-slate-100">
                 <Link
                   to="/courses/arts-multimedia"
-                  className="text-xs font-bold uppercase tracking-wider text-slate-900 hover:text-accent-orange inline-flex items-center gap-1.5"
+                  className="text-xs font-bold uppercase tracking-wider text-slate-900 hover:text-accent-red inline-flex items-center gap-1.5"
                 >
                   <span>Explore Arts Courses</span>
                   <ArrowRight className="w-3.5 h-3.5" />

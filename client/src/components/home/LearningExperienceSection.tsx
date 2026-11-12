@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 
 export const LearningExperienceSection: React.FC = () => {
   const pillars = [
@@ -39,7 +39,7 @@ export const LearningExperienceSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Header matching reference */}
         <div className="max-w-3xl space-y-2">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-accent-orange block">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-accent-red block">
             OUR PEDAGOGY
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-medium tracking-tight text-slate-950">

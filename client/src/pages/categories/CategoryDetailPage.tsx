@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { CourseCategory } from '../../types';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 import { Link } from 'react-router-dom';
@@ -56,8 +56,8 @@ export const CategoryDetailPage: React.FC<CategoryDetailPageProps> = ({ category
 
           <div className="relative z-10 max-w-2xl lg:max-w-3xl space-y-4 sm:space-y-5">
             <div className="inline-flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-              <span className="text-[11px] font-mono font-semibold uppercase tracking-widest text-[#E8592B]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+              <span className="text-[11px] font-mono font-semibold uppercase tracking-widest text-[#DC2626]">
                 {category.courseCountNote}
               </span>
             </div>
@@ -76,7 +76,7 @@ export const CategoryDetailPage: React.FC<CategoryDetailPageProps> = ({ category
 
             <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5 text-xs font-mono text-neutral-800 font-medium">
               <span className="flex items-center gap-1.5">
-                <Globe className="w-4 h-4 text-[#E8592B] shrink-0" /> 100% Live Interactive Online Classes
+                <Globe className="w-4 h-4 text-[#DC2626] shrink-0" /> 100% Live Interactive Online Classes
               </span>
               <span className="hidden sm:inline text-neutral-300">•</span>
               <span className="flex items-center gap-1.5">
@@ -96,7 +96,7 @@ export const CategoryDetailPage: React.FC<CategoryDetailPageProps> = ({ category
                 href="tel:+919655364707"
                 className="w-full sm:w-auto px-5 py-3.5 rounded bg-white hover:bg-neutral-50 border border-neutral-300 text-neutral-900 font-mono text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors shadow-xs"
               >
-                <PhoneCall className="w-3.5 h-3.5 text-[#E8592B]" />
+                <PhoneCall className="w-3.5 h-3.5 text-[#DC2626]" />
                 <span>Call Admissions</span>
               </a>
             </div>
@@ -107,8 +107,8 @@ export const CategoryDetailPage: React.FC<CategoryDetailPageProps> = ({ category
         <div className="space-y-8">
           <div>
             <div className="inline-flex items-center gap-2 mb-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-              <span className="text-xs font-mono text-[#E8592B] uppercase tracking-widest font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+              <span className="text-xs font-mono text-[#DC2626] uppercase tracking-widest font-semibold">
                 CURRICULUM MODULES
               </span>
             </div>
@@ -136,7 +136,7 @@ export const CategoryDetailPage: React.FC<CategoryDetailPageProps> = ({ category
                     }`}
                   >
                     <div>
-                      <span className={`text-[10px] font-mono block ${isSelected ? 'text-[#E8592B]' : 'text-neutral-400'}`}>
+                      <span className={`text-[10px] font-mono block ${isSelected ? 'text-[#DC2626]' : 'text-neutral-400'}`}>
                         0{idx + 1}
                       </span>
                       <h3 className="font-editorial text-base font-normal mt-0.5">{course.name}</h3>
@@ -164,7 +164,7 @@ export const CategoryDetailPage: React.FC<CategoryDetailPageProps> = ({ category
                 {/* Course Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#EAEAE7]">
                   <div className="space-y-1">
-                    <span className="text-[10px] font-mono text-[#E8592B] uppercase tracking-widest font-semibold block">
+                    <span className="text-[10px] font-mono text-[#DC2626] uppercase tracking-widest font-semibold block">
                       {activeCourse.categoryName}
                     </span>
                     <h3 className="font-editorial text-2xl sm:text-3xl font-normal text-neutral-950">
@@ -188,7 +188,7 @@ export const CategoryDetailPage: React.FC<CategoryDetailPageProps> = ({ category
                 {activeCourse.softwareCovered && (
                   <div>
                     <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500 mb-2 flex items-center gap-1.5">
-                      <Layers className="w-3.5 h-3.5 text-[#E8592B]" /> SOFTWARE SUITES COVERED
+                      <Layers className="w-3.5 h-3.5 text-[#DC2626]" /> SOFTWARE SUITES COVERED
                     </span>
                     <div className="flex flex-wrap gap-1.5">
                       {activeCourse.softwareCovered.map((software, i) => (
@@ -207,7 +207,7 @@ export const CategoryDetailPage: React.FC<CategoryDetailPageProps> = ({ category
                 {activeCourse.keyTopics && (
                   <div>
                     <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500 mb-3 flex items-center gap-1.5">
-                      <BookOpen className="w-3.5 h-3.5 text-[#E8592B]" /> CURRICULUM SYLLABUS TOPICS
+                      <BookOpen className="w-3.5 h-3.5 text-[#DC2626]" /> CURRICULUM SYLLABUS TOPICS
                     </span>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                       {activeCourse.keyTopics.map((topic, i) => (
@@ -215,7 +215,7 @@ export const CategoryDetailPage: React.FC<CategoryDetailPageProps> = ({ category
                           key={i}
                           className="flex items-start gap-2.5 p-3 rounded bg-white border border-[#E5E5E2] text-xs text-neutral-700"
                         >
-                          <CheckCircle2 className="w-4 h-4 text-[#E8592B] mt-0.5 shrink-0" />
+                          <CheckCircle2 className="w-4 h-4 text-[#DC2626] mt-0.5 shrink-0" />
                           <span>{topic}</span>
                         </div>
                       ))}
@@ -228,12 +228,12 @@ export const CategoryDetailPage: React.FC<CategoryDetailPageProps> = ({ category
                   {activeCourse.recommendedFor && (
                     <div className="p-4 rounded bg-white border border-[#E5E5E2]">
                       <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500 mb-2 flex items-center gap-1.5">
-                        <Users2 className="w-3.5 h-3.5 text-[#E8592B]" /> RECOMMENDED CANDIDATES
+                        <Users2 className="w-3.5 h-3.5 text-[#DC2626]" /> RECOMMENDED CANDIDATES
                       </span>
                       <ul className="space-y-1.5 text-xs text-neutral-600">
                         {activeCourse.recommendedFor.map((item, idx) => (
                           <li key={idx} className="flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
                             <span>{item}</span>
                           </li>
                         ))}
@@ -275,7 +275,7 @@ export const CategoryDetailPage: React.FC<CategoryDetailPageProps> = ({ category
                 className="p-3.5 rounded bg-[#FAF9F7] border border-[#E5E5E2] hover:border-neutral-400 hover:bg-white transition-all text-xs font-mono text-neutral-700 hover:text-neutral-950 flex items-center justify-between group"
               >
                 <span className="truncate">{cat.title}</span>
-                <ArrowRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-[#E8592B] transition-colors ml-1 shrink-0" />
+                <ArrowRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-[#DC2626] transition-colors ml-1 shrink-0" />
               </Link>
             ))}
           </div>

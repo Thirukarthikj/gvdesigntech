@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 import { PhoneCall, ArrowRight, ShieldCheck, MapPin, Clock } from 'lucide-react';
 
@@ -13,7 +13,7 @@ export const WhyChooseUsSection: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Left Headline & Content (8 Cols) */}
             <div className="lg:col-span-8 space-y-4">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-accent-orange block">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-accent-red block">
                 AUTHENTIC TECHNICAL EDUCATION
               </span>
 
@@ -30,7 +30,7 @@ export const WhyChooseUsSection: React.FC = () => {
             <div className="lg:col-span-4 flex flex-col gap-3">
               <button
                 onClick={() => openEnquiryModal()}
-                className="w-full py-3.5 px-6 rounded bg-accent-orange hover:bg-orange-600 active:bg-orange-700 text-white font-bold text-xs uppercase tracking-wider text-center shadow-sm transition-all"
+                className="w-full py-3.5 px-6 rounded bg-accent-red hover:bg-red-600 active:bg-red-700 text-white font-bold text-xs uppercase tracking-wider text-center shadow-sm transition-all"
               >
                 <span>Enquire About Courses</span>
               </button>
@@ -39,7 +39,7 @@ export const WhyChooseUsSection: React.FC = () => {
                 href="tel:+919655364707"
                 className="w-full py-3.5 px-6 rounded bg-white/10 hover:bg-white/15 text-white font-bold text-xs uppercase tracking-wider text-center border border-slate-700 transition-colors flex items-center justify-center gap-2"
               >
-                <PhoneCall className="w-3.5 h-3.5 text-accent-orange" />
+                <PhoneCall className="w-3.5 h-3.5 text-accent-red" />
                 <span>Call +91 96553 64707</span>
               </a>
             </div>
@@ -48,7 +48,7 @@ export const WhyChooseUsSection: React.FC = () => {
           {/* Bottom Strip matching reference */}
           <div className="pt-6 border-t border-slate-800/80 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-400">
             <div className="flex items-center gap-2">
-              <PhoneCall className="w-3.5 h-3.5 text-accent-orange" />
+              <PhoneCall className="w-3.5 h-3.5 text-accent-red" />
               <span>Direct Hotline: +91 96553 64707</span>
             </div>
             <div className="flex items-center gap-2">

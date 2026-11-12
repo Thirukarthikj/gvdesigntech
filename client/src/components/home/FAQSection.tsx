@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { FAQ_DATA } from '../../data/faqData';
 import { ChevronDown, ArrowRight } from 'lucide-react';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
@@ -16,7 +16,7 @@ export const FAQSection: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Header matching reference */}
         <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-accent-orange block">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-accent-red block">
             FAQ & POLICIES
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-medium tracking-tight text-slate-950">
@@ -44,14 +44,14 @@ export const FAQSection: React.FC = () => {
                 >
                   <span
                     className={`font-sans text-sm sm:text-base font-semibold transition-colors ${
-                      isOpen ? 'text-accent-orange' : 'text-slate-900 group-hover:text-slate-700'
+                      isOpen ? 'text-accent-red' : 'text-slate-900 group-hover:text-slate-700'
                     }`}
                   >
                     {faq.question}
                   </span>
                   <ChevronDown
                     className={`w-4 h-4 text-slate-400 flex-shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 text-accent-orange' : ''
+                      isOpen ? 'rotate-180 text-accent-red' : ''
                     }`}
                   />
                 </button>
@@ -70,7 +70,7 @@ export const FAQSection: React.FC = () => {
         <div className="text-center pt-4">
           <button
             onClick={() => openEnquiryModal()}
-            className="text-xs font-bold uppercase tracking-wider text-slate-900 hover:text-accent-orange inline-flex items-center gap-1.5 transition-colors"
+            className="text-xs font-bold uppercase tracking-wider text-slate-900 hover:text-accent-red inline-flex items-center gap-1.5 transition-colors"
           >
             <span>Have a specific syllabus question? Enquire directly</span>
             <ArrowRight className="w-3.5 h-3.5" />

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+﻿import React, { useState, useMemo } from 'react';
 import { ALL_COURSES, COURSE_CATEGORIES } from '../data/coursesData';
 import { CourseCard } from '../components/common/CourseCard';
 import { useEnquiryModal } from '../context/EnquiryModalContext';
@@ -37,8 +37,8 @@ export const AllCoursesPage: React.FC = () => {
         {/* Header Banner */}
         <div className="border-b border-[#EAEAE7] pb-10 space-y-3 max-w-3xl">
           <div className="inline-flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-            <span className="text-[11px] font-mono font-semibold text-[#E8592B] uppercase tracking-widest block">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+            <span className="text-[11px] font-mono font-semibold text-[#DC2626] uppercase tracking-widest block">
               ALL TECHNICAL DISCIPLINES • 24+ PROGRAMS
             </span>
           </div>

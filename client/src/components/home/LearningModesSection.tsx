@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 import { ArrowRight, CheckCircle2, MonitorCheck, Globe2 } from 'lucide-react';
 
@@ -10,7 +10,7 @@ export const LearningModesSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Header matching reference */}
         <div className="max-w-3xl space-y-2">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-accent-orange block">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-accent-red block">
             DELIVERY OPTIONS
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-medium tracking-tight text-slate-950">
@@ -30,7 +30,7 @@ export const LearningModesSection: React.FC = () => {
                 <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                   MON – FRI EVENINGS
                 </span>
-                <div className="w-8 h-8 rounded-lg bg-orange-50 text-accent-orange flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-red-50 text-accent-red flex items-center justify-center">
                   <MonitorCheck className="w-4 h-4" />
                 </div>
               </div>

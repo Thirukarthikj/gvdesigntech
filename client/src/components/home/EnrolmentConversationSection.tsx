@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Phone, Mail, Instagram, Clock, Copy, Check } from 'lucide-react';
 import { EnquiryForm } from '../common/EnquiryForm';
 
@@ -18,8 +18,8 @@ export const EnrolmentConversationSection: React.FC = () => {
         {/* Section Header */}
         <div className="mb-10 sm:mb-12">
           <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-[#FAF9F7] border border-[#E5E5E2] shadow-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-            <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-widest text-[#E8592B] uppercase">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+            <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-widest text-[#DC2626] uppercase">
               GET IN TOUCH WITH US
             </span>
           </div>
@@ -41,7 +41,7 @@ export const EnrolmentConversationSection: React.FC = () => {
             {/* Phone Card 1 (Uiverse Copy Interaction & Dial) */}
             <div className="card-interactive p-4 sm:p-5 bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] flex items-center justify-between group">
               <div className="flex items-center gap-3 sm:gap-3.5">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded bg-white border border-[#E5E5E2] flex items-center justify-center text-[#E8592B] shrink-0">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded bg-white border border-[#E5E5E2] flex items-center justify-center text-[#DC2626] shrink-0">
                   <Phone className="w-4 h-4" />
                 </div>
                 <div>
@@ -50,7 +50,7 @@ export const EnrolmentConversationSection: React.FC = () => {
                   </div>
                   <a
                     href="tel:+919655364707"
-                    className="text-sm sm:text-base md:text-lg font-bold text-neutral-950 hover:text-[#E8592B] transition-colors"
+                    className="text-sm sm:text-base md:text-lg font-bold text-neutral-950 hover:text-[#DC2626] transition-colors"
                   >
                     +91 96553 64707
                   </a>
@@ -71,7 +71,7 @@ export const EnrolmentConversationSection: React.FC = () => {
             {/* Email Card */}
             <div className="card-interactive p-4 sm:p-5 bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] flex items-center justify-between group">
               <div className="flex items-center gap-3 sm:gap-3.5 overflow-hidden">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded bg-white border border-[#E5E5E2] flex items-center justify-center text-[#E8592B] shrink-0">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded bg-white border border-[#E5E5E2] flex items-center justify-center text-[#DC2626] shrink-0">
                   <Mail className="w-4 h-4" />
                 </div>
                 <div className="overflow-hidden">
@@ -80,7 +80,7 @@ export const EnrolmentConversationSection: React.FC = () => {
                   </div>
                   <a
                     href="mailto:gvdesigntech707@gmail.com"
-                    className="text-xs sm:text-sm md:text-base font-semibold text-neutral-950 hover:text-[#E8592B] transition-colors truncate block"
+                    className="text-xs sm:text-sm md:text-base font-semibold text-neutral-950 hover:text-[#DC2626] transition-colors truncate block"
                   >
                     gvdesigntech707@gmail.com
                   </a>
@@ -101,7 +101,7 @@ export const EnrolmentConversationSection: React.FC = () => {
             {/* Instagram Card */}
             <div className="card-interactive p-4 sm:p-5 bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] group">
               <div className="flex items-center gap-3 sm:gap-3.5">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded bg-white border border-[#E5E5E2] flex items-center justify-center text-[#E8592B] shrink-0">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded bg-white border border-[#E5E5E2] flex items-center justify-center text-[#DC2626] shrink-0">
                   <Instagram className="w-4 h-4" />
                 </div>
                 <div>
@@ -112,7 +112,7 @@ export const EnrolmentConversationSection: React.FC = () => {
                     href="https://instagram.com/gvdesigntech"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs sm:text-sm md:text-base font-semibold text-neutral-950 hover:text-[#E8592B] transition-colors"
+                    className="text-xs sm:text-sm md:text-base font-semibold text-neutral-950 hover:text-[#DC2626] transition-colors"
                   >
                     @gvdesigntech
                   </a>
@@ -149,7 +149,7 @@ export const EnrolmentConversationSection: React.FC = () => {
             <span className="absolute -top-1.5 -right-1 text-neutral-300 font-mono text-[11px] leading-none select-none">+</span>
 
             <div className="mb-5 sm:mb-6 pb-3 sm:pb-4 border-b border-[#F0F0EE]">
-              <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-[#E8592B] font-semibold mb-1">
+              <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-[#DC2626] font-semibold mb-1">
                 ADMISSION REGISTRATION
               </div>
               <h3 className="font-editorial text-xl sm:text-2xl font-normal text-neutral-950">

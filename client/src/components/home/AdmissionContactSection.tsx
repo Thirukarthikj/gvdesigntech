@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { EnquiryForm } from '../common/EnquiryForm';
 import {
   PhoneCall,
@@ -17,7 +17,7 @@ export const AdmissionContactSection: React.FC = () => {
           {/* Left Column: Admissions Desk Contact Information (5 Cols) */}
           <div className="lg:col-span-5 space-y-6">
             <div className="space-y-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-accent-orange block">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-accent-red block">
                 ADMISSIONS DESK
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-medium tracking-tight text-slate-950">
@@ -33,7 +33,7 @@ export const AdmissionContactSection: React.FC = () => {
               {/* Telephone Card */}
               <div className="p-4 rounded-xl border border-slate-200 bg-white shadow-subtle hover:border-slate-300 transition-colors">
                 <div className="flex items-start gap-3.5">
-                  <div className="w-9 h-9 rounded-lg bg-orange-50 text-accent-orange flex items-center justify-center flex-shrink-0">
+                  <div className="w-9 h-9 rounded-lg bg-red-50 text-accent-red flex items-center justify-center flex-shrink-0">
                     <PhoneCall className="w-4 h-4" />
                   </div>
                   <div>
@@ -41,7 +41,7 @@ export const AdmissionContactSection: React.FC = () => {
                       Direct Admissions Line
                     </span>
                     <div className="mt-1 text-sm font-bold text-slate-950">
-                      <a href="tel:+919655364707" className="hover:text-accent-orange transition-colors">
+                      <a href="tel:+919655364707" className="hover:text-accent-red transition-colors">
                         +91 96553 64707
                       </a>
                     </div>
@@ -61,7 +61,7 @@ export const AdmissionContactSection: React.FC = () => {
                     </span>
                     <a
                       href="mailto:gvdesigntech707@gmail.com"
-                      className="text-xs font-semibold text-slate-900 hover:text-accent-orange transition-colors block mt-1"
+                      className="text-xs font-semibold text-slate-900 hover:text-accent-red transition-colors block mt-1"
                     >
                       gvdesigntech707@gmail.com
                     </a>
@@ -113,7 +113,7 @@ export const AdmissionContactSection: React.FC = () => {
           {/* Right Column: Course Application Details Form (7 Cols) */}
           <div className="lg:col-span-7 rounded-2xl border border-slate-200 p-6 sm:p-8 bg-white shadow-subtle">
             <div className="mb-5 pb-4 border-b border-slate-100">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-accent-orange block">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-accent-red block">
                 ADMISSION REGISTRATION
               </span>
               <h3 className="font-serif text-xl font-bold text-slate-950 mt-0.5">

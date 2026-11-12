@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { ALL_COURSES, COURSE_CATEGORIES } from '../../data/coursesData';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 import { CourseDetailsModal } from '../common/CourseDetailsModal';
@@ -32,12 +32,12 @@ export const CourseShowcaseScene: React.FC = () => {
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-canvas-border pb-6">
             <div className="space-y-2 max-w-xl">
-              <span className="text-xs font-mono text-cinematic-orange uppercase tracking-widest block">
+              <span className="text-xs font-mono text-cinematic-red uppercase tracking-widest block">
                 [ SCENE 05 // COMPREHENSIVE COURSE DIRECTORY ]
               </span>
               <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tighter text-ink-pure">
                 Interactive <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-ink-pure to-cinematic-orange">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-ink-pure to-cinematic-red">
                   Course Showcase
                 </span>
               </h2>
@@ -49,7 +49,7 @@ export const CourseShowcaseScene: React.FC = () => {
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-canvas-surface hover:bg-canvas-card border border-canvas-border text-ink-primary font-mono text-xs uppercase tracking-wider transition-colors"
               >
                 <span>OPEN FULL CATALOG ({ALL_COURSES.length})</span>
-                <ArrowRight className="w-3.5 h-3.5 text-cinematic-orange" />
+                <ArrowRight className="w-3.5 h-3.5 text-cinematic-red" />
               </Link>
             </div>
           </div>
@@ -65,7 +65,7 @@ export const CourseShowcaseScene: React.FC = () => {
                   placeholder="Filter by software or language (e.g. SolidWorks, Python, Figma, C++)..."
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 rounded-full bg-canvas-surface border border-canvas-border text-sm text-ink-primary placeholder-ink-muted focus:outline-none focus:border-cinematic-orange transition-colors font-sans"
+                  className="w-full pl-11 pr-4 py-3 rounded-full bg-canvas-surface border border-canvas-border text-sm text-ink-primary placeholder-ink-muted focus:outline-none focus:border-cinematic-red transition-colors font-sans"
                 />
               </div>
 
@@ -80,7 +80,7 @@ export const CourseShowcaseScene: React.FC = () => {
                       setSelectedFilter('all');
                       setSearchQuery('');
                     }}
-                    className="text-cinematic-orange hover:underline uppercase"
+                    className="text-cinematic-red hover:underline uppercase"
                   >
                     RESET
                   </button>
@@ -94,7 +94,7 @@ export const CourseShowcaseScene: React.FC = () => {
                 onClick={() => setSelectedFilter('all')}
                 className={`px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider transition-all ${
                   selectedFilter === 'all'
-                    ? 'bg-cinematic-orange text-white font-bold'
+                    ? 'bg-cinematic-red text-white font-bold'
                     : 'bg-canvas-surface text-ink-secondary hover:text-ink-primary border border-canvas-border'
                 }`}
               >
@@ -106,7 +106,7 @@ export const CourseShowcaseScene: React.FC = () => {
                   onClick={() => setSelectedFilter(category.slug)}
                   className={`px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider transition-all ${
                     selectedFilter === category.slug
-                      ? 'bg-cinematic-orange text-white font-bold'
+                      ? 'bg-cinematic-red text-white font-bold'
                       : 'bg-canvas-surface text-ink-secondary hover:text-ink-primary border border-canvas-border'
                   }`}
                 >
@@ -125,13 +125,13 @@ export const CourseShowcaseScene: React.FC = () => {
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-[11px] font-mono text-ink-muted">
-                    <span className="text-cinematic-orange font-bold uppercase">
+                    <span className="text-cinematic-red font-bold uppercase">
                       {course.categoryName}
                     </span>
                     <span>0{idx + 1}</span>
                   </div>
 
-                  <h3 className="font-display text-xl font-bold text-ink-primary group-hover:text-cinematic-orange transition-colors">
+                  <h3 className="font-display text-xl font-bold text-ink-primary group-hover:text-cinematic-red transition-colors">
                     {course.name}
                   </h3>
 
@@ -166,7 +166,7 @@ export const CourseShowcaseScene: React.FC = () => {
 
                   <button
                     onClick={() => openEnquiryModal(course.name)}
-                    className="py-2 px-3 rounded-lg bg-cinematic-orange hover:bg-cinematic-orangeHover text-white font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 transition-colors"
+                    className="py-2 px-3 rounded-lg bg-cinematic-red hover:bg-cinematic-redHover text-white font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 transition-colors"
                   >
                     <Sparkles className="w-3 h-3 text-amber-200" />
                     <span>Enquire</span>
@@ -180,7 +180,7 @@ export const CourseShowcaseScene: React.FC = () => {
             <div className="text-center pt-8">
               <Link
                 to="/courses"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-canvas font-mono text-xs font-bold uppercase tracking-wider hover:bg-cinematic-orange hover:text-white transition-colors"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-canvas font-mono text-xs font-bold uppercase tracking-wider hover:bg-cinematic-red hover:text-white transition-colors"
               >
                 <span>VIEW REMAINING COURSES IN DIRECTORY</span>
                 <ArrowRight className="w-4 h-4" />

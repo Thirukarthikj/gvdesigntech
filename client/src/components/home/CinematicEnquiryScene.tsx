@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { EnquiryForm } from '../common/EnquiryForm';
 import { PhoneCall, MessageSquare, ArrowRight, MapPin, Clock, ExternalLink } from 'lucide-react';
 
@@ -12,12 +12,12 @@ export const CinematicEnquiryScene: React.FC = () => {
       <div className="max-w-7xl mx-auto space-y-16">
         {/* Massive Headline */}
         <div className="space-y-4 max-w-4xl">
-          <span className="text-xs font-mono text-cinematic-orange uppercase tracking-widest block">
+          <span className="text-xs font-mono text-cinematic-red uppercase tracking-widest block">
             [ SCENE 08 // THE ENQUIRY EXPERIENCE ]
           </span>
           <h2 className="font-display text-5xl sm:text-7xl lg:text-8xl font-extrabold uppercase tracking-tighter text-ink-pure leading-[0.9]">
             Your Next Skill <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-ink-pure via-ink-secondary to-cinematic-orange">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-ink-pure via-ink-secondary to-cinematic-red">
               Starts Here.
             </span>
           </h2>
@@ -53,7 +53,7 @@ export const CinematicEnquiryScene: React.FC = () => {
 
             {/* Direct Telephone Action */}
             <div className="p-6 rounded-2xl bg-canvas-surface border border-canvas-border space-y-3">
-              <span className="text-[10px] font-mono text-cinematic-orange uppercase tracking-widest block">
+              <span className="text-[10px] font-mono text-cinematic-red uppercase tracking-widest block">
                 DIRECT VOICE ASSISTANCE
               </span>
               <h3 className="font-display text-xl font-bold text-ink-primary">
@@ -65,9 +65,9 @@ export const CinematicEnquiryScene: React.FC = () => {
               <div className="pt-2 flex flex-wrap gap-2">
                 <a
                   href="tel:+919655364707"
-                  className="px-4 py-2.5 rounded-xl bg-canvas-card border border-canvas-border text-ink-primary font-mono text-xs font-bold hover:border-cinematic-orange transition-colors flex items-center gap-2"
+                  className="px-4 py-2.5 rounded-xl bg-canvas-card border border-canvas-border text-ink-primary font-mono text-xs font-bold hover:border-cinematic-red transition-colors flex items-center gap-2"
                 >
-                  <PhoneCall className="w-3.5 h-3.5 text-cinematic-orange" />
+                  <PhoneCall className="w-3.5 h-3.5 text-cinematic-red" />
                   <span>+91 96553 64707</span>
                 </a>
               </div>
@@ -76,7 +76,7 @@ export const CinematicEnquiryScene: React.FC = () => {
             {/* Telemetry metadata */}
             <div className="p-5 rounded-2xl bg-canvas-surface/60 border border-canvas-border space-y-2 text-xs font-mono text-ink-muted">
               <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-cinematic-orange" />
+                <MapPin className="w-3.5 h-3.5 text-cinematic-red" />
                 <span>Oddanchatram, Tamil Nadu, India</span>
               </div>
               <div className="flex items-center gap-2">
@@ -89,7 +89,7 @@ export const CinematicEnquiryScene: React.FC = () => {
           {/* Right Column: Admission Enquiry Form (7 Cols) */}
           <div className="lg:col-span-7 rounded-3xl p-8 sm:p-10 bg-canvas-surface border border-canvas-border shadow-cinematic">
             <div className="mb-6 pb-4 border-b border-canvas-border">
-              <span className="text-[10px] font-mono text-cinematic-orange uppercase tracking-widest block">
+              <span className="text-[10px] font-mono text-cinematic-red uppercase tracking-widest block">
                 OFFICIAL REGISTRATION
               </span>
               <h3 className="font-display text-2xl font-bold text-ink-primary mt-1">

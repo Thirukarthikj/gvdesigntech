@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { Compass, ArrowRight, Home } from 'lucide-react';
 
@@ -6,13 +6,13 @@ export const NotFoundPage: React.FC = () => {
   return (
     <div className="py-24 sm:py-36 bg-white flex items-center justify-center text-neutral-900 border-b border-[#EAEAE7]">
       <div className="max-w-lg mx-auto px-6 text-center space-y-6">
-        <div className="w-14 h-14 rounded-lg bg-[#FAF9F7] border border-[#E5E5E2] text-[#E8592B] flex items-center justify-center mx-auto shadow-subtle">
+        <div className="w-14 h-14 rounded-lg bg-[#FAF9F7] border border-[#E5E5E2] text-[#DC2626] flex items-center justify-center mx-auto shadow-subtle">
           <Compass className="w-7 h-7" />
         </div>
 
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF9F7] border border-[#E5E5E2] shadow-sm">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-          <span className="font-mono text-[11px] font-semibold text-[#E8592B] tracking-widest uppercase">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+          <span className="font-mono text-[11px] font-semibold text-[#DC2626] tracking-widest uppercase">
             404 ERROR • PAGE NOT FOUND
           </span>
         </div>

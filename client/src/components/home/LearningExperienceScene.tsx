@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 import { Lightbulb, Laptop, Repeat, Rocket, ArrowRight } from 'lucide-react';
 
@@ -17,8 +17,8 @@ export const LearningExperienceScene: React.FC = () => {
       title: 'Learn',
       subtitle: 'Software Interface Navigation',
       desc: 'Acquiring tactile familiarity with coordinate systems, feature trees, command ribbons, terminal scripts, and design tokens.',
-      icon: <Laptop className="w-5 h-5 text-cinematic-orange" />,
-      accent: 'border-cinematic-orange/30 text-cinematic-orange',
+      icon: <Laptop className="w-5 h-5 text-cinematic-red" />,
+      accent: 'border-cinematic-red/30 text-cinematic-red',
     },
     {
       num: 'STAGE 03',
@@ -44,12 +44,12 @@ export const LearningExperienceScene: React.FC = () => {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-canvas-border pb-6">
           <div className="space-y-2 max-w-2xl">
-            <span className="text-xs font-mono text-cinematic-orange uppercase tracking-widest block">
+            <span className="text-xs font-mono text-cinematic-red uppercase tracking-widest block">
               [ SCENE 06 // PEDAGOGICAL NARRATIVE ]
             </span>
             <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tighter text-ink-pure">
               The 4-Stage <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-ink-pure via-ink-secondary to-cinematic-orange">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-ink-pure via-ink-secondary to-cinematic-red">
                 Learning Trajectory
               </span>
             </h2>
@@ -78,7 +78,7 @@ export const LearningExperienceScene: React.FC = () => {
                 </div>
 
                 <div>
-                  <h3 className="font-display text-3xl font-extrabold uppercase tracking-tight text-ink-primary group-hover:text-cinematic-orange transition-colors">
+                  <h3 className="font-display text-3xl font-extrabold uppercase tracking-tight text-ink-primary group-hover:text-cinematic-red transition-colors">
                     {stage.title}
                   </h3>
                   <span className="text-xs font-mono text-ink-muted block mt-1">

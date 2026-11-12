@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { BrandLogo } from '../common/BrandLogo';
 import { COURSE_CATEGORIES } from '../../data/coursesData';
@@ -30,7 +30,7 @@ export const Footer: React.FC = () => {
 
             <div className="pt-2 space-y-1.5 text-xs text-slate-600">
               <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-accent-orange flex-shrink-0" />
+                <MapPin className="w-3.5 h-3.5 text-accent-red flex-shrink-0" />
                 <span>Oddanchatram, Tamil Nadu, India</span>
               </div>
               <div className="flex items-center gap-2">
@@ -50,7 +50,7 @@ export const Footer: React.FC = () => {
                 <li key={category.id}>
                   <Link
                     to={`/courses/${category.slug}`}
-                    className="text-slate-600 hover:text-accent-orange transition-colors block py-0.5"
+                    className="text-slate-600 hover:text-accent-red transition-colors block py-0.5"
                   >
                     {category.title}
                   </Link>
@@ -66,27 +66,27 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link to="/" className="text-slate-600 hover:text-accent-orange transition-colors">
+                <Link to="/" className="text-slate-600 hover:text-accent-red transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-slate-600 hover:text-accent-orange transition-colors">
+                <Link to="/about" className="text-slate-600 hover:text-accent-red transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/courses" className="text-slate-600 hover:text-accent-orange transition-colors">
+                <Link to="/courses" className="text-slate-600 hover:text-accent-red transition-colors">
                   Full Course Catalog
                 </Link>
               </li>
               <li>
-                <Link to="/learning-modes" className="text-slate-600 hover:text-accent-orange transition-colors">
+                <Link to="/learning-modes" className="text-slate-600 hover:text-accent-red transition-colors">
                   Learning Modes
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-slate-600 hover:text-accent-orange transition-colors">
+                <Link to="/contact" className="text-slate-600 hover:text-accent-red transition-colors">
                   Contact Campus
                 </Link>
               </li>
@@ -101,9 +101,9 @@ export const Footer: React.FC = () => {
 
             <div className="space-y-2 text-xs text-slate-600">
               <div className="flex items-center gap-2">
-                <PhoneCall className="w-3.5 h-3.5 text-accent-orange flex-shrink-0" />
+                <PhoneCall className="w-3.5 h-3.5 text-accent-red flex-shrink-0" />
                 <div className="flex items-center gap-1 font-semibold text-slate-900">
-                  <a href="tel:+919655364707" className="hover:text-accent-orange transition-colors">
+                  <a href="tel:+919655364707" className="hover:text-accent-red transition-colors">
                     +91 96553 64707
                   </a>
                 </div>
@@ -113,7 +113,7 @@ export const Footer: React.FC = () => {
                 <Mail className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
                 <a
                   href="mailto:gvdesigntech707@gmail.com"
-                  className="hover:text-accent-orange transition-colors truncate"
+                  className="hover:text-accent-red transition-colors truncate"
                 >
                   gvdesigntech707@gmail.com
                 </a>

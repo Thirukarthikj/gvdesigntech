@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { COURSE_CATEGORIES } from '../../data/coursesData';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
@@ -18,12 +18,12 @@ export const LearningDomainsScene: React.FC = () => {
         {/* Header Telemetry */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-canvas-border pb-6">
           <div className="space-y-2 max-w-xl">
-            <span className="text-xs font-mono text-cinematic-orange uppercase tracking-widest block">
+            <span className="text-xs font-mono text-cinematic-red uppercase tracking-widest block">
               [ SCENE 03 // TECHNICAL DIRECTORY ]
             </span>
             <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tighter text-ink-pure">
               Explore The <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-ink-pure to-cinematic-orange">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-ink-pure to-cinematic-red">
                 Learning Domains
               </span>
             </h2>
@@ -44,7 +44,7 @@ export const LearningDomainsScene: React.FC = () => {
                 onClick={() => setActiveCategoryId(cat.id)}
                 className={`relative px-5 py-3 rounded-full text-xs font-mono uppercase tracking-wider transition-all flex items-center gap-2 ${
                   isSelected
-                    ? 'bg-cinematic-orange text-white font-bold shadow-glow-orange'
+                    ? 'bg-cinematic-red text-white font-bold shadow-glow-red'
                     : 'bg-canvas-surface text-ink-secondary hover:text-ink-primary hover:bg-canvas-card border border-canvas-border'
                 }`}
               >
@@ -78,7 +78,7 @@ export const LearningDomainsScene: React.FC = () => {
 
               {/* In-Frame Context Content */}
               <div className="p-8 absolute bottom-0 left-0 right-0 space-y-4">
-                <span className="text-[10px] font-mono text-cinematic-orange uppercase tracking-widest block">
+                <span className="text-[10px] font-mono text-cinematic-red uppercase tracking-widest block">
                   {currentCategory.courseCountNote}
                 </span>
                 <h3 className="font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-ink-pure">
@@ -91,7 +91,7 @@ export const LearningDomainsScene: React.FC = () => {
                 <div className="pt-2 flex flex-wrap gap-3">
                   <Link
                     to={`/courses/${currentCategory.slug}`}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-canvas font-mono text-xs font-bold uppercase tracking-wider hover:bg-cinematic-orange hover:text-white transition-colors"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-canvas font-mono text-xs font-bold uppercase tracking-wider hover:bg-cinematic-red hover:text-white transition-colors"
                   >
                     <span>EXPLORE ALL COURSES</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -99,9 +99,9 @@ export const LearningDomainsScene: React.FC = () => {
 
                   <button
                     onClick={() => openEnquiryModal(currentCategory.courses[0]?.name || currentCategory.title)}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-canvas-card border border-canvas-border text-ink-primary font-mono text-xs uppercase tracking-wider hover:border-cinematic-orange transition-colors"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-canvas-card border border-canvas-border text-ink-primary font-mono text-xs uppercase tracking-wider hover:border-cinematic-red transition-colors"
                   >
-                    <Sparkles className="w-3 h-3 text-cinematic-orange" />
+                    <Sparkles className="w-3 h-3 text-cinematic-red" />
                     <span>ENQUIRE FOR THIS DOMAIN</span>
                   </button>
                 </div>
@@ -124,7 +124,7 @@ export const LearningDomainsScene: React.FC = () => {
                       className="p-4 rounded-xl bg-canvas-surface border border-canvas-border hover:border-canvas-borderHover hover:bg-canvas-card transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 group"
                     >
                       <div className="space-y-1">
-                        <h4 className="font-display text-base font-bold text-ink-primary group-hover:text-cinematic-orange transition-colors">
+                        <h4 className="font-display text-base font-bold text-ink-primary group-hover:text-cinematic-red transition-colors">
                           {course.name}
                         </h4>
                         <p className="text-xs text-ink-muted line-clamp-1 font-light">
@@ -140,7 +140,7 @@ export const LearningDomainsScene: React.FC = () => {
                         )}
                         <button
                           onClick={() => openEnquiryModal(course.name)}
-                          className="p-2 rounded-lg bg-canvas-card hover:bg-cinematic-orange hover:text-white text-ink-secondary border border-canvas-border transition-colors"
+                          className="p-2 rounded-lg bg-canvas-card hover:bg-cinematic-red hover:text-white text-ink-secondary border border-canvas-border transition-colors"
                           title={`Enquire for ${course.name}`}
                         >
                           <ArrowUpRight className="w-4 h-4" />
@@ -156,7 +156,7 @@ export const LearningDomainsScene: React.FC = () => {
                 <span>WANT DEEPER TECHNICAL SYLLABUS DETAILS?</span>
                 <Link
                   to={`/courses/${currentCategory.slug}`}
-                  className="text-cinematic-orange hover:underline font-bold flex items-center gap-1"
+                  className="text-cinematic-red hover:underline font-bold flex items-center gap-1"
                 >
                   FULL TRACK SPEC <ArrowRight className="w-3 h-3" />
                 </Link>

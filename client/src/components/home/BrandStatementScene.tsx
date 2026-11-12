@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 import { Cpu, Terminal, Palette, Sparkles, CheckCircle2 } from 'lucide-react';
 
@@ -7,12 +7,12 @@ export const BrandStatementScene: React.FC = () => {
     <section className="relative py-24 sm:py-36 px-4 sm:px-6 lg:px-12 bg-canvas-subtle border-b border-canvas-border overflow-hidden">
       {/* Background kinetic grid & subtle glow */}
       <div className="absolute inset-0 cinema-dots opacity-40 pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[600px] h-[300px] bg-cinematic-orange/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-[600px] h-[300px] bg-cinematic-red/5 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto space-y-16">
         {/* Section Index Marker */}
         <div className="flex items-center justify-between border-b border-canvas-border pb-4 font-mono text-xs text-ink-muted">
-          <span className="text-cinematic-orange uppercase tracking-widest">
+          <span className="text-cinematic-red uppercase tracking-widest">
             [ SCENE 02 // INSTITUTIONAL MANIFESTO ]
           </span>
           <span>GV DESIGN TECH • ODDANCHATRAM</span>
@@ -31,7 +31,7 @@ export const BrandStatementScene: React.FC = () => {
               <span className="text-stroke-subtle hover:text-ink-pure transition-colors duration-500">
                 Become Practical
               </span> <br />
-              <span className="text-cinematic-orange">
+              <span className="text-cinematic-red">
                 Skills.
               </span>
             </h2>
@@ -63,7 +63,7 @@ export const BrandStatementScene: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
           <div className="p-6 rounded-2xl bg-canvas-surface border border-canvas-border flex flex-col justify-between space-y-4 hover:border-canvas-borderHover transition-all">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-xs text-cinematic-orange">[ 01 ]</span>
+              <span className="font-mono text-xs text-cinematic-red">[ 01 ]</span>
               <Cpu className="w-5 h-5 text-ink-muted" />
             </div>
             <div>
@@ -78,7 +78,7 @@ export const BrandStatementScene: React.FC = () => {
 
           <div className="p-6 rounded-2xl bg-canvas-surface border border-canvas-border flex flex-col justify-between space-y-4 hover:border-canvas-borderHover transition-all">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-xs text-cinematic-orange">[ 02 ]</span>
+              <span className="font-mono text-xs text-cinematic-red">[ 02 ]</span>
               <Terminal className="w-5 h-5 text-ink-muted" />
             </div>
             <div>
@@ -93,7 +93,7 @@ export const BrandStatementScene: React.FC = () => {
 
           <div className="p-6 rounded-2xl bg-canvas-surface border border-canvas-border flex flex-col justify-between space-y-4 hover:border-canvas-borderHover transition-all">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-xs text-cinematic-orange">[ 03 ]</span>
+              <span className="font-mono text-xs text-cinematic-red">[ 03 ]</span>
               <Palette className="w-5 h-5 text-ink-muted" />
             </div>
             <div>

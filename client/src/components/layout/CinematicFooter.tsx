@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { COURSE_CATEGORIES } from '../../data/coursesData';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
@@ -10,13 +10,13 @@ export const CinematicFooter: React.FC = () => {
   return (
     <footer className="relative bg-canvas border-t border-canvas-border text-ink-secondary pt-20 pb-12 px-4 sm:px-6 lg:px-12 overflow-hidden">
       {/* Background ambient light */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-cinematic-orange/5 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-cinematic-red/5 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto space-y-16 relative z-10">
         {/* Top Massive Typographic Signature */}
         <div className="border-b border-canvas-border pb-12 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
           <div className="space-y-3">
-            <span className="text-[11px] font-mono text-cinematic-orange uppercase tracking-widest block">
+            <span className="text-[11px] font-mono text-cinematic-red uppercase tracking-widest block">
               [ SCENE 09 // THE FINAL FRAME ]
             </span>
             <h2 className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold uppercase tracking-tighter text-ink-pure leading-[0.9]">
@@ -30,7 +30,7 @@ export const CinematicFooter: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <button
               onClick={() => openEnquiryModal()}
-              className="px-8 py-4 rounded-full bg-cinematic-orange hover:bg-cinematic-orangeHover text-white font-display font-bold text-xs uppercase tracking-wider shadow-glow-orange transition-all flex items-center gap-2 group"
+              className="px-8 py-4 rounded-full bg-cinematic-red hover:bg-cinematic-redHover text-white font-display font-bold text-xs uppercase tracking-wider shadow-glow-red transition-all flex items-center gap-2 group"
             >
               <span>REGISTER ADMISSION ENQUIRY</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -51,7 +51,7 @@ export const CinematicFooter: React.FC = () => {
 
             <div className="space-y-1.5 pt-2 text-ink-muted">
               <div className="flex items-center gap-2 text-ink-secondary">
-                <MapPin className="w-3.5 h-3.5 text-cinematic-orange" />
+                <MapPin className="w-3.5 h-3.5 text-cinematic-red" />
                 <span>Oddanchatram, Tamil Nadu, India</span>
               </div>
               <div className="flex items-center gap-2">
@@ -71,7 +71,7 @@ export const CinematicFooter: React.FC = () => {
                 <li key={category.id}>
                   <Link
                     to={`/courses/${category.slug}`}
-                    className="text-ink-secondary hover:text-cinematic-orange transition-colors block py-0.5"
+                    className="text-ink-secondary hover:text-cinematic-red transition-colors block py-0.5"
                   >
                     {category.title}
                   </Link>
@@ -87,27 +87,27 @@ export const CinematicFooter: React.FC = () => {
             </span>
             <ul className="space-y-2">
               <li>
-                <Link to="/" className="text-ink-secondary hover:text-cinematic-orange transition-colors">
+                <Link to="/" className="text-ink-secondary hover:text-cinematic-red transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-ink-secondary hover:text-cinematic-orange transition-colors">
+                <Link to="/about" className="text-ink-secondary hover:text-cinematic-red transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/courses" className="text-ink-secondary hover:text-cinematic-orange transition-colors">
+                <Link to="/courses" className="text-ink-secondary hover:text-cinematic-red transition-colors">
                   All Courses
                 </Link>
               </li>
               <li>
-                <Link to="/learning-modes" className="text-ink-secondary hover:text-cinematic-orange transition-colors">
+                <Link to="/learning-modes" className="text-ink-secondary hover:text-cinematic-red transition-colors">
                   Learning Modes
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-ink-secondary hover:text-cinematic-orange transition-colors">
+                <Link to="/contact" className="text-ink-secondary hover:text-cinematic-red transition-colors">
                   Contact Us
                 </Link>
               </li>
@@ -122,15 +122,15 @@ export const CinematicFooter: React.FC = () => {
 
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-ink-primary font-bold">
-                <PhoneCall className="w-3.5 h-3.5 text-cinematic-orange" />
-                <a href="tel:+919655364707" className="hover:text-cinematic-orange transition-colors">
+                <PhoneCall className="w-3.5 h-3.5 text-cinematic-red" />
+                <a href="tel:+919655364707" className="hover:text-cinematic-red transition-colors">
                   +91 96553 64707
                 </a>
               </div>
 
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-ink-muted" />
-                <a href="mailto:gvdesigntech707@gmail.com" className="hover:text-cinematic-orange transition-colors">
+                <a href="mailto:gvdesigntech707@gmail.com" className="hover:text-cinematic-red transition-colors">
                   gvdesigntech707@gmail.com
                 </a>
               </div>

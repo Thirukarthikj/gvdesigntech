@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Calendar, Laptop, ArrowRight, CheckCircle2, Clock } from 'lucide-react';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 
@@ -12,8 +12,8 @@ export const TrainingFormatsSection: React.FC = () => {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center justify-center gap-2 mb-3 px-3 py-1 rounded-full bg-white border border-[#E5E5E2] shadow-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-            <span className="text-[11px] font-mono font-semibold tracking-widest text-[#E8592B] uppercase">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+            <span className="text-[11px] font-mono font-semibold tracking-widest text-[#DC2626] uppercase">
               100% LIVE ONLINE FORMATS
             </span>
           </div>
@@ -39,12 +39,12 @@ export const TrainingFormatsSection: React.FC = () => {
                 <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500 font-semibold">
                   MONDAY – FRIDAY EVENINGS
                 </span>
-                <div className="w-9 h-9 rounded-md bg-[#FAF9F7] border border-[#EAEAE7] group-hover:border-[#E8592B]/50 flex items-center justify-center text-[#E8592B] transition-colors">
+                <div className="w-9 h-9 rounded-md bg-[#FAF9F7] border border-[#EAEAE7] group-hover:border-[#DC2626]/50 flex items-center justify-center text-[#DC2626] transition-colors">
                   <Clock className="w-4 h-4" />
                 </div>
               </div>
 
-              <h3 className="font-editorial text-2xl sm:text-3xl font-normal text-neutral-950 mb-3 tracking-tight group-hover:text-[#E8592B] transition-colors">
+              <h3 className="font-editorial text-2xl sm:text-3xl font-normal text-neutral-950 mb-3 tracking-tight group-hover:text-[#DC2626] transition-colors">
                 Weekday Evening Batches
               </h3>
 
@@ -55,25 +55,25 @@ export const TrainingFormatsSection: React.FC = () => {
               {/* Bullet Points */}
               <div className="space-y-3 mb-8">
                 <div className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                   <span className="text-xs text-neutral-700 leading-relaxed">
                     Live two-way screen sharing with real-time software walkthroughs
                   </span>
                 </div>
                 <div className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                   <span className="text-xs text-neutral-700 leading-relaxed">
                     Dedicated daily doubt clarification slot with your designated mentor
                   </span>
                 </div>
                 <div className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                   <span className="text-xs text-neutral-700 leading-relaxed">
                     Structured weekday progression that builds continuous technical discipline
                   </span>
                 </div>
                 <div className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                   <span className="text-xs text-neutral-700 leading-relaxed">
                     Remote code and drawing reviews submitted directly via project portals
                   </span>
@@ -102,12 +102,12 @@ export const TrainingFormatsSection: React.FC = () => {
                 <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500 font-semibold">
                   SATURDAY &amp; SUNDAY INTENSIVES
                 </span>
-                <div className="w-9 h-9 rounded-md bg-[#FAF9F7] border border-[#EAEAE7] group-hover:border-[#E8592B]/50 flex items-center justify-center text-[#E8592B] transition-colors">
+                <div className="w-9 h-9 rounded-md bg-[#FAF9F7] border border-[#EAEAE7] group-hover:border-[#DC2626]/50 flex items-center justify-center text-[#DC2626] transition-colors">
                   <Laptop className="w-4 h-4" />
                 </div>
               </div>
 
-              <h3 className="font-editorial text-2xl sm:text-3xl font-normal text-neutral-950 mb-3 tracking-tight group-hover:text-[#E8592B] transition-colors">
+              <h3 className="font-editorial text-2xl sm:text-3xl font-normal text-neutral-950 mb-3 tracking-tight group-hover:text-[#DC2626] transition-colors">
                 Weekend Intensive Batches
               </h3>
 
@@ -118,25 +118,25 @@ export const TrainingFormatsSection: React.FC = () => {
               {/* Bullet Points */}
               <div className="space-y-3 mb-8">
                 <div className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                   <span className="text-xs text-neutral-700 leading-relaxed">
                     Extended live weekend masterclasses focusing on complete end-to-end workflows
                   </span>
                 </div>
                 <div className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                   <span className="text-xs text-neutral-700 leading-relaxed">
                     Same complete syllabus, real assignments, and industry-standard tool coverage
                   </span>
                 </div>
                 <div className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                   <span className="text-xs text-neutral-700 leading-relaxed">
                     1:1 live portfolio feedback and resume-ready project assembly
                   </span>
                 </div>
                 <div className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#E8592B] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                   <span className="text-xs text-neutral-700 leading-relaxed">
                     Mid-week async support and project milestones tracking
                   </span>

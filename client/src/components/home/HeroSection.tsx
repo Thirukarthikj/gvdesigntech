@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Cpu } from 'lucide-react';
 
@@ -13,8 +13,8 @@ export const HeroSection: React.FC = () => {
         {/* 21st.dev Style Eyebrow Pill with Live Pulse */}
         <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-[#FAF9F7] border border-[#E5E5E2] shadow-sm mb-5 mx-auto">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E8592B] opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E8592B]" />
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#DC2626] opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#DC2626]" />
           </span>
           <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-wider text-neutral-800 uppercase">
             ONLINE LEARNING CLASSES
@@ -48,12 +48,12 @@ export const HeroSection: React.FC = () => {
             </div>
             <div className="p-3 sm:p-3.5 flex items-center justify-between bg-white border-t border-[#EAEAE7]">
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#E8592B]" />
+                <span className="w-2 h-2 rounded-full bg-[#DC2626]" />
                 <span className="text-[10px] sm:text-[11px] font-mono font-medium tracking-wide uppercase text-neutral-800 truncate">
                   COMPUTER SCIENCE &amp; DIGITAL DESIGN — LIVE ONLINE CLASSES
                 </span>
               </div>
-              <Cpu className="w-4 h-4 text-neutral-400 group-hover:text-[#E8592B] transition-colors shrink-0" />
+              <Cpu className="w-4 h-4 text-neutral-400 group-hover:text-[#DC2626] transition-colors shrink-0" />
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@ export const HeroSection: React.FC = () => {
           <span className="absolute -top-1.5 right-0 text-neutral-300 font-mono text-[11px] leading-none select-none">+</span>
 
           <div className="group text-center">
-            <div className="font-editorial text-2xl sm:text-3xl lg:text-4xl text-neutral-950 font-normal leading-none mb-1 group-hover:text-[#E8592B] transition-colors">
+            <div className="font-editorial text-2xl sm:text-3xl lg:text-4xl text-neutral-950 font-normal leading-none mb-1 group-hover:text-[#DC2626] transition-colors">
               25+
             </div>
             <div className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-neutral-500 leading-tight">
@@ -93,7 +93,7 @@ export const HeroSection: React.FC = () => {
           </div>
 
           <div className="group text-center">
-            <div className="font-editorial text-2xl sm:text-3xl lg:text-4xl text-neutral-950 font-normal leading-none mb-1 group-hover:text-[#E8592B] transition-colors">
+            <div className="font-editorial text-2xl sm:text-3xl lg:text-4xl text-neutral-950 font-normal leading-none mb-1 group-hover:text-[#DC2626] transition-colors">
               24+
             </div>
             <div className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-neutral-500 leading-tight">
@@ -102,7 +102,7 @@ export const HeroSection: React.FC = () => {
           </div>
 
           <div className="group text-center">
-            <div className="font-editorial text-2xl sm:text-3xl lg:text-4xl text-neutral-950 font-normal leading-none mb-1 group-hover:text-[#E8592B] transition-colors">
+            <div className="font-editorial text-2xl sm:text-3xl lg:text-4xl text-neutral-950 font-normal leading-none mb-1 group-hover:text-[#DC2626] transition-colors">
               100%
             </div>
             <div className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-neutral-500 leading-tight">

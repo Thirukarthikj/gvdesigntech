@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Course } from '../../types';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 import { CourseDetailsModal } from './CourseDetailsModal';
@@ -24,7 +24,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         <div className="p-5 flex-grow flex flex-col space-y-3">
           {/* Category Badge */}
           <div className="flex items-center justify-between text-[10px] font-mono">
-            <span className="text-[#E8592B] font-semibold uppercase tracking-wider">
+            <span className="text-[#DC2626] font-semibold uppercase tracking-wider">
               {course.categoryName}
             </span>
             <span className="text-neutral-400">
@@ -33,7 +33,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           </div>
 
           {/* Course Title */}
-          <h3 className="font-editorial text-xl font-normal text-neutral-950 group-hover:text-[#E8592B] transition-colors">
+          <h3 className="font-editorial text-xl font-normal text-neutral-950 group-hover:text-[#DC2626] transition-colors">
             {course.name}
           </h3>
 
@@ -64,7 +64,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
               <ul className="space-y-1.5 text-xs text-neutral-600">
                 {course.keyTopics.slice(0, 3).map((topic, i) => (
                   <li key={i} className="flex items-start gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#E8592B] mt-0.5 shrink-0" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#DC2626] mt-0.5 shrink-0" />
                     <span className="line-clamp-1">{topic}</span>
                   </li>
                 ))}

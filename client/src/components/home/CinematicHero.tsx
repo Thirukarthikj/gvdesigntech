@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 import { ArrowRight, ArrowDownRight, Compass, Sparkles, MapPin, Globe } from 'lucide-react';
@@ -10,13 +10,13 @@ export const CinematicHero: React.FC = () => {
   return (
     <section className="relative min-h-[92vh] flex flex-col justify-between pt-28 pb-12 px-4 sm:px-6 lg:px-12 bg-canvas overflow-hidden cinema-grid">
       {/* Ambient background light gradients (2D) */}
-      <div className="absolute top-1/4 -left-48 w-96 h-96 bg-cinematic-orange/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 -left-48 w-96 h-96 bg-cinematic-red/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-cinematic-electric/8 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Top Meta Bar */}
       <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-ink-muted border-b border-canvas-border pb-4">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-cinematic-orange animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-cinematic-red animate-pulse" />
           <span className="text-ink-secondary tracking-widest uppercase">
             GV DESIGN TECH • TECHNICAL INSTITUTE
           </span>
@@ -24,7 +24,7 @@ export const CinematicHero: React.FC = () => {
 
         <div className="flex items-center gap-6">
           <span className="hidden sm:inline-flex items-center gap-1.5 text-ink-secondary">
-            <MapPin className="w-3.5 h-3.5 text-cinematic-orange" />
+            <MapPin className="w-3.5 h-3.5 text-cinematic-red" />
             10.4851° N, 77.7479° E — Oddanchatram, Tamil Nadu
           </span>
           <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-canvas-surface border border-canvas-border text-ink-primary font-mono text-[11px]">
@@ -44,12 +44,12 @@ export const CinematicHero: React.FC = () => {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               >
-                <span className="text-xs sm:text-sm font-mono text-cinematic-orange uppercase tracking-widest block mb-2">
+                <span className="text-xs sm:text-sm font-mono text-cinematic-red uppercase tracking-widest block mb-2">
                   [ 01 // FOUNDATIONAL MANIFESTO ]
                 </span>
                 <h1 className="font-display text-5xl sm:text-7xl lg:text-[96px] xl:text-[116px] font-extrabold tracking-tighter text-ink-pure leading-[0.88] uppercase">
                   Learn Today. <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-ink-pure via-ink-secondary to-cinematic-orange">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-ink-pure via-ink-secondary to-cinematic-red">
                     Lead Tomorrow.
                   </span>
                 </h1>
@@ -74,7 +74,7 @@ export const CinematicHero: React.FC = () => {
             >
               <button
                 onClick={() => openEnquiryModal()}
-                className="relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-cinematic-orange hover:bg-cinematic-orangeHover active:scale-98 text-white font-display font-bold text-sm tracking-wide shadow-glow-orange transition-all group"
+                className="relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-cinematic-red hover:bg-cinematic-redHover active:scale-98 text-white font-display font-bold text-sm tracking-wide shadow-glow-red transition-all group"
               >
                 <span>ENQUIRE FOR ADMISSIONS</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -85,7 +85,7 @@ export const CinematicHero: React.FC = () => {
                 className="inline-flex items-center gap-2 px-6 py-4 rounded-full bg-canvas-surface hover:bg-canvas-card border border-canvas-border text-ink-primary font-mono text-xs uppercase tracking-wider transition-all"
               >
                 <span>EXPLORE 24+ COURSES</span>
-                <ArrowDownRight className="w-3.5 h-3.5 text-cinematic-orange" />
+                <ArrowDownRight className="w-3.5 h-3.5 text-cinematic-red" />
               </Link>
             </motion.div>
           </div>
@@ -112,14 +112,14 @@ export const CinematicHero: React.FC = () => {
               
               <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-canvas/90 backdrop-blur-md border border-canvas-border text-xs flex items-center justify-between">
                 <div>
-                  <span className="text-[10px] font-mono uppercase text-cinematic-orange block">
+                  <span className="text-[10px] font-mono uppercase text-cinematic-red block">
                     ODDANCHATRAM STUDIO
                   </span>
                   <span className="font-display font-bold text-ink-primary">
                     Hands-on Software Rigor
                   </span>
                 </div>
-                <div className="w-8 h-8 rounded-lg bg-canvas-card border border-canvas-border flex items-center justify-center text-cinematic-orange font-mono text-xs">
+                <div className="w-8 h-8 rounded-lg bg-canvas-card border border-canvas-border flex items-center justify-center text-cinematic-red font-mono text-xs">
                   01
                 </div>
               </div>
@@ -148,7 +148,7 @@ export const CinematicHero: React.FC = () => {
           <span className="hidden sm:inline">NO GENERIC TEMPLATES • PURE TECHNICAL FLUIDITY</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-cinematic-orange">01</span>
+          <span className="text-cinematic-red">01</span>
           <span className="text-ink-faint">/</span>
           <span>09 SCENES</span>
         </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, MessageCircle } from 'lucide-react';
 
@@ -32,8 +32,8 @@ export const FinalNextSkillCTA: React.FC = () => {
             
             {/* Eyebrow Pill */}
             <div className="inline-flex items-center justify-center gap-2 mb-4 px-3.5 py-1.5 rounded-full bg-white/95 border border-[#E5E5E2] shadow-sm backdrop-blur-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-              <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-widest text-[#E8592B] uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+              <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-widest text-[#DC2626] uppercase">
                 READY TO MASTER REAL TOOLS?
               </span>
             </div>

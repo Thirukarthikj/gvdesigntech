@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 import { Link } from 'react-router-dom';
 import { MapPin, Globe, CheckCircle2, ArrowRight, Sparkles, MonitorCheck } from 'lucide-react';
@@ -12,12 +12,12 @@ export const OnlineDeliveryScene: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-canvas-border pb-6">
           <div className="space-y-2 max-w-2xl">
-            <span className="text-xs font-mono text-cinematic-orange uppercase tracking-widest block">
+            <span className="text-xs font-mono text-cinematic-red uppercase tracking-widest block">
               [ SCENE 07 // DELIVERY MODES ]
             </span>
             <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tighter text-ink-pure">
               Dual Formats. <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-ink-pure to-cinematic-orange">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-ink-pure to-cinematic-red">
                 Identical Rigor.
               </span>
             </h2>
@@ -34,7 +34,7 @@ export const OnlineDeliveryScene: React.FC = () => {
           <div className="lg:col-span-7 rounded-3xl p-8 sm:p-12 bg-canvas-surface border border-canvas-border shadow-cinematic flex flex-col justify-between space-y-8 relative overflow-hidden">
             <div className="space-y-6">
               <div className="flex items-center justify-between font-mono text-xs text-ink-muted">
-                <span className="text-cinematic-orange font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <span className="text-cinematic-red font-bold uppercase tracking-wider flex items-center gap-1.5">
                   <Globe className="w-3.5 h-3.5" /> LIVE ONLINE CLASSROOM
                 </span>
                 <span>MON – FRI EVENINGS</span>
@@ -63,7 +63,7 @@ export const OnlineDeliveryScene: React.FC = () => {
             <div className="pt-6 border-t border-canvas-border flex flex-wrap items-center gap-4">
               <button
                 onClick={() => openEnquiryModal('', 'Live Online — Weekday Evening Batch')}
-                className="px-6 py-3.5 rounded-full bg-cinematic-orange hover:bg-cinematic-orangeHover text-white font-mono text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-2"
+                className="px-6 py-3.5 rounded-full bg-cinematic-red hover:bg-cinematic-redHover text-white font-mono text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-2"
               >
                 <span>ENQUIRE FOR WEEKDAY ONLINE BATCH</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -115,7 +115,7 @@ export const OnlineDeliveryScene: React.FC = () => {
                 className="w-full py-3.5 px-6 rounded-full bg-canvas-surface hover:bg-canvas border border-canvas-border text-ink-primary font-mono text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
               >
                 <span>ENQUIRE FOR LIVE ONLINE SESSIONS</span>
-                <ArrowRight className="w-3.5 h-3.5 text-cinematic-orange" />
+                <ArrowRight className="w-3.5 h-3.5 text-cinematic-red" />
               </button>
             </div>
           </div>

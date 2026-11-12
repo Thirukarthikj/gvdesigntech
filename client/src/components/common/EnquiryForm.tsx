@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { EnquiryFormData, FormErrors } from '../../types';
 import { Send, CheckCircle2, AlertCircle, Loader2, PhoneCall, ArrowRight, MessageCircle } from 'lucide-react';
 
@@ -229,7 +229,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
 
         {confirmationData?.enquiryId && (
           <div className="inline-block bg-white border border-[#E5E5E2] px-4 py-2 rounded text-xs font-mono text-neutral-700">
-            Reference ID: <span className="font-bold text-[#E8592B]">{confirmationData.enquiryId}</span>
+            Reference ID: <span className="font-bold text-[#DC2626]">{confirmationData.enquiryId}</span>
           </div>
         )}
 
@@ -307,7 +307,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label htmlFor="enquiry-fullName" className="block text-xs font-mono uppercase tracking-wider text-neutral-600 mb-1.5">
-            Full Name <span className="text-[#E8592B]">*</span>
+            Full Name <span className="text-[#DC2626]">*</span>
           </label>
           <input
             id="enquiry-fullName"
@@ -332,7 +332,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
 
         <div>
           <label htmlFor="enquiry-mobileNumber" className="block text-xs font-mono uppercase tracking-wider text-neutral-600 mb-1.5">
-            Phone Number <span className="text-[#E8592B]">*</span>
+            Phone Number <span className="text-[#DC2626]">*</span>
           </label>
           <input
             id="enquiry-mobileNumber"
@@ -386,7 +386,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
 
         <div>
           <label htmlFor="enquiry-course" className="block text-xs font-mono uppercase tracking-wider text-neutral-600 mb-1.5">
-            Select Discipline <span className="text-[#E8592B]">*</span>
+            Select Discipline <span className="text-[#DC2626]">*</span>
           </label>
           <select
             id="enquiry-course"
@@ -451,7 +451,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
       {/* Row 3: Preferred Learning Mode */}
       <div>
         <label htmlFor="enquiry-preferredMode" className="block text-xs font-mono uppercase tracking-wider text-neutral-600 mb-1.5">
-          Preferred Online Batch Schedule <span className="text-[#E8592B]">*</span>
+          Preferred Online Batch Schedule <span className="text-[#DC2626]">*</span>
         </label>
         <select
           id="enquiry-preferredMode"

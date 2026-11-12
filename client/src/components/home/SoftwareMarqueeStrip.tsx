@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 
 const SOFTWARE_TOOLS = [
   { name: 'AutoCAD', domain: 'Mechanical & Civil CAD' },
@@ -26,7 +26,7 @@ export const SoftwareMarqueeStrip: React.FC = () => {
     <div className="bg-[#FAF9F7] border-b border-[#EAEAE7] py-4 sm:py-5 overflow-hidden select-none">
       <div className="max-w-7xl 2xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 mb-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
           <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500 font-semibold">
             INDUSTRY SOFTWARE SUITES TAUGHT
           </span>
@@ -45,8 +45,8 @@ export const SoftwareMarqueeStrip: React.FC = () => {
               key={`${tool.name}-${idx}`}
               className="flex items-center gap-2.5 px-3.5 py-1.5 bg-white border border-[#E5E5E2] hover:border-neutral-900 rounded-md shadow-xs transition-colors shrink-0 group cursor-default"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-neutral-300 group-hover:bg-[#E8592B] transition-colors" />
-              <span className="text-xs font-mono font-bold text-neutral-900 group-hover:text-[#E8592B] transition-colors">
+              <span className="w-1.5 h-1.5 rounded-full bg-neutral-300 group-hover:bg-[#DC2626] transition-colors" />
+              <span className="text-xs font-mono font-bold text-neutral-900 group-hover:text-[#DC2626] transition-colors">
                 {tool.name}
               </span>
               <span className="text-[10px] font-mono text-neutral-400 hidden md:inline">

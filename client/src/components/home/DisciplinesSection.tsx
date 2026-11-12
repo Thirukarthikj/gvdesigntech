@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
@@ -14,8 +14,8 @@ export const DisciplinesSection: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
             <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-[#FAF9F7] border border-[#E5E5E2] shadow-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-              <span className="text-[11px] font-mono font-semibold tracking-widest text-[#E8592B] uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+              <span className="text-[11px] font-mono font-semibold tracking-widest text-[#DC2626] uppercase">
                 ALL 6 CURATED DISCIPLINES
               </span>
             </div>
@@ -53,7 +53,7 @@ export const DisciplinesSection: React.FC = () => {
               {/* Left Panel */}
               <div className="lg:col-span-5 flex flex-col justify-between h-full">
                 <div>
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-[#E8592B] font-semibold mb-2">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-[#DC2626] font-semibold mb-2">
                     01 — SOFTWARE &amp; WEB DEV
                   </div>
                   <h3 className="font-editorial text-2xl sm:text-3xl font-normal text-neutral-950 mb-3 tracking-tight">
@@ -109,7 +109,7 @@ export const DisciplinesSection: React.FC = () => {
                     onClick={() => openEnquiryModal(item.title)}
                   >
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-xs font-bold text-neutral-900 group-hover:text-[#E8592B] transition-colors">
+                      <span className="text-xs font-bold text-neutral-900 group-hover:text-[#DC2626] transition-colors">
                         {item.title}
                       </span>
                       <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-neutral-900 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -137,7 +137,7 @@ export const DisciplinesSection: React.FC = () => {
               {/* Left Panel */}
               <div className="lg:col-span-5 flex flex-col justify-between h-full">
                 <div>
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-[#E8592B] font-semibold mb-2">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-[#DC2626] font-semibold mb-2">
                     02 — CAD, CAM &amp; PARAMETRIC DESIGN
                   </div>
                   <h3 className="font-editorial text-2xl sm:text-3xl font-normal text-neutral-950 mb-3 tracking-tight">
@@ -202,7 +202,7 @@ export const DisciplinesSection: React.FC = () => {
                     onClick={() => openEnquiryModal(item.title)}
                   >
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-xs font-bold text-neutral-900 group-hover:text-[#E8592B] transition-colors">
+                      <span className="text-xs font-bold text-neutral-900 group-hover:text-[#DC2626] transition-colors">
                         {item.title}
                       </span>
                       <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-neutral-900 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -223,10 +223,10 @@ export const DisciplinesSection: React.FC = () => {
             {/* 03 — MULTIMEDIA & GRAPHIC DESIGN */}
             <div className="card-interactive bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] p-6 sm:p-7 flex flex-col justify-between shadow-subtle group">
               <div>
-                <div className="text-[10px] font-mono uppercase tracking-widest text-[#E8592B] font-semibold mb-2">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#DC2626] font-semibold mb-2">
                   03 — BRANDING, UI/UX &amp; DIGITAL MEDIA
                 </div>
-                <h3 className="font-editorial text-2xl font-normal text-neutral-950 mb-3 tracking-tight group-hover:text-[#E8592B] transition-colors">
+                <h3 className="font-editorial text-2xl font-normal text-neutral-950 mb-3 tracking-tight group-hover:text-[#DC2626] transition-colors">
                   Multimedia &amp; Graphic Design
                 </h3>
                 <p className="text-xs text-neutral-600 leading-relaxed mb-5">
@@ -247,7 +247,7 @@ export const DisciplinesSection: React.FC = () => {
 
               <Link
                 to="/courses/multimedia-graphic-design"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-900 hover:text-[#E8592B] transition-colors pt-2 border-t border-[#EAEAE7]"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-900 hover:text-[#DC2626] transition-colors pt-2 border-t border-[#EAEAE7]"
               >
                 <span>EXPLORE DESIGN CURRICULUM</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -257,10 +257,10 @@ export const DisciplinesSection: React.FC = () => {
             {/* 04 — CIVIL ENGINEERING & ARCHITECTURE */}
             <div className="card-interactive bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] p-6 sm:p-7 flex flex-col justify-between shadow-subtle group">
               <div>
-                <div className="text-[10px] font-mono uppercase tracking-widest text-[#E8592B] font-semibold mb-2">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#DC2626] font-semibold mb-2">
                   04 — CIVIL CAD, STRUCTURAL &amp; DRAFTING
                 </div>
-                <h3 className="font-editorial text-2xl font-normal text-neutral-950 mb-3 tracking-tight group-hover:text-[#E8592B] transition-colors">
+                <h3 className="font-editorial text-2xl font-normal text-neutral-950 mb-3 tracking-tight group-hover:text-[#DC2626] transition-colors">
                   Civil Engineering &amp; Architecture
                 </h3>
                 <p className="text-xs text-neutral-600 leading-relaxed mb-5">
@@ -281,7 +281,7 @@ export const DisciplinesSection: React.FC = () => {
 
               <Link
                 to="/courses/civil-engineering"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-900 hover:text-[#E8592B] transition-colors pt-2 border-t border-[#EAEAE7]"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-900 hover:text-[#DC2626] transition-colors pt-2 border-t border-[#EAEAE7]"
               >
                 <span>EXPLORE CIVIL CURRICULUM</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -291,10 +291,10 @@ export const DisciplinesSection: React.FC = () => {
             {/* 05 — CNC & VMC PROGRAMMING */}
             <div className="card-interactive bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] p-6 sm:p-7 flex flex-col justify-between shadow-subtle group">
               <div>
-                <div className="text-[10px] font-mono uppercase tracking-widest text-[#E8592B] font-semibold mb-2">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#DC2626] font-semibold mb-2">
                   05 — CNC &amp; INDUSTRIAL AUTOMATION
                 </div>
-                <h3 className="font-editorial text-2xl font-normal text-neutral-950 mb-3 tracking-tight group-hover:text-[#E8592B] transition-colors">
+                <h3 className="font-editorial text-2xl font-normal text-neutral-950 mb-3 tracking-tight group-hover:text-[#DC2626] transition-colors">
                   CNC &amp; VMC Programming
                 </h3>
                 <p className="text-xs text-neutral-600 leading-relaxed mb-5">
@@ -315,7 +315,7 @@ export const DisciplinesSection: React.FC = () => {
 
               <Link
                 to="/courses/cnc-programming"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-900 hover:text-[#E8592B] transition-colors pt-2 border-t border-[#EAEAE7]"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-900 hover:text-[#DC2626] transition-colors pt-2 border-t border-[#EAEAE7]"
               >
                 <span>EXPLORE CNC CURRICULUM</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -325,10 +325,10 @@ export const DisciplinesSection: React.FC = () => {
             {/* 06 — ARTS & MULTIMEDIA */}
             <div className="card-interactive bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] p-6 sm:p-7 flex flex-col justify-between shadow-subtle group">
               <div>
-                <div className="text-[10px] font-mono uppercase tracking-widest text-[#E8592B] font-semibold mb-2">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#DC2626] font-semibold mb-2">
                   06 — CREATIVE MEDIA &amp; MOTION
                 </div>
-                <h3 className="font-editorial text-2xl font-normal text-neutral-950 mb-3 tracking-tight group-hover:text-[#E8592B] transition-colors">
+                <h3 className="font-editorial text-2xl font-normal text-neutral-950 mb-3 tracking-tight group-hover:text-[#DC2626] transition-colors">
                   Comprehensive Art &amp; Layouts
                 </h3>
                 <p className="text-xs text-neutral-600 leading-relaxed mb-5">
@@ -349,7 +349,7 @@ export const DisciplinesSection: React.FC = () => {
 
               <Link
                 to="/courses/arts-multimedia"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-900 hover:text-[#E8592B] transition-colors pt-2 border-t border-[#EAEAE7]"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-900 hover:text-[#DC2626] transition-colors pt-2 border-t border-[#EAEAE7]"
               >
                 <span>EXPLORE ARTS CURRICULUM</span>
                 <ArrowRight className="w-3.5 h-3.5" />

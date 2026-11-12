@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { PhoneCall, MessageCircle, X } from 'lucide-react';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 
@@ -48,7 +48,7 @@ export const FloatingContactWidget: React.FC = () => {
             className="flex items-center gap-2.5 p-2 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-800 font-semibold transition-colors"
           >
             <div className="w-6 h-6 rounded-full bg-slate-950 text-white flex items-center justify-center flex-shrink-0">
-              <PhoneCall className="w-3.5 h-3.5 text-accent-orange" />
+              <PhoneCall className="w-3.5 h-3.5 text-accent-red" />
             </div>
             <div>
               <span className="block text-xs">+91 96553 64707</span>
@@ -78,7 +78,7 @@ export const FloatingContactWidget: React.FC = () => {
         <span className="text-xs font-bold uppercase tracking-wider">
           {isOpen ? 'Close' : 'Chat / Call'}
         </span>
-        <MessageCircle className="w-4 h-4 text-accent-orange group-hover:scale-110 transition-transform" />
+        <MessageCircle className="w-4 h-4 text-accent-red group-hover:scale-110 transition-transform" />
       </button>
     </div>
   );

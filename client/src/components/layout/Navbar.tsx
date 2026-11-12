@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { BrandLogo } from '../common/BrandLogo';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
@@ -45,7 +45,7 @@ export const Navbar: React.FC = () => {
       <div className="bg-[#FAF9F7] border-b border-[#EAEAE7] text-[11px] font-mono text-neutral-600 hidden md:block">
         <div className="max-w-7xl 2xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
             <span className="text-neutral-800 font-medium tracking-wider uppercase">
               100% LIVE INTERACTIVE ONLINE TECHNICAL TRAINING
             </span>
@@ -57,7 +57,7 @@ export const Navbar: React.FC = () => {
 
           <div className="flex items-center gap-5 text-neutral-600">
             <span className="flex items-center gap-1.5">
-              <MapPin className="w-3 h-3 text-[#E8592B]" /> Oddanchatram, Tamil Nadu
+              <MapPin className="w-3 h-3 text-[#DC2626]" /> Oddanchatram, Tamil Nadu
             </span>
             <span className="text-neutral-300">•</span>
             <span className="flex items-center gap-1.5">
@@ -68,7 +68,7 @@ export const Navbar: React.FC = () => {
               <span className="text-neutral-500">Call:</span>
               <a
                 href="tel:+919655364707"
-                className="font-semibold text-neutral-900 hover:text-[#E8592B] transition-colors"
+                className="font-semibold text-neutral-900 hover:text-[#DC2626] transition-colors"
               >
                 +91 96553 64707
               </a>
@@ -147,21 +147,21 @@ export const Navbar: React.FC = () => {
                           className="flex items-center justify-between p-2 rounded hover:bg-[#F9F9F8] transition-colors group"
                         >
                           <div>
-                            <div className="text-xs font-semibold text-neutral-900 group-hover:text-[#E8592B] transition-colors">
+                            <div className="text-xs font-semibold text-neutral-900 group-hover:text-[#DC2626] transition-colors">
                               {cat.title}
                             </div>
                             <div className="text-[11px] text-neutral-500 line-clamp-1">
                               {cat.courses.length} Software modules
                             </div>
                           </div>
-                          <ArrowRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-[#E8592B] group-hover:translate-x-0.5 transition-all" />
+                          <ArrowRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-[#DC2626] group-hover:translate-x-0.5 transition-all" />
                         </Link>
                       ))}
                     </div>
                     <div className="pt-2 mt-2 px-1">
                       <Link
                         to="/courses"
-                        className="block text-center text-xs font-semibold text-neutral-900 hover:text-[#E8592B] py-1 transition-colors"
+                        className="block text-center text-xs font-semibold text-neutral-900 hover:text-[#DC2626] py-1 transition-colors"
                       >
                         Browse All Courses →
                       </Link>
@@ -200,7 +200,7 @@ export const Navbar: React.FC = () => {
               href="tel:+919655364707"
               className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-700 hover:text-neutral-950 hover:bg-[#F5F5F3] rounded border border-[#E5E5E2] transition-colors"
             >
-              <PhoneCall className="w-3.5 h-3.5 text-[#E8592B]" />
+              <PhoneCall className="w-3.5 h-3.5 text-[#DC2626]" />
               <span>+91 96553 64707</span>
             </a>
 
@@ -259,7 +259,7 @@ export const Navbar: React.FC = () => {
                 <Link
                   key={cat.id}
                   to={`/courses/${cat.slug}`}
-                  className="block py-1 text-xs text-neutral-600 hover:text-[#E8592B]"
+                  className="block py-1 text-xs text-neutral-600 hover:text-[#DC2626]"
                 >
                   {cat.title}
                 </Link>
@@ -281,7 +281,7 @@ export const Navbar: React.FC = () => {
 
           <div className="pt-4 border-t border-[#EAEAE7] space-y-2 text-xs text-neutral-600">
             <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-[#E8592B]" />
+              <MapPin className="w-4 h-4 text-[#DC2626]" />
               <span>Oddanchatram, Tamil Nadu</span>
             </div>
             <div className="flex items-center gap-2">
@@ -289,7 +289,7 @@ export const Navbar: React.FC = () => {
               <span>Monday – Saturday: 9:00 AM – 9:00 PM</span>
             </div>
             <div className="flex items-center gap-2 font-semibold text-neutral-900">
-              <PhoneCall className="w-4 h-4 text-[#E8592B]" />
+              <PhoneCall className="w-4 h-4 text-[#DC2626]" />
               <a href="tel:+919655364707">+91 96553 64707</a>
             </div>
           </div>

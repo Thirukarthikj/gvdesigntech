@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import {
   Users,
   Layers,
@@ -15,7 +15,7 @@ export const AboutIntroSection: React.FC = () => {
           {/* Left Card: Institute Focus (5 Cols) */}
           <div className="lg:col-span-5 rounded-2xl border border-slate-200 p-8 sm:p-10 flex flex-col justify-between bg-white shadow-subtle">
             <div className="space-y-4">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-accent-orange block">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-accent-red block">
                 INSTITUTE FOCUS
               </span>
 
@@ -24,7 +24,7 @@ export const AboutIntroSection: React.FC = () => {
               </h2>
 
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-slate-100 text-slate-800 text-xs font-semibold">
-                <MonitorCheck className="w-3.5 h-3.5 text-accent-orange" />
+                <MonitorCheck className="w-3.5 h-3.5 text-accent-red" />
                 <span>Dedicated Instruction</span>
               </div>
 
@@ -49,7 +49,7 @@ export const AboutIntroSection: React.FC = () => {
           {/* Right Card: Practical Lab Emphasis (7 Cols) */}
           <div className="lg:col-span-7 rounded-2xl border border-slate-200 p-8 sm:p-10 flex flex-col justify-between bg-white shadow-subtle space-y-6">
             <div className="space-y-4">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-accent-orange block">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-accent-red block">
                 PRACTICAL LAB EMPHASIS
               </span>
 
@@ -70,14 +70,14 @@ export const AboutIntroSection: React.FC = () => {
               </div>
               <div className="h-3 w-full bg-slate-200 rounded-full overflow-hidden flex">
                 <div className="h-full bg-slate-950 w-4/5 rounded-l-full" />
-                <div className="h-full bg-accent-orange w-1/5 rounded-r-full" />
+                <div className="h-full bg-accent-red w-1/5 rounded-r-full" />
               </div>
             </div>
 
             {/* Two Lower Callouts with Icons matching reference */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               <div className="p-4 rounded-xl border border-slate-100 bg-white">
-                <div className="w-8 h-8 rounded-lg bg-orange-50 text-accent-orange flex items-center justify-center mb-2.5">
+                <div className="w-8 h-8 rounded-lg bg-red-50 text-accent-red flex items-center justify-center mb-2.5">
                   <Users className="w-4 h-4" />
                 </div>
                 <h3 className="font-sans text-xs font-bold uppercase tracking-wider text-slate-900 mb-1">
