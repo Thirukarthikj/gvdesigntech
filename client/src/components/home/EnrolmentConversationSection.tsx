@@ -46,7 +46,7 @@ export const EnrolmentConversationSection: React.FC = () => {
                 </div>
                 <div>
                   <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-neutral-500">
-                    DIRECT ADMISSIONS HOTLINE
+                    DIRECT ADMISSIONS &amp; COUNSELING HOTLINE
                   </div>
                   <a
                     href="tel:+919655364707"
@@ -65,36 +65,6 @@ export const EnrolmentConversationSection: React.FC = () => {
                 aria-label="Copy phone number"
               >
                 {copiedItem === 'p1' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-              </button>
-            </div>
-
-            {/* Phone Card 2 */}
-            <div className="card-interactive p-4 sm:p-5 bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] flex items-center justify-between group">
-              <div className="flex items-center gap-3 sm:gap-3.5">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded bg-white border border-[#E5E5E2] flex items-center justify-center text-[#E8592B] shrink-0">
-                  <Phone className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-neutral-500">
-                    TECHNICAL ENQUIRIES DESK
-                  </div>
-                  <a
-                    href="tel:+916381974581"
-                    className="text-sm sm:text-base md:text-lg font-bold text-neutral-950 hover:text-[#E8592B] transition-colors"
-                  >
-                    +91 63819 74581
-                  </a>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => handleCopy('+91 63819 74581', 'p2')}
-                className="p-2 rounded bg-white border border-[#E5E5E2] hover:border-neutral-400 text-neutral-400 hover:text-neutral-900 transition-colors"
-                title="Copy phone number"
-                aria-label="Copy phone number"
-              >
-                {copiedItem === 'p2' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
               </button>
             </div>
 

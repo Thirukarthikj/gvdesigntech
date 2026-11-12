@@ -49,7 +49,7 @@ export const WhyChooseUsSection: React.FC = () => {
           <div className="pt-6 border-t border-slate-800/80 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-400">
             <div className="flex items-center gap-2">
               <PhoneCall className="w-3.5 h-3.5 text-accent-orange" />
-              <span>Direct Numbers: +91 96553 64707 / +91 63819 74581</span>
+              <span>Direct Hotline: +91 96553 64707</span>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-3.5 h-3.5 text-slate-300" />

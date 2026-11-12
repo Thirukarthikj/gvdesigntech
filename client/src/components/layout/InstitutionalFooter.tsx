@@ -115,12 +115,9 @@ export const InstitutionalFooter: React.FC = () => {
 
             <div className="space-y-2 text-xs text-neutral-600">
               <div>
-                <span className="text-neutral-400 block text-[10px] font-mono uppercase">Direct Lines:</span>
+                <span className="text-neutral-400 block text-[10px] font-mono uppercase">Direct Admissions Line:</span>
                 <a href="tel:+919655364707" className="font-semibold text-neutral-900 hover:text-[#E8592B] block">
                   +91 96553 64707
-                </a>
-                <a href="tel:+916381974581" className="font-semibold text-neutral-900 hover:text-[#E8592B] block">
-                  +91 63819 74581
                 </a>
               </div>
 

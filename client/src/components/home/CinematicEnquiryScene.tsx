@@ -70,13 +70,6 @@ export const CinematicEnquiryScene: React.FC = () => {
                   <PhoneCall className="w-3.5 h-3.5 text-cinematic-orange" />
                   <span>+91 96553 64707</span>
                 </a>
-                <a
-                  href="tel:+916381974581"
-                  className="px-4 py-2.5 rounded-xl bg-canvas-card border border-canvas-border text-ink-primary font-mono text-xs font-bold hover:border-cinematic-orange transition-colors flex items-center gap-2"
-                >
-                  <PhoneCall className="w-3.5 h-3.5 text-cinematic-orange" />
-                  <span>+91 63819 74581</span>
-                </a>
               </div>
             </div>
 

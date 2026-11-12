@@ -30,7 +30,7 @@ const FAQS = [
   {
     question: 'How do I submit an application or verify course fees?',
     answer:
-      'You can submit an online enquiry form directly on this website, send a WhatsApp message to +91 96553 64707, or call +91 63819 74581. Our lab advisors will discuss your academic background, explain the module syllabus, verify current batch vacancies, and provide straightforward fee schedules without hidden charges.',
+      'You can submit an online enquiry form directly on this website, send a WhatsApp message or call +91 96553 64707. Our counseling advisors will discuss your academic background, explain the module syllabus, verify current batch vacancies, and provide straightforward fee schedules without hidden charges.',
   },
 ];
 

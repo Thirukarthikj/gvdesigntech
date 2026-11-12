@@ -126,10 +126,6 @@ export const CinematicFooter: React.FC = () => {
                 <a href="tel:+919655364707" className="hover:text-cinematic-orange transition-colors">
                   +91 96553 64707
                 </a>
-                <span>/</span>
-                <a href="tel:+916381974581" className="hover:text-cinematic-orange transition-colors">
-                  +91 63819 74581
-                </a>
               </div>
 
               <div className="flex items-center gap-2">

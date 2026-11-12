@@ -9,7 +9,7 @@
 - **Institute Name**: GV DESIGN TECH
 - **Headquarters**: Oddanchatram, Dindigul District, Tamil Nadu, India — PIN: `624619`
 - **Delivery Mode**: 100% Live Interactive Online Training
-- **Admissions Hotlines**: `+91 96553 64707` / `+91 63819 74581`
+- **Admissions Hotline**: `+91 96553 64707`
 - **Email**: `gvdesigntech707@gmail.com`
 - **Instagram**: [`@gvdesigntech`](https://instagram.com/gvdesigntech)
 - **Counseling Hours**: Monday to Saturday, 9:00 AM – 9:00 PM IST

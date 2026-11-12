@@ -291,8 +291,6 @@ export const Navbar: React.FC = () => {
             <div className="flex items-center gap-2 font-semibold text-neutral-900">
               <PhoneCall className="w-4 h-4 text-[#E8592B]" />
               <a href="tel:+919655364707">+91 96553 64707</a>
-              <span className="text-neutral-400">/</span>
-              <a href="tel:+916381974581">+91 63819 74581</a>
             </div>
           </div>
 

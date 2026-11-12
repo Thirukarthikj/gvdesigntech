@@ -79,14 +79,6 @@ export const IntegrityBannerSection: React.FC = () => {
                 +91 96553 64707
               </a>
             </div>
-
-            <div className="flex items-center gap-2">
-              <Phone className="w-3.5 h-3.5 text-[#E8592B]" />
-              <span className="text-neutral-500">CALL:</span>
-              <a href="tel:+916381974581" className="text-neutral-900 hover:text-[#E8592B] font-semibold transition-colors">
-                +91 63819 74581
-              </a>
-            </div>
           </div>
 
           <div className="flex items-center gap-2">

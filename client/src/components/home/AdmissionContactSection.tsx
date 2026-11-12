@@ -38,15 +38,11 @@ export const AdmissionContactSection: React.FC = () => {
                   </div>
                   <div>
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                      Direct Admissions Lines
+                      Direct Admissions Line
                     </span>
-                    <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-sm font-bold text-slate-950">
+                    <div className="mt-1 text-sm font-bold text-slate-950">
                       <a href="tel:+919655364707" className="hover:text-accent-orange transition-colors">
                         +91 96553 64707
-                      </a>
-                      <span className="text-slate-300 font-normal">/</span>
-                      <a href="tel:+916381974581" className="hover:text-accent-orange transition-colors">
-                        +91 63819 74581
                       </a>
                     </div>
                   </div>

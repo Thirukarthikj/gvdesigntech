@@ -62,17 +62,7 @@ export const ContactPage: React.FC = () => {
                     <PhoneCall className="w-3.5 h-3.5 text-[#E8592B]" />
                     <span>+91 96553 64707</span>
                   </div>
-                  <span className="text-[10px] font-normal text-neutral-500">Admissions</span>
-                </a>
-                <a
-                  href="tel:+916381974581"
-                  className="p-3 rounded bg-white border border-[#E5E5E2] hover:border-neutral-400 text-neutral-900 font-bold flex items-center justify-between transition-colors"
-                >
-                  <div className="flex items-center gap-2">
-                    <PhoneCall className="w-3.5 h-3.5 text-[#E8592B]" />
-                    <span>+91 63819 74581</span>
-                  </div>
-                  <span className="text-[10px] font-normal text-neutral-500">Enquiries</span>
+                  <span className="text-[10px] font-normal text-neutral-500">Admissions &amp; Enquiries</span>
                 </a>
               </div>
             </div>
