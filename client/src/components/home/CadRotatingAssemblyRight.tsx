@@ -9,7 +9,7 @@ export const CadRotatingAssemblyRight: React.FC = () => {
       transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
       className="hidden xl:block absolute top-1/2 -translate-y-1/2 left-[calc(100%+1.5rem)] 2xl:left-[calc(100%+2.5rem)] z-20 pointer-events-auto select-none group"
     >
-      <div className="card-interactive relative bg-white/95 backdrop-blur-md rounded-xl border border-[#E5E5E2] p-3.5 shadow-subtle w-52 2xl:w-56 text-left transition-all">
+      <div className="card-interactive relative bg-white/95 backdrop-blur-md rounded-xl border border-[#E5E5E2] p-3.5 shadow-subtle w-56 2xl:w-60 text-left transition-all hover:border-[#DC2626]/40">
         {/* OriginKit Technical Corner Crosshairs */}
         <span className="crosshair-corner top-1.5 left-2 font-mono text-[9px] select-none">+</span>
         <span className="crosshair-corner top-1.5 right-2 font-mono text-[9px] select-none">+</span>
@@ -20,131 +20,202 @@ export const CadRotatingAssemblyRight: React.FC = () => {
         <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#F0F0EE] text-[9px] font-mono">
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-bold text-neutral-800 tracking-wider">3D CAD ASSEMBLY</span>
+            <span className="font-bold text-neutral-800 tracking-wider">3D BUILDING PLAN</span>
           </div>
           <span className="text-[#DC2626] font-semibold">ROTATING</span>
         </div>
 
-        {/* 3D Rotating Mechanical Rotor & Dimension Callout Stage */}
-        <div className="relative w-full h-40 flex items-center justify-center overflow-hidden rounded-lg bg-[#FAF9F7] border border-[#EAEAE7]">
-          {/* OriginKit Technical Engineering Coordinate Grid */}
+        {/* 3D Rotating Architectural Building Plan Stage */}
+        <div className="relative w-full h-44 flex items-center justify-center overflow-hidden rounded-lg bg-[#FAF9F7] border border-[#EAEAE7]">
+          {/* OriginKit Technical Architectural Coordinate Grid */}
           <div className="absolute inset-0 originkit-grid opacity-60" />
 
-          {/* Technical Dimension Leader Line Callout (OriginKit CAD styling) */}
-          <div className="absolute top-2 left-2 z-10 flex flex-col text-[8px] font-mono leading-tight">
-            <span className="text-[#DC2626] font-bold">Ø 64.0 mm</span>
-            <span className="text-neutral-400">TOL ±0.005</span>
+          {/* Technical Dimension Callouts (OriginKit BIM Styling) */}
+          <div className="absolute top-2 left-2 z-10 flex flex-col text-[8px] font-mono leading-tight pointer-events-none">
+            <span className="text-[#DC2626] font-bold">LVL 02 // +6.4m</span>
+            <span className="text-neutral-500">AREA: 2,450 sq.ft</span>
           </div>
 
-          <div className="absolute top-2 right-2 z-10 text-[8px] font-mono text-neutral-400">
-            RPM: 18.0
+          <div className="absolute top-2 right-2 z-10 text-[8px] font-mono text-neutral-400 pointer-events-none">
+            REV: 360° // BIM
           </div>
 
-          {/* Isometric 3D Rotating Gear / Mechanical Impeller Assembly */}
+          {/* Elevation Level Height Markers (Right Edge Leader) */}
+          <div className="absolute right-1.5 top-10 bottom-8 z-10 flex flex-col justify-between text-[7px] font-mono text-neutral-400 border-l border-dashed border-neutral-300 pl-1 pointer-events-none">
+            <span className="text-[#DC2626] font-semibold">+6.4m ROOF</span>
+            <span>+3.2m LVL 02</span>
+            <span>±0.0m GROUND</span>
+          </div>
+
+          {/* 3D Rotating Perspective Architectural Model */}
           <div
-            className="relative w-28 h-28 flex items-center justify-center"
+            className="relative w-32 h-32 flex items-center justify-center"
             style={{ perspective: '800px' }}
           >
-            {/* 3D Tilted Rotating CAD Assembly */}
-            <div className="w-24 h-24 animate-cad-iso flex items-center justify-center relative">
-              {/* Outer Gear Teeth Silhouette in Engineering Linework */}
-              <svg
-                className="w-full h-full text-neutral-900 pointer-events-none drop-shadow-xs"
-                viewBox="0 0 100 100"
+            {/* 3D Building Turntable Rotating 360° around Y */}
+            <div
+              className="relative w-28 h-28 flex items-center justify-center animate-cad-building"
+              style={{ transformStyle: 'preserve-3d' }}
+            >
+              {/* Soft Ambient Contact Shadow on the Ground Plane */}
+              <div
+                className="absolute w-28 h-24 rounded-full bg-neutral-900/15 blur-[8px] pointer-events-none"
+                style={{ transform: 'rotateX(90deg) translateZ(-26px)' }}
+              />
+
+              {/* 1. Ground Foundation & Site Plan Slab (Bottom Plane) */}
+              <div
+                className="absolute w-24 h-20 rounded border border-neutral-300 bg-[#F4F3EE]/95 shadow-xs overflow-hidden flex flex-col justify-between p-1 select-none pointer-events-none"
+                style={{ transform: 'rotateX(90deg) translateZ(-16px)', transformStyle: 'preserve-3d' }}
               >
-                {/* Pitch Circle & Reference Ring */}
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="42"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                />
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="36"
-                  fill="rgba(15, 23, 42, 0.04)"
-                  stroke="#DC2626"
-                  strokeWidth="0.8"
-                  strokeDasharray="3 2"
-                />
+                {/* Site Boundary & Walkway Grid */}
+                <div className="flex items-center justify-between text-[6px] font-mono text-neutral-400">
+                  <span>GRID A-1</span>
+                  <span className="text-[#DC2626] font-bold">NORTH ↑</span>
+                </div>
+                {/* Entryway Pavers & Steps */}
+                <div className="flex justify-center gap-0.5 my-auto">
+                  <div className="w-8 h-4 border border-dashed border-neutral-400 bg-neutral-100 flex items-center justify-center text-[5px] font-mono text-neutral-500">
+                    PORCH
+                  </div>
+                </div>
+                <div className="flex items-center justify-between text-[5px] font-mono text-neutral-400">
+                  <span>LOT: 32&apos;x40&apos;</span>
+                  <span>PL-01</span>
+                </div>
+              </div>
 
-                {/* 8 Mechanical Gear Teeth / Impeller Fins */}
-                {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
-                  <rect
-                    key={deg}
-                    x="47"
-                    y="4"
-                    width="6"
-                    height="8"
-                    rx="1"
-                    fill="#DC2626"
-                    transform={`rotate(${deg} 50 50)`}
-                  />
-                ))}
+              {/* 2. Level 01 Ground Floor Plan (Architectural Blueprint Floor) */}
+              <div
+                className="absolute w-20 h-16 rounded-[2px] border-2 border-neutral-900 bg-white shadow-md overflow-hidden flex flex-col justify-between p-1 select-none"
+                style={{ transform: 'rotateX(90deg) translateZ(0px)', transformStyle: 'preserve-3d' }}
+              >
+                <div className="grid grid-cols-2 h-full gap-0.5 border-b border-neutral-200 pb-0.5">
+                  {/* Living / Reception Hall */}
+                  <div className="border-r border-neutral-300 pr-0.5 flex flex-col justify-between">
+                    <span className="text-[5px] font-mono text-neutral-600 font-bold leading-none">LIVING</span>
+                    {/* Door Swing Arc */}
+                    <svg className="w-4 h-4 text-[#DC2626]" viewBox="0 0 20 20">
+                      <path d="M 2 18 A 16 16 0 0 1 18 2" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2 1.5" />
+                      <line x1="2" y1="18" x2="18" y2="18" stroke="#1E293B" strokeWidth="1.5" />
+                    </svg>
+                  </div>
+                  {/* Office / Studio Room */}
+                  <div className="flex flex-col justify-between pl-0.5">
+                    <span className="text-[5px] font-mono text-neutral-500 leading-none">STUDIO</span>
+                    <div className="w-full h-2 border border-neutral-300 bg-neutral-50 rounded-[1px]" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between text-[5px] font-mono text-neutral-400 pt-0.5">
+                  <span className="text-[#DC2626] font-bold">LVL 01</span>
+                  <span>±0.00</span>
+                </div>
+              </div>
 
-                {/* Inner Web Cutouts & Ribs */}
-                {[0, 60, 120, 180, 240, 300].map((deg) => (
-                  <line
-                    key={deg}
-                    x1="50"
-                    y1="50"
-                    x2="50"
-                    y2="20"
-                    stroke="#94A3B8"
-                    strokeWidth="1"
-                    transform={`rotate(${deg} 50 50)`}
-                  />
-                ))}
+              {/* 3. Exterior Cutaway Walls (Giving True 3D Architecture Depth) */}
+              {/* Back Exterior Wall */}
+              <div
+                className="absolute w-20 h-4 border border-neutral-800 bg-neutral-900 text-[6px] font-mono text-neutral-300 flex items-center justify-around px-1"
+                style={{ transform: 'translateZ(-32px) translateY(-8px)' }}
+              >
+                <span className="w-3 h-2 bg-sky-200/40 border border-neutral-600" />
+                <span className="w-3 h-2 bg-sky-200/40 border border-neutral-600" />
+              </div>
 
-                {/* Center Hub & Keyway Bore Hole */}
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="14"
-                  fill="white"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                />
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="8"
-                  fill="#0F172A"
-                  stroke="#DC2626"
-                  strokeWidth="1"
-                />
-                {/* Keyway slot */}
-                <rect x="48.5" y="40" width="3" height="5" fill="#0F172A" />
-              </svg>
+              {/* Left Exterior Wall */}
+              <div
+                className="absolute w-16 h-4 border border-neutral-800 bg-neutral-850"
+                style={{ transform: 'rotateY(90deg) translateZ(-40px) translateY(-8px)' }}
+              />
 
-              {/* Wireframe Coordinate Axis Crosshair */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <span className="w-full h-px bg-neutral-300/60" />
-                <span className="h-full w-px bg-neutral-300/60 absolute" />
+              {/* Right Facade (Glass Curtain Wall with Mullions) */}
+              <div
+                className="absolute w-16 h-4 border border-sky-400/60 bg-sky-500/20 backdrop-blur-xs flex items-center justify-around"
+                style={{ transform: 'rotateY(90deg) translateZ(40px) translateY(-8px)' }}
+              >
+                <span className="w-px h-full bg-sky-400/60" />
+                <span className="w-px h-full bg-sky-400/60" />
+                <span className="w-px h-full bg-sky-400/60" />
+              </div>
+
+              {/* 4. Structural Columns (Pillars connecting Ground to Level 02) */}
+              {/* Front-Left Column */}
+              <div
+                className="absolute w-1.5 h-5 bg-neutral-900 border border-neutral-700 shadow-xs"
+                style={{ transform: 'translate3d(-34px, -10px, 26px)' }}
+              />
+              {/* Front-Right Column */}
+              <div
+                className="absolute w-1.5 h-5 bg-neutral-900 border border-neutral-700 shadow-xs"
+                style={{ transform: 'translate3d(34px, -10px, 26px)' }}
+              />
+              {/* Center Accent Canopy Column */}
+              <div
+                className="absolute w-1 h-5 bg-[#DC2626] shadow-xs"
+                style={{ transform: 'translate3d(0px, -10px, 28px)' }}
+              />
+
+              {/* 5. Central Elevator / Staircase Core Tower */}
+              <div
+                className="absolute w-5 h-10 bg-neutral-950 border border-neutral-700 shadow-lg flex flex-col justify-between p-0.5"
+                style={{ transform: 'translate3d(-26px, -18px, -16px)' }}
+              >
+                <div className="w-full h-1 bg-[#DC2626]" />
+                <div className="space-y-0.5">
+                  <div className="w-full h-0.5 bg-neutral-700" />
+                  <div className="w-full h-0.5 bg-neutral-700" />
+                </div>
+                <span className="text-[4px] font-mono text-neutral-400 text-center">CORE</span>
+              </div>
+
+              {/* 6. Level 02 Upper Floor Slab & Balcony (Cantilevered Forward) */}
+              <div
+                className="absolute w-18 h-14 rounded-[2px] border-2 border-neutral-800 bg-[#FAF9F7] shadow-sm flex flex-col justify-between p-0.5 select-none"
+                style={{ transform: 'rotateX(90deg) translateZ(18px)', transformStyle: 'preserve-3d' }}
+              >
+                {/* Front Balcony with Blue Glass Railing */}
+                <div className="h-2.5 w-full border-b border-sky-400/60 bg-sky-400/20 flex items-center justify-between px-1">
+                  <span className="text-[5px] font-mono text-sky-700 font-semibold">BALCONY</span>
+                  <span className="text-[5px] font-mono text-[#DC2626]">★</span>
+                </div>
+                {/* Upper Suite Floor Plan Layout */}
+                <div className="flex items-center justify-between text-[5px] font-mono text-neutral-600 px-1">
+                  <span>SUITE 02</span>
+                  <span className="text-neutral-400">+3.2m</span>
+                </div>
+              </div>
+
+              {/* 7. Level 03 Modern Cantilevered Roof Slab & Pergola Louvers */}
+              <div
+                className="absolute w-16 h-12 rounded-[2px] border border-neutral-800 bg-neutral-900 shadow-md flex flex-col justify-between p-1 select-none"
+                style={{ transform: 'rotateX(90deg) translateZ(32px)', transformStyle: 'preserve-3d' }}
+              >
+                {/* Louvered Solar Pergola Slats */}
+                <div className="space-y-0.5 w-full">
+                  <div className="w-full h-0.5 bg-[#DC2626]" />
+                  <div className="w-full h-0.5 bg-neutral-600" />
+                  <div className="w-full h-0.5 bg-neutral-600" />
+                  <div className="w-full h-0.5 bg-[#DC2626]" />
+                </div>
+                <div className="flex items-center justify-between text-[5px] font-mono text-neutral-300">
+                  <span className="text-[#DC2626] font-bold">ROOF</span>
+                  <span>+6.4m</span>
+                </div>
               </div>
             </div>
-
-            {/* Depth Shadow Ring */}
-            <div
-              className="absolute w-20 h-20 rounded-full bg-neutral-900/10 blur-[6px] pointer-events-none -bottom-2"
-              style={{ transform: 'rotateX(60deg)' }}
-            />
           </div>
 
           {/* Bottom Telemetry Bar */}
-          <div className="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[8px] font-mono text-neutral-400">
-            <span>AXIS: Z-ROT</span>
-            <span className="text-neutral-700 font-semibold">SOLIDWORKS CAD</span>
+          <div className="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[8px] font-mono text-neutral-400 pointer-events-none">
+            <span>GRID: A-C // 1-3</span>
+            <span className="text-neutral-700 font-semibold">REVIT BIM 3D</span>
           </div>
         </div>
 
         {/* Technical Footer Telemetry */}
         <div className="pt-2 mt-2 border-t border-[#F0F0EE] flex items-center justify-between text-[9px] font-mono">
-          <span className="text-neutral-500">CATIA • Mastercam</span>
-          <span className="text-neutral-900 font-semibold">3D PARAMETRIC</span>
+          <span className="text-neutral-500">AutoCAD • Revit • SketchUp</span>
+          <span className="text-neutral-900 font-semibold">3D CIVIL &amp; ARCH</span>
         </div>
       </div>
     </motion.div>

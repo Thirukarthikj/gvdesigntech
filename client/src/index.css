@@ -278,6 +278,20 @@
   transform-style: preserve-3d;
 }
 
+@keyframes cad-building-spin {
+  0% {
+    transform: rotateX(-22deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(-22deg) rotateY(360deg);
+  }
+}
+
+.animate-cad-building {
+  animation: cad-building-spin 20s linear infinite;
+  transform-style: preserve-3d;
+}
+
 /* Gradient Mask for Smooth Edge Fading on Sliders & Marquees */
 .mask-fade-edges {
   mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
