@@ -400,7 +400,28 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             }`}
           >
             <option value="">Select Course / Discipline</option>
-            <optgroup label="01 — Computer Science & IT">
+            <optgroup label="01 — Mechanical & Automobile">
+              <option value="AutoCAD">AutoCAD (Mechanical & 2D Drafting)</option>
+              <option value="SolidWorks">SolidWorks (3D CAD & Modeling)</option>
+              <option value="Creo PTC">Creo PTC</option>
+              <option value="CATIA">CATIA (Automotive & Aerospace)</option>
+              <option value="Mastercam">Mastercam</option>
+              <option value="SolidCAM">SolidCAM</option>
+              <option value="GD&T">GD&T (ASME Y14.5 Tolerancing)</option>
+              <option value="GD&T (Geometric Dimensioning & Tolerancing)">GD&T (Geometric Dimensioning & Tolerancing)</option>
+              <option value="Reverse Engineering">Reverse Engineering</option>
+              <option value="Automobile Engineering">Automobile Engineering</option>
+              <option value="Mechanical & Automobile Design">Mechanical & Automobile Design</option>
+            </optgroup>
+            <optgroup label="02 — Civil Engineering">
+              <option value="Civil Engineering Software & Technical Training">Civil Engineering Software & Technical Training</option>
+              <option value="Civil Engineering Software Training">Civil Engineering Software Training</option>
+            </optgroup>
+            <optgroup label="03 — CNC Programming">
+              <option value="CNC Programming & Machining">CNC Programming & Machining</option>
+              <option value="CNC Programming & Related Technical Training">CNC Programming & Related Technical Training</option>
+            </optgroup>
+            <optgroup label="04 — Computer Science & IT">
               <option value="C Programming">C Programming</option>
               <option value="C++">C++</option>
               <option value="Java">Java</option>
@@ -410,31 +431,16 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
               <option value="HTML">HTML</option>
               <option value="Frontend Development">Frontend Development</option>
             </optgroup>
-            <optgroup label="02 — Mechanical & Automobile">
-              <option value="AutoCAD">AutoCAD</option>
-              <option value="SolidWorks">SolidWorks</option>
-              <option value="Creo PTC">Creo PTC</option>
-              <option value="CATIA">CATIA</option>
-              <option value="Mastercam">Mastercam</option>
-              <option value="SolidCAM">SolidCAM</option>
-              <option value="GD&T">GD&T</option>
-              <option value="Reverse Engineering">Reverse Engineering</option>
-            </optgroup>
-            <optgroup label="03 — Multimedia & Graphic Design">
+            <optgroup label="05 — Multimedia & Graphic Design">
               <option value="Adobe Photoshop">Adobe Photoshop</option>
               <option value="Adobe XD">Adobe XD</option>
               <option value="Figma">Figma</option>
               <option value="UI/UX Design">UI/UX Design</option>
               <option value="Adobe Illustrator">Adobe Illustrator</option>
             </optgroup>
-            <optgroup label="04 — Civil Engineering">
-              <option value="Civil Engineering Software Training">Civil Engineering Software Training</option>
-            </optgroup>
-            <optgroup label="05 — CNC Programming">
-              <option value="CNC Programming & Machining">CNC Programming & Machining</option>
-            </optgroup>
             <optgroup label="06 — Arts & Multimedia">
               <option value="Arts & Creative Multimedia">Arts & Creative Multimedia</option>
+              <option value="Creative Design & Multimedia-Related Training">Creative Design & Multimedia-Related Training</option>
             </optgroup>
             <optgroup label="General">
               <option value="General Technical Enquiry">General Technical Guidance</option>

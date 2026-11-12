@@ -4,7 +4,7 @@ export const FAQ_DATA: FAQItem[] = [
   {
     id: 'faq-1',
     question: 'What courses are available at GV DESIGN TECH?',
-    answer: 'GV DESIGN TECH offers practical technical training across six core domains: Computer Science & IT (C, C++, Java, Python, Django, MySQL, HTML, Frontend Development), Multimedia & Graphic Design (Adobe Photoshop, Adobe XD, Figma, UI/UX Design, Adobe Illustrator), Mechanical & Automobile Design (AutoCAD, SolidWorks, Creo PTC, CATIA, Mastercam, SolidCAM, GD&T, Reverse Engineering), Civil Engineering software training, CNC Programming & related technical training, and Arts & Multimedia creative training.'
+    answer: 'GV DESIGN TECH offers practical technical training across six core domains: Mechanical & Automobile Design (AutoCAD, SolidWorks, Creo PTC, CATIA, Mastercam, SolidCAM, GD&T, Reverse Engineering), Civil Engineering software training, CNC Programming & related technical training, Computer Science & IT (C, C++, Java, Python, Django, MySQL, HTML, Frontend Development), Multimedia & Graphic Design (Adobe Photoshop, Adobe XD, Figma, UI/UX Design, Adobe Illustrator), and Arts & Multimedia creative training.'
   },
   {
     id: 'faq-2',

@@ -46,7 +46,7 @@ export const CinematicFooter: React.FC = () => {
               INSTITUTE CAMPUS
             </span>
             <p className="text-ink-secondary font-sans text-xs leading-relaxed font-light">
-              Technical training institute in Oddanchatram, Tamil Nadu. Imparting practical software competence across Engineering CAD, Computer Science, UI/UX, Civil Drafting, and CNC Programming.
+              Technical training institute in Oddanchatram, Tamil Nadu. Imparting practical software competence across Mechanical &amp; Automobile CAD, Civil Drafting, CNC Programming, Computer Science &amp; IT, and UI/UX.
             </p>
 
             <div className="space-y-1.5 pt-2 text-ink-muted">

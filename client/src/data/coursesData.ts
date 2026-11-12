@@ -1,323 +1,7 @@
 import { CourseCategory } from '../types';
 
 export const COURSE_CATEGORIES: CourseCategory[] = [
-  {
-    id: 'cs-it',
-    slug: 'computer-science-it',
-    title: 'Computer Science & IT',
-    tagline: 'Modern Programming, Web Architecture & Data Fundamentals',
-    shortDescription: 'From core programming languages to modern frontend engineering and database architecture, master the technical skills driving today’s software development industry.',
-    detailedDescription: 'Our Computer Science and Information Technology curriculum provides structured, hands-on instruction in algorithmic thinking, object-oriented systems, backend frameworks, and responsive frontend design. Whether you are building your first program or preparing for technical career challenges, our courses emphasize code quality, practical exercises, and problem-solving.',
-    heroImage: '/images/courses/software-dev-hero.jpg',
-    thumbnailImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80',
-    accentColor: 'blue',
-    iconName: 'Code',
-    courseCountNote: '8 Focused Courses',
-    courses: [
-      {
-        id: 'c-programming',
-        name: 'C Programming',
-        categorySlug: 'computer-science-it',
-        categoryName: 'Computer Science & IT',
-        shortDescription: 'Master memory management, pointers, and foundational computation principles with structured C programming.',
-        overview: 'C is the foundational language of modern computer systems. This course emphasizes procedural logic, memory pointers, struct definitions, file handling, and efficient algorithm implementation.',
-        keyTopics: [
-          'Data Types, Operators & Flow Control',
-          'Functions, Recursion & Scope',
-          'Arrays & String Manipulation',
-          'Pointers & Dynamic Memory Allocation',
-          'Structures, Unions & File I/O'
-        ],
-        softwareCovered: ['GCC / Clang Compiler', 'VS Code', 'Code::Blocks'],
-        recommendedFor: ['Computer Science Students', 'Diploma Engineering Students', 'Beginners in Programming'],
-        learningOutcomes: [
-          'Understand low-level computer memory mechanics',
-          'Write efficient, structured procedural code',
-          'Build strong logical problem-solving foundations'
-        ]
-      },
-      {
-        id: 'cpp-programming',
-        name: 'C++',
-        categorySlug: 'computer-science-it',
-        categoryName: 'Computer Science & IT',
-        shortDescription: 'Advance your computational skills with Object-Oriented Programming (OOP) and the Standard Template Library in C++.',
-        overview: 'C++ brings high performance and object-oriented abstractions. Learn encapsulation, inheritance, polymorphism, templates, and resource management.',
-        keyTopics: [
-          'Object-Oriented Architecture & Classes',
-          'Constructors, Destructors & Encapsulation',
-          'Inheritance & Polymorphism',
-          'Templates & Exception Handling',
-          'Standard Template Library (STL) Containers & Iterators'
-        ],
-        softwareCovered: ['Modern C++ Compilers', 'VS Code', 'MinGW'],
-        recommendedFor: ['Engineering Graduates', 'Game Development Enthusiasts', 'System Software Aspirants'],
-        learningOutcomes: [
-          'Design modular and reusable object-oriented systems',
-          'Utilize STL algorithms and data structures effectively',
-          'Prepare for advanced technical interviews and projects'
-        ]
-      },
-      {
-        id: 'java',
-        name: 'Java',
-        categorySlug: 'computer-science-it',
-        categoryName: 'Computer Science & IT',
-        shortDescription: 'Build robust, platform-independent enterprise applications with Core and Advanced Java concepts.',
-        overview: 'Java powers scalable enterprise solutions, Android systems, and backend platforms worldwide. Learn the JVM ecosystem, multi-threading, collections framework, and JDBC database connectivity.',
-        keyTopics: [
-          'Core Java Syntax & OOP Principles',
-          'Java Virtual Machine (JVM) Architecture',
-          'Exception Handling & Multithreading',
-          'Java Collections Framework (List, Set, Map)',
-          'JDBC Database Connectivity & File Processing'
-        ],
-        softwareCovered: ['JDK 17+', 'IntelliJ IDEA / Eclipse', 'MySQL Connector'],
-        recommendedFor: ['IT & CS Undergraduates', 'Backend Aspirants', 'Career Starters'],
-        learningOutcomes: [
-          'Develop modular, multi-threaded Java applications',
-          'Connect Java business logic to SQL databases',
-          'Build practical desktop and console-based enterprise utilities'
-        ]
-      },
-      {
-        id: 'python',
-        name: 'Python',
-        categorySlug: 'computer-science-it',
-        categoryName: 'Computer Science & IT',
-        shortDescription: 'Learn one of the most versatile and in-demand programming languages for scripting, automation, and web development.',
-        overview: 'Python offers clean syntax and powerful standard libraries. Explore procedural and object-oriented paradigms, data analysis libraries, file automation, and scripting workflows.',
-        keyTopics: [
-          'Python Fundamentals, Data Types & Data Structures',
-          'Functions, Modules & Package Management',
-          'Object-Oriented Programming in Python',
-          'File Automation & Regex Processing',
-          'Working with External APIs & Data Formats (JSON/CSV)'
-        ],
-        softwareCovered: ['Python 3.x', 'VS Code', 'PyCharm Community'],
-        recommendedFor: ['All Technical Disciplines', 'Data Aspirants', 'Automation Enthusiasts'],
-        learningOutcomes: [
-          'Automate repetitive computational and file workflows',
-          'Develop modular object-oriented Python scripts',
-          'Establish the prerequisite foundation for web frameworks'
-        ]
-      },
-      {
-        id: 'django',
-        name: 'Django',
-        categorySlug: 'computer-science-it',
-        categoryName: 'Computer Science & IT',
-        shortDescription: 'Develop production-ready, secure web applications with Python’s premier high-level web framework.',
-        overview: 'Django follows the Model-View-Template (MVT) pattern for rapid, secure web development. Learn authentication, ORM database modeling, routing, forms, and admin interface customization.',
-        keyTopics: [
-          'Django Architecture & Project Structure',
-          'MVT (Model-View-Template) Pattern',
-          'Django ORM Database Modeling & Migrations',
-          'User Authentication & Session Management',
-          'RESTful API Principles & Form Validation'
-        ],
-        softwareCovered: ['Django Framework', 'SQLite / MySQL', 'Postman'],
-        recommendedFor: ['Python Learners', 'Full-Stack Developers', 'Web Application Builders'],
-        learningOutcomes: [
-          'Construct complete database-driven web applications',
-          'Implement secure user authentication and permissions',
-          'Integrate frontend templates with backend database ORM'
-        ]
-      },
-      {
-        id: 'mysql',
-        name: 'MySQL',
-        categorySlug: 'computer-science-it',
-        categoryName: 'Computer Science & IT',
-        shortDescription: 'Master relational database design, complex SQL queries, index optimization, and data integrity.',
-        overview: 'Data powers modern applications. Learn relational database management systems (RDBMS), normalization, complex joins, subqueries, stored procedures, and transaction management.',
-        keyTopics: [
-          'Relational Database Concepts & Schema Design',
-          'DDL, DML, and DQL Syntax Mastery',
-          'Table Relationships, Foreign Keys & Normalization',
-          'Complex Joins, Subqueries & Aggregations',
-          'Indexing, Constraints & Data Integrity'
-        ],
-        softwareCovered: ['MySQL Server', 'MySQL Workbench', 'phpMyAdmin'],
-        recommendedFor: ['Database Administrators', 'Software Developers', 'IT Professionals'],
-        learningOutcomes: [
-          'Design normalized schemas for complex real-world data',
-          'Write high-performance SQL queries and multi-table joins',
-          'Ensure transactional reliability and data consistency'
-        ]
-      },
-      {
-        id: 'html',
-        name: 'HTML',
-        categorySlug: 'computer-science-it',
-        categoryName: 'Computer Science & IT',
-        shortDescription: 'Understand modern semantic markup, accessibility fundamentals, and the core structural backbone of the web.',
-        overview: 'HTML5 is the universal document model of the internet. Learn semantic structuring, form validation, accessible metadata, media embedding, and document hierarchy.',
-        keyTopics: [
-          'HTML5 Semantic Document Architecture',
-          'Form Elements, Input Types & Client Validation',
-          'Multimedia Integration (Audio, Video, Canvas)',
-          'Web Accessibility (ARIA) Best Practices',
-          'Meta Tags, SEO Basics & Document Linking'
-        ],
-        softwareCovered: ['VS Code', 'Modern Web Browsers', 'Developer Tools'],
-        recommendedFor: ['Web Design Starters', 'Content Creators', 'Frontend Beginners'],
-        learningOutcomes: [
-          'Write clean, standards-compliant semantic HTML5',
-          'Structure accessible content for web search and screen readers',
-          'Build responsive form layouts ready for styling and scripting'
-        ]
-      },
-      {
-        id: 'frontend-development',
-        name: 'Frontend Development',
-        categorySlug: 'computer-science-it',
-        categoryName: 'Computer Science & IT',
-        shortDescription: 'Combine HTML, CSS styling, responsive layout systems, and interactive JavaScript to build modern web interfaces.',
-        overview: 'Transform static designs into interactive, responsive digital experiences. Master CSS Flexbox, Grid, DOM manipulation, responsive breakpoints, and client-side web behavior.',
-        keyTopics: [
-          'CSS3 Modern Layouts: Flexbox & CSS Grid',
-          'Responsive Design & Media Queries',
-          'JavaScript DOM Manipulation & Event Handling',
-          'CSS Animations, Transitions & UI Feedback',
-          'Frontend Best Practices & Cross-Browser Consistency'
-        ],
-        softwareCovered: ['HTML5 & CSS3', 'JavaScript (ES6+)', 'VS Code', 'Browser DevTools'],
-        recommendedFor: ['Aspiring Web Developers', 'Graphic Designers Entering Web', 'Graduates'],
-        learningOutcomes: [
-          'Build responsive layouts that look great on mobile and desktop',
-          'Implement dynamic interactive elements using JavaScript',
-          'Translate visual design mockups into functional web pages'
-        ]
-      }
-    ]
-  },
-  {
-    id: 'multimedia-graphic-design',
-    slug: 'multimedia-graphic-design',
-    title: 'Multimedia & Graphic Design',
-    tagline: 'Visual Identity, Interface Design & User-Centric Experiences',
-    shortDescription: 'Master industry-standard creative tools including Figma, Photoshop, Illustrator, and XD to craft compelling branding, visual assets, and digital user interfaces.',
-    detailedDescription: 'Visual communication is at the core of digital products and marketing. Our Multimedia and Graphic Design track provides hands-on practical training in vector illustration, photo retouching, UI wireframing, interactive prototyping, and user experience methodologies.',
-    heroImage: '/images/courses/graphic-design-hero.jpg',
-    thumbnailImage: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80',
-    accentColor: 'amber',
-    iconName: 'PenTool',
-    courseCountNote: '5 Focused Courses',
-    courses: [
-      {
-        id: 'adobe-photoshop',
-        name: 'Adobe Photoshop',
-        categorySlug: 'multimedia-graphic-design',
-        categoryName: 'Multimedia & Graphic Design',
-        shortDescription: 'Master raster image editing, photo manipulation, colour grading, layer masking, and digital asset preparation.',
-        overview: 'Photoshop is the industry benchmark for digital imagery. Learn non-destructive editing workflows, selection precision, retouching techniques, compositing, and preparation for print and web.',
-        keyTopics: [
-          'Layers, Adjustment Layers & Non-Destructive Masking',
-          'Advanced Selection & Path Tools',
-          'Photo Retouching & Restoration Techniques',
-          'Color Correction, Grading & Blending Modes',
-          'Banner Design, Typography & Asset Exporting'
-        ],
-        softwareCovered: ['Adobe Photoshop CC', 'Adobe Camera Raw'],
-        recommendedFor: ['Creative Aspirants', 'Photographers', 'Digital Marketers', 'Students'],
-        learningOutcomes: [
-          'Create professional photo manipulations and composites',
-          'Master color adjustments and image retouching workflows',
-          'Produce high-resolution creative visuals for digital and print media'
-        ]
-      },
-      {
-        id: 'adobe-xd',
-        name: 'Adobe XD',
-        categorySlug: 'multimedia-graphic-design',
-        categoryName: 'Multimedia & Graphic Design',
-        shortDescription: 'Design user experience layouts, wireframes, and interactive screen transitions for mobile and web applications.',
-        overview: 'Adobe XD provides a dedicated environment for screen design and prototyping. Learn repeat grids, artboard management, auto-animate micro-interactions, and design specification exports.',
-        keyTopics: [
-          'Artboard Systems & UI Grid Alignment',
-          'Repeat Grids, Components & States',
-          'Auto-Animate & Interactive Screen Flows',
-          'Responsive Resize & Mobile Layouts',
-          'Design Handoff & Developer Specifications'
-        ],
-        softwareCovered: ['Adobe XD'],
-        recommendedFor: ['UI/UX Designers', 'Web Designers', 'Mobile App Concept Developers'],
-        learningOutcomes: [
-          'Create interactive prototypes demonstrating user flows',
-          'Design consistent component-based screen systems',
-          'Prepare clickable mobile app concepts for presentation'
-        ]
-      },
-      {
-        id: 'figma',
-        name: 'Figma',
-        categorySlug: 'multimedia-graphic-design',
-        categoryName: 'Multimedia & Graphic Design',
-        shortDescription: 'Learn the collaborative design platform powering today’s modern software product teams.',
-        overview: 'Figma is the leading collaborative interface design tool. Master Auto Layout, component variants, design tokens, responsive constraints, and design system foundations.',
-        keyTopics: [
-          'Frames, Vector Networks & Constraints',
-          'Auto Layout 5.0 & Responsive Component Sizing',
-          'Components, Variants & Property Controls',
-          'Interactive Prototyping, Smart Animate & Variables',
-          'Building Reusable Design Systems & Style Guides'
-        ],
-        softwareCovered: ['Figma Web & Desktop App'],
-        recommendedFor: ['Product Designers', 'UI Engineers', 'Tech Graduates'],
-        learningOutcomes: [
-          'Construct responsive, flexible UI screens using Auto Layout',
-          'Build scalable design systems with reusable components and tokens',
-          'Prototype real-time interactive digital application flows'
-        ]
-      },
-      {
-        id: 'ui-ux-design',
-        name: 'UI/UX Design',
-        categorySlug: 'multimedia-graphic-design',
-        categoryName: 'Multimedia & Graphic Design',
-        shortDescription: 'Learn user research principles, wireframing, information architecture, usability testing, and visual hierarchy.',
-        overview: 'Go beyond visual aesthetics to understand how users interact with digital products. Study user personas, empathy mapping, user journeys, wireframing, visual hierarchy, and usability evaluation.',
-        keyTopics: [
-          'UX Fundamentals: User Research & Persona Creation',
-          'Information Architecture & User Flow Mapping',
-          'Low-Fidelity Sketching to High-Fidelity Wireframes',
-          'Visual Hierarchy, Color Psychology & Typography Systems',
-          'Usability Testing, Heuristic Evaluation & Iteration'
-        ],
-        softwareCovered: ['Figma', 'Miro / FigJam', 'Balsamiq Concepts'],
-        recommendedFor: ['Anyone interested in Product Design', 'Developers', 'Creative Students'],
-        learningOutcomes: [
-          'Conduct structured user research and identify user friction',
-          'Transform abstract requirements into intuitive digital workflows',
-          'Design polished interfaces grounded in sound usability principles'
-        ]
-      },
-      {
-        id: 'adobe-illustrator',
-        name: 'Adobe Illustrator',
-        categorySlug: 'multimedia-graphic-design',
-        categoryName: 'Multimedia & Graphic Design',
-        shortDescription: 'Master precision vector graphics, logo creation, branding assets, typography, and scalable illustration.',
-        overview: 'Vector artwork scales infinitely without quality loss. Master the Pen tool, Pathfinder operations, shape builders, typography styling, color swatches, and vector branding packages.',
-        keyTopics: [
-          'Precision Vector Paths & The Pen Tool Mastery',
-          'Shape Builder & Pathfinder Boolean Operations',
-          'Typography Pairing, Text Formatting & Lettering',
-          'Color Harmonies, Gradients & Pattern Creation',
-          'Logo Design, Vector Icons & Print Export Formats'
-        ],
-        softwareCovered: ['Adobe Illustrator CC'],
-        recommendedFor: ['Brand Designers', 'Graphic Illustrators', 'Marketing Creatives'],
-        learningOutcomes: [
-          'Design mathematically precise vector logos and brand assets',
-          'Produce vector illustrations and scalable iconography',
-          'Prepare print-ready vector files with correct color profiles'
-        ]
-      }
-    ]
-  },
-  {
+{
     id: 'mechanical-automobile',
     slug: 'mechanical-automobile',
     title: 'Mechanical & Automobile',
@@ -508,7 +192,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
       }
     ]
   },
-  {
+{
     id: 'civil-engineering',
     slug: 'civil-engineering',
     title: 'Civil Engineering',
@@ -545,7 +229,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
       }
     ]
   },
-  {
+{
     id: 'cnc-programming',
     slug: 'cnc-programming',
     title: 'CNC Programming',
@@ -582,7 +266,323 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
       }
     ]
   },
-  {
+{
+    id: 'cs-it',
+    slug: 'computer-science-it',
+    title: 'Computer Science & IT',
+    tagline: 'Modern Programming, Web Architecture & Data Fundamentals',
+    shortDescription: 'From core programming languages to modern frontend engineering and database architecture, master the technical skills driving today’s software development industry.',
+    detailedDescription: 'Our Computer Science and Information Technology curriculum provides structured, hands-on instruction in algorithmic thinking, object-oriented systems, backend frameworks, and responsive frontend design. Whether you are building your first program or preparing for technical career challenges, our courses emphasize code quality, practical exercises, and problem-solving.',
+    heroImage: '/images/courses/software-dev-hero.jpg',
+    thumbnailImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80',
+    accentColor: 'blue',
+    iconName: 'Code',
+    courseCountNote: '8 Focused Courses',
+    courses: [
+      {
+        id: 'c-programming',
+        name: 'C Programming',
+        categorySlug: 'computer-science-it',
+        categoryName: 'Computer Science & IT',
+        shortDescription: 'Master memory management, pointers, and foundational computation principles with structured C programming.',
+        overview: 'C is the foundational language of modern computer systems. This course emphasizes procedural logic, memory pointers, struct definitions, file handling, and efficient algorithm implementation.',
+        keyTopics: [
+          'Data Types, Operators & Flow Control',
+          'Functions, Recursion & Scope',
+          'Arrays & String Manipulation',
+          'Pointers & Dynamic Memory Allocation',
+          'Structures, Unions & File I/O'
+        ],
+        softwareCovered: ['GCC / Clang Compiler', 'VS Code', 'Code::Blocks'],
+        recommendedFor: ['Computer Science Students', 'Diploma Engineering Students', 'Beginners in Programming'],
+        learningOutcomes: [
+          'Understand low-level computer memory mechanics',
+          'Write efficient, structured procedural code',
+          'Build strong logical problem-solving foundations'
+        ]
+      },
+      {
+        id: 'cpp-programming',
+        name: 'C++',
+        categorySlug: 'computer-science-it',
+        categoryName: 'Computer Science & IT',
+        shortDescription: 'Advance your computational skills with Object-Oriented Programming (OOP) and the Standard Template Library in C++.',
+        overview: 'C++ brings high performance and object-oriented abstractions. Learn encapsulation, inheritance, polymorphism, templates, and resource management.',
+        keyTopics: [
+          'Object-Oriented Architecture & Classes',
+          'Constructors, Destructors & Encapsulation',
+          'Inheritance & Polymorphism',
+          'Templates & Exception Handling',
+          'Standard Template Library (STL) Containers & Iterators'
+        ],
+        softwareCovered: ['Modern C++ Compilers', 'VS Code', 'MinGW'],
+        recommendedFor: ['Engineering Graduates', 'Game Development Enthusiasts', 'System Software Aspirants'],
+        learningOutcomes: [
+          'Design modular and reusable object-oriented systems',
+          'Utilize STL algorithms and data structures effectively',
+          'Prepare for advanced technical interviews and projects'
+        ]
+      },
+      {
+        id: 'java',
+        name: 'Java',
+        categorySlug: 'computer-science-it',
+        categoryName: 'Computer Science & IT',
+        shortDescription: 'Build robust, platform-independent enterprise applications with Core and Advanced Java concepts.',
+        overview: 'Java powers scalable enterprise solutions, Android systems, and backend platforms worldwide. Learn the JVM ecosystem, multi-threading, collections framework, and JDBC database connectivity.',
+        keyTopics: [
+          'Core Java Syntax & OOP Principles',
+          'Java Virtual Machine (JVM) Architecture',
+          'Exception Handling & Multithreading',
+          'Java Collections Framework (List, Set, Map)',
+          'JDBC Database Connectivity & File Processing'
+        ],
+        softwareCovered: ['JDK 17+', 'IntelliJ IDEA / Eclipse', 'MySQL Connector'],
+        recommendedFor: ['IT & CS Undergraduates', 'Backend Aspirants', 'Career Starters'],
+        learningOutcomes: [
+          'Develop modular, multi-threaded Java applications',
+          'Connect Java business logic to SQL databases',
+          'Build practical desktop and console-based enterprise utilities'
+        ]
+      },
+      {
+        id: 'python',
+        name: 'Python',
+        categorySlug: 'computer-science-it',
+        categoryName: 'Computer Science & IT',
+        shortDescription: 'Learn one of the most versatile and in-demand programming languages for scripting, automation, and web development.',
+        overview: 'Python offers clean syntax and powerful standard libraries. Explore procedural and object-oriented paradigms, data analysis libraries, file automation, and scripting workflows.',
+        keyTopics: [
+          'Python Fundamentals, Data Types & Data Structures',
+          'Functions, Modules & Package Management',
+          'Object-Oriented Programming in Python',
+          'File Automation & Regex Processing',
+          'Working with External APIs & Data Formats (JSON/CSV)'
+        ],
+        softwareCovered: ['Python 3.x', 'VS Code', 'PyCharm Community'],
+        recommendedFor: ['All Technical Disciplines', 'Data Aspirants', 'Automation Enthusiasts'],
+        learningOutcomes: [
+          'Automate repetitive computational and file workflows',
+          'Develop modular object-oriented Python scripts',
+          'Establish the prerequisite foundation for web frameworks'
+        ]
+      },
+      {
+        id: 'django',
+        name: 'Django',
+        categorySlug: 'computer-science-it',
+        categoryName: 'Computer Science & IT',
+        shortDescription: 'Develop production-ready, secure web applications with Python’s premier high-level web framework.',
+        overview: 'Django follows the Model-View-Template (MVT) pattern for rapid, secure web development. Learn authentication, ORM database modeling, routing, forms, and admin interface customization.',
+        keyTopics: [
+          'Django Architecture & Project Structure',
+          'MVT (Model-View-Template) Pattern',
+          'Django ORM Database Modeling & Migrations',
+          'User Authentication & Session Management',
+          'RESTful API Principles & Form Validation'
+        ],
+        softwareCovered: ['Django Framework', 'SQLite / MySQL', 'Postman'],
+        recommendedFor: ['Python Learners', 'Full-Stack Developers', 'Web Application Builders'],
+        learningOutcomes: [
+          'Construct complete database-driven web applications',
+          'Implement secure user authentication and permissions',
+          'Integrate frontend templates with backend database ORM'
+        ]
+      },
+      {
+        id: 'mysql',
+        name: 'MySQL',
+        categorySlug: 'computer-science-it',
+        categoryName: 'Computer Science & IT',
+        shortDescription: 'Master relational database design, complex SQL queries, index optimization, and data integrity.',
+        overview: 'Data powers modern applications. Learn relational database management systems (RDBMS), normalization, complex joins, subqueries, stored procedures, and transaction management.',
+        keyTopics: [
+          'Relational Database Concepts & Schema Design',
+          'DDL, DML, and DQL Syntax Mastery',
+          'Table Relationships, Foreign Keys & Normalization',
+          'Complex Joins, Subqueries & Aggregations',
+          'Indexing, Constraints & Data Integrity'
+        ],
+        softwareCovered: ['MySQL Server', 'MySQL Workbench', 'phpMyAdmin'],
+        recommendedFor: ['Database Administrators', 'Software Developers', 'IT Professionals'],
+        learningOutcomes: [
+          'Design normalized schemas for complex real-world data',
+          'Write high-performance SQL queries and multi-table joins',
+          'Ensure transactional reliability and data consistency'
+        ]
+      },
+      {
+        id: 'html',
+        name: 'HTML',
+        categorySlug: 'computer-science-it',
+        categoryName: 'Computer Science & IT',
+        shortDescription: 'Understand modern semantic markup, accessibility fundamentals, and the core structural backbone of the web.',
+        overview: 'HTML5 is the universal document model of the internet. Learn semantic structuring, form validation, accessible metadata, media embedding, and document hierarchy.',
+        keyTopics: [
+          'HTML5 Semantic Document Architecture',
+          'Form Elements, Input Types & Client Validation',
+          'Multimedia Integration (Audio, Video, Canvas)',
+          'Web Accessibility (ARIA) Best Practices',
+          'Meta Tags, SEO Basics & Document Linking'
+        ],
+        softwareCovered: ['VS Code', 'Modern Web Browsers', 'Developer Tools'],
+        recommendedFor: ['Web Design Starters', 'Content Creators', 'Frontend Beginners'],
+        learningOutcomes: [
+          'Write clean, standards-compliant semantic HTML5',
+          'Structure accessible content for web search and screen readers',
+          'Build responsive form layouts ready for styling and scripting'
+        ]
+      },
+      {
+        id: 'frontend-development',
+        name: 'Frontend Development',
+        categorySlug: 'computer-science-it',
+        categoryName: 'Computer Science & IT',
+        shortDescription: 'Combine HTML, CSS styling, responsive layout systems, and interactive JavaScript to build modern web interfaces.',
+        overview: 'Transform static designs into interactive, responsive digital experiences. Master CSS Flexbox, Grid, DOM manipulation, responsive breakpoints, and client-side web behavior.',
+        keyTopics: [
+          'CSS3 Modern Layouts: Flexbox & CSS Grid',
+          'Responsive Design & Media Queries',
+          'JavaScript DOM Manipulation & Event Handling',
+          'CSS Animations, Transitions & UI Feedback',
+          'Frontend Best Practices & Cross-Browser Consistency'
+        ],
+        softwareCovered: ['HTML5 & CSS3', 'JavaScript (ES6+)', 'VS Code', 'Browser DevTools'],
+        recommendedFor: ['Aspiring Web Developers', 'Graphic Designers Entering Web', 'Graduates'],
+        learningOutcomes: [
+          'Build responsive layouts that look great on mobile and desktop',
+          'Implement dynamic interactive elements using JavaScript',
+          'Translate visual design mockups into functional web pages'
+        ]
+      }
+    ]
+  },
+{
+    id: 'multimedia-graphic-design',
+    slug: 'multimedia-graphic-design',
+    title: 'Multimedia & Graphic Design',
+    tagline: 'Visual Identity, Interface Design & User-Centric Experiences',
+    shortDescription: 'Master industry-standard creative tools including Figma, Photoshop, Illustrator, and XD to craft compelling branding, visual assets, and digital user interfaces.',
+    detailedDescription: 'Visual communication is at the core of digital products and marketing. Our Multimedia and Graphic Design track provides hands-on practical training in vector illustration, photo retouching, UI wireframing, interactive prototyping, and user experience methodologies.',
+    heroImage: '/images/courses/graphic-design-hero.jpg',
+    thumbnailImage: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80',
+    accentColor: 'amber',
+    iconName: 'PenTool',
+    courseCountNote: '5 Focused Courses',
+    courses: [
+      {
+        id: 'adobe-photoshop',
+        name: 'Adobe Photoshop',
+        categorySlug: 'multimedia-graphic-design',
+        categoryName: 'Multimedia & Graphic Design',
+        shortDescription: 'Master raster image editing, photo manipulation, colour grading, layer masking, and digital asset preparation.',
+        overview: 'Photoshop is the industry benchmark for digital imagery. Learn non-destructive editing workflows, selection precision, retouching techniques, compositing, and preparation for print and web.',
+        keyTopics: [
+          'Layers, Adjustment Layers & Non-Destructive Masking',
+          'Advanced Selection & Path Tools',
+          'Photo Retouching & Restoration Techniques',
+          'Color Correction, Grading & Blending Modes',
+          'Banner Design, Typography & Asset Exporting'
+        ],
+        softwareCovered: ['Adobe Photoshop CC', 'Adobe Camera Raw'],
+        recommendedFor: ['Creative Aspirants', 'Photographers', 'Digital Marketers', 'Students'],
+        learningOutcomes: [
+          'Create professional photo manipulations and composites',
+          'Master color adjustments and image retouching workflows',
+          'Produce high-resolution creative visuals for digital and print media'
+        ]
+      },
+      {
+        id: 'adobe-xd',
+        name: 'Adobe XD',
+        categorySlug: 'multimedia-graphic-design',
+        categoryName: 'Multimedia & Graphic Design',
+        shortDescription: 'Design user experience layouts, wireframes, and interactive screen transitions for mobile and web applications.',
+        overview: 'Adobe XD provides a dedicated environment for screen design and prototyping. Learn repeat grids, artboard management, auto-animate micro-interactions, and design specification exports.',
+        keyTopics: [
+          'Artboard Systems & UI Grid Alignment',
+          'Repeat Grids, Components & States',
+          'Auto-Animate & Interactive Screen Flows',
+          'Responsive Resize & Mobile Layouts',
+          'Design Handoff & Developer Specifications'
+        ],
+        softwareCovered: ['Adobe XD'],
+        recommendedFor: ['UI/UX Designers', 'Web Designers', 'Mobile App Concept Developers'],
+        learningOutcomes: [
+          'Create interactive prototypes demonstrating user flows',
+          'Design consistent component-based screen systems',
+          'Prepare clickable mobile app concepts for presentation'
+        ]
+      },
+      {
+        id: 'figma',
+        name: 'Figma',
+        categorySlug: 'multimedia-graphic-design',
+        categoryName: 'Multimedia & Graphic Design',
+        shortDescription: 'Learn the collaborative design platform powering today’s modern software product teams.',
+        overview: 'Figma is the leading collaborative interface design tool. Master Auto Layout, component variants, design tokens, responsive constraints, and design system foundations.',
+        keyTopics: [
+          'Frames, Vector Networks & Constraints',
+          'Auto Layout 5.0 & Responsive Component Sizing',
+          'Components, Variants & Property Controls',
+          'Interactive Prototyping, Smart Animate & Variables',
+          'Building Reusable Design Systems & Style Guides'
+        ],
+        softwareCovered: ['Figma Web & Desktop App'],
+        recommendedFor: ['Product Designers', 'UI Engineers', 'Tech Graduates'],
+        learningOutcomes: [
+          'Construct responsive, flexible UI screens using Auto Layout',
+          'Build scalable design systems with reusable components and tokens',
+          'Prototype real-time interactive digital application flows'
+        ]
+      },
+      {
+        id: 'ui-ux-design',
+        name: 'UI/UX Design',
+        categorySlug: 'multimedia-graphic-design',
+        categoryName: 'Multimedia & Graphic Design',
+        shortDescription: 'Learn user research principles, wireframing, information architecture, usability testing, and visual hierarchy.',
+        overview: 'Go beyond visual aesthetics to understand how users interact with digital products. Study user personas, empathy mapping, user journeys, wireframing, visual hierarchy, and usability evaluation.',
+        keyTopics: [
+          'UX Fundamentals: User Research & Persona Creation',
+          'Information Architecture & User Flow Mapping',
+          'Low-Fidelity Sketching to High-Fidelity Wireframes',
+          'Visual Hierarchy, Color Psychology & Typography Systems',
+          'Usability Testing, Heuristic Evaluation & Iteration'
+        ],
+        softwareCovered: ['Figma', 'Miro / FigJam', 'Balsamiq Concepts'],
+        recommendedFor: ['Anyone interested in Product Design', 'Developers', 'Creative Students'],
+        learningOutcomes: [
+          'Conduct structured user research and identify user friction',
+          'Transform abstract requirements into intuitive digital workflows',
+          'Design polished interfaces grounded in sound usability principles'
+        ]
+      },
+      {
+        id: 'adobe-illustrator',
+        name: 'Adobe Illustrator',
+        categorySlug: 'multimedia-graphic-design',
+        categoryName: 'Multimedia & Graphic Design',
+        shortDescription: 'Master precision vector graphics, logo creation, branding assets, typography, and scalable illustration.',
+        overview: 'Vector artwork scales infinitely without quality loss. Master the Pen tool, Pathfinder operations, shape builders, typography styling, color swatches, and vector branding packages.',
+        keyTopics: [
+          'Precision Vector Paths & The Pen Tool Mastery',
+          'Shape Builder & Pathfinder Boolean Operations',
+          'Typography Pairing, Text Formatting & Lettering',
+          'Color Harmonies, Gradients & Pattern Creation',
+          'Logo Design, Vector Icons & Print Export Formats'
+        ],
+        softwareCovered: ['Adobe Illustrator CC'],
+        recommendedFor: ['Brand Designers', 'Graphic Illustrators', 'Marketing Creatives'],
+        learningOutcomes: [
+          'Design mathematically precise vector logos and brand assets',
+          'Produce vector illustrations and scalable iconography',
+          'Prepare print-ready vector files with correct color profiles'
+        ]
+      }
+    ]
+  },
+{
     id: 'arts-multimedia',
     slug: 'arts-multimedia',
     title: 'Arts & Multimedia',

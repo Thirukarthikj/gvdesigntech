@@ -46,7 +46,7 @@ export const AllCoursesPage: React.FC = () => {
             Comprehensive Course Directory
           </h1>
           <p className="text-sm sm:text-base text-neutral-600 leading-relaxed">
-            Industry-aligned modules across Mechanical CAD, Computer Science, UI/UX, Civil Drafting, CNC Programming, and Digital Arts. Delivered through live interactive online classes led by experienced mentors in Oddanchatram, Tamil Nadu.
+            Industry-aligned modules across Mechanical &amp; Automobile CAD, Civil Drafting, CNC Programming, Computer Science &amp; IT, UI/UX, and Digital Arts. Delivered through live interactive online classes led by experienced mentors in Oddanchatram, Tamil Nadu.
           </p>
         </div>
 

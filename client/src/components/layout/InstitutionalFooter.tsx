@@ -19,7 +19,7 @@ export const InstitutionalFooter: React.FC = () => {
             <BrandLogo variant="light" />
 
             <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed max-w-sm mt-3">
-              Practical technical training institute in Oddanchatram, Tamil Nadu. Dedicated to real software mastery, engineering discipline, and hands-on skill development across Computer Science, Mechanical CAD, CNC Programming, and Graphic Design.
+              Practical technical training institute in Oddanchatram, Tamil Nadu. Dedicated to real software mastery, engineering discipline, and hands-on skill development across Mechanical &amp; Automobile CAD, Civil Drafting, CNC Programming, Computer Science, and Graphic Design.
             </p>
 
             <div className="pt-2 space-y-1.5 text-xs text-neutral-600">
@@ -41,18 +41,8 @@ export const InstitutionalFooter: React.FC = () => {
             </h4>
             <ul className="space-y-2.5 text-xs text-neutral-600">
               <li>
-                <Link to="/courses/computer-science-it" className="hover:text-[#DC2626] transition-colors">
-                  Computer Science &amp; IT
-                </Link>
-              </li>
-              <li>
                 <Link to="/courses/mechanical-automobile" className="hover:text-[#DC2626] transition-colors">
                   Mechanical &amp; Automobile Design
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses/multimedia-graphic-design" className="hover:text-[#DC2626] transition-colors">
-                  Multimedia &amp; Graphic Design
                 </Link>
               </li>
               <li>
@@ -63,6 +53,16 @@ export const InstitutionalFooter: React.FC = () => {
               <li>
                 <Link to="/courses/cnc-programming" className="hover:text-[#DC2626] transition-colors">
                   CNC &amp; VMC Programming
+                </Link>
+              </li>
+              <li>
+                <Link to="/courses/computer-science-it" className="hover:text-[#DC2626] transition-colors">
+                  Computer Science &amp; IT
+                </Link>
+              </li>
+              <li>
+                <Link to="/courses/multimedia-graphic-design" className="hover:text-[#DC2626] transition-colors">
+                  Multimedia &amp; Graphic Design
                 </Link>
               </li>
               <li>

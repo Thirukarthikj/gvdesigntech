@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
           <div className="lg:col-span-4 space-y-4">
             <BrandLogo variant="light" />
             <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-sm mt-3">
-              GV DESIGN TECH is a technical training institute headquartered in Oddanchatram, Tamil Nadu. We deliver structured practical software instruction in CAD, Engineering Design, Computer Science, UI/UX, Civil Drafting, and CNC Programming through live interactive online classes.
+              GV DESIGN TECH is a technical training institute headquartered in Oddanchatram, Tamil Nadu. We deliver structured practical software instruction in Mechanical &amp; Automobile CAD, Civil Drafting, CNC Programming, Computer Science, and UI/UX through live interactive online classes.
             </p>
 
             <div className="pt-2 space-y-1.5 text-xs text-slate-600">
