@@ -36,7 +36,7 @@ export const ContactPage: React.FC = () => {
           {/* Left Column: Institute Information Cards (5 Cols) */}
           <div className="lg:col-span-5 space-y-4">
             {/* Location Card */}
-            <div className="p-6 rounded-lg bg-[#FAF9F7] border border-[#E5E5E2] space-y-2">
+            <div className="card-interactive p-6 rounded-lg bg-[#FAF9F7] hover:bg-white border border-[#E5E5E2] space-y-2">
               <span className="text-[10px] font-mono uppercase tracking-widest text-[#DC2626] font-semibold block">
                 INSTITUTE HEADQUARTERS
               </span>
@@ -49,14 +49,14 @@ export const ContactPage: React.FC = () => {
             </div>
 
             {/* Telephone Card */}
-            <div className="p-6 rounded-lg bg-[#FAF9F7] border border-[#E5E5E2] space-y-3">
+            <div className="card-interactive p-6 rounded-lg bg-[#FAF9F7] hover:bg-white border border-[#E5E5E2] space-y-3">
               <span className="text-[10px] font-mono uppercase tracking-widest text-[#DC2626] font-semibold block">
                 DIRECT TELEPHONE DESK
               </span>
               <div className="space-y-2 font-mono text-xs">
                 <a
                   href="tel:+919655364707"
-                  className="p-3 rounded bg-white border border-[#E5E5E2] hover:border-neutral-400 text-neutral-900 font-bold flex items-center justify-between transition-colors"
+                  className="btn-tactile p-3 rounded bg-white border border-[#E5E5E2] hover:border-neutral-400 text-neutral-900 font-bold flex items-center justify-between transition-all"
                 >
                   <div className="flex items-center gap-2">
                     <PhoneCall className="w-3.5 h-3.5 text-[#DC2626]" />
@@ -68,7 +68,7 @@ export const ContactPage: React.FC = () => {
             </div>
 
             {/* Email Card */}
-            <div className="p-6 rounded-lg bg-[#FAF9F7] border border-[#E5E5E2] space-y-2">
+            <div className="card-interactive p-6 rounded-lg bg-[#FAF9F7] hover:bg-white border border-[#E5E5E2] space-y-2">
               <span className="text-[10px] font-mono uppercase tracking-widest text-[#DC2626] font-semibold block">
                 DIRECT EMAIL DESK
               </span>
@@ -81,7 +81,7 @@ export const ContactPage: React.FC = () => {
             </div>
 
             {/* Instagram Card */}
-            <div className="p-6 rounded-lg bg-[#FAF9F7] border border-[#E5E5E2] space-y-2">
+            <div className="card-interactive p-6 rounded-lg bg-[#FAF9F7] hover:bg-white border border-[#E5E5E2] space-y-2">
               <span className="text-[10px] font-mono uppercase tracking-widest text-[#DC2626] font-semibold block">
                 INSTAGRAM CHANNEL
               </span>
@@ -96,7 +96,7 @@ export const ContactPage: React.FC = () => {
             </div>
 
             {/* Operational Schedule */}
-            <div className="p-6 rounded-lg bg-[#FAF9F7] border border-[#E5E5E2] space-y-2">
+            <div className="card-interactive p-6 rounded-lg bg-[#FAF9F7] hover:bg-white border border-[#E5E5E2] space-y-2">
               <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500 block">
                 INSTITUTE &amp; COUNSELING HOURS
               </span>

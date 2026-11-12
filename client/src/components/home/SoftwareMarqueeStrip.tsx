@@ -43,7 +43,7 @@ export const SoftwareMarqueeStrip: React.FC = () => {
           {[...SOFTWARE_TOOLS, ...SOFTWARE_TOOLS].map((tool, idx) => (
             <div
               key={`${tool.name}-${idx}`}
-              className="flex items-center gap-2.5 px-3.5 py-1.5 bg-white border border-[#E5E5E2] hover:border-neutral-900 rounded-md shadow-xs transition-colors shrink-0 group cursor-default"
+              className="btn-tactile flex items-center gap-2.5 px-3.5 py-1.5 bg-white border border-[#E5E5E2] hover:border-[#DC2626]/40 hover:shadow-subtle rounded-md shadow-xs transition-all shrink-0 group cursor-default"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-neutral-300 group-hover:bg-[#DC2626] transition-colors" />
               <span className="text-xs font-mono font-bold text-neutral-900 group-hover:text-[#DC2626] transition-colors">

@@ -48,10 +48,10 @@ export const AboutPage: React.FC = () => {
         {/* Who Can Benefit Section */}
         <div className="relative rounded-lg border border-[#E5E5E2] p-8 sm:p-12 bg-[#FAF9F7] space-y-8 shadow-subtle">
           {/* OriginKit Crosshairs */}
-          <span className="absolute -top-1.5 -left-1 text-neutral-300 font-mono text-[11px] leading-none select-none">+</span>
-          <span className="absolute -top-1.5 -right-1 text-neutral-300 font-mono text-[11px] leading-none select-none">+</span>
-          <span className="absolute -bottom-1.5 -left-1 text-neutral-300 font-mono text-[11px] leading-none select-none">+</span>
-          <span className="absolute -bottom-1.5 -right-1 text-neutral-300 font-mono text-[11px] leading-none select-none">+</span>
+          <span className="crosshair-corner -top-1.5 -left-1 font-mono text-[11px] leading-none select-none">+</span>
+          <span className="crosshair-corner -top-1.5 -right-1 font-mono text-[11px] leading-none select-none">+</span>
+          <span className="crosshair-corner -bottom-1.5 -left-1 font-mono text-[11px] leading-none select-none">+</span>
+          <span className="crosshair-corner -bottom-1.5 -right-1 font-mono text-[11px] leading-none select-none">+</span>
 
           <div className="max-w-2xl space-y-2">
             <div className="inline-flex items-center gap-2">

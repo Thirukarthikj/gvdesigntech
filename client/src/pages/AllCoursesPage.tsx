@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ALL_COURSES, COURSE_CATEGORIES } from '../data/coursesData';
 import { CourseCard } from '../components/common/CourseCard';
 import { useEnquiryModal } from '../context/EnquiryModalContext';
@@ -64,12 +65,12 @@ export const AllCoursesPage: React.FC = () => {
                 placeholder="Search courses by tool or language (e.g. SolidWorks, Python, Figma, CATIA, MySQL)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-9 py-2 rounded border border-[#E5E5E2] text-xs text-neutral-900 bg-white placeholder-neutral-400 focus:outline-none focus:border-neutral-900 transition-colors"
+                className="input-uiverse w-full pl-10 pr-9 py-2 rounded border border-[#E5E5E2] text-xs text-neutral-900 bg-white placeholder-neutral-400 focus:outline-none transition-all"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-2.5 text-neutral-400 hover:text-neutral-600"
+                  className="absolute right-3 top-2.5 text-neutral-400 hover:text-neutral-600 transition-colors"
                   aria-label="Clear search"
                 >
                   <X className="w-3.5 h-3.5" />
@@ -80,7 +81,7 @@ export const AllCoursesPage: React.FC = () => {
             {/* Quick Summary Pill */}
             <div className="md:col-span-5 flex items-center justify-between md:justify-end gap-3 text-xs font-mono text-neutral-500">
               <span>Showing:</span>
-              <span className="font-bold text-neutral-900">
+              <span className="font-bold text-neutral-900 px-2 py-0.5 rounded bg-white border border-[#E5E5E2]">
                 {filteredCourses.length} Courses
               </span>
               <span>across 6 Disciplines</span>
@@ -91,10 +92,10 @@ export const AllCoursesPage: React.FC = () => {
           <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-[#EAEAE7]">
             <button
               onClick={() => setSelectedCategory('all')}
-              className={`px-3 py-1.5 rounded text-xs font-mono transition-colors ${
+              className={`btn-tactile px-3 py-1.5 rounded text-xs font-mono transition-all ${
                 selectedCategory === 'all'
-                  ? 'bg-neutral-950 text-white font-semibold'
-                  : 'bg-white text-neutral-600 hover:text-neutral-900 border border-[#E5E5E2]'
+                  ? 'bg-neutral-950 text-white font-semibold shadow-xs'
+                  : 'bg-white text-neutral-600 hover:text-neutral-900 border border-[#E5E5E2] hover:border-neutral-400'
               }`}
             >
               All Categories ({ALL_COURSES.length})
@@ -104,10 +105,10 @@ export const AllCoursesPage: React.FC = () => {
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3 py-1.5 rounded text-xs font-mono transition-colors ${
+                className={`btn-tactile px-3 py-1.5 rounded text-xs font-mono transition-all ${
                   selectedCategory === cat.id
-                    ? 'bg-neutral-950 text-white font-semibold'
-                    : 'bg-white text-neutral-600 hover:text-neutral-900 border border-[#E5E5E2]'
+                    ? 'bg-neutral-950 text-white font-semibold shadow-xs'
+                    : 'bg-white text-neutral-600 hover:text-neutral-900 border border-[#E5E5E2] hover:border-neutral-400'
                 }`}
               >
                 {cat.title} ({cat.courses.length})
@@ -116,11 +117,18 @@ export const AllCoursesPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Results Grid */}
+        {/* Results Grid with Smooth Card Entrance */}
         {filteredCourses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredCourses.map((course) => (
-              <CourseCard key={course.id} course={course} />
+            {filteredCourses.map((course, idx) => (
+              <motion.div
+                key={course.id}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: Math.min(idx * 0.04, 0.3), ease: [0.16, 1, 0.3, 1] }}
+              >
+                <CourseCard course={course} />
+              </motion.div>
             ))}
           </div>
         ) : (

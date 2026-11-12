@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import { Terminal, Users, FolderCheck, CheckCircle2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export const MethodologySection: React.FC = () => {
   return (
@@ -77,16 +78,24 @@ export const MethodologySection: React.FC = () => {
                 
                 {/* Visual Ratio Bar with subtle inner shadow & glow */}
                 <div className="h-5 w-full bg-neutral-200/80 rounded-full overflow-hidden flex p-0.5 shadow-inner">
-                  <div
-                    className="w-[20%] bg-neutral-400 h-full rounded-l-full transition-all duration-500"
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: '20%' }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    className="bg-neutral-400 h-full rounded-l-full"
                     title="Traditional Classroom 20% Software"
                   />
-                  <div
-                    className="w-[80%] bg-gradient-to-r from-[#DC2626] to-[#EF4444] h-full rounded-r-full shadow-sm hover:brightness-110 transition-all duration-300 relative group/bar"
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: '80%' }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="bg-gradient-to-r from-[#DC2626] to-[#EF4444] h-full rounded-r-full shadow-sm hover:brightness-110 transition-all duration-300 relative group/bar"
                     title="GV DESIGN TECH 85% Practical Software"
                   >
                     <div className="absolute inset-0 bg-white/10 opacity-0 group-hover/bar:opacity-100 transition-opacity" />
-                  </div>
+                  </motion.div>
                 </div>
                 <div className="flex justify-between text-[10px] font-mono text-neutral-400 mt-2">
                   <span>Theory Memorization</span>

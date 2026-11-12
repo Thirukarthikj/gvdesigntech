@@ -317,10 +317,10 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             placeholder="e.g. Anandha Kumar"
             value={formData.fullName}
             onChange={handleChange}
-            className={`w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] placeholder-neutral-400 focus:bg-white focus:outline-none transition-colors ${
+            className={`input-uiverse w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] placeholder-neutral-400 focus:bg-white focus:outline-none transition-all ${
               errors.fullName
                 ? 'border-rose-400 focus:border-rose-500'
-                : 'border-[#E5E5E2] focus:border-neutral-900'
+                : 'border-[#E5E5E2]'
             }`}
           />
           {errors.fullName && (
@@ -343,10 +343,10 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             maxLength={10}
             value={formData.mobileNumber}
             onChange={handleChange}
-            className={`w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] placeholder-neutral-400 focus:bg-white focus:outline-none transition-colors ${
+            className={`input-uiverse w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] placeholder-neutral-400 focus:bg-white focus:outline-none transition-all ${
               errors.mobileNumber
                 ? 'border-rose-400 focus:border-rose-500'
-                : 'border-[#E5E5E2] focus:border-neutral-900'
+                : 'border-[#E5E5E2]'
             }`}
           />
           {errors.mobileNumber && (
@@ -371,10 +371,10 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             placeholder="e.g. anand@domain.com"
             value={formData.email}
             onChange={handleChange}
-            className={`w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] placeholder-neutral-400 focus:bg-white focus:outline-none transition-colors ${
+            className={`input-uiverse w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] placeholder-neutral-400 focus:bg-white focus:outline-none transition-all ${
               errors.email
                 ? 'border-rose-400 focus:border-rose-500'
-                : 'border-[#E5E5E2] focus:border-neutral-900'
+                : 'border-[#E5E5E2]'
             }`}
           />
           {errors.email && (
@@ -393,10 +393,10 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             name="course"
             value={formData.course}
             onChange={handleChange}
-            className={`w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] focus:bg-white focus:outline-none transition-colors ${
+            className={`input-uiverse w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] focus:bg-white focus:outline-none transition-all ${
               errors.course
                 ? 'border-rose-400 focus:border-rose-500'
-                : 'border-[#E5E5E2] focus:border-neutral-900'
+                : 'border-[#E5E5E2]'
             }`}
           >
             <option value="">Select Course / Discipline</option>
@@ -464,10 +464,10 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
           name="preferredMode"
           value={formData.preferredMode}
           onChange={handleChange}
-          className={`w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] focus:bg-white focus:outline-none transition-colors ${
+          className={`input-uiverse w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] focus:bg-white focus:outline-none transition-all ${
             errors.preferredMode
               ? 'border-rose-400 focus:border-rose-500'
-              : 'border-[#E5E5E2] focus:border-neutral-900'
+              : 'border-[#E5E5E2]'
           }`}
         >
           <option value="">Select Preferred Online Batch</option>
@@ -494,7 +494,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
           placeholder="Mention your background, branch of study, specific software requirements, or convenient hours..."
           value={formData.message}
           onChange={handleChange}
-          className="w-full px-3.5 py-2.5 rounded border border-[#E5E5E2] text-sm text-neutral-900 bg-[#FAF9F7] placeholder-neutral-400 focus:bg-white focus:outline-none focus:border-neutral-900 transition-colors font-sans"
+          className="input-uiverse w-full px-3.5 py-2.5 rounded border border-[#E5E5E2] text-sm text-neutral-900 bg-[#FAF9F7] placeholder-neutral-400 focus:bg-white focus:outline-none transition-all font-sans"
         />
       </div>
 
@@ -502,7 +502,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-3.5 px-6 bg-neutral-950 hover:bg-neutral-800 text-white font-mono text-xs font-semibold uppercase tracking-wider rounded transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed shadow-sm"
+        className="btn-shimmer btn-tactile w-full py-3.5 px-6 bg-neutral-950 hover:bg-[#DC2626] text-white font-mono text-xs font-semibold uppercase tracking-wider rounded transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed shadow-sm"
       >
         {isSubmitting ? (
           <>

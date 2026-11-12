@@ -1,4 +1,5 @@
 ﻿import React, { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Course } from '../../types';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 import {
@@ -50,12 +51,18 @@ export const CourseDetailsModal: React.FC<CourseDetailsModalProps> = ({
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-neutral-950/60 backdrop-blur-sm animate-fadeIn"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-neutral-950/60 backdrop-blur-sm"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="relative w-full max-w-2xl bg-white rounded-lg shadow-elevated border border-[#E5E5E2] overflow-hidden flex flex-col max-h-[90vh]">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 8 }}
+        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+        className="relative w-full max-w-2xl bg-white rounded-lg shadow-elevated border border-[#E5E5E2] overflow-hidden flex flex-col max-h-[90vh]"
+      >
         {/* Modal Header */}
         <div className="bg-[#FAF9F7] text-neutral-900 p-6 border-b border-[#EAEAE7] flex items-start justify-between">
           <div className="space-y-1">
@@ -165,13 +172,13 @@ export const CourseDetailsModal: React.FC<CourseDetailsModalProps> = ({
               onClose();
               openEnquiryModal(course.name);
             }}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-neutral-950 hover:bg-neutral-800 text-white text-xs font-semibold uppercase tracking-wider rounded transition-colors shadow-sm"
+            className="btn-shimmer btn-tactile w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-neutral-950 hover:bg-[#DC2626] text-white text-xs font-semibold uppercase tracking-wider rounded transition-all shadow-sm"
           >
             <span>Enquire For This Course</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
           </button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 ﻿import React from 'react';
+import { motion } from 'framer-motion';
 
 const PILLARS = [
   {
@@ -41,7 +42,7 @@ export const PedagogicalPillarsSection: React.FC = () => {
         {/* Section Header */}
         <div className="mb-10 sm:mb-12">
           <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-[#FAF9F7] border border-[#E5E5E2] shadow-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626] animate-pulse" />
             <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-widest text-[#DC2626] uppercase">
               OUR METHODOLOGY
             </span>
@@ -57,11 +58,19 @@ export const PedagogicalPillarsSection: React.FC = () => {
 
         {/* 5 Column Grid (Responsive from mobile single, tablet 2-cols, to desktop 5-cols) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
-          {PILLARS.map((pillar) => (
-            <div
+          {PILLARS.map((pillar, idx) => (
+            <motion.div
               key={pillar.num}
-              className="card-interactive group p-5 sm:p-6 bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] flex flex-col justify-between"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              className="card-interactive group relative p-5 sm:p-6 bg-[#FAF9F7] hover:bg-white rounded-lg border border-[#E5E5E2] flex flex-col justify-between"
             >
+              {/* OriginKit Crosshairs */}
+              <span className="crosshair-corner top-2 left-2 text-[9px] leading-none select-none">+</span>
+              <span className="crosshair-corner top-2 right-2 text-[9px] leading-none select-none">+</span>
+
               <div>
                 <div className="font-editorial text-3xl sm:text-4xl text-neutral-900 group-hover:text-[#DC2626] font-normal mb-2 sm:mb-3 transition-colors">
                   {pillar.num}
@@ -77,7 +86,7 @@ export const PedagogicalPillarsSection: React.FC = () => {
               <div className="mt-5 sm:mt-6 pt-3 sm:pt-4 border-t border-[#EAEAE7]">
                 <span className="w-4 h-0.5 bg-neutral-300 group-hover:w-10 group-hover:bg-[#DC2626] transition-all duration-300 block" />
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 

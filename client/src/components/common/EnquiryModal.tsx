@@ -1,4 +1,5 @@
 ﻿import React, { useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 import { EnquiryForm } from './EnquiryForm';
 import { X, GraduationCap, MapPin, Clock } from 'lucide-react';
@@ -35,7 +36,13 @@ export const EnquiryModal: React.FC = () => {
         if (e.target === e.currentTarget) closeEnquiryModal();
       }}
     >
-      <div className="relative w-full max-w-xl bg-white rounded-lg shadow-elevated border border-[#E5E5E2] overflow-hidden flex flex-col max-h-[92vh]">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 8 }}
+        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+        className="relative w-full max-w-xl bg-white rounded-lg shadow-elevated border border-[#E5E5E2] overflow-hidden flex flex-col max-h-[92vh]"
+      >
         {/* Header */}
         <div className="bg-[#FAF9F7] px-6 py-5 border-b border-[#EAEAE7] flex items-start justify-between">
           <div>
@@ -78,7 +85,7 @@ export const EnquiryModal: React.FC = () => {
         <div className="p-6 overflow-y-auto">
           <EnquiryForm initialCourse={selectedCourse} initialMode={selectedMode} />
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

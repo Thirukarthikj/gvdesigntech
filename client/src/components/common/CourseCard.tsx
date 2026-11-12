@@ -19,15 +19,18 @@ export const CourseCard: React.FC<CourseCardProps> = ({
 
   return (
     <>
-      <div className="group bg-white rounded-lg border border-[#E5E5E2] hover:border-neutral-400 shadow-subtle transition-all duration-200 flex flex-col justify-between overflow-hidden">
-        
+      <div className="card-interactive group relative bg-white rounded-lg border border-[#E5E5E2] shadow-subtle flex flex-col justify-between overflow-hidden">
+        {/* OriginKit Technical Corner Markers */}
+        <span className="crosshair-corner top-1.5 left-2 font-mono text-[9px] leading-none select-none">+</span>
+        <span className="crosshair-corner top-1.5 right-2 font-mono text-[9px] leading-none select-none">+</span>
+
         <div className="p-5 flex-grow flex flex-col space-y-3">
           {/* Category Badge */}
           <div className="flex items-center justify-between text-[10px] font-mono">
-            <span className="text-[#DC2626] font-semibold uppercase tracking-wider">
+            <span className="text-[#DC2626] font-semibold uppercase tracking-wider group-hover:tracking-widest transition-all">
               {course.categoryName}
             </span>
-            <span className="text-neutral-400">
+            <span className="text-neutral-400 font-medium">
               PRACTICAL LAB
             </span>
           </div>
@@ -38,7 +41,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           </h3>
 
           {/* Short Description */}
-          <p className="text-xs text-neutral-600 line-clamp-2 leading-relaxed">
+          <p className="text-xs text-neutral-600 line-clamp-2 leading-relaxed font-light">
             {course.shortDescription}
           </p>
 
@@ -49,7 +52,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
                 {course.softwareCovered.map((software, idx) => (
                   <span
                     key={idx}
-                    className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#FAF9F7] text-neutral-700 border border-[#E5E5E2]"
+                    className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#FAF9F7] text-neutral-700 border border-[#E5E5E2] group-hover:border-neutral-300 transition-colors"
                   >
                     {software}
                   </span>
@@ -64,7 +67,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
               <ul className="space-y-1.5 text-xs text-neutral-600">
                 {course.keyTopics.slice(0, 3).map((topic, i) => (
                   <li key={i} className="flex items-start gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#DC2626] mt-0.5 shrink-0" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#DC2626] mt-0.5 shrink-0 group-hover:scale-110 transition-transform" />
                     <span className="line-clamp-1">{topic}</span>
                   </li>
                 ))}
@@ -77,7 +80,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         <div className="p-3.5 bg-[#FAF9F7] border-t border-[#EAEAE7] grid grid-cols-2 gap-2 font-mono">
           <button
             onClick={() => setShowDetails(true)}
-            className="inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded bg-white border border-[#E5E5E2] hover:bg-neutral-50 text-neutral-900 text-xs uppercase tracking-wider transition-colors"
+            className="btn-tactile inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded bg-white border border-[#E5E5E2] hover:bg-neutral-50 hover:border-neutral-400 text-neutral-900 text-xs uppercase tracking-wider transition-all"
           >
             <BookOpen className="w-3 h-3 text-neutral-500" />
             <span>Syllabus</span>
@@ -85,10 +88,10 @@ export const CourseCard: React.FC<CourseCardProps> = ({
 
           <button
             onClick={() => openEnquiryModal(course.name)}
-            className="inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded bg-neutral-950 hover:bg-neutral-800 text-white text-xs font-semibold uppercase tracking-wider transition-colors"
+            className="btn-shimmer btn-tactile inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded bg-neutral-950 hover:bg-[#DC2626] text-white text-xs font-semibold uppercase tracking-wider transition-all shadow-xs"
           >
             <span>Enquire</span>
-            <ArrowRight className="w-3 h-3" />
+            <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
           </button>
         </div>
       </div>

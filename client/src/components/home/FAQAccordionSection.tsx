@@ -1,5 +1,6 @@
 ﻿import React, { useState } from 'react';
-import { ChevronDown, Plus, Minus } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const FAQS = [
   {
@@ -69,34 +70,44 @@ export const FAQAccordionSection: React.FC = () => {
             return (
               <div
                 key={faq.question}
-                className={`bg-white rounded-lg border transition-all duration-200 overflow-hidden ${
+                className={`bg-white rounded-lg border transition-all duration-300 overflow-hidden ${
                   isOpen
-                    ? 'border-neutral-900 shadow-card'
+                    ? 'border-neutral-900 shadow-elevated ring-1 ring-neutral-900/5'
                     : 'border-[#E5E5E2] hover:border-neutral-400'
                 }`}
               >
                 <button
                   type="button"
                   onClick={() => toggle(index)}
-                  className="w-full py-4 px-5 sm:px-6 flex items-center justify-between text-left group"
+                  className="w-full py-4 px-5 sm:px-6 flex items-center justify-between text-left group transition-colors"
                 >
                   <span className={`text-sm sm:text-base font-semibold transition-colors pr-4 ${
                     isOpen ? 'text-[#DC2626]' : 'text-neutral-950 group-hover:text-[#DC2626]'
                   }`}>
                     {faq.question}
                   </span>
-                  <div className={`shrink-0 p-1 rounded transition-colors ${
-                    isOpen ? 'bg-[#FAF9F7] text-neutral-900' : 'text-neutral-400 group-hover:text-neutral-900'
+                  <div className={`shrink-0 p-1 rounded transition-all duration-300 ${
+                    isOpen ? 'bg-[#FAF9F7] text-[#DC2626] rotate-180' : 'text-neutral-400 group-hover:text-neutral-900'
                   }`}>
                     {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                   </div>
                 </button>
 
-                {isOpen && (
-                  <div className="px-5 sm:px-6 pb-5 pt-1 text-xs sm:text-sm text-neutral-600 leading-relaxed border-t border-[#F0F0EE] animate-fadeIn">
-                    {faq.answer}
-                  </div>
-                )}
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-5 sm:px-6 pb-5 pt-1 text-xs sm:text-sm text-neutral-600 leading-relaxed border-t border-[#F0F0EE]">
+                        {faq.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             );
           })}

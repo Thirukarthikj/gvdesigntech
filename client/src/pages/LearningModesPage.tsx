@@ -106,7 +106,7 @@ export const LearningModesPage: React.FC = () => {
 
             <button
               onClick={() => openEnquiryModal('', 'Live Online — Weekday Evening Batch')}
-              className="btn-shimmer btn-tactile w-full py-3.5 px-6 bg-neutral-950 hover:bg-neutral-850 text-white font-mono text-xs font-semibold uppercase tracking-wider rounded transition-all shadow-sm"
+              className="btn-shimmer btn-tactile w-full py-3.5 px-6 bg-neutral-950 hover:bg-[#DC2626] text-white font-mono text-xs font-semibold uppercase tracking-wider rounded transition-all shadow-sm"
             >
               Enquire for Weekday Online Batch →
             </button>
@@ -198,11 +198,11 @@ export const LearningModesPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-6 bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] space-y-3">
-              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] flex items-center justify-center text-[#DC2626]">
+            <div className="card-interactive p-6 bg-[#FAF9F7] hover:bg-white rounded-lg border border-[#E5E5E2] space-y-3 group">
+              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] group-hover:border-[#DC2626]/40 flex items-center justify-center text-[#DC2626] transition-colors">
                 <Video className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-neutral-950">
+              <h3 className="text-base font-bold text-neutral-950 group-hover:text-[#DC2626] transition-colors">
                 Live 2-Way Screen Sharing
               </h3>
               <p className="text-xs text-neutral-600 leading-relaxed">
@@ -210,11 +210,11 @@ export const LearningModesPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="p-6 bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] space-y-3">
-              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] flex items-center justify-center text-[#DC2626]">
+            <div className="card-interactive p-6 bg-[#FAF9F7] hover:bg-white rounded-lg border border-[#E5E5E2] space-y-3 group">
+              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] group-hover:border-[#DC2626]/40 flex items-center justify-center text-[#DC2626] transition-colors">
                 <HelpCircle className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-neutral-950">
+              <h3 className="text-base font-bold text-neutral-950 group-hover:text-[#DC2626] transition-colors">
                 1:1 Remote Debugging
               </h3>
               <p className="text-xs text-neutral-600 leading-relaxed">
@@ -222,11 +222,11 @@ export const LearningModesPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="p-6 bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] space-y-3">
-              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] flex items-center justify-center text-[#DC2626]">
+            <div className="card-interactive p-6 bg-[#FAF9F7] hover:bg-white rounded-lg border border-[#E5E5E2] space-y-3 group">
+              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] group-hover:border-[#DC2626]/40 flex items-center justify-center text-[#DC2626] transition-colors">
                 <Layers className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-neutral-950">
+              <h3 className="text-base font-bold text-neutral-950 group-hover:text-[#DC2626] transition-colors">
                 Real Exercise Files
               </h3>
               <p className="text-xs text-neutral-600 leading-relaxed">
@@ -234,11 +234,11 @@ export const LearningModesPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="p-6 bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] space-y-3">
-              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] flex items-center justify-center text-[#DC2626]">
+            <div className="card-interactive p-6 bg-[#FAF9F7] hover:bg-white rounded-lg border border-[#E5E5E2] space-y-3 group">
+              <div className="w-10 h-10 rounded-md bg-white border border-[#EAEAE7] group-hover:border-[#DC2626]/40 flex items-center justify-center text-[#DC2626] transition-colors">
                 <ShieldCheck className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-neutral-950">
+              <h3 className="text-base font-bold text-neutral-950 group-hover:text-[#DC2626] transition-colors">
                 Headquarters Support
               </h3>
               <p className="text-xs text-neutral-600 leading-relaxed">

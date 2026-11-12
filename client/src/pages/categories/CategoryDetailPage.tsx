@@ -177,10 +177,10 @@ export const CategoryDetailPage: React.FC<CategoryDetailPageProps> = ({ category
 
                   <button
                     onClick={() => openEnquiryModal(activeCourse.name)}
-                    className="self-start sm:self-center px-5 py-2.5 rounded bg-neutral-950 hover:bg-neutral-800 text-white font-mono text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 shrink-0 transition-colors"
+                    className="btn-shimmer btn-tactile self-start sm:self-center px-5 py-2.5 rounded bg-neutral-950 hover:bg-[#DC2626] text-white font-mono text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 shrink-0 transition-all shadow-sm"
                   >
                     <span>Enquire</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                   </button>
                 </div>
 

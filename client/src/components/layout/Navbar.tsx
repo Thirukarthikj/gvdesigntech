@@ -1,5 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { BrandLogo } from '../common/BrandLogo';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 import { COURSE_CATEGORIES } from '../../data/coursesData';
@@ -133,42 +134,51 @@ export const Navbar: React.FC = () => {
                 />
               </Link>
 
-              {coursesDropdownOpen && (
-                <div className="absolute top-full left-0 w-80 pt-2 z-50">
-                  <div className="bg-white rounded-md border border-[#E5E5E2] shadow-elevated p-3 divide-y divide-[#F0F0EE]">
-                    <div className="pb-2 px-2 text-[10px] font-mono uppercase tracking-widest text-neutral-400">
-                      Curated Disciplines (6)
-                    </div>
-                    <div className="pt-2 space-y-1">
-                      {COURSE_CATEGORIES.map((cat) => (
+              <AnimatePresence>
+                {coursesDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                    transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute top-full left-0 w-80 pt-2 z-50"
+                  >
+                    <div className="bg-white rounded-lg border border-[#E5E5E2] shadow-elevated p-3 divide-y divide-[#F0F0EE]">
+                      <div className="pb-2 px-2 text-[10px] font-mono uppercase tracking-widest text-neutral-400 font-semibold flex items-center justify-between">
+                        <span>Curated Disciplines (6)</span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626] animate-pulse" />
+                      </div>
+                      <div className="pt-2 space-y-1">
+                        {COURSE_CATEGORIES.map((cat) => (
+                          <Link
+                            key={cat.id}
+                            to={`/courses/${cat.slug}`}
+                            className="flex items-center justify-between p-2 rounded hover:bg-[#FAF9F7] transition-all group"
+                          >
+                            <div>
+                              <div className="text-xs font-semibold text-neutral-900 group-hover:text-[#DC2626] transition-colors">
+                                {cat.title}
+                              </div>
+                              <div className="text-[11px] text-neutral-500 line-clamp-1">
+                                {cat.courses.length} Software modules
+                              </div>
+                            </div>
+                            <ArrowRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-[#DC2626] group-hover:translate-x-1 transition-all" />
+                          </Link>
+                        ))}
+                      </div>
+                      <div className="pt-2 mt-2 px-1">
                         <Link
-                          key={cat.id}
-                          to={`/courses/${cat.slug}`}
-                          className="flex items-center justify-between p-2 rounded hover:bg-[#F9F9F8] transition-colors group"
+                          to="/courses"
+                          className="block text-center text-xs font-semibold text-neutral-900 hover:text-[#DC2626] py-1 transition-colors"
                         >
-                          <div>
-                            <div className="text-xs font-semibold text-neutral-900 group-hover:text-[#DC2626] transition-colors">
-                              {cat.title}
-                            </div>
-                            <div className="text-[11px] text-neutral-500 line-clamp-1">
-                              {cat.courses.length} Software modules
-                            </div>
-                          </div>
-                          <ArrowRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-[#DC2626] group-hover:translate-x-0.5 transition-all" />
+                          Browse All Courses →
                         </Link>
-                      ))}
+                      </div>
                     </div>
-                    <div className="pt-2 mt-2 px-1">
-                      <Link
-                        to="/courses"
-                        className="block text-center text-xs font-semibold text-neutral-900 hover:text-[#DC2626] py-1 transition-colors"
-                      >
-                        Browse All Courses →
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             <Link
@@ -233,78 +243,86 @@ export const Navbar: React.FC = () => {
       </header>
 
       {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-[57px] bg-white border-b border-[#E5E5E2] shadow-elevated z-30 p-5 space-y-4 max-h-[85vh] overflow-y-auto">
-          <div className="space-y-1">
-            <Link
-              to="/"
-              className="block px-3 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 rounded"
-            >
-              Home
-            </Link>
-            <Link
-              to="/about"
-              className="block px-3 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 rounded"
-            >
-              About Us
-            </Link>
-            <Link
-              to="/courses"
-              className="block px-3 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 rounded"
-            >
-              All Courses
-            </Link>
-            <div className="pl-4 space-y-1 border-l-2 border-[#EAEAE7] ml-3 my-2">
-              {COURSE_CATEGORIES.map((cat) => (
-                <Link
-                  key={cat.id}
-                  to={`/courses/${cat.slug}`}
-                  className="block py-1 text-xs text-neutral-600 hover:text-[#DC2626]"
-                >
-                  {cat.title}
-                </Link>
-              ))}
-            </div>
-            <Link
-              to="/learning-modes"
-              className="block px-3 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 rounded"
-            >
-              Online Learning Experience
-            </Link>
-            <Link
-              to="/contact"
-              className="block px-3 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 rounded"
-            >
-              Contact Us
-            </Link>
-          </div>
-
-          <div className="pt-4 border-t border-[#EAEAE7] space-y-2 text-xs text-neutral-600">
-            <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-[#DC2626]" />
-              <span>Oddanchatram, Tamil Nadu</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-neutral-400" />
-              <span>Monday – Saturday: 9:00 AM – 9:00 PM</span>
-            </div>
-            <div className="flex items-center gap-2 font-semibold text-neutral-900">
-              <PhoneCall className="w-4 h-4 text-[#DC2626]" />
-              <a href="tel:+919655364707">+91 96553 64707</a>
-            </div>
-          </div>
-
-          <button
-            onClick={() => {
-              setMobileMenuOpen(false);
-              openEnquiryModal();
-            }}
-            className="w-full py-3 text-center text-xs font-semibold uppercase tracking-wider text-white bg-neutral-900 rounded shadow"
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:hidden fixed inset-x-0 top-[57px] bg-white border-b border-[#E5E5E2] shadow-elevated z-30 p-5 space-y-4 max-h-[85vh] overflow-y-auto"
           >
-            Submit Admission Enquiry
-          </button>
-        </div>
-      )}
+            <div className="space-y-1">
+              <Link
+                to="/"
+                className="block px-3 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 rounded"
+              >
+                Home
+              </Link>
+              <Link
+                to="/about"
+                className="block px-3 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 rounded"
+              >
+                About Us
+              </Link>
+              <Link
+                to="/courses"
+                className="block px-3 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 rounded"
+              >
+                All Courses
+              </Link>
+              <div className="pl-4 space-y-1 border-l-2 border-[#EAEAE7] ml-3 my-2">
+                {COURSE_CATEGORIES.map((cat) => (
+                  <Link
+                    key={cat.id}
+                    to={`/courses/${cat.slug}`}
+                    className="block py-1 text-xs text-neutral-600 hover:text-[#DC2626]"
+                  >
+                    {cat.title}
+                  </Link>
+                ))}
+              </div>
+              <Link
+                to="/learning-modes"
+                className="block px-3 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 rounded"
+              >
+                Online Learning Experience
+              </Link>
+              <Link
+                to="/contact"
+                className="block px-3 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 rounded"
+              >
+                Contact Us
+              </Link>
+            </div>
+
+            <div className="pt-4 border-t border-[#EAEAE7] space-y-2 text-xs text-neutral-600">
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-[#DC2626]" />
+                <span>Oddanchatram, Tamil Nadu</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-neutral-400" />
+                <span>Monday – Saturday: 9:00 AM – 9:00 PM</span>
+              </div>
+              <div className="flex items-center gap-2 font-semibold text-neutral-900">
+                <PhoneCall className="w-4 h-4 text-[#DC2626]" />
+                <a href="tel:+919655364707">+91 96553 64707</a>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                openEnquiryModal();
+              }}
+              className="btn-shimmer btn-tactile w-full py-3 text-center text-xs font-semibold uppercase tracking-wider text-white bg-neutral-900 hover:bg-[#DC2626] rounded shadow transition-all"
+            >
+              Submit Admission Enquiry
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };
