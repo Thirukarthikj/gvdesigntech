@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Terminal, Users, FolderCheck, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 

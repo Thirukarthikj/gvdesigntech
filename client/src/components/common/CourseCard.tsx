@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Course } from '../../types';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 import { CourseDetailsModal } from './CourseDetailsModal';

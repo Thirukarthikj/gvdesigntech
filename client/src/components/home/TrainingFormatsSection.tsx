@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Calendar, Laptop, ArrowRight, CheckCircle2, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';

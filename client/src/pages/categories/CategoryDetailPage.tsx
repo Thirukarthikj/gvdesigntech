@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { CourseCategory } from '../../types';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
 import { Link } from 'react-router-dom';

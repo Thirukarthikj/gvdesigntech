@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Course } from '../../types';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
