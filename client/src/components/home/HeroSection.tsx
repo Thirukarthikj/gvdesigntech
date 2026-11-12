@@ -2,12 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Cpu } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { CadRotatingGizmoTopLeft } from './CadRotatingGizmoTopLeft';
+import { CadRotatingAssemblyRight } from './CadRotatingAssemblyRight';
 
 export const HeroSection: React.FC = () => {
   return (
     <section className="relative bg-white pt-8 pb-12 sm:pt-12 sm:pb-16 lg:pt-16 lg:pb-20 border-b border-[#EAEAE7] overflow-hidden">
       {/* OriginKit Subtle Grid Canvas Texture */}
       <div className="absolute inset-0 originkit-grid-fade pointer-events-none opacity-60" />
+
+      {/* Top-Left Animated 3D CAD Gizmo */}
+      <CadRotatingGizmoTopLeft />
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         
@@ -52,7 +57,7 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, scale: 0.98, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-xl mx-auto mb-6 sm:mb-8"
+          className="max-w-xl mx-auto mb-6 sm:mb-8 relative"
         >
           <div className="card-interactive group relative bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] overflow-hidden shadow-subtle text-left">
             <div className="aspect-[16/10] overflow-hidden bg-neutral-100 relative">
@@ -77,6 +82,9 @@ export const HeroSection: React.FC = () => {
               <Cpu className="w-4 h-4 text-neutral-400 group-hover:text-[#DC2626] transition-colors shrink-0" />
             </div>
           </div>
+
+          {/* Right-Side Animated 3D CAD Assembly */}
+          <CadRotatingAssemblyRight />
         </motion.div>
 
         {/* Call to Actions (Responsive Centered Stack) */}
