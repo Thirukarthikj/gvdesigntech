@@ -7,7 +7,6 @@ import {
   MapPin,
   Clock,
   ArrowRight,
-  CheckCircle2,
   Wrench,
   BookOpen
 } from 'lucide-react';
@@ -45,70 +44,7 @@ export const AboutPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Narrative & Mission Section */}
       <div className="max-w-7xl 2xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-6 space-y-6">
-            <div className="space-y-2">
-              <div className="inline-flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#E8592B]" />
-                <span className="text-[10px] font-mono font-semibold uppercase tracking-widest text-[#E8592B] block">
-                  OUR PURPOSE
-                </span>
-              </div>
-              <h2 className="font-editorial text-3xl sm:text-4xl font-normal text-neutral-950 leading-snug">
-                Bridging the Gap Between Theory and Software Fluency
-              </h2>
-            </div>
-
-            <div className="text-sm sm:text-base text-neutral-600 leading-relaxed space-y-4 font-light">
-              <p>
-                Modern industries, engineering consultancies, and digital creative studios demand actionable software skills. GV DESIGN TECH was established to ensure learners across Tamil Nadu and beyond can develop genuine software competence through live interactive online classes led by experienced mentors based in Oddanchatram.
-              </p>
-              <p>
-                Academic curricula often present foundational principles, but students rarely get sufficient hours dedicated to navigating complex computer-aided design systems, modern programming syntax, or user interface design tools.
-              </p>
-              <p>
-                At GV DESIGN TECH, our methodology places practical software execution directly at the center of the learning journey. Every concept taught in our live sessions is immediately applied in exercises, ensuring students understand not just what a tool does, but why and how to use it in professional engineering or digital scenarios.
-              </p>
-            </div>
-
-            <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-neutral-700">
-              <div className="flex items-center gap-2 p-3 rounded-lg bg-[#FAF9F7] border border-[#E5E5E2]">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Hands-on live software assignments</span>
-              </div>
-              <div className="flex items-center gap-2 p-3 rounded-lg bg-[#FAF9F7] border border-[#E5E5E2]">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Dedicated mentor feedback &amp; doubt resolution</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="lg:col-span-6">
-            <div className="card-interactive relative rounded-lg overflow-hidden border border-[#E5E5E2] shadow-subtle bg-white">
-              <img
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80"
-                alt="Students collaborating on software projects in modern learning environment"
-                className="w-full h-[360px] object-cover"
-              />
-              <div className="p-4 bg-white border-t border-[#EAEAE7] flex items-center justify-between text-xs">
-                <div>
-                  <span className="font-editorial text-base italic font-normal text-neutral-950 block">
-                    "Learn Today. Lead Tomorrow."
-                  </span>
-                  <span className="text-neutral-500 text-[11px]">
-                    Empowering technical minds with confidence through practice.
-                  </span>
-                </div>
-                <span className="text-[10px] text-[#E8592B] font-mono font-bold uppercase tracking-wider">
-                  Oddanchatram
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Who Can Benefit Section */}
         <div className="relative rounded-lg border border-[#E5E5E2] p-8 sm:p-12 bg-[#FAF9F7] space-y-8 shadow-subtle">
           {/* OriginKit Crosshairs */}
