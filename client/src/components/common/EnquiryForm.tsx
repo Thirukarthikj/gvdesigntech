@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { EnquiryFormData, FormErrors } from '../../types';
 import { Send, CheckCircle2, AlertCircle, Loader2, PhoneCall, ArrowRight, MessageCircle } from 'lucide-react';
 

@@ -1,4 +1,4 @@
-﻿import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ALL_COURSES, COURSE_CATEGORIES } from '../data/coursesData';
 import { CourseCard } from '../components/common/CourseCard';
 import { useEnquiryModal } from '../context/EnquiryModalContext';
