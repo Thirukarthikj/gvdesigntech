@@ -24,13 +24,13 @@ export const HeroSection: React.FC = () => {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E8592B]" />
               </span>
               <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-wider text-neutral-800 uppercase">
-                PRACTICAL TECHNICAL TRAINING INSTITUTE
+                ONLINE LEARNING CLASSES
               </span>
             </div>
 
             {/* Editorial Headline */}
             <h1 className="font-editorial text-3xl sm:text-4xl md:text-5xl lg:text-[58px] leading-[1.12] sm:leading-[1.08] text-neutral-950 tracking-tight font-normal mb-5 sm:mb-6">
-              Practical Technical Training Built for Real Industry Competence.
+              Online Learning Classes Built for Real Industry Competence.
             </h1>
 
             {/* Subhead Paragraph */}
