@@ -57,10 +57,10 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, scale: 0.98, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-xl mx-auto mb-6 sm:mb-8 relative"
+          className="max-w-2xl 2xl:max-w-3xl mx-auto mb-6 sm:mb-8 relative"
         >
           <div className="card-interactive group relative bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] overflow-hidden shadow-subtle text-left">
-            <div className="aspect-[16/10] overflow-hidden bg-neutral-100 relative">
+            <div className="aspect-[16/9] overflow-hidden bg-neutral-100 relative">
               <img
                 src="/images/hero-cad-classroom.jpg"
                 alt="Mechanical and Civil CAD Live Interactive Session at GV DESIGN TECH Oddanchatram"

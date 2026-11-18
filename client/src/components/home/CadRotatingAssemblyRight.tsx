@@ -7,9 +7,9 @@ export const CadRotatingAssemblyRight: React.FC = () => {
       initial={{ opacity: 0, scale: 0.9, x: 20 }}
       animate={{ opacity: 1, scale: 1, x: 0 }}
       transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-      className="hidden xl:block absolute top-1/2 -translate-y-1/2 left-[calc(100%+1.5rem)] 2xl:left-[calc(100%+2.5rem)] z-20 pointer-events-auto select-none group"
+      className="hidden xl:block absolute top-1/2 -translate-y-1/2 left-[calc(100%+1rem)] 2xl:left-[calc(100%+2rem)] z-20 pointer-events-auto select-none group"
     >
-      <div className="card-interactive relative bg-white/95 backdrop-blur-md rounded-xl border border-[#E5E5E2] p-4 shadow-subtle w-64 xl:w-72 2xl:w-80 text-left transition-all hover:border-[#DC2626]/40">
+      <div className="card-interactive relative bg-white/95 backdrop-blur-md rounded-xl border border-[#E5E5E2] p-4 shadow-subtle w-64 xl:w-68 2xl:w-76 text-left transition-all hover:border-[#DC2626]/40">
         {/* OriginKit Technical Corner Crosshairs */}
         <span className="crosshair-corner top-1.5 left-2 font-mono text-[9px] select-none">+</span>
         <span className="crosshair-corner top-1.5 right-2 font-mono text-[9px] select-none">+</span>

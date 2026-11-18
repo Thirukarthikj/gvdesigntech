@@ -20,7 +20,7 @@ export const CadRotatingGizmoTopLeft: React.FC = () => {
         <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#F0F0EE] text-[10px] font-mono">
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626] animate-pulse" />
-            <span className="font-bold text-neutral-800 tracking-wider">3D CAD GIMBAL</span>
+            <span className="font-bold text-neutral-800 tracking-wider">3D CAD DESIGN</span>
           </div>
           <span className="text-neutral-400 font-medium">ISO // 360°</span>
         </div>
