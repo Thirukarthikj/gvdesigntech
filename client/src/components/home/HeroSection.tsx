@@ -62,8 +62,8 @@ export const HeroSection: React.FC = () => {
           <div className="card-interactive group relative bg-[#FAF9F7] rounded-lg border border-[#E5E5E2] overflow-hidden shadow-subtle text-left">
             <div className="aspect-[16/10] overflow-hidden bg-neutral-100 relative">
               <img
-                src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80"
-                alt="Mechanical, Civil and Design CAD Live Online Session at GV DESIGN TECH Oddanchatram"
+                src="/images/hero-cad-classroom.jpg"
+                alt="Mechanical and Civil CAD Live Interactive Session at GV DESIGN TECH Oddanchatram"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 loading="eager"
               />
