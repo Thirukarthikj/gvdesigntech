@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Cpu } from 'lucide-react';
+import { ArrowRight, Compass } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { CadRotatingGizmoTopLeft } from './CadRotatingGizmoTopLeft';
 import { CadRotatingAssemblyRight } from './CadRotatingAssemblyRight';
@@ -49,7 +49,7 @@ export const HeroSection: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
           className="text-sm sm:text-base md:text-lg text-neutral-600 max-w-4xl mx-auto mb-6 sm:mb-8 font-sans font-normal leading-relaxed"
         >
-          Master industry-standard engineering, coding, and design through live interactive online classes.
+          Master industry-standard engineering and design through live interactive online classes.
         </motion.p>
 
         {/* Visual: Centered directly before the Explore Courses button */}
@@ -63,23 +63,19 @@ export const HeroSection: React.FC = () => {
             <div className="aspect-[16/10] overflow-hidden bg-neutral-100 relative">
               <img
                 src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80"
-                alt="Computer Science and Digital Software Live Online Session at GV DESIGN TECH Oddanchatram"
+                alt="Mechanical, Civil and Design CAD Live Online Session at GV DESIGN TECH Oddanchatram"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 loading="eager"
               />
-              <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 bg-neutral-950/85 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-mono px-2 sm:px-2.5 py-1 rounded border border-white/10 shadow-sm flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>LIVE CODE WORKSHOP</span>
-              </div>
             </div>
             <div className="p-3 sm:p-3.5 flex items-center justify-between bg-white border-t border-[#EAEAE7]">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#DC2626] animate-pulse" />
                 <span className="text-[10px] sm:text-[11px] font-mono font-medium tracking-wide uppercase text-neutral-800 truncate">
-                  COMPUTER SCIENCE &amp; DIGITAL DESIGN — LIVE ONLINE CLASSES
+                  MECHANICAL, CIVIL &amp; DESIGN CAD — LIVE ONLINE CLASSES
                 </span>
               </div>
-              <Cpu className="w-4 h-4 text-neutral-400 group-hover:text-[#DC2626] transition-colors shrink-0" />
+              <Compass className="w-4 h-4 text-neutral-400 group-hover:text-[#DC2626] transition-colors shrink-0" />
             </div>
           </div>
 
