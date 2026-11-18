@@ -292,6 +292,23 @@
   transform-style: preserve-3d;
 }
 
+@keyframes cad-interior-orbit {
+  0% {
+    transform: perspective(900px) rotateX(10deg) rotateY(-8deg) translateY(0px);
+  }
+  50% {
+    transform: perspective(900px) rotateX(-6deg) rotateY(10deg) translateY(-5px);
+  }
+  100% {
+    transform: perspective(900px) rotateX(10deg) rotateY(-8deg) translateY(0px);
+  }
+}
+
+.animate-cad-interior {
+  animation: cad-interior-orbit 14s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
 /* Gradient Mask for Smooth Edge Fading on Sliders & Marquees */
 .mask-fade-edges {
   mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
