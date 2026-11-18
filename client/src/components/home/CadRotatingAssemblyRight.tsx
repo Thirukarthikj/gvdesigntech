@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ThreeBuildingInteriorModel } from './ThreeBuildingInteriorModel';
 
 export const CadRotatingAssemblyRight: React.FC = () => {
   return (
@@ -22,119 +23,45 @@ export const CadRotatingAssemblyRight: React.FC = () => {
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span className="font-bold text-neutral-800 tracking-wider">3D BUILDING INSIDE VIEW</span>
           </div>
-          <span className="text-[#DC2626] font-semibold">ROTATING</span>
+          <span className="text-[#DC2626] font-semibold">360° MODEL</span>
         </div>
 
-        {/* 3D Architectural Interior Cutaway Stage */}
-        <div className="relative w-full h-56 xl:h-60 flex items-center justify-center overflow-hidden rounded-lg bg-[#FAF9F7] border border-[#EAEAE7]">
+        {/* Real 3D WebGL Architectural Floor Plan Stage */}
+        <div className="relative w-full h-60 xl:h-64 flex items-center justify-center overflow-hidden rounded-lg bg-[#FAF9F7] border border-[#EAEAE7]">
           {/* OriginKit Technical Coordinate Grid */}
-          <div className="absolute inset-0 originkit-grid opacity-60" />
+          <div className="absolute inset-0 originkit-grid opacity-60 pointer-events-none" />
 
           {/* Technical Interior Metadata (OriginKit BIM Styling) */}
           <div className="absolute top-2 left-2.5 z-10 flex flex-col text-[9px] font-mono leading-tight pointer-events-none">
-            <span className="text-[#DC2626] font-bold">INTERIOR // 3D CUTAWAY</span>
-            <span className="text-neutral-500 text-[8px]">AREA: 2,450 sq.ft • H: 3.2m</span>
+            <span className="text-[#DC2626] font-bold">REAL 3D CAD MODEL</span>
+            <span className="text-neutral-500 text-[8px]">EXACT BIM FLOOR PLAN</span>
           </div>
 
           <div className="absolute top-2 right-2.5 z-10 text-[9px] font-mono text-neutral-400 pointer-events-none">
-            BIM: 360° // ISO
+            LIVE 3D // BIM
           </div>
 
           {/* Interior Level Height Markers */}
-          <div className="absolute right-2 top-12 bottom-10 z-10 flex flex-col justify-between text-[8px] font-mono text-neutral-400 border-l border-dashed border-neutral-300 pl-1.5 pointer-events-none">
+          <div className="absolute right-2 top-12 bottom-12 z-10 flex flex-col justify-between text-[8px] font-mono text-neutral-400 border-l border-dashed border-neutral-300 pl-1.5 pointer-events-none">
             <span className="text-[#DC2626] font-semibold">+3.2m WALL</span>
             <span>+1.2m SILL</span>
             <span>±0.0m PLINTH</span>
           </div>
 
-          {/* 3D Perspective Turntable Stage with Calibrated Ring & Model */}
-          <div
-            className="relative w-full h-full flex items-center justify-center pt-2"
-            style={{ perspective: '850px' }}
-          >
-            {/* 3D Calibrated Turntable Ring (Rotating underneath the building plinth) */}
-            <svg
-              className="absolute w-52 h-52 animate-spin-slow pointer-events-none text-neutral-300 opacity-70"
-              viewBox="0 0 100 100"
-              style={{ transform: 'rotateX(65deg) translateY(24px)' }}
-            >
-              <circle
-                cx="50"
-                cy="50"
-                r="46"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="0.75"
-                strokeDasharray="2.5 3"
-              />
-              <circle
-                cx="50"
-                cy="50"
-                r="40"
-                fill="none"
-                stroke="#DC2626"
-                strokeWidth="0.5"
-                strokeDasharray="4 4"
-              />
-              {/* Compass Axis Lines */}
-              <line x1="50" y1="2" x2="50" y2="8" stroke="#DC2626" strokeWidth="1.5" />
-              <line x1="98" y1="50" x2="92" y2="50" stroke="#64748B" strokeWidth="1" />
-              <line x1="50" y1="98" x2="50" y2="92" stroke="#64748B" strokeWidth="1" />
-              <line x1="2" y1="50" x2="8" y2="50" stroke="#64748B" strokeWidth="1" />
-            </svg>
+          {/* Interactive Drag Hint Badge */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none z-10 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-neutral-900/85 backdrop-blur-sm border border-white/20 text-[7px] font-mono text-white shadow-sm opacity-85 group-hover:opacity-100 transition-opacity">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="tracking-wide">DRAG TO ROTATE 360°</span>
+          </div>
 
-            {/* Depth Contact Shadow */}
-            <div
-              className="absolute w-44 h-24 rounded-full bg-neutral-900/15 blur-[12px] pointer-events-none"
-              style={{ transform: 'rotateX(65deg) translateY(32px)' }}
-            />
-
-            {/* 3D Rotating & Orbiting Interior Model Container */}
-            <div
-              className="relative flex items-center justify-center animate-cad-interior transition-transform duration-500 ease-out group-hover:scale-105"
-              style={{ transformStyle: 'preserve-3d' }}
-            >
-              {/* The Photorealistic 3D Building Interior Cutaway Model */}
-              <img
-                src="/images/3d-building-interior-model.png"
-                alt="3D Architectural Building Inside View Floor Plan"
-                className="w-56 xl:w-64 h-auto object-contain mix-blend-multiply drop-shadow-md select-none pointer-events-none"
-                loading="eager"
-              />
-
-              {/* Interactive CAD Room Hotspot Markers */}
-              {/* Living Room Hotspot */}
-              <div
-                className="absolute left-6 bottom-8 z-10 flex items-center gap-1 bg-white/95 backdrop-blur-sm border border-[#E5E5E2] px-1.5 py-0.5 rounded shadow-xs text-[7px] font-mono pointer-events-none"
-                style={{ transform: 'translateZ(15px)' }}
-              >
-                <span className="w-1 h-1 rounded-full bg-[#DC2626] animate-pulse" />
-                <span className="text-neutral-800 font-bold">LIVING</span>
-              </div>
-
-              {/* Staircase Hotspot */}
-              <div
-                className="absolute left-1/2 -translate-x-4 top-10 z-10 flex items-center gap-1 bg-white/95 backdrop-blur-sm border border-[#E5E5E2] px-1.5 py-0.5 rounded shadow-xs text-[7px] font-mono pointer-events-none"
-                style={{ transform: 'translateZ(20px)' }}
-              >
-                <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-neutral-800 font-bold">STAIRS</span>
-              </div>
-
-              {/* Master Bedroom Hotspot */}
-              <div
-                className="absolute right-6 top-14 z-10 flex items-center gap-1 bg-white/95 backdrop-blur-sm border border-[#E5E5E2] px-1.5 py-0.5 rounded shadow-xs text-[7px] font-mono pointer-events-none"
-                style={{ transform: 'translateZ(15px)' }}
-              >
-                <span className="w-1 h-1 rounded-full bg-[#DC2626] animate-pulse" />
-                <span className="text-neutral-800 font-bold">BEDROOM</span>
-              </div>
-            </div>
+          {/* Real 3D Three.js Building Interior Model */}
+          <div className="relative w-full h-full z-0">
+            <ThreeBuildingInteriorModel />
           </div>
 
           {/* Bottom Telemetry Bar */}
-          <div className="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between text-[9px] font-mono text-neutral-400 pointer-events-none">
-            <span>CUTAWAY: ISOMETRIC BIM</span>
+          <div className="absolute bottom-2 left-2.5 right-2.5 z-10 flex items-center justify-between text-[9px] font-mono text-neutral-400 pointer-events-none">
+            <span>CUTAWAY: ARCHITECTURAL BIM</span>
             <span className="text-neutral-700 font-semibold">REVIT • 3DS MAX</span>
           </div>
         </div>
