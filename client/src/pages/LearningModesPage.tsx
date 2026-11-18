@@ -331,6 +331,156 @@ export const LearningModesPage: React.FC = () => {
           </button>
         </div>
 
+        {/* Training Environments & Sessions Gallery */}
+        <div className="space-y-8 pt-4">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#EAEAE7] pb-4">
+            <div>
+              <div className="inline-flex items-center gap-2 mb-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+                <span className="text-[10px] font-mono font-semibold text-[#DC2626] uppercase tracking-widest">
+                  TRAINING IN ACTION &amp; WORKSPACE SESSIONS
+                </span>
+              </div>
+              <h2 className="font-editorial text-2xl sm:text-3xl font-normal text-neutral-950">
+                Inside the GV DESIGN TECH Learning Environment
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-600 mt-1">
+                Authentic glimpses of our hands-on CAD drafting workstations, interactive university seminars, and dedicated student batches.
+              </p>
+            </div>
+            <div className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider shrink-0">
+              Oddanchatram, Tamil Nadu • Live Online
+            </div>
+          </div>
+
+          {/* Bento Gallery Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
+            {/* 1. Left Tall Card (Cad Design Lab) */}
+            <div className="md:col-span-1 md:row-span-2 card-interactive group relative rounded-lg border border-[#E5E5E2] bg-[#FAF9F7] overflow-hidden shadow-subtle flex flex-col justify-between">
+              <span className="crosshair-corner top-2 left-2 z-10 font-mono text-[9px] select-none">+</span>
+              <span className="crosshair-corner top-2 right-2 z-10 font-mono text-[9px] select-none">+</span>
+              <div className="relative w-full h-72 sm:h-80 md:h-full min-h-[320px] overflow-hidden bg-neutral-100">
+                <img
+                  src="/images/learning/cad-design-lab.jpg"
+                  alt="Industrial CAD Workstations Lab at GV DESIGN TECH"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-neutral-950/20 to-transparent pointer-events-none" />
+                <div className="absolute bottom-3 left-3 right-3 text-white space-y-1">
+                  <div className="text-[9px] font-mono font-semibold uppercase tracking-wider text-[#DC2626] flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+                    <span>WORKSTATION LAB</span>
+                  </div>
+                  <div className="text-xs font-semibold leading-tight text-neutral-100">
+                    Industrial CAD Modeling &amp; Workstations
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Center Top Wide Card (Seminar Hall) */}
+            <div className="md:col-span-2 card-interactive group relative rounded-lg border border-[#E5E5E2] bg-[#FAF9F7] overflow-hidden shadow-subtle">
+              <span className="crosshair-corner top-2 left-2 z-10 font-mono text-[9px] select-none">+</span>
+              <span className="crosshair-corner top-2 right-2 z-10 font-mono text-[9px] select-none">+</span>
+              <div className="relative w-full aspect-[16/9] sm:aspect-[2/1] overflow-hidden bg-neutral-100">
+                <img
+                  src="/images/learning/engineering-seminar-hall.jpg"
+                  alt="Engineering Orientation Seminar Hall at GV DESIGN TECH"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-neutral-950/20 to-transparent pointer-events-none" />
+                <div className="absolute bottom-3 left-3 right-3 text-white flex items-end justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <div className="text-[9px] font-mono font-semibold uppercase tracking-wider text-[#DC2626] flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+                      <span>ENGINEERING SEMINAR</span>
+                    </div>
+                    <div className="text-xs sm:text-sm font-semibold text-neutral-100">
+                      Technical Orientation &amp; Large-Scale Mentorship
+                    </div>
+                  </div>
+                  <div className="hidden sm:block text-[9px] font-mono text-neutral-300 shrink-0">
+                    CAMPUS SESSIONS
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 3. Right Tall Card (Software Training Lab) */}
+            <div className="md:col-span-1 md:row-span-2 card-interactive group relative rounded-lg border border-[#E5E5E2] bg-[#FAF9F7] overflow-hidden shadow-subtle flex flex-col justify-between">
+              <span className="crosshair-corner top-2 left-2 z-10 font-mono text-[9px] select-none">+</span>
+              <span className="crosshair-corner top-2 right-2 z-10 font-mono text-[9px] select-none">+</span>
+              <div className="relative w-full h-72 sm:h-80 md:h-full min-h-[320px] overflow-hidden bg-neutral-100">
+                <img
+                  src="/images/learning/software-training-lab.jpg"
+                  alt="Dedicated Software Systems & Training Lab at GV DESIGN TECH"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-neutral-950/20 to-transparent pointer-events-none" />
+                <div className="absolute bottom-3 left-3 right-3 text-white space-y-1">
+                  <div className="text-[9px] font-mono font-semibold uppercase tracking-wider text-[#DC2626] flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+                    <span>DEDICATED SYSTEMS</span>
+                  </div>
+                  <div className="text-xs font-semibold leading-tight text-neutral-100">
+                    Individual Cubicles &amp; Hands-On Mentorship
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 4. Center Bottom Left (Hands-On Practice) */}
+            <div className="card-interactive group relative rounded-lg border border-[#E5E5E2] bg-[#FAF9F7] overflow-hidden shadow-subtle">
+              <span className="crosshair-corner top-2 left-2 z-10 font-mono text-[9px] select-none">+</span>
+              <span className="crosshair-corner top-2 right-2 z-10 font-mono text-[9px] select-none">+</span>
+              <div className="relative w-full aspect-[16/10] overflow-hidden bg-neutral-100">
+                <img
+                  src="/images/learning/cad-hands-on-practice.jpg"
+                  alt="1:1 CAD Hands-on Practice and 2D/3D Modeling"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-neutral-950/20 to-transparent pointer-events-none" />
+                <div className="absolute bottom-2.5 left-2.5 right-2.5 text-white space-y-0.5">
+                  <div className="text-[8px] font-mono font-semibold uppercase tracking-wider text-[#DC2626]">
+                    LIVE PRACTICE
+                  </div>
+                  <div className="text-[11px] font-semibold text-neutral-100 truncate">
+                    1:1 Interactive Modeling
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 5. Center Bottom Right (Student Batch Group) */}
+            <div className="card-interactive group relative rounded-lg border border-[#E5E5E2] bg-[#FAF9F7] overflow-hidden shadow-subtle">
+              <span className="crosshair-corner top-2 left-2 z-10 font-mono text-[9px] select-none">+</span>
+              <span className="crosshair-corner top-2 right-2 z-10 font-mono text-[9px] select-none">+</span>
+              <div className="relative w-full aspect-[16/10] overflow-hidden bg-neutral-100">
+                <img
+                  src="/images/learning/student-batch-group.jpg"
+                  alt="Student Batch Group at GV DESIGN TECH"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-neutral-950/20 to-transparent pointer-events-none" />
+                <div className="absolute bottom-2.5 left-2.5 right-2.5 text-white space-y-0.5">
+                  <div className="text-[8px] font-mono font-semibold uppercase tracking-wider text-[#DC2626]">
+                    STUDENT COHORT
+                  </div>
+                  <div className="text-[11px] font-semibold text-neutral-100 truncate">
+                    Career-Ready Engineers
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </div>
   );
