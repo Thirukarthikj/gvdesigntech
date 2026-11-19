@@ -247,16 +247,16 @@ export const CourseDiscoverySection: React.FC = () => {
 
                 <div className="pt-2 grid grid-cols-2 gap-2 text-xs text-slate-700">
                   <div className="p-2.5 rounded bg-slate-50 border border-slate-100 font-medium">
-                    Architectural 2D Drafting
+                    AutoCAD Civil & Revit
                   </div>
                   <div className="p-2.5 rounded bg-slate-50 border border-slate-100 font-medium">
-                    Structural Column Grids
+                    SketchUp & V-Ray
                   </div>
                   <div className="p-2.5 rounded bg-slate-50 border border-slate-100 font-medium">
-                    3D Building Layouts
+                    STAAD.Pro & ETABS
                   </div>
                   <div className="p-2.5 rounded bg-slate-50 border border-slate-100 font-medium">
-                    Municipal Approval Plans
+                    Tekla, Lumion & 3ds Max
                   </div>
                 </div>
               </div>

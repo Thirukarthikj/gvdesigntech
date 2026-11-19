@@ -211,29 +211,236 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
     thumbnailImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
     accentColor: 'emerald',
     iconName: 'Building2',
-    courseCountNote: 'Practical Technical Training',
+    courseCountNote: '10 Specialized Courses',
     courses: [
       {
-        id: 'civil-software-drafting',
-        name: 'Civil Engineering Software & Technical Training',
+        id: 'autocad-civil',
+        name: 'AutoCAD Civil',
         categorySlug: 'civil-engineering',
         categoryName: 'Civil Engineering',
-        shortDescription: 'Master 2D civil drafting, architectural floor plans, building elevations, structural layouts, and site documentation.',
-        image: '/images/courses/civil-software-drafting.jpg',
-        overview: 'Develop real-world technical skills required by civil consultancies, architectural firms, and construction contractors. Learn drafting standards, municipal submission drawing norms, layer conventions, reinforcement details, and site layout plans.',
+        shortDescription: 'Master 2D & 3D civil drafting, site layouts, land development, contour mapping, and municipal drawing sets.',
+        image: '/images/courses/autocad-civil.jpg',
+        overview: 'AutoCAD Civil provides essential technical drafting tools for civil engineers, contractors, and land surveyors. Learn plan preparation, site development layouts, contour generation, road cross-sections, and municipal approval drawing sets.',
         keyTopics: [
-          'Civil Coordinate Systems & Unit Configuration',
-          'Architectural 2D Floor Plans & Wall Thickness Standards',
-          'Building Elevations & Longitudinal / Cross-Sectional Views',
-          'Structural Column-Beam Grid Layouts & Footing Details',
-          'Municipal Approval Drawing Formats & Plotting Setup'
+          'Civil Coordinate Systems & Survey Point Data',
+          'Contour Mapping, Grading & Surface Generation',
+          'Road Alignments, Profiles & Cross-Sections',
+          'Subdivision Lot Layouts & Land Development',
+          'Municipal Submission Drawing Sheets & Detailing'
         ],
-        softwareCovered: ['AutoCAD Civil & Architectural Workflows', 'Drafting Tools'],
-        recommendedFor: ['Civil Engineering Students', 'Diploma in Civil Holders', 'Site Supervisors', 'Architectural Draftspersons'],
+        softwareCovered: ['AutoCAD Civil', 'AutoCAD Civil 3D'],
+        recommendedFor: ['Civil Engineers', 'Surveyors', 'Civil Diploma Holders', 'Draftspersons'],
         learningOutcomes: [
-          'Produce clean, standardized 2D architectural and civil plans',
-          'Draft structural reinforcement details and building sections',
-          'Prepare drawings ready for municipal submission and site execution'
+          'Draft standardized 2D/3D civil engineering site plans',
+          'Generate elevation profiles and cross-sections from terrain surfaces',
+          'Produce municipal-ready structural and infrastructural drawing sets'
+        ]
+      },
+      {
+        id: 'revit',
+        name: 'Revit',
+        categorySlug: 'civil-engineering',
+        categoryName: 'Civil Engineering',
+        shortDescription: 'Building Information Modeling (BIM), parametric architectural components, floor plans, sections, and 3D coordination.',
+        image: '/images/courses/revit.jpg',
+        overview: 'Autodesk Revit is the global industry standard for Building Information Modeling (BIM). Master parametric walls, floors, roofs, curtain walls, custom family creation, scheduling, sections, elevations, and clash coordination.',
+        keyTopics: [
+          'BIM Concepts, Project Setup & Grid/Level Creation',
+          'Parametric Architectural Walls, Doors, Windows & Roofs',
+          'Stairs, Railings, Curtain Wall Systems & Ceilings',
+          'Custom Parametric Family (.rfa) Creation & Editing',
+          'Automated Schedules, Quantity Takeoffs & Construction Documentation'
+        ],
+        softwareCovered: ['Autodesk Revit Architecture / BIM'],
+        recommendedFor: ['Civil Engineers', 'Architects', 'Interior Designers', 'BIM Modelers'],
+        learningOutcomes: [
+          'Build comprehensive 3D parametric BIM models of multi-story structures',
+          'Generate instant synchronized floor plans, sections, and elevation views',
+          'Extract automated quantity takeoffs and material schedules'
+        ]
+      },
+      {
+        id: 'sketchup',
+        name: 'SketchUp',
+        categorySlug: 'civil-engineering',
+        categoryName: 'Civil Engineering',
+        shortDescription: 'Fast, intuitive 3D architectural modeling, interior design, massing studies, and client concept presentations.',
+        image: '/images/courses/sketchup.jpg',
+        overview: 'Trimble SketchUp is the premier tool for rapid 3D concept modeling, interior architecture, and exterior massing. Learn push-pull geometry, groups and components, materials, textures, camera scenes, and export formats.',
+        keyTopics: [
+          '2D Drafting to 3D Push/Pull Extrusions',
+          'Groups, Components & Component Libraries (3D Warehouse)',
+          'Materials, Textures, UV Mapping & Styles',
+          'Interior Layouts, Joinery & Furniture Modeling',
+          'Scene Creation, Walkthrough Animation & LayOut Documentation'
+        ],
+        softwareCovered: ['Trimble SketchUp Pro', 'LayOut'],
+        recommendedFor: ['Architects', 'Interior Designers', 'Civil Engineers', 'Visualizers'],
+        learningOutcomes: [
+          'Model complex interior and exterior architectural structures quickly',
+          'Apply realistic textures and materials to 3D surfaces',
+          'Prepare presentations and walkthrough animations for clients'
+        ]
+      },
+      {
+        id: 'vray',
+        name: 'V-Ray',
+        categorySlug: 'civil-engineering',
+        categoryName: 'Civil Engineering',
+        shortDescription: 'Industry-standard photorealistic architectural rendering, global illumination, ray-traced lighting, and materials.',
+        image: '/images/courses/vray.jpg',
+        overview: 'Chaos V-Ray delivers photorealistic lighting and materials for architectural visualization. Master global illumination (GI), dome lights, HDRI environment mapping, V-Ray materials (PBR), atmospheric effects, and Frame Buffer post-processing.',
+        keyTopics: [
+          'Ray-Tracing & Global Illumination (Brute Force / Light Cache)',
+          'Sun & Sky Systems, Dome Lights & HDRI Environments',
+          'V-Ray Material Creation (Glass, Metals, Concrete, Wood, Fabric)',
+          'V-Ray Physical Camera (Exposure, ISO, Shutter Speed, White Balance)',
+          'Frame Buffer (VFB) Lens Effects, Color Grading & Denoiser'
+        ],
+        softwareCovered: ['Chaos V-Ray for SketchUp / 3ds Max / Revit'],
+        recommendedFor: ['ArchViz Specialists', 'Interior Designers', '3D Visualizers', 'Architects'],
+        learningOutcomes: [
+          'Achieve photorealistic lighting for daylight and night interior/exterior scenes',
+          'Create physically accurate materials with bump, normal, and roughness maps',
+          'Produce high-resolution architectural presentation renders'
+        ]
+      },
+      {
+        id: '3ds-max',
+        name: '3ds Max',
+        categorySlug: 'civil-engineering',
+        categoryName: 'Civil Engineering',
+        shortDescription: 'High-end 3D modeling, architectural visualization, realistic environment creation, lighting, and camera walkthroughs.',
+        image: '/images/courses/3ds-max.jpg',
+        overview: 'Autodesk 3ds Max is the premier visualization platform used by international architectural studios. Learn polygon modeling, splines, modifiers, architectural texturing, lighting rigs, and cinematic camera walkthrough animations.',
+        keyTopics: [
+          'Polygon Modeling, Spline Shapes & Compound Objects',
+          'Modifier Stack (Edit Poly, TurboSmooth, UVW Map)',
+          'Architectural Lighting, Daylight Systems & Photometrics',
+          'Camera Animation, Walkthroughs & Keyframing',
+          'Integration with Rendering Engines & Post-Production'
+        ],
+        softwareCovered: ['Autodesk 3ds Max Design'],
+        recommendedFor: ['Architectural Visualizers', 'Interior Designers', 'Civil Engineers', 'Animators'],
+        learningOutcomes: [
+          'Create detailed 3D architectural and interior models with high polygon fidelity',
+          'Construct cinematic walkthrough animations with animated physical cameras',
+          'Master professional material mapping and environment setups'
+        ]
+      },
+      {
+        id: 'staad-pro',
+        name: 'STAAD.Pro',
+        categorySlug: 'civil-engineering',
+        categoryName: 'Civil Engineering',
+        shortDescription: 'Structural analysis and design of RCC frames, steel structures, foundation loads, and code-based verification.',
+        image: '/images/courses/staad-pro.jpg',
+        overview: 'Bentley STAAD.Pro is the industry benchmark for structural engineering analysis. Learn to model 2D/3D skeletal frames, assign member properties and boundary conditions, apply gravity, wind, and seismic load combinations (IS 456, IS 800, IS 1893), and analyze member forces.',
+        keyTopics: [
+          'Structural Geometry Modeling & Node/Beam Coordinates',
+          'Material Assignment, Cross-Sections & Support Conditions',
+          'Load Cases: Dead, Live, Wind & Seismic Loads (IS 1893)',
+          'Linear Static Analysis, Bending Moment & Shear Force Diagrams',
+          'RCC Column/Beam Design & Steel Structure Check'
+        ],
+        softwareCovered: ['Bentley STAAD.Pro CONNECT Edition'],
+        recommendedFor: ['Civil & Structural Engineers', 'M.E./M.Tech Structural Students', 'Design Consultants'],
+        learningOutcomes: [
+          'Model and analyze multi-story RCC and steel frame structures',
+          'Evaluate shear force diagrams, bending moments, and deflection values',
+          'Perform code-compliant member sizing and reinforcement design'
+        ]
+      },
+      {
+        id: 'lumion',
+        name: 'Lumion',
+        categorySlug: 'civil-engineering',
+        categoryName: 'Civil Engineering',
+        shortDescription: 'Real-time architectural visualization, exterior landscaping, environmental lighting, and cinematic walkthrough video rendering.',
+        image: '/images/courses/lumion.jpg',
+        overview: 'Lumion transforms 3D CAD/BIM models into breathtaking cinematic videos and realistic images within minutes. Learn terrain sculpting, realistic water, atmospheric weather effects, real skies, lush vegetation scattering, and video camera path animating.',
+        keyTopics: [
+          'LiveSync & Importing CAD/BIM Models (Revit, SketchUp, 3ds Max)',
+          'Real Skies, Sun Studies & Atmospheric Weather Conditions',
+          'Landscape Sculpting, Grass Customization & Water Bodies',
+          'Nature, Vehicle & Human Population Placement',
+          'Cinematic Camera Paths, Clip Sequencing & 4K Video Rendering'
+        ],
+        softwareCovered: ['Lumion 3D Architectural Suite'],
+        recommendedFor: ['Architects', 'Urban Planners', 'Civil Engineers', 'Landscape Designers'],
+        learningOutcomes: [
+          'Produce photorealistic exterior architectural visualizations in real time',
+          'Create smooth cinematic walkthrough animation videos for client presentations',
+          'Master environmental lighting, shadows, and weather atmospheric moods'
+        ]
+      },
+      {
+        id: 'tekla',
+        name: 'Tekla',
+        categorySlug: 'civil-engineering',
+        categoryName: 'Civil Engineering',
+        shortDescription: 'Constructible BIM detailing for structural steel, precast concrete, connection design, and fabrication shop drawings.',
+        image: '/images/courses/tekla.jpg',
+        overview: 'Trimble Tekla Structures is the gold standard for constructible BIM and structural detailing. Learn to model structural steel frameworks, complex bolted/welded connections, reinforced cast-in-place concrete, clash detection, and automated fabrication drawing output.',
+        keyTopics: [
+          'Constructible 3D Structural Modeling & Grid Setup',
+          'Steel Member Modeling: Columns, Beams, Trusses & Purlins',
+          'Standard & Custom Connection Detailing (Bolts, Welds, Base Plates)',
+          'Concrete Detailing & Rebar Reinforcement Placement',
+          'Automated General Arrangement (GA) Drawings & Shop Fabrication Sheets'
+        ],
+        softwareCovered: ['Trimble Tekla Structures (BIM)'],
+        recommendedFor: ['Steel Detailers', 'Structural Engineers', 'Fabrication Supervisors', 'Civil Diploma Holders'],
+        learningOutcomes: [
+          'Build accurate, collision-free 3D structural steel and concrete models',
+          'Detail real-world connections ready for workshop fabrication',
+          'Generate automated bills of materials (BOM) and NC machine data'
+        ]
+      },
+      {
+        id: 'etabs',
+        name: 'ETABS',
+        categorySlug: 'civil-engineering',
+        categoryName: 'Civil Engineering',
+        shortDescription: 'Integrated structural building analysis, multi-story seismic design, wind response, shear wall, and slab design.',
+        image: '/images/courses/etabs.jpg',
+        overview: 'Computers and Structures (CSI) ETABS is dedicated to multi-story building analysis and design. Learn grid systems, story definitions, shear wall and diaphragm modeling, response spectrum seismic analysis, dynamic modal behavior, and concrete/steel building design.',
+        keyTopics: [
+          'Story Definitions, Grid Systems & Building Geometry',
+          'Rigid & Semi-Rigid Floor Diaphragms and Slab Systems',
+          'Shear Wall Modeling, Pier & Spandrel Labeling',
+          'Response Spectrum & Equivalent Static Seismic Analysis',
+          'Design of Reinforced Concrete Frames & Structural Optimization'
+        ],
+        softwareCovered: ['CSI ETABS Building Analysis Suite'],
+        recommendedFor: ['Structural Engineers', 'Civil Postgraduate Students', 'High-Rise Design Consultants'],
+        learningOutcomes: [
+          'Analyze high-rise and multi-story structures under seismic and lateral wind loads',
+          'Design ductile shear wall systems and moment-resisting frames',
+          'Interpret modal analysis, story drift, and torsional irregularity reports'
+        ]
+      },
+      {
+        id: 'blender',
+        name: 'Blender',
+        categorySlug: 'civil-engineering',
+        categoryName: 'Civil Engineering',
+        shortDescription: 'Open-source 3D architectural modeling, realistic Cycles rendering, procedural materials, and camera animation.',
+        image: '/images/courses/blender.jpg',
+        overview: 'Blender has evolved into a powerhouse for 3D modeling and architectural visualization. Master mesh modeling, precision dimensions, modifier stacks, procedural shader nodes, realistic Cycles path-tracing, Eevee real-time rendering, and camera animation.',
+        keyTopics: [
+          '3D Viewport Navigation & Precision Architectural Mesh Modeling',
+          'Modifiers (Bevel, Boolean, Solidify, Array & Subsurf)',
+          'Principled BSDF Shading & PBR Material Node Networks',
+          'Cycles Path-Tracing vs. Eevee Next Real-Time Engine',
+          'Lighting Techniques (HDRI, Sun, Area Lights) & Camera Walkthroughs'
+        ],
+        softwareCovered: ['Blender 4.x Suite'],
+        recommendedFor: ['3D Artists', 'Architects', 'Interior Designers', 'Design Students'],
+        learningOutcomes: [
+          'Construct detailed 3D architectural and product visualization scenes',
+          'Create photo-realistic shaders with advanced procedural node setups',
+          'Render high-resolution stills and animated camera walkthrough sequences'
         ]
       }
     ]

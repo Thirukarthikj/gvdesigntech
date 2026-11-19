@@ -268,7 +268,7 @@ export const DisciplinesSection: React.FC = () => {
                 </p>
 
                 <div className="grid grid-cols-2 gap-2 mb-6">
-                  {['2D Architectural Drafting', '3D Structural Modeling', 'Plan Detailing & Elevation', 'Building Estimation Fundamentals'].map((tool) => (
+                  {['AutoCAD Civil & Revit', 'SketchUp & 3ds Max', 'STAAD.Pro & ETABS', 'Tekla, Lumion & V-Ray'].map((tool) => (
                     <div
                       key={tool}
                       className="p-2.5 bg-white rounded border border-[#E5E5E2] hover:border-neutral-400 text-[11px] font-medium text-neutral-800 transition-colors"

@@ -79,7 +79,7 @@ export const CoursePathFinder: React.FC = () => {
       id: 'civil',
       label: 'Civil Drafting & Planning',
       icon: <Building2 className="w-4 h-4" />,
-      courseIds: ['civil-software-drafting', 'autocad-mechanical'],
+      courseIds: ['autocad-civil', 'revit', 'sketchup', 'staad-pro', 'tekla', 'etabs'],
     },
   ];
 

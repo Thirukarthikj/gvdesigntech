@@ -19,6 +19,15 @@ const SOFTWARE_TOOLS = [
   { name: 'Reverse Engineering', domain: 'Point Cloud Surface Scan' },
   { name: 'Adobe XD', domain: 'Interaction Prototyping' },
   { name: 'CNC / VMC', domain: 'ISO G & M Code Machining' },
+  { name: 'Revit', domain: 'BIM & Architectural Modeling' },
+  { name: 'SketchUp', domain: '3D Concept & Interior Design' },
+  { name: 'STAAD.Pro', domain: 'Structural Analysis & RCC Design' },
+  { name: '3ds Max', domain: 'Architectural Visualization' },
+  { name: 'V-Ray', domain: 'Photorealistic GI Rendering' },
+  { name: 'ETABS', domain: 'High-Rise Seismic Building Analysis' },
+  { name: 'Tekla', domain: 'Structural Steel Detailing' },
+  { name: 'Lumion', domain: 'Real-Time Exterior Walkthroughs' },
+  { name: 'Blender', domain: '3D Modeling & Cycles Shading' },
 ];
 
 export const SoftwareMarqueeStrip: React.FC = () => {
