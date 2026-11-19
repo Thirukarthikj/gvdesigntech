@@ -1,7 +1,6 @@
 import React from 'react';
 import { Course } from '../../types';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
-import { CourseCardVisual } from './CourseCardVisual';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 
 interface CourseCardProps {
@@ -9,6 +8,25 @@ interface CourseCardProps {
   categorySlug?: string;
   variant?: 'grid' | 'compact' | 'featured';
 }
+
+const getCategoryFallback = (slug?: string) => {
+  switch (slug) {
+    case 'mechanical-automobile':
+      return '/images/courses/mechanical-cad-hero.jpg';
+    case 'civil-engineering':
+      return '/images/courses/civil-architecture-hero.jpg';
+    case 'cnc-programming':
+      return '/images/courses/cnc-machining-hero.jpg';
+    case 'computer-science-it':
+    case 'cs-it':
+      return '/images/courses/software-dev-hero.jpg';
+    case 'multimedia-graphic-design':
+    case 'arts-multimedia':
+      return '/images/courses/graphic-design-hero.jpg';
+    default:
+      return '/images/hero-cad-classroom.jpg';
+  }
+};
 
 export const CourseCard: React.FC<CourseCardProps> = ({
   course,
@@ -19,16 +37,28 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   return (
     <div className="card-interactive group relative bg-white rounded-lg border border-[#E5E5E2] shadow-subtle flex flex-col justify-between overflow-hidden">
       {/* OriginKit Technical Corner Markers */}
-      <span className="crosshair-corner top-2 left-2 z-20 font-mono text-[9px] text-white/60 leading-none select-none drop-shadow-sm">+</span>
-      <span className="crosshair-corner top-2 right-2 z-20 font-mono text-[9px] text-white/60 leading-none select-none drop-shadow-sm">+</span>
+      <span className="crosshair-corner top-2 left-2 z-20 font-mono text-[9px] text-white/70 leading-none select-none drop-shadow-sm">+</span>
+      <span className="crosshair-corner top-2 right-2 z-20 font-mono text-[9px] text-white/70 leading-none select-none drop-shadow-sm">+</span>
 
-      {/* Course Card Technical Visual Header - 100% Course Specific */}
-      <div className="relative w-full h-44 sm:h-48 overflow-hidden bg-neutral-900 border-b border-[#EAEAE7]">
-        <CourseCardVisual
-          courseId={course.id}
-          courseName={course.name}
-          categorySlug={course.categorySlug}
+      {/* Course Card Photographic Header Image - Directly Related to Course */}
+      <div className="relative w-full h-48 sm:h-52 overflow-hidden bg-neutral-900 border-b border-[#EAEAE7]">
+        <img
+          src={course.image || getCategoryFallback(course.categorySlug)}
+          alt={`${course.name} Course at GV DESIGN TECH Oddanchatram`}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+          loading="lazy"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = getCategoryFallback(course.categorySlug);
+          }}
         />
+        {/* Subtle Dark Gradient Overlay for optimal contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
+
+        {/* Software Tool Badge Overlay directly on Image */}
+        <div className="absolute bottom-3 left-3 flex items-center gap-2 px-2.5 py-1 rounded bg-black/80 backdrop-blur-md text-white text-[10.5px] font-mono border border-white/20 shadow-md">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626] animate-pulse" />
+          <span className="font-semibold uppercase tracking-wider">{course.name}</span>
+        </div>
       </div>
 
       <div className="p-5 flex-grow flex flex-col space-y-3">

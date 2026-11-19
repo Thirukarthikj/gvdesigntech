@@ -20,7 +20,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'mechanical-automobile',
         categoryName: 'Mechanical & Automobile',
         shortDescription: 'Master 2D engineering drafting, geometric construction, dimensioning standards, and machine component layouts.',
-        image: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80',
+        image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80',
         overview: 'AutoCAD is the global standard for technical drawings. Learn coordinate systems, drawing commands, layer standards, orthographic views, sectioning, dimensioning, and plotting.',
         keyTopics: [
           'Coordinate Systems & Precision Drafting Commands',
@@ -563,7 +563,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'multimedia-graphic-design',
         categoryName: 'Multimedia & Graphic Design',
         shortDescription: 'Learn user research principles, wireframing, information architecture, usability testing, and visual hierarchy.',
-        image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80',
+        image: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80',
         overview: 'Go beyond visual aesthetics to understand how users interact with digital products. Study user personas, empathy mapping, user journeys, wireframing, visual hierarchy, and usability evaluation.',
         keyTopics: [
           'UX Fundamentals: User Research & Persona Creation',
