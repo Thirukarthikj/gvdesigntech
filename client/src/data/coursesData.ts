@@ -20,7 +20,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'mechanical-automobile',
         categoryName: 'Mechanical & Automobile',
         shortDescription: 'Master 2D engineering drafting, geometric construction, dimensioning standards, and machine component layouts.',
-        image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/autocad-mechanical.jpg',
         overview: 'AutoCAD is the global standard for technical drawings. Learn coordinate systems, drawing commands, layer standards, orthographic views, sectioning, dimensioning, and plotting.',
         keyTopics: [
           'Coordinate Systems & Precision Drafting Commands',
@@ -43,7 +43,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'mechanical-automobile',
         categoryName: 'Mechanical & Automobile',
         shortDescription: 'Parametric 3D solid modelling, part design, mechanical assemblies, and engineering drawing generation.',
-        image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/solidworks.jpg',
         overview: 'SolidWorks is widely used in automotive and industrial product design. Learn sketch-driven parametric features, complex assemblies with mating conditions, sheet metal, and drawing automation.',
         keyTopics: [
           '2D Sketch Constraints & Parametric Dimensions',
@@ -66,7 +66,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'mechanical-automobile',
         categoryName: 'Mechanical & Automobile',
         shortDescription: 'Master robust parametric part design, complex surface features, and manufacturing-ready engineering assemblies.',
-        image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/creo-ptc.jpg',
         overview: 'Creo (formerly Pro/ENGINEER) is a powerhouse in heavy engineering and automotive sectors. Master feature-based parametric modeling, family tables, flexible modeling, and mechanism analysis.',
         keyTopics: [
           'Parametric Sketching & Datum References',
@@ -89,7 +89,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'mechanical-automobile',
         categoryName: 'Mechanical & Automobile',
         shortDescription: 'Advanced generative shape design, automotive surface styling, solid part modeling, and digital mockup integration.',
-        image: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/catia.jpg',
         overview: 'CATIA dominates aerospace and automobile surface engineering. Learn generative shape design (GSD), Class-A surface principles, complex fillets, solid integration, and DMU kinematics.',
         keyTopics: [
           'Part Design Workbench & Parametric Wireframe',
@@ -112,7 +112,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'mechanical-automobile',
         categoryName: 'Mechanical & Automobile',
         shortDescription: 'Computer-Aided Manufacturing (CAM) toolpath generation, 2D/3D milling, turning operations, and CNC code generation.',
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/mastercam.jpg',
         overview: 'Mastercam bridges CAD geometry and CNC machine tools. Learn how to import part geometry, define machine stock, configure cutting tools, generate 2D/3D toolpaths, and verify NC code.',
         keyTopics: [
           'CAD Geometry Import & Coordinate Alignment',
@@ -135,7 +135,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'mechanical-automobile',
         categoryName: 'Mechanical & Automobile',
         shortDescription: 'Integrated CAM inside SolidWorks featuring iMachining technology for high-efficiency CNC metal cutting.',
-        image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/solidcam.jpg',
         overview: 'SolidCAM offers seamless CAM integration inside the SolidWorks environment. Learn iMachining toolpath technology, multi-axis milling, stock recognition, and cycle-time optimization.',
         keyTopics: [
           'SolidWorks-Integrated CAM Setup & Coordinate Systems',
@@ -158,7 +158,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'mechanical-automobile',
         categoryName: 'Mechanical & Automobile',
         shortDescription: 'Standardized symbolic engineering language (ASME Y14.5 / ISO) defining geometric tolerance and feature control frames.',
-        image: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/gdt.jpg',
         overview: 'GD&T ensures that manufactured parts fit and function correctly. Learn form, orientation, location, runout, datum reference frames, maximum material condition (MMC), and inspection methods.',
         keyTopics: [
           'Introduction to ASME Y14.5 & ISO GPS Standards',
@@ -181,7 +181,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'mechanical-automobile',
         categoryName: 'Mechanical & Automobile',
         shortDescription: 'Reconstruct parametric CAD models from physical parts, scan point-clouds, and physical measurement data.',
-        image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/reverse-engineering.jpg',
         overview: 'Reverse engineering is essential for legacy components, aftermarket development, and product redesign. Learn physical measuring, coordinate measuring concepts, point-cloud reconstruction, and CAD modeling.',
         keyTopics: [
           'Principles of Physical Measurement & Scan Data Collection',
@@ -219,7 +219,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'civil-engineering',
         categoryName: 'Civil Engineering',
         shortDescription: 'Master 2D civil drafting, architectural floor plans, building elevations, structural layouts, and site documentation.',
-        image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/civil-software-drafting.jpg',
         overview: 'Develop real-world technical skills required by civil consultancies, architectural firms, and construction contractors. Learn drafting standards, municipal submission drawing norms, layer conventions, reinforcement details, and site layout plans.',
         keyTopics: [
           'Civil Coordinate Systems & Unit Configuration',
@@ -257,7 +257,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'cnc-programming',
         categoryName: 'CNC Programming',
         shortDescription: 'Master manual part programming, ISO G-Codes, M-Codes, turning and milling canned cycles, and virtual simulation.',
-        image: 'https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/cnc-programming-machining.jpg',
         overview: 'Learn the foundational and advanced programming principles governing CNC Lathes and Vertical Machining Centers (VMC). Understand machine zero, work zero, tool height offsets, radius compensation, and canned drilling/boring cycles.',
         keyTopics: [
           'CNC Machine Architecture & Axis Coordinates (X, Y, Z)',
@@ -295,7 +295,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'computer-science-it',
         categoryName: 'Computer Science & IT',
         shortDescription: 'Master memory management, pointers, and foundational computation principles with structured C programming.',
-        image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/c-programming.jpg',
         overview: 'C is the foundational language of modern computer systems. This course emphasizes procedural logic, memory pointers, struct definitions, file handling, and efficient algorithm implementation.',
         keyTopics: [
           'Data Types, Operators & Flow Control',
@@ -318,7 +318,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'computer-science-it',
         categoryName: 'Computer Science & IT',
         shortDescription: 'Advance your computational skills with Object-Oriented Programming (OOP) and the Standard Template Library in C++.',
-        image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/cpp-programming.jpg',
         overview: 'C++ brings high performance and object-oriented abstractions. Learn encapsulation, inheritance, polymorphism, templates, and resource management.',
         keyTopics: [
           'Object-Oriented Architecture & Classes',
@@ -341,7 +341,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'computer-science-it',
         categoryName: 'Computer Science & IT',
         shortDescription: 'Build robust, platform-independent enterprise applications with Core and Advanced Java concepts.',
-        image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/java.jpg',
         overview: 'Java powers scalable enterprise solutions, Android systems, and backend platforms worldwide. Learn the JVM ecosystem, multi-threading, collections framework, and JDBC database connectivity.',
         keyTopics: [
           'Core Java Syntax & OOP Principles',
@@ -364,7 +364,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'computer-science-it',
         categoryName: 'Computer Science & IT',
         shortDescription: 'Learn one of the most versatile and in-demand programming languages for scripting, automation, and web development.',
-        image: 'https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/python.jpg',
         overview: 'Python offers clean syntax and powerful standard libraries. Explore procedural and object-oriented paradigms, data analysis libraries, file automation, and scripting workflows.',
         keyTopics: [
           'Python Fundamentals, Data Types & Data Structures',
@@ -387,7 +387,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'computer-science-it',
         categoryName: 'Computer Science & IT',
         shortDescription: 'Develop production-ready, secure web applications with Python’s premier high-level web framework.',
-        image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/django.jpg',
         overview: 'Django follows the Model-View-Template (MVT) pattern for rapid, secure web development. Learn authentication, ORM database modeling, routing, forms, and admin interface customization.',
         keyTopics: [
           'Django Architecture & Project Structure',
@@ -410,7 +410,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'computer-science-it',
         categoryName: 'Computer Science & IT',
         shortDescription: 'Master relational database design, complex SQL queries, index optimization, and data integrity.',
-        image: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/mysql.jpg',
         overview: 'Data powers modern applications. Learn relational database management systems (RDBMS), normalization, complex joins, subqueries, stored procedures, and transaction management.',
         keyTopics: [
           'Relational Database Concepts & Schema Design',
@@ -433,7 +433,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'computer-science-it',
         categoryName: 'Computer Science & IT',
         shortDescription: 'Understand modern semantic markup, accessibility fundamentals, and the core structural backbone of the web.',
-        image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/html.jpg',
         overview: 'HTML5 is the universal document model of the internet. Learn semantic structuring, form validation, accessible metadata, media embedding, and document hierarchy.',
         keyTopics: [
           'HTML5 Semantic Document Architecture',
@@ -456,7 +456,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'computer-science-it',
         categoryName: 'Computer Science & IT',
         shortDescription: 'Combine HTML, CSS styling, responsive layout systems, and interactive JavaScript to build modern web interfaces.',
-        image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/frontend-development.jpg',
         overview: 'Transform static designs into interactive, responsive digital experiences. Master CSS Flexbox, Grid, DOM manipulation, responsive breakpoints, and client-side web behavior.',
         keyTopics: [
           'CSS3 Modern Layouts: Flexbox & CSS Grid',
@@ -494,7 +494,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'multimedia-graphic-design',
         categoryName: 'Multimedia & Graphic Design',
         shortDescription: 'Master raster image editing, photo manipulation, colour grading, layer masking, and digital asset preparation.',
-        image: 'https://images.unsplash.com/photo-1572044160711-b926dd29a3b2?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/adobe-photoshop.jpg',
         overview: 'Photoshop is the industry benchmark for digital imagery. Learn non-destructive editing workflows, selection precision, retouching techniques, compositing, and preparation for print and web.',
         keyTopics: [
           'Layers, Adjustment Layers & Non-Destructive Masking',
@@ -517,7 +517,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'multimedia-graphic-design',
         categoryName: 'Multimedia & Graphic Design',
         shortDescription: 'Design user experience layouts, wireframes, and interactive screen transitions for mobile and web applications.',
-        image: 'https://images.unsplash.com/photo-1581291518655-9523c932694b?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/adobe-xd.jpg',
         overview: 'Adobe XD provides a dedicated environment for screen design and prototyping. Learn repeat grids, artboard management, auto-animate micro-interactions, and design specification exports.',
         keyTopics: [
           'Artboard Systems & UI Grid Alignment',
@@ -540,7 +540,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'multimedia-graphic-design',
         categoryName: 'Multimedia & Graphic Design',
         shortDescription: 'Learn the collaborative design platform powering today’s modern software product teams.',
-        image: 'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/figma.jpg',
         overview: 'Figma is the leading collaborative interface design tool. Master Auto Layout, component variants, design tokens, responsive constraints, and design system foundations.',
         keyTopics: [
           'Frames, Vector Networks & Constraints',
@@ -563,7 +563,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'multimedia-graphic-design',
         categoryName: 'Multimedia & Graphic Design',
         shortDescription: 'Learn user research principles, wireframing, information architecture, usability testing, and visual hierarchy.',
-        image: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/ui-ux-design.jpg',
         overview: 'Go beyond visual aesthetics to understand how users interact with digital products. Study user personas, empathy mapping, user journeys, wireframing, visual hierarchy, and usability evaluation.',
         keyTopics: [
           'UX Fundamentals: User Research & Persona Creation',
@@ -586,7 +586,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'multimedia-graphic-design',
         categoryName: 'Multimedia & Graphic Design',
         shortDescription: 'Master precision vector graphics, logo creation, branding assets, typography, and scalable illustration.',
-        image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/adobe-illustrator.jpg',
         overview: 'Vector artwork scales infinitely without quality loss. Master the Pen tool, Pathfinder operations, shape builders, typography styling, color swatches, and vector branding packages.',
         keyTopics: [
           'Precision Vector Paths & The Pen Tool Mastery',
@@ -624,7 +624,7 @@ export const COURSE_CATEGORIES: CourseCategory[] = [
         categorySlug: 'arts-multimedia',
         categoryName: 'Arts & Multimedia',
         shortDescription: 'Develop expressive digital media, visual composition, creative asset design, and multimedia presentation abilities.',
-        image: 'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?auto=format&fit=crop&w=800&q=80',
+        image: '/images/courses/creative-arts-multimedia.jpg',
         overview: 'Explore the creative intersection of art and digital media. Learn fundamental principles of visual composition, color theory, digital sketching, raster and vector combinations, and multimedia asset delivery.',
         keyTopics: [
           'Elements of Visual Composition & Balance',
