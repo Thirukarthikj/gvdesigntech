@@ -11,11 +11,11 @@ export const InstitutionalFooter: React.FC = () => {
     <footer className="bg-[#FAF9F7] text-neutral-800 border-t border-[#EAEAE7]">
       <div className="max-w-7xl 2xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
         
-        {/* 4-Column Grid */}
+        {/* 3-Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-14 border-b border-[#E5E5E2]">
           
-          {/* Column 1: Brand & Bio (4 cols) */}
-          <div className="lg:col-span-4 space-y-4">
+          {/* Column 1: Brand & Bio (5 cols) */}
+          <div className="lg:col-span-5 space-y-4">
             <BrandLogo variant="light" />
 
             <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed max-w-sm mt-3">
@@ -34,47 +34,8 @@ export const InstitutionalFooter: React.FC = () => {
             </div>
           </div>
 
-          {/* Column 2: Engineering Disciplines (3 cols) */}
+          {/* Column 2: Institute (3 cols) */}
           <div className="lg:col-span-3">
-            <h4 className="text-[11px] font-mono uppercase tracking-widest text-neutral-900 font-bold mb-4">
-              ENGINEERING DISCIPLINES
-            </h4>
-            <ul className="space-y-2.5 text-xs text-neutral-600">
-              <li>
-                <Link to="/courses/mechanical-automobile" className="hover:text-[#DC2626] transition-colors">
-                  Mechanical &amp; Automobile Design
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses/civil-engineering" className="hover:text-[#DC2626] transition-colors">
-                  Civil Engineering &amp; Architecture
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses/cnc-programming" className="hover:text-[#DC2626] transition-colors">
-                  CNC &amp; VMC Programming
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses/computer-science-it" className="hover:text-[#DC2626] transition-colors">
-                  Computer Science &amp; IT
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses/multimedia-graphic-design" className="hover:text-[#DC2626] transition-colors">
-                  Multimedia &amp; Graphic Design
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses/arts-multimedia" className="hover:text-[#DC2626] transition-colors">
-                  Comprehensive Arts &amp; Layouts
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3: Institute (2 cols) */}
-          <div className="lg:col-span-2">
             <h4 className="text-[11px] font-mono uppercase tracking-widest text-neutral-900 font-bold mb-4">
               INSTITUTE
             </h4>

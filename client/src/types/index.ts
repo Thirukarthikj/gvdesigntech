@@ -9,6 +9,7 @@ export interface Course {
   softwareCovered: string[];
   recommendedFor: string[];
   learningOutcomes: string[];
+  image?: string;
 }
 
 export interface CourseCategory {

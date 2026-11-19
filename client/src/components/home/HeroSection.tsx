@@ -72,7 +72,7 @@ export const HeroSection: React.FC = () => {
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#DC2626] animate-pulse" />
                 <span className="text-[10px] sm:text-[11px] font-mono font-medium tracking-wide uppercase text-neutral-800 truncate">
-                  MECHANICAL, CIVIL &amp; DESIGN CAD — LIVE ONLINE CLASSES
+                  MECHANICAL, CIVIL &amp; CAD Design — LIVE ONLINE CLASSES
                 </span>
               </div>
               <Compass className="w-4 h-4 text-neutral-400 group-hover:text-[#DC2626] transition-colors shrink-0" />
