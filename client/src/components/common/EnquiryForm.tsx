@@ -190,7 +190,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
       console.error('Enquiry submission error:', err);
       setApiError(
         err.message ||
-          'Unable to connect to the enquiry service. You can call our institute directly at +91 96553 64707.'
+        'Unable to connect to the enquiry service. You can call our institute directly at +91 96553 64707.'
       );
     } finally {
       setIsSubmitting(false);
@@ -317,11 +317,10 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             placeholder="e.g. Anandha Kumar"
             value={formData.fullName}
             onChange={handleChange}
-            className={`input-uiverse w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] placeholder-neutral-400 focus:bg-white focus:outline-none transition-all ${
-              errors.fullName
-                ? 'border-rose-400 focus:border-rose-500'
-                : 'border-[#E5E5E2]'
-            }`}
+            className={`input-uiverse w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] placeholder-neutral-400 focus:bg-white focus:outline-none transition-all ${errors.fullName
+              ? 'border-rose-400 focus:border-rose-500'
+              : 'border-[#E5E5E2]'
+              }`}
           />
           {errors.fullName && (
             <p className="mt-1 text-[11px] text-rose-600 flex items-center gap-1">
@@ -343,11 +342,10 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             maxLength={10}
             value={formData.mobileNumber}
             onChange={handleChange}
-            className={`input-uiverse w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] placeholder-neutral-400 focus:bg-white focus:outline-none transition-all ${
-              errors.mobileNumber
-                ? 'border-rose-400 focus:border-rose-500'
-                : 'border-[#E5E5E2]'
-            }`}
+            className={`input-uiverse w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] placeholder-neutral-400 focus:bg-white focus:outline-none transition-all ${errors.mobileNumber
+              ? 'border-rose-400 focus:border-rose-500'
+              : 'border-[#E5E5E2]'
+              }`}
           />
           {errors.mobileNumber && (
             <p className="mt-1 text-[11px] text-rose-600 flex items-center gap-1">
@@ -371,11 +369,10 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             placeholder="e.g. anand@domain.com"
             value={formData.email}
             onChange={handleChange}
-            className={`input-uiverse w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] placeholder-neutral-400 focus:bg-white focus:outline-none transition-all ${
-              errors.email
-                ? 'border-rose-400 focus:border-rose-500'
-                : 'border-[#E5E5E2]'
-            }`}
+            className={`input-uiverse w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] placeholder-neutral-400 focus:bg-white focus:outline-none transition-all ${errors.email
+              ? 'border-rose-400 focus:border-rose-500'
+              : 'border-[#E5E5E2]'
+              }`}
           />
           {errors.email && (
             <p className="mt-1 text-[11px] text-rose-600 flex items-center gap-1">
@@ -393,11 +390,10 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             name="course"
             value={formData.course}
             onChange={handleChange}
-            className={`input-uiverse w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] focus:bg-white focus:outline-none transition-all ${
-              errors.course
-                ? 'border-rose-400 focus:border-rose-500'
-                : 'border-[#E5E5E2]'
-            }`}
+            className={`input-uiverse w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] focus:bg-white focus:outline-none transition-all ${errors.course
+              ? 'border-rose-400 focus:border-rose-500'
+              : 'border-[#E5E5E2]'
+              }`}
           >
             <option value="">Select Course / Discipline</option>
             <optgroup label="01 — Mechanical & Automobile">
@@ -474,11 +470,10 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
           name="preferredMode"
           value={formData.preferredMode}
           onChange={handleChange}
-          className={`input-uiverse w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] focus:bg-white focus:outline-none transition-all ${
-            errors.preferredMode
-              ? 'border-rose-400 focus:border-rose-500'
-              : 'border-[#E5E5E2]'
-          }`}
+          className={`input-uiverse w-full px-3.5 py-2.5 rounded border text-sm text-neutral-900 bg-[#FAF9F7] focus:bg-white focus:outline-none transition-all ${errors.preferredMode
+            ? 'border-rose-400 focus:border-rose-500'
+            : 'border-[#E5E5E2]'
+            }`}
         >
           <option value="">Select Preferred Online Batch</option>
           <option value="Live Online — Weekday Evening Batch">Live Online — Weekday Evening Batch (Mon–Fri)</option>
