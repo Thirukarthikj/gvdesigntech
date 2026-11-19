@@ -1,6 +1,7 @@
 import React from 'react';
 import { Course } from '../../types';
 import { useEnquiryModal } from '../../context/EnquiryModalContext';
+import { CourseCardVisual } from './CourseCardVisual';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 
 interface CourseCardProps {
@@ -18,18 +19,16 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   return (
     <div className="card-interactive group relative bg-white rounded-lg border border-[#E5E5E2] shadow-subtle flex flex-col justify-between overflow-hidden">
       {/* OriginKit Technical Corner Markers */}
-      <span className="crosshair-corner top-2 left-2 z-10 font-mono text-[9px] text-white/80 leading-none select-none drop-shadow-sm">+</span>
-      <span className="crosshair-corner top-2 right-2 z-10 font-mono text-[9px] text-white/80 leading-none select-none drop-shadow-sm">+</span>
+      <span className="crosshair-corner top-2 left-2 z-20 font-mono text-[9px] text-white/60 leading-none select-none drop-shadow-sm">+</span>
+      <span className="crosshair-corner top-2 right-2 z-20 font-mono text-[9px] text-white/60 leading-none select-none drop-shadow-sm">+</span>
 
-      {/* Course Card Thumbnail Image */}
-      <div className="relative w-full h-44 sm:h-48 overflow-hidden bg-neutral-100 border-b border-[#EAEAE7]">
-        <img
-          src={course.image || '/images/hero-cad-classroom.jpg'}
-          alt={`${course.name} Course at GV DESIGN TECH`}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-          loading="lazy"
+      {/* Course Card Technical Visual Header - 100% Course Specific */}
+      <div className="relative w-full h-44 sm:h-48 overflow-hidden bg-neutral-900 border-b border-[#EAEAE7]">
+        <CourseCardVisual
+          courseId={course.id}
+          courseName={course.name}
+          categorySlug={course.categorySlug}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity" />
       </div>
 
       <div className="p-5 flex-grow flex flex-col space-y-3">
