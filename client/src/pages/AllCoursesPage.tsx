@@ -40,7 +40,7 @@ export const AllCoursesPage: React.FC = () => {
           <div className="inline-flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
             <span className="text-[11px] font-mono font-semibold text-[#DC2626] uppercase tracking-widest block">
-              ALL TECHNICAL DISCIPLINES • 24+ PROGRAMS
+              ALL TECHNICAL DISCIPLINES • {ALL_COURSES.length} PROGRAMS
             </span>
           </div>
           <h1 className="font-editorial text-4xl sm:text-5xl font-normal tracking-tight text-neutral-950 leading-tight">

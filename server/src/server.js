@@ -75,9 +75,11 @@ const VALID_COURSES = [
   'STAAD.Pro',
   'Lumion',
   'Tekla',
+  'Tekla Structures',
   'ETABS',
   'Blender',
   'Civil Engineering Software Training',
+  'Civil Engineering Software & Technical Training',
   'CNC Programming & Machining',
   'Arts & Creative Multimedia',
   'General Technical Enquiry'

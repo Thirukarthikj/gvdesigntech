@@ -413,7 +413,17 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
               <option value="Automobile Engineering">Automobile Engineering</option>
               <option value="Mechanical & Automobile Design">Mechanical & Automobile Design</option>
             </optgroup>
-            <optgroup label="02 — Civil Engineering">
+            <optgroup label="02 — Civil Engineering & Architecture">
+              <option value="AutoCAD Civil">AutoCAD Civil (2D/3D Drafting & Land Survey)</option>
+              <option value="Revit">Revit (BIM & Architectural Modeling)</option>
+              <option value="SketchUp">SketchUp (3D Modeling & Interior Design)</option>
+              <option value="V-Ray">V-Ray (Photorealistic GI Rendering)</option>
+              <option value="3ds Max">3ds Max (Architectural Visualization)</option>
+              <option value="STAAD.Pro">STAAD.Pro (Structural Analysis & RCC Design)</option>
+              <option value="Lumion">Lumion (Real-Time Exterior Walkthroughs)</option>
+              <option value="Tekla">Tekla Structures (BIM & Steel Detailing)</option>
+              <option value="ETABS">ETABS (High-Rise Seismic Building Analysis)</option>
+              <option value="Blender">Blender (3D Modeling & Cycles Shading)</option>
               <option value="Civil Engineering Software & Technical Training">Civil Engineering Software & Technical Training</option>
               <option value="Civil Engineering Software Training">Civil Engineering Software Training</option>
             </optgroup>
