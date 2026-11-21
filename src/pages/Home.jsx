@@ -115,7 +115,7 @@ export default function Home({ onOpenModal }) {
           <div className={P['hero-stack']} ref={heroCardRef}>
             <div className={P['hero-badge']}>
               <span className={P.dot}></span>
-              <span>Future of AI Learning Hub Near You</span>
+              <span>Future of CAD & Engineering Design Hub Near You</span>
             </div>
             <div className={P['hero-bg-text']} style={{ fontSize: 'clamp(36px, 9.5vw, 130px)', letterSpacing: '-2px' }}>GV DESIGNTECH</div>
 
@@ -186,7 +186,7 @@ export default function Home({ onOpenModal }) {
             </figure>
 
             <div className={`${P['row-left']} ${P.reveal} ${P.visible} ${P.show}`}>
-              <h1>Best Artificial Intelligence &amp; Data Science Training Institute</h1>
+              <h1>Best CAD &amp; Engineering Design Training Center</h1>
               <div className={P['mini-line']}></div>
             </div>
 
