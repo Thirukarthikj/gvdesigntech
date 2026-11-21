@@ -38,7 +38,7 @@ This project reproduces the visual design, interactive functionality, responsive
 
 | Route | Page Component | Key Features & Observable Elements |
 |---|---|---|
-| `/` | `Home.jsx` | 13 complete sections: Hero with real-time model accuracy metrics (98.4%), 12K+ learners, Dr. Muthuraj Madamuthu founder card, marquee ticker, About neural overview, counter stats, AI Radar & rotating earth globe, Brain canvas section, dual-row continuous testimonial carousels, CTA pill, and success placement track. |
+| `/` | `Home.jsx` | 13 complete sections: Hero with real-time model accuracy metrics (98.4%), 12K+ learners, Vinith Gunasekaran founder card, marquee ticker, About neural overview, counter stats, AI Radar & rotating earth globe, Brain canvas section, dual-row continuous testimonial carousels, CTA pill, and success placement track. |
 | `/about` | `About.jsx` | Mission & Vision, institutional history, core leadership, 3 service capabilities, showcase badges, and institutional impact metrics. |
 | `/datascience` | `DataScience.jsx` | Telemetry HUD overlays (Neural Net Status, Synapse Activity, Data Pipeline), floating widget pills, 8 curriculum modules, 6-month roadmap, and interactive FAQ accordion. |
 | `/dataanalytics` | `DataAnalytics.jsx` | Analytics Engine HUD, metric grid (PowerBI, Tableau, SQL, Excel), career pathways, and FAQs. |

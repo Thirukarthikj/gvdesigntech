@@ -169,7 +169,7 @@ export default function Home({ onOpenModal }) {
               <div className={P['hero-chairman-frame']}>
                 <div className={P['hero-chairman-inner']}>
                   <img
-                    alt="Dr. Muthuraj Madamuthu, Founder and CEO of GV DesignTech"
+                    alt="Vinith Gunasekaran, Founder and CEO of GV DesignTech"
                     className={P['hero-chairman-img']}
                     width="1122"
                     height="1402"
@@ -177,8 +177,7 @@ export default function Home({ onOpenModal }) {
                     src="/assets/chairman-real-uq_F_5Yk.jpg"
                   />
                   <figcaption className={P['hero-chairman-cap']}>
-                    <span className={P['hero-chairman-role']}>Dr. Muthuraj Madamuthu</span>
-                    <span className={P['hero-chairman-qual']}>M.E., Ph.D.</span>
+                    <span className={P['hero-chairman-role']}>Vinith Gunasekaran</span>
                     <span className={P['hero-chairman-title']}>Founder / CEO</span>
                     <span className={P['hero-chairman-org']}>GV DesignTech</span>
                   </figcaption>

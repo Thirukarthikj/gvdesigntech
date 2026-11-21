@@ -61,7 +61,7 @@ export default function About({ onOpenModal }) {
                 GV DesignTech is Coimbatore's premier tech training institute, specializing in web development, big data analytics, UI/UX design, and AI-driven systems. We empower students, freshers, and professionals with hands-on technical skills and corporate readiness.
               </p>
               <p>
-                Founded by Dr. Muthuraj Madamuthu, our mission is to democratize advanced AI education across Tier-2 and Tier-3 engineering clusters, delivering elite corporate bootcamps with 100% placement track records.
+                Founded by Vinith Gunasekaran, our mission is to democratize advanced AI education across Tier-2 and Tier-3 engineering clusters, delivering elite corporate bootcamps with 100% placement track records.
               </p>
               <div style={{ marginTop: '24px' }}>
                 <button
