@@ -192,7 +192,7 @@ export default function Home({ onOpenModal }) {
 
             <div className={`${P['row-right']} ${P.reveal} ${P.visible} ${P.show}`}>
               <p>
-                At GV DesignTech, explore the diverse world of Artificial Intelligence and its subfields through industry-focused learning. Build future-ready skills with live projects, immersive labs, expert mentorship, and hands-on experiences designed to solve real-world challenges.
+                Online Learning Classes Built for Real Industry Competence. Master industry-standard engineering and design through live interactive online classes.
               </p>
               <div className={P['cta-group']}>
                 <button
