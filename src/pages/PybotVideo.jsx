@@ -6,7 +6,7 @@ export default function PybotVideo() {
     <div style={{ minHeight: '100vh', background: '#050816', color: '#fff', padding: '140px 24px 80px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <div style={{ maxWidth: '900px', width: '100%', textAlign: 'center' }}>
         <div style={{ display: 'inline-block', padding: '6px 18px', background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.4)', borderRadius: '999px', color: '#c084fc', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', marginBottom: '16px' }}>
-          PYBOT ACADEMY SHOWCASE
+          GV DESIGNTECH SHOWCASE
         </div>
         <h1 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: '800', lineHeight: 1.2, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
           Watch How We Shape the Future of AI Education
@@ -21,7 +21,7 @@ export default function PybotVideo() {
             width="100%"
             height="100%"
             src="https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A"
-            title="PyBot AI Academy Showcase Video"
+            title="GV DesignTech Showcase Video"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen

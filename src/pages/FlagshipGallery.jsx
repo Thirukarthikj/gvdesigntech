@@ -23,13 +23,13 @@ export default function FlagshipGallery({ onOpenModal }) {
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
           <div style={{ display: 'inline-block', padding: '6px 18px', background: 'rgba(217, 70, 239, 0.15)', border: '1px solid rgba(217, 70, 239, 0.4)', borderRadius: '999px', color: '#f472b6', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', marginBottom: '16px' }}>
-            PYBOT MOMENTS
+            GV DESIGNTECH MOMENTS
           </div>
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #e879f9 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Capturing Every Milestone of Innovation
           </h1>
           <p style={{ maxWidth: '720px', margin: '0 auto 32px', fontSize: '16.5px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
-            Highlighting internships, workshops, placements, hackathons, certifications, industrial visits, and student celebrations at PyBot AI Academy.
+            Highlighting internships, workshops, placements, hackathons, certifications, industrial visits, and student celebrations at GV DesignTech.
           </p>
 
           {/* Filter Pills */}
@@ -122,7 +122,7 @@ export default function FlagshipGallery({ onOpenModal }) {
         {/* CTA */}
         <div style={{ textAlign: 'center', padding: '48px', background: 'linear-gradient(135deg, rgba(139,92,246,0.18), rgba(217,70,239,0.18))', border: '1px solid rgba(217,70,239,0.35)', borderRadius: '24px' }}>
           <h2 style={{ fontSize: '28px', fontWeight: '700', marginBottom: '12px' }}>
-            Become Part of the Next PYBOT Success Story
+            Become Part of the Next GV DesignTech Success Story
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.8)', marginBottom: '24px' }}>
             Gain hands-on skills, verified certificates, and direct access to top tech hiring partners.

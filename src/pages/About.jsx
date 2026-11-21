@@ -24,14 +24,14 @@ export default function About({ onOpenModal }) {
       {/* Hero Section */}
       <section className={Im['ab-hero']}>
         <div className={Im['ab-hero-bg']}>
-          <img alt="PYBOT Hero" src="/assets/about-Back-C27jZxMR.avif" />
+          <img alt="GV DesignTech Hero" src="/assets/about-Back-C27jZxMR.avif" />
           <div className={Im['ab-hero-overlay']}></div>
         </div>
         <div className={Im['ab-hero-content']}>
-          <div className={Im['ab-hero-tag']}>ABOUT PYBOT</div>
+          <div className={Im['ab-hero-tag']}>ABOUT GV DesignTech</div>
           <h1>Redefining Tech Training Through Innovation</h1>
           <p>
-            At PYBOT, we transform your vision into reality through comprehensive web development, data analytics, and artificial intelligence solutions. Our cutting-edge curriculum bridges the gap between academic theory and industry demands.
+            At GV DesignTech, we transform your vision into reality through comprehensive web development, data analytics, and artificial intelligence solutions. Our cutting-edge curriculum bridges the gap between academic theory and industry demands.
           </p>
           <div className={Im['ab-hero-buttons']}>
             <a href="#services" className={Im['ab-btn-grad']}>
@@ -52,13 +52,13 @@ export default function About({ onOpenModal }) {
         <div className={Im['ab-about-container']}>
           <div className={Im['ab-about-grid']}>
             <div className={`${Im['ab-about-img-wrap']} ${Im['ab-reveal']} ${Im.visible}`}>
-              <img alt="PYBOT Team" src="/assets/aboutai-CRoG2fVh.svg" />
+              <img alt="GV DesignTech Team" src="/assets/aboutai-CRoG2fVh.svg" />
             </div>
             <div className={`${Im['ab-about-body']} ${Im['ab-reveal']} ${Im.visible}`}>
               <div className={Im['ab-hero-tag']}>WHO WE ARE</div>
               <h2>Building Tomorrow's Tech Leaders Today</h2>
               <p>
-                PYBOT is Coimbatore's premier tech training institute, specializing in web development, big data analytics, UI/UX design, and AI-driven systems. We empower students, freshers, and professionals with hands-on technical skills and corporate readiness.
+                GV DesignTech is Coimbatore's premier tech training institute, specializing in web development, big data analytics, UI/UX design, and AI-driven systems. We empower students, freshers, and professionals with hands-on technical skills and corporate readiness.
               </p>
               <p>
                 Founded by Dr. Muthuraj Madamuthu, our mission is to democratize advanced AI education across Tier-2 and Tier-3 engineering clusters, delivering elite corporate bootcamps with 100% placement track records.
@@ -70,7 +70,7 @@ export default function About({ onOpenModal }) {
                   onClick={onOpenModal}
                   style={{ border: 'none', cursor: 'pointer' }}
                 >
-                  Join PYBOT Today
+                  Join GV DesignTech Today
                 </button>
               </div>
             </div>
@@ -141,7 +141,7 @@ export default function About({ onOpenModal }) {
               </div>
             </div>
             <div className={`${Im['ab-showcase-right']} ${Im['ab-reveal']} ${Im.visible}`}>
-              <img alt="PYBOT AI" src="/assets/about-robo-C8tkXfGz.jpg" />
+              <img alt="GV DesignTech AI" src="/assets/about-robo-C8tkXfGz.jpg" />
             </div>
           </div>
         </div>
@@ -161,7 +161,7 @@ export default function About({ onOpenModal }) {
               <span className={Im['ab-cta-lbl']}>Placement Rate</span>
             </div>
           </div>
-          <h2>The Future of Work is Here — Are You Ready to PYBOT AI?</h2>
+          <h2>The Future of Work is Here — Are You Ready to GV DesignTech AI?</h2>
           <p>
             Join the next generation of engineers mastering Generative AI, Large Language Models, and Cloud Analytics.
           </p>

@@ -115,7 +115,7 @@ export default function FloatingElements() {
         </span>
         <span className="pb-recent-activity-card-body">
           <span className="pb-recent-activity-card-title">Recent Activities</span>
-          <span className="pb-recent-activity-card-desc">See what's happening at PyBot AI Academy.</span>
+          <span className="pb-recent-activity-card-desc">See what's happening at GV DesignTech.</span>
           <span className="pb-recent-activity-card-cta">
             View latest <span aria-hidden="true">→</span>
           </span>
@@ -206,7 +206,7 @@ export default function FloatingElements() {
               <div className="pb-recent-activity-meta">
                 <span>📅 September 2026</span>
                 <span className="pb-recent-activity-meta-sep"></span>
-                <span>📍 PyBot AI Academy, Pollachi</span>
+                <span>📍 GV DesignTech, Pollachi</span>
               </div>
             </div>
           </div>

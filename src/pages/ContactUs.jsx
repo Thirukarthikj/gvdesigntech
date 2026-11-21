@@ -63,8 +63,8 @@ export default function ContactUs() {
                 </div>
                 <div>
                   <h4 style={{ fontSize: '16px', fontWeight: '700', margin: '0 0 4px', color: '#fff' }}>Email Address</h4>
-                  <a href="mailto:pybotrobotics@gmail.com" style={{ fontSize: '14px', color: '#e879f9', textDecoration: 'none' }}>
-                    pybotrobotics@gmail.com
+                  <a href="mailto:contact@gvdesigntech.com" style={{ fontSize: '14px', color: '#e879f9', textDecoration: 'none' }}>
+                    contact@gvdesigntech.com
                   </a>
                 </div>
               </div>
@@ -98,7 +98,7 @@ export default function ContactUs() {
           {/* Form */}
           <div style={{ padding: '36px', background: 'linear-gradient(160deg, rgba(26, 18, 66, 0.7), rgba(4, 5, 22, 0.8))', border: '1px solid rgba(217, 70, 239, 0.35)', borderRadius: '24px' }}>
             <h2 style={{ fontSize: '26px', fontWeight: '800', marginBottom: '8px', color: '#fff' }}>
-              Reach Out to PYBOT Today
+              Reach Out to GV DesignTech Today
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14.5px', marginBottom: '24px' }}>
               Fill in your details and an academic mentor will contact you within 24 hours.

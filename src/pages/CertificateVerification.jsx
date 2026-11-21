@@ -7,29 +7,37 @@ export default function CertificateVerification() {
   const [searched, setSearched] = useState(false);
 
   const mockDatabase = {
+    'GV-AI-2024-001': {
+      name: 'Arun Kumar',
+      course: 'Artificial Intelligence & Deep Learning Master Track',
+      completionDate: '14 August 2026',
+      grade: 'Distinction (A+)',
+      status: 'VERIFIED AUTHENTIC',
+      issuedBy: 'GV DesignTech, Pollachi'
+    },
     'PYBOT-AI-2024-001': {
       name: 'Arun Kumar',
       course: 'Artificial Intelligence & Deep Learning Master Track',
       completionDate: '14 August 2026',
       grade: 'Distinction (A+)',
       status: 'VERIFIED AUTHENTIC',
-      issuedBy: 'PyBot AI Academy, Pollachi'
+      issuedBy: 'GV DesignTech, Pollachi'
     },
-    'PYBOT-DS-2024-042': {
+    'GV-DS-2024-042': {
       name: 'Sanjana Priya',
       course: 'Advanced Data Science & MLOps Certification',
       completionDate: '28 September 2026',
       grade: 'Distinction (A+)',
       status: 'VERIFIED AUTHENTIC',
-      issuedBy: 'PyBot AI Academy, Pollachi'
+      issuedBy: 'GV DesignTech, Pollachi'
     },
-    'PYBOT-FS-2024-118': {
+    'GV-FS-2024-118': {
       name: 'Vignesh Kumar',
       course: 'Python Full Stack Web Developer Track',
       completionDate: '10 October 2026',
       grade: 'First Class (A)',
       status: 'VERIFIED AUTHENTIC',
-      issuedBy: 'PyBot AI Academy, Pollachi'
+      issuedBy: 'GV DesignTech, Pollachi'
     }
   };
 
@@ -47,7 +55,7 @@ export default function CertificateVerification() {
         completionDate: '2026 Cohort',
         grade: 'Verified Graduate',
         status: 'VERIFIED AUTHENTIC',
-        issuedBy: 'PyBot AI Academy, Pollachi'
+        issuedBy: 'GV DesignTech, Pollachi'
       });
     } else {
       setResult(null);
@@ -73,7 +81,7 @@ export default function CertificateVerification() {
           <form onSubmit={handleVerify} style={{ maxWidth: '560px', margin: '0 auto 40px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             <input
               type="text"
-              placeholder="Enter Certificate ID (e.g. PYBOT-AI-2024-001)"
+              placeholder="Enter Certificate ID (e.g. GV-AI-2024-001)"
               value={certId}
               onChange={(e) => setCertId(e.target.value)}
               required
@@ -108,7 +116,7 @@ export default function CertificateVerification() {
 
           {/* Sample IDs tip */}
           <div style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.5)' }}>
-            Try sample IDs: <code style={{ color: '#22d3ee', cursor: 'pointer' }} onClick={() => setCertId('PYBOT-AI-2024-001')}>PYBOT-AI-2024-001</code> or <code style={{ color: '#22d3ee', cursor: 'pointer' }} onClick={() => setCertId('PYBOT-DS-2024-042')}>PYBOT-DS-2024-042</code>
+            Try sample IDs: <code style={{ color: '#22d3ee', cursor: 'pointer' }} onClick={() => setCertId('GV-AI-2024-001')}>GV-AI-2024-001</code> or <code style={{ color: '#22d3ee', cursor: 'pointer' }} onClick={() => setCertId('GV-DS-2024-042')}>GV-DS-2024-042</code>
           </div>
         </div>
 
@@ -158,7 +166,7 @@ export default function CertificateVerification() {
                 <div style={{ fontSize: '32px', marginBottom: '8px' }}>⚠️</div>
                 <h3 style={{ fontSize: '18px', fontWeight: '700', margin: '0 0 6px' }}>Credential Not Found</h3>
                 <p style={{ margin: 0, fontSize: '14px' }}>
-                  Please check the certificate number and re-enter. If you require assistance, email support at pybotrobotics@gmail.com.
+                  Please check the certificate number and re-enter. If you require assistance, email support at support@gvdesigntech.com.
                 </p>
               </div>
             )}

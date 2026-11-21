@@ -59,10 +59,10 @@ export default function SkillTest() {
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
           <div style={{ display: 'inline-block', padding: '6px 18px', background: 'rgba(217, 70, 239, 0.15)', border: '1px solid rgba(217, 70, 239, 0.4)', borderRadius: '999px', color: '#f472b6', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', marginBottom: '16px' }}>
-            SKILL TEST — PYBOT SKILL TEST
+            SKILL TEST — GV DESIGNTECH SKILL TEST
           </div>
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #e879f9 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            Pybot Skill Test<br />P.S.T
+            GV DesignTech Skill Test<br />P.S.T
           </h1>
           <p style={{ maxWidth: '680px', margin: '0 auto', fontSize: '16.5px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
             Build industry-ready skills with a structured learning experience designed to strengthen your technical knowledge and benchmark your interview readiness.
@@ -204,7 +204,7 @@ export default function SkillTest() {
               Your Score: <strong style={{ color: '#39d0ff', fontSize: '24px' }}>{score} / {questions.length}</strong>
             </p>
             <p style={{ fontSize: '14px', color: '#34d399', background: 'rgba(52, 211, 153, 0.15)', padding: '12px', borderRadius: '10px', marginBottom: '28px' }}>
-              {score >= questions.length * 0.75 ? '🎉 Outstanding! You qualify for PyBot AI Advanced Placement fast-tracking!' : 'Good attempt! Explore our training programs to level up.'}
+              {score >= questions.length * 0.75 ? '🎉 Outstanding! You qualify for GV DesignTech Advanced Placement fast-tracking!' : 'Good attempt! Explore our training programs to level up.'}
             </p>
             <button
               type="button"

@@ -117,7 +117,7 @@ export default function Home({ onOpenModal }) {
               <span className={P.dot}></span>
               <span>Future of AI Learning Hub Near You</span>
             </div>
-            <div className={P['hero-bg-text']}>PYBOT</div>
+            <div className={P['hero-bg-text']} style={{ fontSize: 'clamp(36px, 9.5vw, 130px)', letterSpacing: '-2px' }}>GV DESIGNTECH</div>
 
             {/* Left Card */}
             <div className={`${P['floating-card']} ${P['card-left']} ${P.reveal} ${P.visible} ${P.show}`}>
@@ -157,7 +157,7 @@ export default function Home({ onOpenModal }) {
                 <span className={`${P.particle} ${P.p6}`}></span>
               </div>
               <img
-                alt="PyBot AI Virtual Training Assistant System Interface"
+                alt="GV DesignTech Virtual Training Assistant System Interface"
                 className={P['robot-img']}
                 src="/assets/robo-fgOr2duE.png"
               />
@@ -169,7 +169,7 @@ export default function Home({ onOpenModal }) {
               <div className={P['hero-chairman-frame']}>
                 <div className={P['hero-chairman-inner']}>
                   <img
-                    alt="Dr. Muthuraj Madamuthu, Founder and CEO of PyBot AI Academy"
+                    alt="Dr. Muthuraj Madamuthu, Founder and CEO of GV DesignTech"
                     className={P['hero-chairman-img']}
                     width="1122"
                     height="1402"
@@ -180,7 +180,7 @@ export default function Home({ onOpenModal }) {
                     <span className={P['hero-chairman-role']}>Dr. Muthuraj Madamuthu</span>
                     <span className={P['hero-chairman-qual']}>M.E., Ph.D.</span>
                     <span className={P['hero-chairman-title']}>Founder / CEO</span>
-                    <span className={P['hero-chairman-org']}>PyBot AI Academy</span>
+                    <span className={P['hero-chairman-org']}>GV DesignTech</span>
                   </figcaption>
                 </div>
               </div>
@@ -193,7 +193,7 @@ export default function Home({ onOpenModal }) {
 
             <div className={`${P['row-right']} ${P.reveal} ${P.visible} ${P.show}`}>
               <p>
-                At PyBot AI &amp; Data Science Solutions, explore the diverse world of Artificial Intelligence and its subfields through industry-focused learning. Build future-ready skills with live projects, immersive labs, expert mentorship, and hands-on experiences designed to solve real-world challenges.
+                At GV DesignTech, explore the diverse world of Artificial Intelligence and its subfields through industry-focused learning. Build future-ready skills with live projects, immersive labs, expert mentorship, and hands-on experiences designed to solve real-world challenges.
               </p>
               <div className={P['cta-group']}>
                 <button
@@ -289,7 +289,7 @@ export default function Home({ onOpenModal }) {
                   </g>
                   <circle className={P.pulse} cx="160" cy="140" r="90" fill="none" stroke="rgba(139,92,246,.15)" strokeWidth="1" />
                   <text x="140" y="145" fontFamily="Poppins,sans-serif" fontSize="11" fontWeight="700" fill="white" opacity=".9">
-                    PyBot AI
+                    GV DesignTech
                   </text>
                 </g>
               </svg>
@@ -309,7 +309,7 @@ export default function Home({ onOpenModal }) {
 
             <div className={`${P['about-content']} ${P.reveal} ${P.visible} ${P.show}`}>
               <div className={P['section-eyebrow']}>
-                <a href="#about">Welcome To PyBot AI Academy</a>
+                <a href="#about">Welcome To GV DesignTech Academy</a>
               </div>
               <h2 className={`${P.h2} ${P.reveal} ${P.visible} ${P.show}`}>
                 Leading Innovations with Premium <span>Artificial Intelligence Course Frameworks</span>
@@ -393,12 +393,12 @@ export default function Home({ onOpenModal }) {
               <div className={P.sweep}></div>
               <div className={P['inner-box']}></div>
               <div className={P['logo-box']}>
-                <img alt="Pybot AI Academy Core Training Systems" src="/assets/logo-0m0vxTot.png" />
+                <img alt="GV DesignTech Core Training Systems" src="/assets/logo-0m0vxTot.png" />
               </div>
             </div>
           </div>
           <div className={P['ai-right']}>
-            <span className={P['mini-title']}>WELCOME TO PYBOT AI ACADEMY</span>
+            <span className={P['mini-title']}>WELCOME TO GV DESIGNTECH</span>
             <h2>
               Pioneering the Future of Data Science &amp; <span>Generative AI Classes</span>
             </h2>
@@ -453,12 +453,12 @@ export default function Home({ onOpenModal }) {
               </p>
               <div className={P['ai-orbit']}>
                 <div className={P['center-core']}>
-                  <img alt="Pybot AI Interactive Core Training Environment" src="/assets/logo-0m0vxTot.png" />
+                  <img alt="GV DesignTech Interactive Core Training Environment" src="/assets/logo-0m0vxTot.png" />
                 </div>
                 <div className={P['ai-left']}>
                   <div className={P['training-gallery']}>
                     <img
-                      alt="Advanced Machine Learning Laboratory inside PyBot AI Academy"
+                      alt="Advanced Machine Learning Laboratory inside GV DesignTech Academy"
                       src="/assets/image1-CO0kRs3Y.jpeg"
                     />
                     <img
@@ -563,7 +563,7 @@ export default function Home({ onOpenModal }) {
           </div>
 
           <h2 className={`${P.h2} ${P.reveal} ${P.visible} ${P.show}`}>
-            The Tech Ecosystem of Tomorrow Is Here — Are You Ready to Join <span>Pybot AI Academy?</span>
+            The Tech Ecosystem of Tomorrow Is Here — Are You Ready to Join <span>GV DesignTech?</span>
           </h2>
           <p>
             Master specialized modern methodologies including contextual natural language structures, automated diagnostic pipelines, and scalable enterprise data models built for fast workflows. Apply near you today.

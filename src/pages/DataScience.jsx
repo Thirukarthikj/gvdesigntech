@@ -135,7 +135,7 @@ export default function DataScience({ onOpenModal }) {
         <div style={{ textAlign: 'center', marginBottom: '64px' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.4)', borderRadius: '999px', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', color: '#c084fc', marginBottom: '20px' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22d3ee' }}></span>
-            PYBOT AI ACADEMY · DATA SCIENCE PRO
+            GV DESIGNTECH · DATA SCIENCE PRO
           </div>
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 20px', background: 'linear-gradient(135deg, #ffffff 40%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Master Data Science<br />&amp; Get Placed in 90 Days

@@ -27,7 +27,7 @@ export default function FlagshipBlog() {
             Recent Articles &amp; Technical Insights
           </h1>
           <p style={{ maxWidth: '680px', margin: '0 auto 32px', fontSize: '16.5px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
-            Stay ahead with expert tutorials and industry trends on Full Stack, AI, Data Science, MERN, and Python — curated by PyBot Experts.
+            Stay ahead with expert tutorials and industry trends on Full Stack, AI, Data Science, MERN, and Python — curated by GV DesignTech Experts.
           </p>
 
           {/* Search bar */}
@@ -231,7 +231,7 @@ export default function FlagshipBlog() {
                   As technology rapidly evolves in 2026, proficiency in modern engineering stacks, cloud deployment architectures, and generative AI agents is separating top-tier developers from the rest of the industry.
                 </p>
                 <p>
-                  At PyBot AI Academy, we bridge academic foundations with industrial execution through hands-on laboratory sandboxes, live code reviews, and enterprise capstone pipelines.
+                  At GV DesignTech, we bridge academic foundations with industrial execution through hands-on laboratory sandboxes, live code reviews, and enterprise capstone pipelines.
                 </p>
                 <p>
                   Key competencies required this year include asynchronous microservices, scalable vector search architectures, automated continuous integration, and secure container orchestration.

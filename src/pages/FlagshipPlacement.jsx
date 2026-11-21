@@ -33,8 +33,8 @@ export default function FlagshipPlacement({ onOpenModal }) {
   ];
 
   const stories = [
-    { name: 'Thiruvenkatesh', role: 'Data Scientist @ Top Analytics MNC', pkg: '7.2 LPA', quote: 'The real-world projects and mock interview simulations at PyBot gave me the exact skills needed to clear all rounds in one attempt.' },
-    { name: 'Jeya Kutty', role: 'Full Stack Engineer @ Tech Startup', pkg: '6.5 LPA', quote: 'From zero coding background to deploying full stack Django applications — the mentors at PyBot are exceptional.' },
+    { name: 'Thiruvenkatesh', role: 'Data Scientist @ Top Analytics MNC', pkg: '7.2 LPA', quote: 'The real-world projects and mock interview simulations at GV DesignTech gave me the exact skills needed to clear all rounds in one attempt.' },
+    { name: 'Jeya Kutty', role: 'Full Stack Engineer @ Tech Startup', pkg: '6.5 LPA', quote: 'From zero coding background to deploying full stack Django applications — the mentors at GV DesignTech are exceptional.' },
     { name: 'Revathi', role: 'ML Engineer @ Enterprise AI Lab', pkg: '7.0 LPA', quote: 'The deep learning curriculum with PyTorch and NLP was cutting-edge. I got 3 job offers within two months of graduation.' }
   ];
 
@@ -50,7 +50,7 @@ export default function FlagshipPlacement({ onOpenModal }) {
             Your Career Mission Starts Here
           </h1>
           <p style={{ maxWidth: '740px', margin: '0 auto 36px', fontSize: '17px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
-            Transform from student to industry-ready professional with PYBOT's comprehensive placement ecosystem, corporate hiring drives, and individualized mentoring.
+            Transform from student to industry-ready professional with GV DesignTech's comprehensive placement ecosystem, corporate hiring drives, and individualized mentoring.
           </p>
 
           {/* Stats Grid */}

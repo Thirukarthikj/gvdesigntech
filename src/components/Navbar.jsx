@@ -26,8 +26,8 @@ export default function Navbar() {
   return (
     <nav className="nav">
       <Link className="brand" to="/" onClick={closeAll}>
-        <img alt="PyBotAI Logo" className="logo" src="/assets/logo-0m0vxTot.png" />
-        <span>PyBot</span>
+        <img alt="GV DesignTech Logo" className="logo" src="/assets/logo-0m0vxTot.png" />
+        <span>GV DesignTech</span>
       </Link>
 
       <button

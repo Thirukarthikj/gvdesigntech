@@ -1,6 +1,6 @@
-# PyBot AI Solutions & Academy — Frontend Application Clone
+# GV DesignTech — Frontend Application Clone
 
-A responsive, high-fidelity React.js clone of [PyBot AI Solutions](https://www.pybotaisolutions.com/) (Pollachi & Coimbatore, Tamil Nadu), built using **Vite**, **React 18**, **JavaScript (ES Modules)**, **HTML5**, and **CSS3**.
+A responsive, high-fidelity React.js clone of [GV DesignTech](https://www.pybotaisolutions.com/) (Pollachi & Coimbatore, Tamil Nadu), built using **Vite**, **React 18**, **JavaScript (ES Modules)**, **HTML5**, and **CSS3**.
 
 This project reproduces the visual design, interactive functionality, responsive layouts, and authentic assets of the original website without creative redesign or placeholder shortcuts.
 
@@ -10,7 +10,7 @@ This project reproduces the visual design, interactive functionality, responsive
 
 ### 1. Global Navigation & Branding
 - **Header & Navbar (`Navbar.jsx`):**
-  - High-resolution SVG & PNG branding with dual-tone logo ("PyBot AI Solutions").
+  - High-resolution SVG & PNG branding with dual-tone logo ("GV DesignTech").
   - Dynamic desktop dropdown menus with hover/focus states:
     - **Courses (4 tracks):** Data Science, Data Analytics, Artificial Intelligence, Machine Learning.
     - **Internship (5 tracks):** AI Internship, Summer Internship, College Internship, Data Science Internship, Machine Learning Internship.

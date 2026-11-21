@@ -66,7 +66,7 @@ export default function EnrollModal({ isOpen, onClose }) {
 
         <div className={s['em-header']}>
           <h2 className={s['em-title']}>Enroll Now</h2>
-          <p className={s['em-subtitle']}>Start your AI journey with PyBot</p>
+          <p className={s['em-subtitle']}>Start your journey with GV DesignTech</p>
         </div>
 
         <div className={s['em-offer']}>

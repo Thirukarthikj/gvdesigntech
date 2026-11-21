@@ -15,11 +15,11 @@ export default function Register() {
       <div style={{ width: '100%', maxWidth: '440px', padding: '40px', background: 'linear-gradient(160deg, rgba(30, 22, 68, 0.9), rgba(6, 6, 24, 0.95))', border: '1px solid rgba(139, 92, 246, 0.4)', borderRadius: '24px', boxShadow: '0 20px 50px rgba(0,0,0,0.6)' }}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-            <img alt="PyBot" src="/assets/logo-0m0vxTot.png" style={{ height: '36px' }} />
+            <img alt="GV DesignTech" src="/assets/logo-0m0vxTot.png" style={{ height: '36px' }} />
             <span style={{ fontSize: '22px', fontWeight: '800', color: '#fff' }}>PyBot</span>
           </Link>
           <h2 style={{ fontSize: '22px', fontWeight: '700', marginTop: '16px', marginBottom: '6px' }}>Student Registration</h2>
-          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '13.5px', margin: 0 }}>Create your PyBot AI Academy account</p>
+          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '13.5px', margin: 0 }}>Create your GV DesignTech account</p>
         </div>
 
         <form onSubmit={handleRegister} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>

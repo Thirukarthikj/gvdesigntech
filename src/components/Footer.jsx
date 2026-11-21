@@ -9,7 +9,7 @@ export default function Footer() {
           <h3>
             Let's make something <span>great work together.</span>
           </h3>
-          <p>Join 15,000+ learners already enrolled in PyBot AI Academy.</p>
+          <p>Join 15,000+ learners already enrolled in GV DesignTech.</p>
         </div>
         <div className="nl-form">
           <div className="nl-badge-showcase">
@@ -31,11 +31,11 @@ export default function Footer() {
       <div className="footer-grid">
         <div className="footer-brand">
           <Link to="/" className="foot-logo">
-            <img alt="PyBot Logo" src="/assets/logo-0m0vxTot.png" />
-            <span>PyBot</span>
+            <img alt="GV DesignTech Logo" src="/assets/logo-0m0vxTot.png" />
+            <span>GV DesignTech</span>
           </Link>
           <p>
-            PyBot AI Academy provides world-class AI &amp; ML training. We empower professionals with job-ready skills through cloud platforms, data management tools, and AI frameworks.
+            GV DesignTech provides world-class AI &amp; ML training. We empower professionals with job-ready skills through cloud platforms, data management tools, and AI frameworks.
           </p>
           <div className="social-row">
             <div className="footer-stats">
@@ -85,9 +85,9 @@ export default function Footer() {
             <div className="ci-ico">📍</div>
             <span>No 14 , First floor, Agni Amman Complex, Bus stand, Raja Mill Rd, backside, Pollachi, Coimbatore District, Tamil Nadu 642001</span>
           </div>
-          <div className="contact-item" style={{ cursor: 'pointer' }} onClick={() => window.location.href = 'mailto:pybotrobotics@gmail.com'}>
+          <div className="contact-item" style={{ cursor: 'pointer' }} onClick={() => window.location.href = 'mailto:contact@gvdesigntech.com'}>
             <div className="ci-ico">📩</div>
-            <span>pybotrobotics@gmail.com</span>
+            <span>contact@gvdesigntech.com</span>
           </div>
           <div className="contact-item" style={{ cursor: 'pointer' }} onClick={() => window.location.href = 'tel:+919345794514'}>
             <div className="ci-ico">📞</div>
@@ -103,7 +103,7 @@ export default function Footer() {
           </a>{' '}
           All rights reserved.
         </p>
-        <p className="credits">Designed for PyBot</p>
+        <p className="credits">Designed for GV DesignTech</p>
       </div>
     </footer>
   );

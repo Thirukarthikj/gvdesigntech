@@ -21,7 +21,7 @@ export default function Login() {
       <div style={{ width: '100%', maxWidth: '420px', padding: '40px', background: 'linear-gradient(160deg, rgba(30, 22, 68, 0.9), rgba(6, 6, 24, 0.95))', border: '1px solid rgba(139, 92, 246, 0.4)', borderRadius: '24px', boxShadow: '0 20px 50px rgba(0,0,0,0.6)' }}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-            <img alt="PyBot" src="/assets/logo-0m0vxTot.png" style={{ height: '36px' }} />
+            <img alt="GV DesignTech" src="/assets/logo-0m0vxTot.png" style={{ height: '36px' }} />
             <span style={{ fontSize: '22px', fontWeight: '800', color: '#fff' }}>PyBot</span>
           </Link>
           <h2 style={{ fontSize: '22px', fontWeight: '700', marginTop: '16px', marginBottom: '6px' }}>Student Login</h2>
@@ -40,7 +40,7 @@ export default function Login() {
             <input
               type="email"
               required
-              placeholder="student@pybot.com"
+              placeholder="student@gvdesigntech.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(139,92,246,0.3)', color: '#fff', fontSize: '14.5px', outline: 'none' }}

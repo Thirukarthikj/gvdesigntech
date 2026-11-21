@@ -28,7 +28,7 @@ export default function AiInternship({ onOpenModal }) {
 
   const faqs = [
     { q: 'Who can apply for this AI Internship?', a: 'Undergraduate and postgraduate students, fresh engineering graduates, and early-career software developers looking for intensive practical experience.' },
-    { q: 'Is this internship recognized by universities?', a: 'Yes! PyBot AI Academy is an ISO 9001:2015 certified training institute, and our internship credentials and completion letters are accepted for academic credit across colleges.' },
+    { q: 'Is this internship recognized by universities?', a: 'Yes! GV DesignTech is an ISO 9001:2015 certified training institute, and our internship credentials and completion letters are accepted for academic credit across colleges.' },
     { q: 'Will I work on live corporate projects?', a: 'Yes! You will work on real industrial datasets and build end-to-end architectures that can be showcased on your GitHub portfolio.' }
   ];
 

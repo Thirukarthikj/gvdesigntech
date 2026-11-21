@@ -132,7 +132,7 @@ export default function ArtificialIntelligence({ onOpenModal }) {
             The Future Is Powered By <span className={z['ai-grad-text']}>Artificial Intelligence</span>
           </h2>
           <p style={{ fontSize: '16px', color: 'rgba(255, 255, 255, 0.75)', marginBottom: '32px' }}>
-            Start building production AI applications today with PyBot Academy's industry experts.
+            Start building production AI applications today with GV DesignTech Academy's industry experts.
           </p>
           <button
             type="button"
