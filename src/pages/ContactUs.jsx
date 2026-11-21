@@ -32,7 +32,7 @@ export default function ContactUs() {
             Find Us With Our<br />Updated Contact Options
           </h1>
           <p style={{ maxWidth: '680px', margin: '0 auto', fontSize: '16.5px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
-            Have questions about our AI, Data Science, or Full Stack programs? Reach out to our academic advisors in Pollachi.
+            Have questions about our AI, Data Science, or Full Stack programs? Reach out to our admissions team at our Headquarters in Oddanchatram, Tamil Nadu.
           </p>
         </div>
 
@@ -41,7 +41,7 @@ export default function ContactUs() {
           {/* Info Card */}
           <div style={{ padding: '36px', background: 'linear-gradient(160deg, rgba(30, 22, 68, 0.7), rgba(6, 6, 24, 0.8))', border: '1px solid rgba(139, 92, 246, 0.35)', borderRadius: '24px' }}>
             <h2 style={{ fontSize: '26px', fontWeight: '800', marginBottom: '24px', color: '#fff' }}>
-              Visit Our Office in Pollachi
+              Headquarters: Oddanchatram, Tamil Nadu
             </h2>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -52,7 +52,7 @@ export default function ContactUs() {
                 <div>
                   <h4 style={{ fontSize: '16px', fontWeight: '700', margin: '0 0 4px', color: '#fff' }}>Location Address</h4>
                   <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5, margin: 0 }}>
-                    No 14, First floor, Agni Amman Complex, Bus stand, Raja Mill Rd, backside, Pollachi, Coimbatore District, Tamil Nadu 642001
+                    Headquarters: Oddanchatram, Tamil Nadu
                   </p>
                 </div>
               </div>
@@ -63,8 +63,8 @@ export default function ContactUs() {
                 </div>
                 <div>
                   <h4 style={{ fontSize: '16px', fontWeight: '700', margin: '0 0 4px', color: '#fff' }}>Email Address</h4>
-                  <a href="mailto:contact@gvdesigntech.com" style={{ fontSize: '14px', color: '#e879f9', textDecoration: 'none' }}>
-                    contact@gvdesigntech.com
+                  <a href="mailto:gvdesigntech707@gmail.com" style={{ fontSize: '14px', color: '#e879f9', textDecoration: 'none' }}>
+                    gvdesigntech707@gmail.com
                   </a>
                 </div>
               </div>
@@ -75,8 +75,8 @@ export default function ContactUs() {
                 </div>
                 <div>
                   <h4 style={{ fontSize: '16px', fontWeight: '700', margin: '0 0 4px', color: '#fff' }}>Call or WhatsApp</h4>
-                  <a href="tel:+919345794514" style={{ fontSize: '14px', color: '#22d3ee', textDecoration: 'none' }}>
-                    +91 9345794514
+                  <a href="tel:+919655364707" style={{ fontSize: '14px', color: '#22d3ee', textDecoration: 'none' }}>
+                    +91 96553 64707
                   </a>
                 </div>
               </div>

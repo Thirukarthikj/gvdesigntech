@@ -13,7 +13,7 @@ export default function CertificateVerification() {
       completionDate: '14 August 2026',
       grade: 'Distinction (A+)',
       status: 'VERIFIED AUTHENTIC',
-      issuedBy: 'GV DesignTech, Pollachi'
+      issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
     },
     'PYBOT-AI-2024-001': {
       name: 'Arun Kumar',
@@ -21,7 +21,7 @@ export default function CertificateVerification() {
       completionDate: '14 August 2026',
       grade: 'Distinction (A+)',
       status: 'VERIFIED AUTHENTIC',
-      issuedBy: 'GV DesignTech, Pollachi'
+      issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
     },
     'GV-DS-2024-042': {
       name: 'Sanjana Priya',
@@ -29,7 +29,7 @@ export default function CertificateVerification() {
       completionDate: '28 September 2026',
       grade: 'Distinction (A+)',
       status: 'VERIFIED AUTHENTIC',
-      issuedBy: 'GV DesignTech, Pollachi'
+      issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
     },
     'GV-FS-2024-118': {
       name: 'Vignesh Kumar',
@@ -37,7 +37,7 @@ export default function CertificateVerification() {
       completionDate: '10 October 2026',
       grade: 'First Class (A)',
       status: 'VERIFIED AUTHENTIC',
-      issuedBy: 'GV DesignTech, Pollachi'
+      issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
     }
   };
 
@@ -55,7 +55,7 @@ export default function CertificateVerification() {
         completionDate: '2026 Cohort',
         grade: 'Verified Graduate',
         status: 'VERIFIED AUTHENTIC',
-        issuedBy: 'GV DesignTech, Pollachi'
+        issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
       });
     } else {
       setResult(null);
@@ -166,7 +166,7 @@ export default function CertificateVerification() {
                 <div style={{ fontSize: '32px', marginBottom: '8px' }}>⚠️</div>
                 <h3 style={{ fontSize: '18px', fontWeight: '700', margin: '0 0 6px' }}>Credential Not Found</h3>
                 <p style={{ margin: 0, fontSize: '14px' }}>
-                  Please check the certificate number and re-enter. If you require assistance, email support at support@gvdesigntech.com.
+                  Please check the certificate number and re-enter. If you require assistance, email support at gvdesigntech707@gmail.com.
                 </p>
               </div>
             )}

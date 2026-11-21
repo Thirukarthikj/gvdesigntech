@@ -1,6 +1,6 @@
 # GV DesignTech — Frontend Application Clone
 
-A responsive, high-fidelity React.js clone of [GV DesignTech](https://www.pybotaisolutions.com/) (Pollachi & Coimbatore, Tamil Nadu), built using **Vite**, **React 18**, **JavaScript (ES Modules)**, **HTML5**, and **CSS3**.
+A responsive, high-fidelity React.js clone of [GV DesignTech](https://www.pybotaisolutions.com/) (Oddanchatram, Tamil Nadu), built using **Vite**, **React 18**, **JavaScript (ES Modules)**, **HTML5**, and **CSS3**.
 
 This project reproduces the visual design, interactive functionality, responsive layouts, and authentic assets of the original website without creative redesign or placeholder shortcuts.
 
@@ -50,7 +50,7 @@ This project reproduces the visual design, interactive functionality, responsive
 | `/flagship/Blog-page` | `FlagshipBlog.jsx` | 50 authentic technical blog posts with category filtering, real-time search filter, featured article banner, and interactive full-text article reader modal. |
 | `/internship/*` | 5 Internship Pages | Dedicated pages for AI, Summer, College, Data Science, and Machine Learning internships with weekly syllabus, real project deliverables, and mentor listings. |
 | `/certificate-verification` | `CertificateVerification.jsx` | Real-time credential lookup engine with instant validation against authentic student ID formats (e.g. `PYBOT-AI-2024-001`), issuing dates, and grade badges. |
-| `/Contactus` | `ContactUs.jsx` | Pollachi campus address, interactive Google Maps embed, phone/email contact cards, and working message submission form. |
+| `/Contactus` | `ContactUs.jsx` | Oddanchatram campus address, interactive Google Maps embed, phone/email contact cards, and working message submission form. |
 | `/pest-exam` | `SkillTest.jsx` | Interactive multi-domain assessment engine (Python, AI & ML, Data Analytics) with timer, instant scoring, question review, and result card. |
 | `/Login` & `/Register` | `Login.jsx` / `Register.jsx` | Secure student portal authentication forms with toggleable password visibility and remember-me controls. |
 | `/Pybot-video` | `PybotVideo.jsx` | Interactive video player showcasing student testimonials, classroom sessions, and workshop recaps. |

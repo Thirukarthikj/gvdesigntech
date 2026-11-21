@@ -83,15 +83,15 @@ export default function Footer() {
           <h4>Contact</h4>
           <div className="contact-item">
             <div className="ci-ico">📍</div>
-            <span>No 14 , First floor, Agni Amman Complex, Bus stand, Raja Mill Rd, backside, Pollachi, Coimbatore District, Tamil Nadu 642001</span>
+            <span>Headquarters: Oddanchatram, Tamil Nadu</span>
           </div>
-          <div className="contact-item" style={{ cursor: 'pointer' }} onClick={() => window.location.href = 'mailto:contact@gvdesigntech.com'}>
+          <div className="contact-item" style={{ cursor: 'pointer' }} onClick={() => window.location.href = 'mailto:gvdesigntech707@gmail.com'}>
             <div className="ci-ico">📩</div>
-            <span>contact@gvdesigntech.com</span>
+            <span>gvdesigntech707@gmail.com</span>
           </div>
-          <div className="contact-item" style={{ cursor: 'pointer' }} onClick={() => window.location.href = 'tel:+919345794514'}>
+          <div className="contact-item" style={{ cursor: 'pointer' }} onClick={() => window.location.href = 'tel:+919655364707'}>
             <div className="ci-ico">📞</div>
-            <span>+91 9345794514</span>
+            <span>+91 96553 64707</span>
           </div>
         </div>
       </div>

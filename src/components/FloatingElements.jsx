@@ -52,7 +52,7 @@ export default function FloatingElements() {
           </svg>
         </a>
         <a
-          href="https://www.instagram.com/pybot_academy/"
+          href="https://instagram.com/gvdesigntech"
           target="_blank"
           rel="noopener noreferrer"
           className={sb.icon}
@@ -88,7 +88,7 @@ export default function FloatingElements() {
 
       {/* WhatsApp Floating Button */}
       <a
-        href="https://wa.me/919345794514"
+        href="https://wa.me/919655364707"
         target="_blank"
         rel="noopener noreferrer"
         className={sb.whatsappBtn}
@@ -206,7 +206,7 @@ export default function FloatingElements() {
               <div className="pb-recent-activity-meta">
                 <span>📅 September 2026</span>
                 <span className="pb-recent-activity-meta-sep"></span>
-                <span>📍 GV DesignTech, Pollachi</span>
+                <span>📍 GV DesignTech, Oddanchatram, Tamil Nadu</span>
               </div>
             </div>
           </div>
