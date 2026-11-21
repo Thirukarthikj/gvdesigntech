@@ -93,10 +93,10 @@ export default function FlagshipBlog() {
           >
             <div style={{ height: '280px', borderRadius: '16px', overflow: 'hidden', position: 'relative' }}>
               <img
-                src={featured.image || '/assets/recent-activity/ai-workshop.jpg'}
+                src={featured.image || '/assets/recent-activity/ai-workshop-2.jpg'}
                 alt={featured.title}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                onError={(e) => { e.target.src = '/assets/recent-activity/ai-workshop.jpg'; }}
+                onError={(e) => { e.target.src = '/assets/recent-activity/ai-workshop-2.jpg'; }}
               />
               <span style={{ position: 'absolute', top: '12px', left: '12px', padding: '4px 12px', background: '#d946ef', borderRadius: '999px', fontSize: '12px', fontWeight: '700' }}>
                 Featured
@@ -141,10 +141,10 @@ export default function FlagshipBlog() {
             >
               <div style={{ height: '180px', overflow: 'hidden', position: 'relative' }}>
                 <img
-                  src={b.image || '/assets/recent-activity/ai-workshop.jpg'}
+                  src={b.image || '/assets/recent-activity/ai-workshop-2.jpg'}
                   alt={b.title}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  onError={(e) => { e.target.src = '/assets/recent-activity/ai-workshop.jpg'; }}
+                  onError={(e) => { e.target.src = '/assets/recent-activity/ai-workshop-2.jpg'; }}
                 />
                 <span style={{ position: 'absolute', top: '10px', left: '10px', padding: '3px 10px', background: 'rgba(2, 4, 18, 0.8)', border: '1px solid rgba(139,92,246,0.4)', borderRadius: '999px', fontSize: '11px', fontWeight: '700', color: '#c084fc' }}>
                   {b.category}
@@ -219,10 +219,10 @@ export default function FlagshipBlog() {
 
               <div style={{ width: '100%', height: '240px', borderRadius: '16px', overflow: 'hidden', marginBottom: '24px' }}>
                 <img
-                  src={activeArticle.image || '/assets/recent-activity/ai-workshop.jpg'}
+                  src={activeArticle.image || '/assets/recent-activity/ai-workshop-2.jpg'}
                   alt={activeArticle.title}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  onError={(e) => { e.target.src = '/assets/recent-activity/ai-workshop.jpg'; }}
+                  onError={(e) => { e.target.src = '/assets/recent-activity/ai-workshop-2.jpg'; }}
                 />
               </div>
 

@@ -6,8 +6,7 @@ export default function FloatingElements() {
   const [activeSlide, setActiveSlide] = useState(0);
 
   const activities = [
-    { id: 1, src: '/assets/recent-activity/ai-workshop.jpg', alt: 'AI Workshop' },
-    { id: 2, src: '/assets/recent-activity/ai-workshop-2.jpg', alt: 'AI Workshop Hands-on' },
+        { id: 2, src: '/assets/recent-activity/ai-workshop-2.jpg', alt: 'AI Workshop Hands-on' },
     { id: 3, src: '/assets/recent-activity/ai-workshop-3.jpg', alt: 'AI Workshop Mentorship' }
   ];
 
@@ -111,7 +110,7 @@ export default function FloatingElements() {
         onClick={() => setIsActivityOpen(true)}
       >
         <span className="pb-recent-activity-card-thumb">
-          <img alt="AI Workshop" loading="lazy" src="/assets/recent-activity/ai-workshop-thumb.jpg" />
+          <img alt="AI Workshop" loading="lazy" src="/assets/recent-activity/ai-workshop-2.jpg" />
           <span className="pb-recent-activity-card-badge">NEW</span>
         </span>
         <span className="pb-recent-activity-card-body">

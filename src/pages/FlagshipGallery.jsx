@@ -75,11 +75,11 @@ export default function FlagshipGallery({ onOpenModal }) {
             >
               <div style={{ width: '100%', height: '200px', overflow: 'hidden', position: 'relative' }}>
                 <img
-                  src={item.image || `/assets/recent-activity/ai-workshop.jpg`}
+                  src={item.image || `/assets/recent-activity/ai-workshop-2.jpg`}
                   alt={item.title}
                   style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s ease' }}
                   onError={(e) => {
-                    e.target.src = '/assets/recent-activity/ai-workshop.jpg';
+                    e.target.src = '/assets/recent-activity/ai-workshop-2.jpg';
                   }}
                 />
                 <span style={{ position: 'absolute', top: '10px', right: '10px', padding: '4px 10px', background: 'rgba(2, 4, 18, 0.75)', border: '1px solid rgba(217, 70, 239, 0.5)', borderRadius: '999px', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', color: '#e879f9' }}>
