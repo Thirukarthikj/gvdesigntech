@@ -14,6 +14,7 @@ export default function Home({ onOpenModal }) {
   const [statsAnimated, setStatsAnimated] = useState(false);
   const statsRef = useRef(null);
   const heroCardRef = useRef(null);
+  const cadCardRef = useRef(null);
 
   // Scroll reveal observer
   useEffect(() => {
@@ -80,6 +81,41 @@ export default function Home({ onOpenModal }) {
 
     const handleMouseLeave = () => {
       el.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)';
+    };
+
+    el.addEventListener('mousemove', handleMouseMove);
+    el.addEventListener('mouseleave', handleMouseLeave);
+    return () => {
+      el.removeEventListener('mousemove', handleMouseMove);
+      el.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
+
+  // 3D rotation & tilt on CAD Showcase visual
+  useEffect(() => {
+    const el = cadCardRef.current;
+    if (!el) return;
+
+    const handleMouseMove = (e) => {
+      if (window.innerWidth <= 800) return;
+      const rect = el.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      const rotY = x * 36;
+      const rotX = -y * 22 + 10;
+      const model = el.querySelector('.cad-3d-model-inner');
+      if (model) {
+        model.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.04)`;
+        model.style.transition = 'transform 0.1s ease-out';
+      }
+    };
+
+    const handleMouseLeave = () => {
+      const model = el.querySelector('.cad-3d-model-inner');
+      if (model) {
+        model.style.transform = '';
+        model.style.transition = 'transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      }
     };
 
     el.addEventListener('mousemove', handleMouseMove);
@@ -235,65 +271,37 @@ export default function Home({ onOpenModal }) {
         {/* Section 2: About */}
         <section className={P.section} id="about">
           <div className={P['about-grid']}>
-            <div className={`${P['about-visual']} ${P.reveal} ${P.visible} ${P.show}`}>
+            <div
+              className={`${P['about-visual']} ${P.reveal} ${P.visible} ${P.show}`}
+              ref={cadCardRef}
+            >
               <div className={`${P['about-blob']} ${P.ab1}`}></div>
               <div className={`${P['about-blob']} ${P.ab2}`}></div>
-              <div className={P['client-bubbles']} style={{ zIndex: 2 }}>
+              <div className={P['client-bubbles']} style={{ zIndex: 3 }}>
                 <div className={P['c-avatar']}>AR</div>
                 <div className={P['c-avatar']}>SK</div>
                 <div className={P['c-avatar']}>MV</div>
                 <div className={P['c-avatar']}>+</div>
               </div>
 
-              {/* Neural Network SVG */}
-              <svg
-                className={P['pybot-svg']}
-                viewBox="0 0 320 280"
-                xmlns="http://www.w3.org/2000/svg"
-                style={{ width: '75%', zIndex: 2, position: 'relative' }}
-              >
-                <defs>
-                  <linearGradient id="ag1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#8b5cf6" stopOpacity=".9" />
-                    <stop offset="100%" stopColor="#d946ef" stopOpacity=".9" />
-                  </linearGradient>
-                </defs>
-                <g className={P['pybot-anim']}>
-                  <circle cx="160" cy="140" r="70" fill="rgba(139,92,246,.12)" stroke="rgba(139,92,246,.3)" strokeWidth="1.5" />
-                  <circle cx="160" cy="140" r="46" fill="rgba(139,92,246,.1)" stroke="rgba(139,92,246,.2)" strokeWidth="1" />
-                  <circle className={P.core} cx="160" cy="140" r="14" fill="url(#ag1)" />
-                  <circle className={`${P.node} ${P.n1}`} cx="100" cy="100" r="9" fill="url(#ag1)" opacity=".8" />
-                  <circle className={`${P.node} ${P.n2}`} cx="220" cy="100" r="9" fill="url(#ag1)" opacity=".8" />
-                  <circle className={`${P.node} ${P.n3}`} cx="80" cy="160" r="7" fill="rgba(139,92,246,.7)" />
-                  <circle className={`${P.node} ${P.n4}`} cx="240" cy="160" r="7" fill="rgba(217,70,239,.7)" />
-                  <circle className={`${P.node} ${P.n5}`} cx="120" cy="200" r="7" fill="rgba(139,92,246,.7)" />
-                  <circle className={`${P.node} ${P.n6}`} cx="200" cy="200" r="7" fill="rgba(217,70,239,.7)" />
-                  <g className={P.arms} stroke="rgba(139,92,246,.4)" strokeWidth="1.2">
-                    <line x1="160" y1="140" x2="100" y2="100" />
-                    <line x1="160" y1="140" x2="220" y2="100" />
-                    <line x1="160" y1="140" x2="80" y2="160" />
-                    <line x1="160" y1="140" x2="240" y2="160" />
-                    <line x1="160" y1="140" x2="120" y2="200" />
-                    <line x1="160" y1="140" x2="200" y2="200" />
-                  </g>
-                  <circle cx="60" cy="60" r="6" fill="rgba(139,92,246,.5)" />
-                  <circle cx="260" cy="70" r="5" fill="rgba(217,70,239,.5)" />
-                  <circle cx="48" cy="200" r="5" fill="rgba(139,92,246,.4)" />
-                  <circle cx="272" cy="200" r="6" fill="rgba(217,70,239,.4)" />
-                  <g stroke="rgba(139,92,246,.25)" strokeWidth="1">
-                    <line x1="100" y1="100" x2="60" y2="60" />
-                    <line x1="220" y1="100" x2="260" y2="70" />
-                    <line x1="80" y1="160" x2="48" y2="200" />
-                    <line x1="240" y1="160" x2="272" y2="200" />
-                  </g>
-                  <circle className={P.pulse} cx="160" cy="140" r="90" fill="none" stroke="rgba(139,92,246,.15)" strokeWidth="1" />
-                  <text x="140" y="145" fontFamily="Poppins,sans-serif" fontSize="11" fontWeight="700" fill="white" opacity=".9">
-                    GV DesignTech
-                  </text>
-                </g>
-              </svg>
+              {/* 3D Model Badge */}
+              <div className="cad-badge-tag">
+                <span className="cad-badge-dot"></span>
+                <span>3D CAD Model</span>
+              </div>
 
-              <div className={P['about-stat-pill']} style={{ zIndex: 2 }}>
+              {/* 3D Rotating CAD Showcase Scene */}
+              <div className="cad-3d-scene">
+                <div className="cad-3d-platform"></div>
+                <div className="cad-3d-model-inner">
+                  <img
+                    src="/assets/cad-isometric-room.png"
+                    alt="GV DesignTech 3D CAD Architectural Interior"
+                  />
+                </div>
+              </div>
+
+              <div className={P['about-stat-pill']} style={{ zIndex: 3 }}>
                 <div>
                   <div className={P.big}>5200+</div>
                   <div className={P.sm}>Verified Local Members</div>
@@ -311,36 +319,36 @@ export default function Home({ onOpenModal }) {
                 <a href="#about">Welcome To GV DesignTech Academy</a>
               </div>
               <h2 className={`${P.h2} ${P.reveal} ${P.visible} ${P.show}`}>
-                Leading Innovations with Premium <span>Artificial Intelligence Course Frameworks</span>
+                Master Industry-Standard <span>CAD &amp; Engineering Design</span>
               </h2>
               <p className={P.lead}>
-                Explore various definitions of AI, from narrow AI to artificial general intelligence (AGI). Build real-world expertise with our industry-aligned regional training curriculum.
+                Gain hands-on proficiency in architectural drafting, 3D mechanical modeling, BIM workflows, and structural analysis. Build real-world competence with our industry-aligned training programs.
               </p>
               <div className={P.flist} style={{ marginTop: '32px' }}>
                 <div className={P['flist-item']}>
                   <div className={P['flist-bullet']}></div>
                   <div>
-                    <h4>AI-Based Cybersecurity Training Solutions</h4>
+                    <h4>Advanced 2D/3D CAD &amp; Architectural Modeling</h4>
                     <p>
-                      Protect enterprise environments and identify anomalies using localized machine learning models trained on structural threat matrices.
+                      Master AutoCAD, Revit, and 3ds Max with parametric planning, photorealistic 3D visualization, and professional architectural blueprint generation.
                     </p>
                   </div>
                 </div>
                 <div className={P['flist-item']}>
                   <div className={P['flist-bullet']}></div>
                   <div>
-                    <h4>Robotic Process Automation Infrastructure</h4>
+                    <h4>Mechanical Product Design &amp; Digital Prototyping</h4>
                     <p>
-                      Automate repetitive data operations within your business ecosystems via advanced bot design and workflow orchestration systems.
+                      Develop precision mechanical assemblies, generative CAD components, and production-ready manufacturing blueprints using SolidWorks and CATIA.
                     </p>
                   </div>
                 </div>
                 <div className={P['flist-item']}>
                   <div className={P['flist-bullet']}></div>
                   <div>
-                    <h4>Custom AI Algorithm &amp; Analytics Development</h4>
+                    <h4>BIM Coordination &amp; Structural Engineering</h4>
                     <p>
-                      Design, test, and deploy tailored deep neural network structures specific to target regional industrial applications.
+                      Implement collaborative Building Information Modeling, structural analysis, and clash-detection simulation for modern infrastructure projects.
                     </p>
                   </div>
                 </div>
