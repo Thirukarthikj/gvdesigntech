@@ -591,10 +591,10 @@ export default function Home({ onOpenModal }) {
             <div className={`${P['success-content']} ${P['reveal-left']} ${P.visible} ${P.show}`}>
               <span className={P['success-tag']}>OUR SUCCESS TRACK</span>
               <h2 className={`${P.h2} ${P.reveal} ${P.visible} ${P.show}`}>
-                We Have A Proven Track Record<span> Of Student Placement Workflows</span>
+                We Have A Proven Track Record<span> Of CAD Engineering Placements</span>
               </h2>
               <p>
-                Empowering student cohorts through hands-on analytics training, industry-vetted project architectures, comprehensive corporate mock trials, and custom engineering portfolio reviews.
+                Empowering aspiring engineers through hands-on CAD/CAM drafting, industry-vetted 3D project portfolios, GD&amp;T tolerance standards, technical mock interviews, and direct recruitment placement support.
               </p>
               <div className={P['feature-divider']}></div>
               <div className={P['success-features']}>
@@ -608,7 +608,7 @@ export default function Home({ onOpenModal }) {
                     </svg>
                   </div>
                   <div className={P['feature-content']}>
-                    <h4>Data Analytics <br />And Business Insights</h4>
+                    <h4>Mechanical &amp; Civil <br />CAD Design Workflows</h4>
                   </div>
                 </div>
 
@@ -623,17 +623,17 @@ export default function Home({ onOpenModal }) {
                     </svg>
                   </div>
                   <div className={P['feature-content']}>
-                    <h4>AI-Driven <br />Process Automation</h4>
+                    <h4>CNC Programming &amp; <br />BIM Architecture</h4>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className={`${P['success-image']} ${P['reveal-right']} ${P.visible} ${P.show}`}>
-              <img alt="Successful Certified AI Academy Alumni Graduate" src="/assets/head-Bg-sBvkC.jpeg" />
+              <img alt="GV DesignTech 3D CAD Engineering Design Model" src="/assets/cad-success-model.jpg" />
               <div className={P['floating-card']}>
-                <h3>520,000+</h3>
-                <span>Verified Members</span>
+                <h3>5,200+</h3>
+                <span>Trained CAD Engineers</span>
               </div>
             </div>
           </div>
