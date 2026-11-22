@@ -24,18 +24,18 @@ export default function About({ onOpenModal }) {
       {/* Hero Section */}
       <section className={Im['ab-hero']}>
         <div className={Im['ab-hero-bg']}>
-          <img alt="GV DesignTech Hero" src="/assets/about-Back-C27jZxMR.avif" />
+          <img alt="GV Design Tech Hero" src="/assets/cad-floorplan-bg.jpg" />
           <div className={Im['ab-hero-overlay']}></div>
         </div>
         <div className={Im['ab-hero-content']}>
-          <div className={Im['ab-hero-tag']}>ABOUT GV DesignTech</div>
-          <h1>Redefining Tech Training Through Innovation</h1>
+          <div className={Im['ab-hero-tag']}>ABOUT GV DESIGN TECH</div>
+          <h1>Redefining CAD &amp; Engineering Design Through Innovation</h1>
           <p>
-            At GV DesignTech, we transform your vision into reality through comprehensive web development, data analytics, and artificial intelligence solutions. Our cutting-edge curriculum bridges the gap between academic theory and industry demands.
+            At GV Design Tech, we transform your vision into reality through comprehensive Mechanical CAD, Civil BIM Drafting, and CNC Programming solutions. Our industry-aligned curriculum bridges the gap between academic theory and modern engineering demands.
           </p>
           <div className={Im['ab-hero-buttons']}>
             <a href="#services" className={Im['ab-btn-grad']}>
-              Explore Services
+              Explore Programs
             </a>
             <Link to="/Contactus" className={Im['ab-btn-outline']}>
               Contact Us
@@ -52,16 +52,16 @@ export default function About({ onOpenModal }) {
         <div className={Im['ab-about-container']}>
           <div className={Im['ab-about-grid']}>
             <div className={`${Im['ab-about-img-wrap']} ${Im['ab-reveal']} ${Im.visible}`}>
-              <img alt="GV DesignTech Team" src="/assets/aboutai-CRoG2fVh.svg" />
+              <img alt="GV Design Tech CAD Design Center" src="/assets/cad-lab-classroom.jpg" style={{ borderRadius: '16px', objectFit: 'cover' }} />
             </div>
             <div className={`${Im['ab-about-body']} ${Im['ab-reveal']} ${Im.visible}`}>
               <div className={Im['ab-hero-tag']}>WHO WE ARE</div>
-              <h2>Building Tomorrow's Tech Leaders Today</h2>
+              <h2>Building Tomorrow's Design &amp; Engineering Leaders Today</h2>
               <p>
-                GV DesignTech is Coimbatore's premier tech training institute, specializing in web development, big data analytics, UI/UX design, and AI-driven systems. We empower students, freshers, and professionals with hands-on technical skills and corporate readiness.
+                GV Design Tech is premier CAD &amp; Engineering Design training institute, specializing in Mechanical CAD, Civil Architectural Drafting, BIM modeling, and CNC Programming. We empower engineering students, freshers, and professionals with hands-on drafting skills, 3D modeling expertise, and industrial corporate readiness.
               </p>
               <p>
-                Founded by Vinith Gunasekaran, our mission is to democratize advanced AI education across Tier-2 and Tier-3 engineering clusters, delivering elite corporate bootcamps with 100% placement track records.
+                Founded by Vinith Gunasekaran, our mission is to deliver premier engineering CAD education across engineering clusters, providing elite hands-on studio workshops and software mastery with 100% placement track records.
               </p>
               <div style={{ marginTop: '24px' }}>
                 <button
@@ -70,7 +70,7 @@ export default function About({ onOpenModal }) {
                   onClick={onOpenModal}
                   style={{ border: 'none', cursor: 'pointer' }}
                 >
-                  Join GV DesignTech Today
+                  Join GV Design Tech Today
                 </button>
               </div>
             </div>
@@ -82,40 +82,40 @@ export default function About({ onOpenModal }) {
       <section className={Im['ab-services']} id="services">
         <div className={Im['ab-about-container']}>
           <div className={Im['ab-svc-header']}>
-            <div className={Im['ab-hero-tag']}>OUR CAPABILITIES</div>
+            <div className={Im['ab-hero-tag']}>OUR CORE SPECIALIZATIONS</div>
             <h2>
-              Drive Your Digital Success With<br />Our Comprehensive Services
+              Drive Your Engineering Success With<br />Our CAD Training Programs
             </h2>
           </div>
 
           <div className={Im['ab-svc-row']}>
             <div className={`${Im['ab-svc-col']} ${Im['ab-reveal']} ${Im.visible}`}>
               <div className={Im['ab-svc-img']}>
-                <img alt="AI-Powered Virtual Assistants" src="/assets/service1-CsuxCGGW.png" />
+                <img alt="Mechanical & Automobile CAD" src="/assets/cad-isometric-room.png" />
               </div>
-              <h3 className={Im['ab-svc-title']}>AI-Powered Virtual Assistants</h3>
+              <h3 className={Im['ab-svc-title']}>Mechanical &amp; Automobile CAD</h3>
               <p className={Im['ab-svc-desc']}>
-                Intelligent software applications that understand and respond to human inputs, performing complex automated task routines.
+                Parametric 3D solid modeling, assembly design, sheet metal, and GD&amp;T production drafting using AutoCAD, SolidWorks, and CATIA.
               </p>
             </div>
 
             <div className={`${Im['ab-svc-col']} ${Im['ab-reveal']} ${Im.visible}`}>
               <div className={Im['ab-svc-img']}>
-                <img alt="Human Resource Management" src="/assets/service2-Cl6drwQJ.png" />
+                <img alt="Civil BIM & Architectural Drafting" src="/assets/cad-floorplan-hero.jpg" />
               </div>
-              <h3 className={Im['ab-svc-title']}>Human Resource Management</h3>
+              <h3 className={Im['ab-svc-title']}>Civil BIM &amp; Architectural Drafting</h3>
               <p className={Im['ab-svc-desc']}>
-                Automated talent sourcing, performance metrics analysis, and AI-guided career mapping systems.
+                Structural 2D drafting, 3D elevation rendering, MEP coordination, and Building Information Modeling with Revit and Navisworks.
               </p>
             </div>
 
             <div className={`${Im['ab-svc-col']} ${Im['ab-reveal']} ${Im.visible}`}>
               <div className={Im['ab-svc-img']}>
-                <img alt="Supply Chain Optimization" src="/assets/service3-CDLdTOAM.png" />
+                <img alt="CNC Programming & CAM" src="/assets/cad-success-model.jpg" />
               </div>
-              <h3 className={Im['ab-svc-title']}>Supply Chain Optimization</h3>
+              <h3 className={Im['ab-svc-title']}>CNC Programming &amp; CAM</h3>
               <p className={Im['ab-svc-desc']}>
-                Predictive algorithms and telemetry data streams designed to prevent downtime and synchronize logistics pipelines.
+                Precision G-code / M-code generation, 3-axis/5-axis CNC turning and milling toolpath simulations, and modern CAM workflows.
               </p>
             </div>
           </div>
@@ -127,21 +127,22 @@ export default function About({ onOpenModal }) {
         <div className={Im['ab-showcase-wrap']}>
           <div className={Im['ab-showcase-grid']}>
             <div className={`${Im['ab-showcase-left']} ${Im['ab-reveal']} ${Im.visible}`}>
-              <div className={Im['ab-hero-tag']}>EXCELLENCE IN AUTOMATION</div>
-              <h2>We're All About Creating Intelligent AI Solutions That Transform Careers</h2>
+              <div className={Im['ab-hero-tag']}>EXCELLENCE IN CAD ENGINEERING</div>
+              <h2>We're All About Industry-Standard CAD Solutions That Transform Careers</h2>
               <p>
-                Our students design, evaluate, and deploy enterprise-level models that solve real industrial friction points. Through weekly hackathons, 1-on-1 code reviews, and corporate partner projects, we cultivate true technical mastery.
+                Our students model, analyze, and detail real-world engineering assemblies and architectural structures. Through weekly design challenges, 1-on-1 portfolio reviews, and corporate industry projects, we cultivate true engineering design mastery.
               </p>
               <div className={Im['ab-showcase-badges']}>
-                <span>Data Analytics</span>
-                <span>Full Stack</span>
-                <span>Generative AI</span>
-                <span>Computer Vision</span>
-                <span>Cloud DevOps</span>
+                <span>AutoCAD 2D/3D</span>
+                <span>SolidWorks</span>
+                <span>Revit BIM</span>
+                <span>CATIA</span>
+                <span>CNC / CAM</span>
+                <span>Ansys FEA</span>
               </div>
             </div>
             <div className={`${Im['ab-showcase-right']} ${Im['ab-reveal']} ${Im.visible}`}>
-              <img alt="GV DesignTech AI" src="/assets/about-robo-C8tkXfGz.jpg" />
+              <img alt="GV Design Tech CAD Engineering" src="/assets/cad-success-model.jpg" style={{ borderRadius: '16px', objectFit: 'cover' }} />
             </div>
           </div>
         </div>
@@ -153,7 +154,7 @@ export default function About({ onOpenModal }) {
           <div className={Im['ab-cta-stats']}>
             <div>
               <span className={Im['ab-cta-num']}>5000+</span>
-              <span className={Im['ab-cta-lbl']}>Happy Students</span>
+              <span className={Im['ab-cta-lbl']}>Trained Engineers</span>
             </div>
             <div style={{ width: '1px', height: '40px', background: 'rgba(255,255,255,0.2)' }}></div>
             <div>
@@ -161,9 +162,9 @@ export default function About({ onOpenModal }) {
               <span className={Im['ab-cta-lbl']}>Placement Rate</span>
             </div>
           </div>
-          <h2>The Future of Work is Here — Are You Ready to GV DesignTech AI?</h2>
+          <h2>The Future of Engineering is Here — Are You Ready to Join GV Design Tech?</h2>
           <p>
-            Join the next generation of engineers mastering Generative AI, Large Language Models, and Cloud Analytics.
+            Join the next generation of engineers mastering 3D CAD Modeling, Civil BIM Drafting, and CNC Manufacturing.
           </p>
           <div style={{ marginTop: '28px' }}>
             <button
