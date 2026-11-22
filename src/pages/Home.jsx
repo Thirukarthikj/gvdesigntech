@@ -395,7 +395,7 @@ export default function Home({ onOpenModal }) {
               <div className={P.sweep}></div>
               <div className={P['inner-box']}></div>
               <div className={P['logo-box']}>
-                <img alt="GV DesignTech Core Training Systems" src="/assets/logo-0m0vxTot.png" />
+                <img alt="GV DesignTech Core Training Systems" src="/assets/gv-logo.png" />
               </div>
             </div>
           </div>
@@ -455,7 +455,7 @@ export default function Home({ onOpenModal }) {
               </p>
               <div className={P['ai-orbit']}>
                 <div className={P['center-core']}>
-                  <img alt="GV DesignTech Interactive Core Training Environment" src="/assets/logo-0m0vxTot.png" />
+                  <img alt="GV DesignTech Interactive Core Training Environment" src="/assets/gv-logo.png" />
                 </div>
                 <div className={P['ai-left']}>
                   <div className={P['training-gallery']}>

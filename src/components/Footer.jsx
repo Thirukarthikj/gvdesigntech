@@ -31,11 +31,11 @@ export default function Footer() {
       <div className="footer-grid">
         <div className="footer-brand">
           <Link to="/" className="foot-logo">
-            <img alt="GV DesignTech Logo" src="/assets/logo-0m0vxTot.png" />
+            <img alt="GV DesignTech Logo" src="/assets/gv-logo.png" />
             <span>GV DesignTech</span>
           </Link>
           <p>
-            GV DesignTech provides world-class AI &amp; ML training. We empower professionals with job-ready skills through cloud platforms, data management tools, and AI frameworks.
+            GV DesignTech provides premier CAD &amp; Engineering Design training. We empower engineers and designers with industry-ready skills through AutoCAD, Revit, SolidWorks, and BIM frameworks.
           </p>
           <div className="social-row">
             <div className="footer-stats">

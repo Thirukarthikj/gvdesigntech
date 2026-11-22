@@ -26,7 +26,7 @@ export default function Navbar() {
   return (
     <nav className="nav">
       <Link className="brand" to="/" onClick={closeAll}>
-        <img alt="GV DesignTech Logo" className="logo" src="/assets/logo-0m0vxTot.png" />
+        <img alt="GV DesignTech Logo" className="logo" src="/assets/gv-logo.png" />
         <span>GV DesignTech</span>
       </Link>
 
@@ -87,9 +87,6 @@ export default function Navbar() {
             </div>
           </div>
 
-          <a href="https://profenaatechnologies.com/student-login.html" target="_blank" rel="noopener noreferrer" onClick={closeAll}>
-            Student Portal
-          </a>
           <Link to="/Contactus" onClick={closeAll}>Contact Us</Link>
         </div>
 
