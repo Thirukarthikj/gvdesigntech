@@ -460,12 +460,12 @@ export default function Home({ onOpenModal }) {
                 <div className={P['ai-left']}>
                   <div className={P['training-gallery']}>
                     <img
-                      alt="Advanced CAD &amp; Engineering Design Laboratory inside GV DesignTech Academy"
-                      src="/assets/image1-CO0kRs3Y.jpeg"
+                      alt="CAD Design Classroom and Workshop at GV DesignTech"
+                      src="/assets/cad-lab-classroom.jpg"
                     />
                     <img
-                      alt="Students mastering CAD drafting, 3D modeling, and CNC programming"
-                      src="/assets/image2-KIrwALpr.jpeg"
+                      alt="Students Practicing 2D and 3D CAD Modeling at GV DesignTech"
+                      src="/assets/cad-lab-students.jpg"
                     />
                   </div>
                 </div>
