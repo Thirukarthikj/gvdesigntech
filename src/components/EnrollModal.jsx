@@ -112,7 +112,7 @@ export default function EnrollModal({ isOpen, onClose }) {
                 <div className={s['em-input-wrap']}>
                   <input
                     className={s['em-input']}
-                    placeholder="John"
+                    placeholder="Gokul Prasath"
                     required
                     type="text"
                     name="firstName"
@@ -144,7 +144,7 @@ export default function EnrollModal({ isOpen, onClose }) {
               <div className={s['em-input-wrap']}>
                 <input
                   className={s['em-input']}
-                  placeholder="john@example.com"
+                  placeholder="gokul@example.com"
                   required
                   type="email"
                   name="email"
