@@ -486,7 +486,7 @@ export default function Home({ onOpenModal }) {
           <div className={`${P['testi-header']} ${P.reveal} ${P.visible} ${P.show}`}>
             <div className={P['section-eyebrow']}>Verified Student Reviews</div>
             <h2 className={`${P.h2} ${P.reveal} ${P.visible} ${P.show}`}>
-              See what our localized technical candidates have to <span>say about our courses</span>
+              See What Our CAD &amp; Engineering Trainees Have to <span>Say About Our Courses</span>
             </h2>
           </div>
           <div className={P['testi-rows']}>
