@@ -1,76 +1,90 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './IntroSplash.css';
 
 export default function IntroSplash({ onFinish }) {
-  const [fading, setFading] = useState(false);
+  const [exiting, setExiting] = useState(false);
 
-  useEffect(() => {
-    // Zoom in and zoom out animation completes in ~2.1s, then initiate fade out
-    const fadeTimer = setTimeout(() => {
-      setFading(true);
-    }, 2100);
-
-    // Completely finish and unmount after fade transition (2.65s)
-    const finishTimer = setTimeout(() => {
-      if (onFinish) onFinish();
-    }, 2650);
-
-    return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(finishTimer);
-    };
-  }, [onFinish]);
-
-  const handleSkip = () => {
-    setFading(true);
+  const complete = () => {
+    if (exiting) return;
+    setExiting(true);
     setTimeout(() => {
       if (onFinish) onFinish();
-    }, 320);
+    }, 200);
   };
+
+  useEffect(() => {
+    // Prevent scrolling while intro plays
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    // Auto-complete at the end of the choreographed zoom sequence (3.3s)
+    const timer = setTimeout(() => {
+      complete();
+    }, 3300);
+
+    // Keyboard shortcut to skip (Escape, Space, Enter)
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') {
+        complete();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      clearTimeout(timer);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   return (
     <div
-      className={`intro-splash-overlay ${fading ? 'splash-fade-out' : ''}`}
-      onClick={handleSkip}
+      className={`intro-splash-overlay ${exiting ? 'intro-exiting' : ''}`}
+      onClick={complete}
       role="banner"
-      aria-label="GV DesignTech Intro Animation"
+      aria-label="GV DesignTech Opening Intro Animation"
     >
-      <div className="splash-bg-glow"></div>
+      {/* Ambient Cosmic Background */}
+      <div className="intro-cosmic-bg"></div>
 
-      {/* Futuristic expanding shockwave energy rings */}
-      <div className="splash-energy-ring ring-1"></div>
-      <div className="splash-energy-ring ring-2"></div>
-
-      {/* Main Logo & CAD Circle with Zoom In and Zoom Out Animation */}
-      <div className="splash-logo-container">
-        <div className="splash-halo"></div>
-        <img
-          src="/assets/cad-engineering-circle.svg"
-          alt="GV DesignTech CAD Engineering Rotating Ring"
-          className="splash-tech-circle"
-        />
-        <img
-          src="/assets/gv-logo.png"
-          alt="GV DesignTech Logo Emblem"
-          className="splash-logo-emblem"
-        />
-      </div>
-
-      <div className="splash-brand-title">
-        <span className="splash-brand-dot"></span>
-        <span>GV DESIGNTECH</span>
-      </div>
-
+      {/* Subtle Skip Button */}
       <button
         type="button"
-        className="splash-skip-btn"
+        className="intro-skip-btn"
         onClick={(e) => {
           e.stopPropagation();
-          handleSkip();
+          complete();
         }}
+        aria-label="Skip Intro Animation"
       >
-        Skip ✕
+        Skip Intro ✕
       </button>
+
+      {/* Main Animated Cluster: Zoom In -> Zoom Out -> 1s Wait -> Zoom In */}
+      <div className="intro-cluster">
+        <div className="intro-logo-wrap">
+          <div className="intro-halo"></div>
+          <img
+            src="/assets/cad-engineering-circle.svg"
+            alt="CAD Engineering Tech Circle"
+            className="intro-tech-circle"
+          />
+          <img
+            src="/assets/gv-logo.png"
+            alt="GV DesignTech Emblem"
+            className="intro-logo-emblem"
+          />
+        </div>
+
+        {/* Telemetry / Brand text */}
+        <div className="intro-telemetry">
+          <h1 className="intro-brand-name">GV DESIGNTECH</h1>
+          <div className="intro-subtitle">
+            <span className="intro-dot"></span>
+            <span>CAD &amp; Engineering Design Hub</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
