@@ -153,13 +153,22 @@ export default function Home({ onOpenModal }) {
               <span className={P.dot}></span>
               <span>Future of CAD & Engineering Design Hub Near You</span>
             </div>
-            <div className={P['hero-bg-text']} style={{ fontSize: 'clamp(36px, 9.5vw, 130px)', letterSpacing: '-2px' }}>GV DESIGNTECH</div>
+            <div
+              className={P['hero-bg-text']}
+              style={{
+                left: '50%',
+                fontSize: 'clamp(36px, 9.5vw, 130px)',
+                letterSpacing: '-2px'
+              }}
+            >
+              GV DESIGNTECH
+            </div>
 
             {/* Left Card */}
             <div className={`${P['floating-card']} ${P['card-left']} ${P.reveal} ${P.visible} ${P.show}`}>
-              <div className={P.label}>Model Accuracy</div>
+              <div className={P.label}>Model Precision</div>
               <div className={P.value}>98.4%</div>
-              <div className={P.sub}>Live training benchmark</div>
+              <div className={P.sub}>Engineering CAD benchmark</div>
               <div className={P['card-bars']}>
                 <span></span>
                 <span></span>
@@ -172,31 +181,24 @@ export default function Home({ onOpenModal }) {
             <div className={`${P['floating-card']} ${P['card-right']} ${P.reveal} ${P.visible} ${P.show}`}>
               <div className={P.label}>Active Learners</div>
               <div className={P.value}>12K+</div>
-              <div className={P.sub}>Building AI apps daily</div>
+              <div className={P.sub}>Mastering CAD &amp; Design daily</div>
             </div>
 
             {/* Bottom Card */}
             <div className={`${P['floating-card']} ${P['card-bottom']} ${P.reveal} ${P.visible} ${P.show}`}>
               <div className={P.label}>Realtime Labs</div>
               <div className={P.value}>24/7</div>
-              <div className={P.sub}>Code, test and deploy faster</div>
+              <div className={P.sub}>CAD &amp; Engineering Lab Access</div>
             </div>
 
-            {/* Robot Image & Particles */}
-            <div className={P['robot-wrap']}>
-              <div className={P['particle-field']}>
-                <span className={`${P.particle} ${P.p1}`}></span>
-                <span className={`${P.particle} ${P.p2}`}></span>
-                <span className={`${P.particle} ${P.p3}`}></span>
-                <span className={`${P.particle} ${P.p4}`}></span>
-                <span className={`${P.particle} ${P.p5}`}></span>
-                <span className={`${P.particle} ${P.p6}`}></span>
-              </div>
-              <img
-                alt="GV DesignTech Virtual Training Assistant System Interface"
-                className={P['robot-img']}
-                src="/assets/robo-fgOr2duE.png"
-              />
+            {/* Ambient Particles */}
+            <div className={P['particle-field']}>
+              <span className={`${P.particle} ${P.p1}`}></span>
+              <span className={`${P.particle} ${P.p2}`}></span>
+              <span className={`${P.particle} ${P.p3}`}></span>
+              <span className={`${P.particle} ${P.p4}`}></span>
+              <span className={`${P.particle} ${P.p5}`}></span>
+              <span className={`${P.particle} ${P.p6}`}></span>
             </div>
           </div>
 
