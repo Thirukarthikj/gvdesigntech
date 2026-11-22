@@ -14,23 +14,23 @@ export default function FlagshipMou({ onOpenModal }) {
           <h1 style={{ fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 20px', color: '#fff' }}>
             Memorandum of<br /><span style={{ background: 'linear-gradient(135deg, #a78bfa, #d946ef)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Understanding</span>
           </h1>
-          <p style={{ maxWidth: '720px', margin: '0 auto 36px', fontSize: '17px', lineHeight: 1.6, color: 'rgba(255, 255, 255, 0.75)' }}>
+          <p style={{ maxWidth: '720px', margin: '0 auto 36px', fontSize: '17px', lineHeight: 1.6, color: '#475569' }}>
             Bridging academia and the artificial intelligence industry through collaborative curriculum design, certified student internships, state-of-the-art incubation labs, and dedicated campus hiring drives.
           </p>
           <div style={{ display: 'flex', gap: '30px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <div>
               <div style={{ fontSize: '32px', fontWeight: '800', color: '#39d0ff' }}>500+</div>
-              <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)' }}>Partner Institutions</div>
+              <div style={{ fontSize: '13px', color: '#475569' }}>Partner Institutions</div>
             </div>
             <div style={{ width: '1px', height: '40px', background: 'rgba(255,255,255,0.15)' }}></div>
             <div>
               <div style={{ fontSize: '32px', fontWeight: '800', color: '#a78bfa' }}>10,000+</div>
-              <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)' }}>Students Benefited</div>
+              <div style={{ fontSize: '13px', color: '#475569' }}>Students Benefited</div>
             </div>
             <div style={{ width: '1px', height: '40px', background: 'rgba(255,255,255,0.15)' }}></div>
             <div>
               <div style={{ fontSize: '32px', fontWeight: '800', color: '#d946ef' }}>100%</div>
-              <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)' }}>Placement Support</div>
+              <div style={{ fontSize: '13px', color: '#475569' }}>Placement Support</div>
             </div>
           </div>
         </div>
@@ -42,7 +42,7 @@ export default function FlagshipMou({ onOpenModal }) {
           <h2 style={{ fontSize: '32px', fontWeight: '800', color: '#fff' }}>
             Our MOUs Signed
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '15px' }}>
+          <p style={{ color: '#475569', fontSize: '15px' }}>
             Empowering top colleges and universities across Tamil Nadu and beyond
           </p>
         </div>
@@ -76,7 +76,7 @@ export default function FlagshipMou({ onOpenModal }) {
 
               <div>
                 <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#fff', margin: '0 0 6px' }}>{item.name}</h3>
-                <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.7)', margin: 0, lineHeight: 1.5 }}>{item.detail}</p>
+                <p style={{ fontSize: '13.5px', color: '#475569', margin: 0, lineHeight: 1.5 }}>{item.detail}</p>
               </div>
             </div>
           ))}

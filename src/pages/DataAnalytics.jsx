@@ -68,7 +68,7 @@ export default function DataAnalytics({ onOpenModal }) {
   ];
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', background: '#050816', color: '#fff', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', minHeight: '100vh', background: '#f8fafc', color: '#fff', overflow: 'hidden' }}>
       <canvas className="da-canvas" ref={canvasRef} style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }} />
       <div className="da-nebula" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }}></div>
       <div className="da-stars" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }}></div>
@@ -90,10 +90,10 @@ export default function DataAnalytics({ onOpenModal }) {
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', background: 'rgba(57, 208, 255, 0.12)', border: '1px solid rgba(57, 208, 255, 0.4)', borderRadius: '999px', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', color: '#39d0ff', marginBottom: '20px' }}>
             <span>⚡</span> DATA ANALYTICS &amp; BUSINESS INTELLIGENCE
           </div>
-          <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 20px', background: 'linear-gradient(135deg, #ffffff 40%, #39d0ff 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 20px', background: 'linear-gradient(135deg, #0f172a 40%, #0284c7 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Transform Data Into Business Growth
           </h1>
-          <p style={{ maxWidth: '780px', margin: '0 auto 32px', fontSize: '17px', lineHeight: 1.6, color: 'rgba(255, 255, 255, 0.75)' }}>
+          <p style={{ maxWidth: '780px', margin: '0 auto 32px', fontSize: '17px', lineHeight: 1.6, color: '#475569' }}>
             Master Power BI, SQL, Advanced Excel, and Predictive Analytics. Turn raw transaction streams into actionable intelligence that drives enterprise growth.
           </p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -112,7 +112,7 @@ export default function DataAnalytics({ onOpenModal }) {
           {stats.map((s, idx) => (
             <div key={idx} style={{ padding: '24px', textAlign: 'center', background: 'rgba(30, 22, 68, 0.6)', border: '1px solid rgba(57, 208, 255, 0.25)', borderRadius: '16px' }}>
               <h3 style={{ fontSize: '36px', fontWeight: '800', color: '#39d0ff', margin: '0 0 6px' }}>{s.value}</h3>
-              <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', margin: 0 }}>{s.label}</p>
+              <p style={{ fontSize: '14px', color: '#475569', margin: 0 }}>{s.label}</p>
             </div>
           ))}
         </div>
@@ -122,7 +122,7 @@ export default function DataAnalytics({ onOpenModal }) {
           <h2 style={{ fontSize: '28px', fontWeight: '700', marginBottom: '24px' }}>Industry Analytics Tools You'll Master</h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
             {tools.map((t, idx) => (
-              <span key={idx} style={{ padding: '10px 22px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '999px', fontSize: '14.5px', fontWeight: '600', color: '#e879f9' }}>
+              <span key={idx} style={{ padding: '10px 22px', background: '#ffffff', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '999px', fontSize: '14.5px', fontWeight: '600', color: '#e879f9' }}>
                 {t}
               </span>
             ))}
@@ -136,7 +136,7 @@ export default function DataAnalytics({ onOpenModal }) {
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {faqs.map((faq, idx) => (
-              <div key={idx} style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(57, 208, 255, 0.25)', borderRadius: '12px', overflow: 'hidden' }}>
+              <div key={idx} style={{ background: '#ffffff', border: '1px solid rgba(57, 208, 255, 0.25)', borderRadius: '12px', overflow: 'hidden' }}>
                 <button
                   type="button"
                   onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
@@ -146,7 +146,7 @@ export default function DataAnalytics({ onOpenModal }) {
                   <span style={{ fontSize: '20px', color: '#39d0ff', transform: activeFaq === idx ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s' }}>+</span>
                 </button>
                 {activeFaq === idx && (
-                  <div style={{ padding: '0 24px 20px', color: 'rgba(255, 255, 255, 0.75)', fontSize: '14.5px', lineHeight: 1.6 }}>
+                  <div style={{ padding: '0 24px 20px', color: '#475569', fontSize: '14.5px', lineHeight: 1.6 }}>
                     {faq.a}
                   </div>
                 )}

@@ -91,7 +91,7 @@ export default function DataScience({ onOpenModal }) {
   ];
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', background: '#050816', color: '#fff', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', minHeight: '100vh', background: '#f8fafc', color: '#fff', overflow: 'hidden' }}>
       {/* Visual Canvas & Nebula Background */}
       <canvas className="ds3-brain-canvas" ref={canvasRef} />
       <div className="ds3-nebula"></div>
@@ -140,7 +140,7 @@ export default function DataScience({ onOpenModal }) {
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 20px', background: 'linear-gradient(135deg, #ffffff 40%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Master Data Science<br />&amp; Get Placed in 90 Days
           </h1>
-          <p style={{ maxWidth: '780px', margin: '0 auto 32px', fontSize: '17px', lineHeight: 1.6, color: 'rgba(255, 255, 255, 0.75)' }}>
+          <p style={{ maxWidth: '780px', margin: '0 auto 32px', fontSize: '17px', lineHeight: 1.6, color: '#475569' }}>
             Industry-aligned curriculum covering Python, Machine Learning, Deep Learning, Generative AI, and Big Data. Build real-world portfolio architectures and secure high-paying placements.
           </p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -153,7 +153,7 @@ export default function DataScience({ onOpenModal }) {
             </button>
             <a
               href="#curriculum"
-              style={{ padding: '14px 32px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '12px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: '600' }}
+              style={{ padding: '14px 32px', background: '#ffffff', border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '12px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: '600' }}
             >
               View Curriculum ↓
             </a>
@@ -166,7 +166,7 @@ export default function DataScience({ onOpenModal }) {
             <h2 style={{ fontSize: '32px', fontWeight: '700', color: '#fff', marginBottom: '8px' }}>
               8 Modules. One Career.
             </h2>
-            <p style={{ color: 'rgba(255, 255, 255, 0.65)', fontSize: '16px' }}>
+            <p style={{ color: '#475569', fontSize: '16px' }}>
               From foundational programming to autonomous AI agents
             </p>
           </div>
@@ -190,7 +190,7 @@ export default function DataScience({ onOpenModal }) {
                 <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '10px', color: '#fff' }}>
                   {m.title}
                 </h4>
-                <p style={{ fontSize: '14px', lineHeight: 1.55, color: 'rgba(255, 255, 255, 0.7)' }}>
+                <p style={{ fontSize: '14px', lineHeight: 1.55, color: '#475569' }}>
                   {m.desc}
                 </p>
               </div>
@@ -207,28 +207,28 @@ export default function DataScience({ onOpenModal }) {
             <div>
               <div style={{ color: '#22d3ee', fontWeight: '700', fontSize: '13px', marginBottom: '6px' }}>MONTH 1–2</div>
               <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px' }}>Foundations</h4>
-              <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
+              <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.5 }}>
                 Python syntax, computational statistics, linear algebra, SQL databases, and data visual dashboards.
               </p>
             </div>
             <div>
               <div style={{ color: '#a78bfa', fontWeight: '700', fontSize: '13px', marginBottom: '6px' }}>MONTH 3–4</div>
               <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px' }}>Machine Learning</h4>
-              <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
+              <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.5 }}>
                 Classical predictive algorithms, hyperparameter tuning, model validation matrices, and ensemble pipelines.
               </p>
             </div>
             <div>
               <div style={{ color: '#e879f9', fontWeight: '700', fontSize: '13px', marginBottom: '6px' }}>MONTH 5</div>
               <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px' }}>Deep Learning &amp; NLP</h4>
-              <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
+              <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.5 }}>
                 PyTorch networks, CNNs, Recurrent systems, Transformers, LangChain, and Generative AI applications.
               </p>
             </div>
             <div>
               <div style={{ color: '#34d399', fontWeight: '700', fontSize: '13px', marginBottom: '6px' }}>MONTH 6</div>
               <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px' }}>Capstone + Placement</h4>
-              <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
+              <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.5 }}>
                 Industrial client capstone project, Dockerized deployment, portfolio optimization, and interview drives.
               </p>
             </div>
@@ -245,7 +245,7 @@ export default function DataScience({ onOpenModal }) {
               <div
                 key={idx}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.03)',
+                  background: '#ffffff',
                   border: '1px solid rgba(139, 92, 246, 0.25)',
                   borderRadius: '12px',
                   overflow: 'hidden'
@@ -275,7 +275,7 @@ export default function DataScience({ onOpenModal }) {
                   </span>
                 </button>
                 {activeFaq === idx && (
-                  <div style={{ padding: '0 24px 20px', color: 'rgba(255, 255, 255, 0.75)', fontSize: '14.5px', lineHeight: 1.6 }}>
+                  <div style={{ padding: '0 24px 20px', color: '#475569', fontSize: '14.5px', lineHeight: 1.6 }}>
                     {faq.a}
                   </div>
                 )}
@@ -289,7 +289,7 @@ export default function DataScience({ onOpenModal }) {
           <h2 style={{ fontSize: '30px', fontWeight: '700', marginBottom: '12px' }}>
             Your Data Science Career Starts Today
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.8)', marginBottom: '24px', fontSize: '16px' }}>
+          <p style={{ color: '#475569', marginBottom: '24px', fontSize: '16px' }}>
             Limited seats per cohort to guarantee personalized mentorship and hands-on lab infrastructure.
           </p>
           <button

@@ -63,17 +63,17 @@ export default function CertificateVerification() {
   };
 
   return (
-    <div className={q.page} style={{ minHeight: '100vh', background: '#050816', color: '#fff', padding: '140px 24px 80px' }}>
+    <div className={q.page} style={{ minHeight: '100vh', background: '#f8fafc', color: '#fff', padding: '140px 24px 80px' }}>
       <div style={{ maxWidth: '960px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
           <div style={{ display: 'inline-block', padding: '6px 18px', background: 'rgba(57, 208, 255, 0.15)', border: '1px solid rgba(57, 208, 255, 0.4)', borderRadius: '999px', color: '#39d0ff', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', marginBottom: '16px' }}>
             CREDENTIAL VERIFICATION
           </div>
-          <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #39d0ff 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #0f172a 40%, #0284c7 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Verify Your Professional Credentials
           </h1>
-          <p style={{ maxWidth: '680px', margin: '0 auto 32px', fontSize: '16.5px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
+          <p style={{ maxWidth: '680px', margin: '0 auto 32px', fontSize: '16.5px', color: '#475569', lineHeight: 1.6 }}>
             Instant digital validation for corporate recruiters, university registrars, and hiring managers worldwide.
           </p>
 
@@ -90,7 +90,7 @@ export default function CertificateVerification() {
                 minWidth: '260px',
                 padding: '14px 20px',
                 borderRadius: '12px',
-                background: 'rgba(255,255,255,0.06)',
+                background: '#ffffff',
                 border: '1px solid rgba(139, 92, 246, 0.4)',
                 color: '#fff',
                 fontSize: '15px',
@@ -132,7 +132,7 @@ export default function CertificateVerification() {
                       {result.status}
                     </span>
                   </div>
-                  <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)' }}>
+                  <span style={{ fontSize: '13px', color: '#475569' }}>
                     Certificate ID: <strong>{certId.toUpperCase()}</strong>
                   </span>
                 </div>
@@ -152,11 +152,11 @@ export default function CertificateVerification() {
                   </div>
                   <div>
                     <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '4px' }}>ISSUED BY</div>
-                    <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)' }}>{result.issuedBy}</div>
+                    <div style={{ fontSize: '14px', color: '#475569' }}>{result.issuedBy}</div>
                   </div>
                 </div>
 
-                <div style={{ paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.1)', fontSize: '12.5px', color: 'rgba(255,255,255,0.6)', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
+                <div style={{ paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.1)', fontSize: '12.5px', color: '#475569', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
                   <span>ISO 9001:2015 Certified Verification Gateway</span>
                   <span>Issued: {result.completionDate}</span>
                 </div>
@@ -177,19 +177,19 @@ export default function CertificateVerification() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px' }}>
           <div style={{ padding: '24px', background: 'rgba(26, 18, 66, 0.5)', border: '1px solid rgba(139, 92, 246, 0.25)', borderRadius: '16px' }}>
             <h4 style={{ fontSize: '17px', fontWeight: '700', color: '#fff', marginBottom: '8px' }}>Certificate Authenticity</h4>
-            <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5, margin: 0 }}>
+            <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.5, margin: 0 }}>
               Each certificate carries a unique cryptographic identifier registered with our central academic repository.
             </p>
           </div>
           <div style={{ padding: '24px', background: 'rgba(26, 18, 66, 0.5)', border: '1px solid rgba(139, 92, 246, 0.25)', borderRadius: '16px' }}>
             <h4 style={{ fontSize: '17px', fontWeight: '700', color: '#fff', marginBottom: '8px' }}>Recruiter Verification</h4>
-            <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5, margin: 0 }}>
+            <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.5, margin: 0 }}>
               HR teams and background screening partners can verify candidate training records in real time without delays.
             </p>
           </div>
           <div style={{ padding: '24px', background: 'rgba(26, 18, 66, 0.5)', border: '1px solid rgba(139, 92, 246, 0.25)', borderRadius: '16px' }}>
             <h4 style={{ fontSize: '17px', fontWeight: '700', color: '#fff', marginBottom: '8px' }}>Global Recognition</h4>
-            <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5, margin: 0 }}>
+            <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.5, margin: 0 }}>
               Accepted across 150+ technology hiring partners, universities, and international corporate employers.
             </p>
           </div>

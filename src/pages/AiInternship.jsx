@@ -33,7 +33,7 @@ export default function AiInternship({ onOpenModal }) {
   ];
 
   return (
-    <div className={V['ai-page']} style={{ minHeight: '100vh', background: '#050816', color: '#fff', padding: '140px 24px 80px' }}>
+    <div className={V['ai-page']} style={{ minHeight: '100vh', background: '#f8fafc', color: '#fff', padding: '140px 24px 80px' }}>
       <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
         {/* Hero */}
         <div style={{ textAlign: 'center', marginBottom: '64px' }}>
@@ -43,7 +43,7 @@ export default function AiInternship({ onOpenModal }) {
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 60px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Become Industry Ready with Our<br />AI Internship Program
           </h1>
-          <p style={{ maxWidth: '750px', margin: '0 auto 36px', fontSize: '17px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
+          <p style={{ maxWidth: '750px', margin: '0 auto 36px', fontSize: '17px', color: '#475569', lineHeight: 1.6 }}>
             Gain real-time experience building machine learning pipelines, fine-tuning LLMs, and deploying AI computer vision systems under the guidance of seasoned tech architects.
           </p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
@@ -61,13 +61,13 @@ export default function AiInternship({ onOpenModal }) {
         <section style={{ marginBottom: '80px' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <h2 style={{ fontSize: '32px', fontWeight: '800' }}>Explore Core AI Domains</h2>
-            <p style={{ color: 'rgba(255,255,255,0.65)' }}>Select your specialization during the program</p>
+            <p style={{ color: '#475569' }}>Select your specialization during the program</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
             {domains.map((d, i) => (
               <div key={i} style={{ padding: '24px', background: 'linear-gradient(160deg, rgba(30, 22, 68, 0.6), rgba(6, 6, 24, 0.7))', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '16px' }}>
                 <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#fff', marginBottom: '8px' }}>{d.title}</h3>
-                <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5, margin: 0 }}>{d.desc}</p>
+                <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.5, margin: 0 }}>{d.desc}</p>
               </div>
             ))}
           </div>
@@ -80,10 +80,10 @@ export default function AiInternship({ onOpenModal }) {
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px' }}>
             {steps.map((s, idx) => (
-              <div key={idx} style={{ padding: '20px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(139,92,246,0.2)', borderRadius: '16px' }}>
+              <div key={idx} style={{ padding: '20px', background: '#ffffff', border: '1px solid rgba(139,92,246,0.2)', borderRadius: '16px' }}>
                 <span style={{ fontSize: '20px', fontWeight: '800', color: '#22d3ee' }}>{s.num}</span>
                 <h4 style={{ fontSize: '16px', fontWeight: '700', color: '#fff', margin: '8px 0 6px' }}>{s.title}</h4>
-                <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5, margin: 0 }}>{s.desc}</p>
+                <p style={{ fontSize: '12.5px', color: '#475569', lineHeight: 1.5, margin: 0 }}>{s.desc}</p>
               </div>
             ))}
           </div>
@@ -96,7 +96,7 @@ export default function AiInternship({ onOpenModal }) {
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {faqs.map((faq, idx) => (
-              <div key={idx} style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.25)', borderRadius: '12px', overflow: 'hidden' }}>
+              <div key={idx} style={{ background: '#ffffff', border: '1px solid rgba(139, 92, 246, 0.25)', borderRadius: '12px', overflow: 'hidden' }}>
                 <button
                   type="button"
                   onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
@@ -106,7 +106,7 @@ export default function AiInternship({ onOpenModal }) {
                   <span style={{ fontSize: '20px', color: '#c084fc', transform: activeFaq === idx ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s' }}>+</span>
                 </button>
                 {activeFaq === idx && (
-                  <div style={{ padding: '0 24px 20px', color: 'rgba(255, 255, 255, 0.75)', fontSize: '14.5px', lineHeight: 1.6 }}>
+                  <div style={{ padding: '0 24px 20px', color: '#475569', fontSize: '14.5px', lineHeight: 1.6 }}>
                     {faq.a}
                   </div>
                 )}

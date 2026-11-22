@@ -18,7 +18,7 @@ export default function FlagshipGallery({ onOpenModal }) {
     : galleryItems.filter((item) => (item.category || '').toLowerCase() === selectedCategory);
 
   return (
-    <div className="gallery-page" style={{ minHeight: '100vh', background: '#050816', color: '#fff', padding: '140px 24px 80px' }}>
+    <div className="gallery-page" style={{ minHeight: '100vh', background: '#f8fafc', color: '#fff', padding: '140px 24px 80px' }}>
       <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
@@ -28,7 +28,7 @@ export default function FlagshipGallery({ onOpenModal }) {
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #e879f9 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Capturing Every Milestone of Innovation
           </h1>
-          <p style={{ maxWidth: '720px', margin: '0 auto 32px', fontSize: '16.5px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
+          <p style={{ maxWidth: '720px', margin: '0 auto 32px', fontSize: '16.5px', color: '#475569', lineHeight: 1.6 }}>
             Highlighting internships, workshops, placements, hackathons, certifications, industrial visits, and student celebrations at GV DesignTech.
           </p>
 
@@ -88,7 +88,7 @@ export default function FlagshipGallery({ onOpenModal }) {
               </div>
               <div style={{ padding: '16px' }}>
                 <h3 style={{ fontSize: '17px', fontWeight: '700', color: '#fff', margin: '0 0 6px' }}>{item.title}</h3>
-                <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', margin: 0, lineHeight: 1.45 }}>{item.description}</p>
+                <p style={{ fontSize: '13px', color: '#475569', margin: 0, lineHeight: 1.45 }}>{item.description}</p>
               </div>
             </div>
           ))}
@@ -124,7 +124,7 @@ export default function FlagshipGallery({ onOpenModal }) {
           <h2 style={{ fontSize: '28px', fontWeight: '700', marginBottom: '12px' }}>
             Become Part of the Next GV DesignTech Success Story
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.8)', marginBottom: '24px' }}>
+          <p style={{ color: '#475569', marginBottom: '24px' }}>
             Gain hands-on skills, verified certificates, and direct access to top tech hiring partners.
           </p>
           <button

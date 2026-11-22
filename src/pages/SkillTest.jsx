@@ -54,7 +54,7 @@ export default function SkillTest() {
   };
 
   return (
-    <div className={J['mi-page']} style={{ minHeight: '100vh', background: '#050816', color: '#fff', padding: '140px 24px 80px' }}>
+    <div className={J['mi-page']} style={{ minHeight: '100vh', background: '#f8fafc', color: '#fff', padding: '140px 24px 80px' }}>
       <div style={{ maxWidth: '960px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
@@ -64,7 +64,7 @@ export default function SkillTest() {
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #e879f9 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             GV DesignTech Skill Test<br />P.S.T
           </h1>
-          <p style={{ maxWidth: '680px', margin: '0 auto', fontSize: '16.5px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
+          <p style={{ maxWidth: '680px', margin: '0 auto', fontSize: '16.5px', color: '#475569', lineHeight: 1.6 }}>
             Build industry-ready skills with a structured learning experience designed to strengthen your technical knowledge and benchmark your interview readiness.
           </p>
         </div>
@@ -132,7 +132,7 @@ export default function SkillTest() {
               <span style={{ fontSize: '13px', fontWeight: '700', color: '#22d3ee' }}>
                 QUESTION {currentQ + 1} OF {questions.length}
               </span>
-              <span style={{ fontSize: '12px', padding: '4px 10px', background: 'rgba(255,255,255,0.1)', borderRadius: '999px' }}>
+              <span style={{ fontSize: '12px', padding: '4px 10px', background: '#ffffff', borderRadius: '999px' }}>
                 Domain: {selectedDomain.toUpperCase()}
               </span>
             </div>
@@ -172,7 +172,7 @@ export default function SkillTest() {
               <button
                 type="button"
                 onClick={resetTest}
-                style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: '14px' }}
+                style={{ background: 'none', border: 'none', color: '#475569', cursor: 'pointer', fontSize: '14px' }}
               >
                 Quit Assessment
               </button>
@@ -200,7 +200,7 @@ export default function SkillTest() {
           <div style={{ maxWidth: '600px', margin: '0 auto', padding: '40px', textAlign: 'center', background: 'linear-gradient(160deg, rgba(30, 22, 68, 0.9), rgba(6, 6, 24, 0.95))', border: '1px solid #22d3ee', borderRadius: '24px' }}>
             <div style={{ fontSize: '48px', marginBottom: '16px' }}>🏆</div>
             <h2 style={{ fontSize: '28px', fontWeight: '800', marginBottom: '8px' }}>Test Completed!</h2>
-            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '15px', marginBottom: '24px' }}>
+            <p style={{ color: '#475569', fontSize: '15px', marginBottom: '24px' }}>
               Your Score: <strong style={{ color: '#39d0ff', fontSize: '24px' }}>{score} / {questions.length}</strong>
             </p>
             <p style={{ fontSize: '14px', color: '#34d399', background: 'rgba(52, 211, 153, 0.15)', padding: '12px', borderRadius: '10px', marginBottom: '28px' }}>

@@ -16,7 +16,7 @@ export default function FlagshipBlog() {
   const featured = blogPosts[0];
 
   return (
-    <div className={gC['blog-page']} style={{ minHeight: '100vh', background: '#050816', color: '#fff', padding: '140px 24px 80px' }}>
+    <div className={gC['blog-page']} style={{ minHeight: '100vh', background: '#f8fafc', color: '#fff', padding: '140px 24px 80px' }}>
       <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
@@ -26,7 +26,7 @@ export default function FlagshipBlog() {
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Recent Articles &amp; Technical Insights
           </h1>
-          <p style={{ maxWidth: '680px', margin: '0 auto 32px', fontSize: '16.5px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
+          <p style={{ maxWidth: '680px', margin: '0 auto 32px', fontSize: '16.5px', color: '#475569', lineHeight: 1.6 }}>
             Stay ahead with expert tutorials and industry trends on Full Stack, AI, Data Science, MERN, and Python — curated by GV DesignTech Experts.
           </p>
 
@@ -41,7 +41,7 @@ export default function FlagshipBlog() {
                 width: '100%',
                 padding: '14px 20px',
                 borderRadius: '12px',
-                background: 'rgba(255,255,255,0.06)',
+                background: '#ffffff',
                 border: '1px solid rgba(139, 92, 246, 0.35)',
                 color: '#fff',
                 fontSize: '15px',
@@ -109,10 +109,10 @@ export default function FlagshipBlog() {
               <h2 style={{ fontSize: '26px', fontWeight: '800', lineHeight: 1.3, marginBottom: '14px', color: '#fff' }}>
                 {featured.title}
               </h2>
-              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14.5px', lineHeight: 1.6, marginBottom: '20px' }}>
+              <p style={{ color: '#475569', fontSize: '14.5px', lineHeight: 1.6, marginBottom: '20px' }}>
                 Comprehensive roadmap and industry salary breakdown for developers preparing for high-growth tech positions in 2026.
               </p>
-              <div style={{ display: 'flex', gap: '20px', fontSize: '13px', color: 'rgba(255,255,255,0.6)' }}>
+              <div style={{ display: 'flex', gap: '20px', fontSize: '13px', color: '#475569' }}>
                 <span>✍️ {featured.author}</span>
                 <span>📅 {featured.date}</span>
                 <span>⏱️ {featured.readTime}</span>
@@ -210,7 +210,7 @@ export default function FlagshipBlog() {
                 {activeArticle.title}
               </h2>
 
-              <div style={{ display: 'flex', gap: '16px', fontSize: '13px', color: 'rgba(255,255,255,0.6)', marginBottom: '24px' }}>
+              <div style={{ display: 'flex', gap: '16px', fontSize: '13px', color: '#475569', marginBottom: '24px' }}>
                 <span>✍️ {activeArticle.author}</span>
                 <span>📅 {activeArticle.date}</span>
                 <span>⏱️ {activeArticle.readTime}</span>
@@ -226,7 +226,7 @@ export default function FlagshipBlog() {
                 />
               </div>
 
-              <div style={{ fontSize: '15.5px', lineHeight: 1.7, color: 'rgba(255,255,255,0.85)' }}>
+              <div style={{ fontSize: '15.5px', lineHeight: 1.7, color: '#475569' }}>
                 <p>
                   As technology rapidly evolves in 2026, proficiency in modern engineering stacks, cloud deployment architectures, and generative AI agents is separating top-tier developers from the rest of the industry.
                 </p>

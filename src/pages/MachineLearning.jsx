@@ -29,7 +29,7 @@ export default function MachineLearning({ onOpenModal }) {
           <h1 style={{ fontSize: 'clamp(36px, 6vw, 68px)', fontWeight: '800', lineHeight: 1.15, margin: '20px 0', color: '#fff' }}>
             Machine Learning Solutions for <span className={B['ml-grad-text']}>Smarter Business &amp; Growth</span>
           </h1>
-          <p style={{ maxWidth: '780px', margin: '0 auto 36px', fontSize: '18px', lineHeight: 1.6, color: 'rgba(255, 255, 255, 0.78)' }}>
+          <p style={{ maxWidth: '780px', margin: '0 auto 36px', fontSize: '18px', lineHeight: 1.6, color: '#475569' }}>
             Design, fine-tune, and deploy predictive systems that extract deep structural foresight from complex data streams.
           </p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
@@ -78,7 +78,7 @@ export default function MachineLearning({ onOpenModal }) {
               <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#fff', marginBottom: '10px' }}>
                 {c.title}
               </h3>
-              <p style={{ fontSize: '14.5px', color: 'rgba(255, 255, 255, 0.72)', lineHeight: 1.55 }}>
+              <p style={{ fontSize: '14.5px', color: '#475569', lineHeight: 1.55 }}>
                 {c.desc}
               </p>
             </div>
@@ -96,10 +96,10 @@ export default function MachineLearning({ onOpenModal }) {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '20px' }}>
             {pipeline.map((p, idx) => (
-              <div key={idx} style={{ padding: '24px 16px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(139, 92, 246, 0.25)', borderRadius: '16px' }}>
+              <div key={idx} style={{ padding: '24px 16px', background: '#ffffff', border: '1px solid rgba(139, 92, 246, 0.25)', borderRadius: '16px' }}>
                 <span style={{ fontSize: '24px', fontWeight: '800', color: '#d946ef' }}>{p.step}</span>
                 <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#fff', margin: '10px 0 6px' }}>{p.title}</h3>
-                <p style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.65)', lineHeight: 1.45 }}>{p.desc}</p>
+                <p style={{ fontSize: '13px', color: '#475569', lineHeight: 1.45 }}>{p.desc}</p>
               </div>
             ))}
           </div>

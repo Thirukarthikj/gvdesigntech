@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function PybotVideo() {
   return (
-    <div style={{ minHeight: '100vh', background: '#050816', color: '#fff', padding: '140px 24px 80px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div style={{ minHeight: '100vh', background: '#f8fafc', color: '#fff', padding: '140px 24px 80px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <div style={{ maxWidth: '900px', width: '100%', textAlign: 'center' }}>
         <div style={{ display: 'inline-block', padding: '6px 18px', background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.4)', borderRadius: '999px', color: '#c084fc', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', marginBottom: '16px' }}>
           GV DESIGNTECH SHOWCASE
@@ -11,7 +11,7 @@ export default function PybotVideo() {
         <h1 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: '800', lineHeight: 1.2, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
           Watch How We Shape the Future of AI Education
         </h1>
-        <p style={{ maxWidth: '680px', margin: '0 auto 40px', fontSize: '16px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
+        <p style={{ maxWidth: '680px', margin: '0 auto 40px', fontSize: '16px', color: '#475569', lineHeight: 1.6 }}>
           Take a guided virtual tour through our modern training laboratories, hands-on project reviews, hackathon arenas, and placement mentorship sessions in Pollachi, Coimbatore.
         </p>
 
@@ -34,7 +34,7 @@ export default function PybotVideo() {
             to="/"
             style={{
               padding: '12px 28px',
-              background: 'rgba(255,255,255,0.06)',
+              background: '#ffffff',
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '10px',
               color: '#fff',

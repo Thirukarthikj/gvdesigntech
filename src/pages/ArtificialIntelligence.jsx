@@ -41,7 +41,7 @@ export default function ArtificialIntelligence({ onOpenModal }) {
           <h1 style={{ fontSize: 'clamp(36px, 6vw, 68px)', fontWeight: '800', lineHeight: 1.15, margin: '20px 0', color: '#fff' }}>
             Transform Business With <span className={z['ai-grad-text']}>Artificial Intelligence</span>
           </h1>
-          <p style={{ maxWidth: '780px', margin: '0 auto 36px', fontSize: '18px', lineHeight: 1.6, color: 'rgba(255, 255, 255, 0.78)' }}>
+          <p style={{ maxWidth: '780px', margin: '0 auto 36px', fontSize: '18px', lineHeight: 1.6, color: '#475569' }}>
             PYBOT AI Solutions empowers organisations through Generative AI, Machine Learning, and Intelligent Automation. We build production-ready AI models that drive transformative efficiency.
           </p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -91,7 +91,7 @@ export default function ArtificialIntelligence({ onOpenModal }) {
               <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#fff', marginBottom: '10px' }}>
                 {c.title}
               </h3>
-              <p style={{ fontSize: '14.5px', color: 'rgba(255, 255, 255, 0.72)', lineHeight: 1.55 }}>
+              <p style={{ fontSize: '14.5px', color: '#475569', lineHeight: 1.55 }}>
                 {c.desc}
               </p>
             </div>
@@ -109,10 +109,10 @@ export default function ArtificialIntelligence({ onOpenModal }) {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
             {['Discover', 'Design', 'Train', 'Deploy', 'Optimize'].map((step, idx) => (
-              <div key={idx} style={{ padding: '24px 16px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(139, 92, 246, 0.25)', borderRadius: '16px' }}>
+              <div key={idx} style={{ padding: '24px 16px', background: '#ffffff', border: '1px solid rgba(139, 92, 246, 0.25)', borderRadius: '16px' }}>
                 <span style={{ fontSize: '13px', fontWeight: '800', color: '#39d0ff', letterSpacing: '1px' }}>STEP 0{idx + 1}</span>
                 <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#fff', margin: '10px 0 6px' }}>{step}</h3>
-                <p style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.65)', lineHeight: 1.45 }}>
+                <p style={{ fontSize: '13px', color: '#475569', lineHeight: 1.45 }}>
                   {idx === 0 && 'Identify automation bottlenecks & model requirements'}
                   {idx === 1 && 'Architect neural topologies & data ingestion feeds'}
                   {idx === 2 && 'Hyperparameter convergence & deep fine-tuning'}
@@ -131,7 +131,7 @@ export default function ArtificialIntelligence({ onOpenModal }) {
           <h2 style={{ fontSize: '36px', fontWeight: '800', color: '#fff', marginBottom: '16px' }}>
             The Future Is Powered By <span className={z['ai-grad-text']}>Artificial Intelligence</span>
           </h2>
-          <p style={{ fontSize: '16px', color: 'rgba(255, 255, 255, 0.75)', marginBottom: '32px' }}>
+          <p style={{ fontSize: '16px', color: '#475569', marginBottom: '32px' }}>
             Start building production AI applications today with GV DesignTech Academy's industry experts.
           </p>
           <button
