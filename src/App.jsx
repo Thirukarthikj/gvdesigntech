@@ -5,6 +5,7 @@ import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import FloatingElements from './components/FloatingElements.jsx';
 import EnrollModal from './components/EnrollModal.jsx';
+import IntroSplash from './components/IntroSplash.jsx';
 
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
@@ -29,6 +30,7 @@ import Register from './pages/Register.jsx';
 import PybotVideo from './pages/PybotVideo.jsx';
 
 export default function App() {
+  const [isIntroActive, setIsIntroActive] = useState(true);
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
   const location = useLocation();
 
@@ -39,20 +41,23 @@ export default function App() {
     location.pathname === '/dashboard' ||
     location.pathname === '/verify-otp';
 
-  // Automatically prompt EnrollModal on initial visit after 1.5s
+  // Automatically prompt EnrollModal on initial visit after intro splash finishes + 2.5s
   useEffect(() => {
-    if (!sessionStorage.getItem('pybot_enrolled')) {
+    if (!isIntroActive && !sessionStorage.getItem('pybot_enrolled')) {
       const timer = setTimeout(() => {
         setIsEnrollModalOpen(true);
-      }, 1500);
+      }, 2500);
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [isIntroActive]);
 
   const openModal = () => setIsEnrollModalOpen(true);
 
   return (
     <div className="App">
+      {isIntroActive && (
+        <IntroSplash onFinish={() => setIsIntroActive(false)} />
+      )}
       {!isAuthOrAdmin && <Navbar />}
       {!isAuthOrAdmin && <FloatingElements />}
 
