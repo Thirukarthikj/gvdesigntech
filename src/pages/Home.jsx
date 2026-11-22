@@ -445,13 +445,13 @@ export default function Home({ onOpenModal }) {
           <div className={P['brain-inner']}>
             <div>
               <div className={`${P['section-eyebrow']} ${P.reveal} ${P.visible} ${P.show}`}>
-                Core Technology Training Core
+                Industry-Standard CAD Curriculum
               </div>
               <h2 className={`${P.h2} ${P.reveal} ${P.visible} ${P.show}`}>
-                The Analytical Intelligence <em>Behind</em> Our Bootcamps
+                The Engineering Expertise <em>Behind</em> Mechanical, Civil &amp; CNC CAD
               </h2>
               <p className={`${P.lead} ${P.reveal} ${P.visible} ${P.show}`}>
-                Our proprietary engineering cluster training systems guide students through massive dataset analytics, preparing candidates to resolve complex engineering challenges with precision.
+                Industry-aligned modules across Mechanical &amp; Automobile CAD, Civil Drafting, CNC Programming. Master industry-standard engineering tools with real-world project portfolios, interactive 3D simulations, and hands-on laboratory training.
               </p>
               <div className={P['ai-orbit']}>
                 <div className={P['center-core']}>
@@ -460,11 +460,11 @@ export default function Home({ onOpenModal }) {
                 <div className={P['ai-left']}>
                   <div className={P['training-gallery']}>
                     <img
-                      alt="Advanced Machine Learning Laboratory inside GV DesignTech Academy"
+                      alt="Advanced CAD &amp; Engineering Design Laboratory inside GV DesignTech Academy"
                       src="/assets/image1-CO0kRs3Y.jpeg"
                     />
                     <img
-                      alt="Students managing data science algorithms and neural network code visualization"
+                      alt="Students mastering CAD drafting, 3D modeling, and CNC programming"
                       src="/assets/image2-KIrwALpr.jpeg"
                     />
                   </div>
