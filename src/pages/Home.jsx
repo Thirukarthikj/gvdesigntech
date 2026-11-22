@@ -157,6 +157,17 @@ export default function Home({ onOpenModal }) {
               GV DESIGNTECH
             </div>
 
+            {/* Center Floating 3D Logo */}
+            <div className="hero-floating-logo-wrap">
+              <div className="hero-logo-halo"></div>
+              <div className="hero-logo-ring"></div>
+              <img
+                src="/assets/gv-logo.png"
+                alt="GV DesignTech Floating Emblem"
+                className="hero-floating-logo"
+              />
+            </div>
+
             {/* Left Card */}
             <div className={`${P['floating-card']} ${P['card-left']} ${P.reveal} ${P.visible} ${P.show}`}>
               <div className={P.label}>Model Precision</div>

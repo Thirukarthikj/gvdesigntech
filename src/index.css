@@ -719,3 +719,86 @@
     padding: 9px 16px !important;
   }
 }
+
+/* ==========================================================================
+   Hero Center Floating Logo
+   ========================================================================== */
+.hero-floating-logo-wrap {
+  position: absolute;
+  top: 44%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(140px, 19vw, 230px);
+  height: clamp(140px, 19vw, 230px);
+  pointer-events: none;
+  animation: heroLogoFloat 6s ease-in-out infinite alternate;
+}
+
+@keyframes heroLogoFloat {
+  0% {
+    transform: translate(-50%, -50%) translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-20px) rotate(2deg) scale(1.04);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateY(8px) rotate(-1deg);
+  }
+}
+
+.hero-logo-halo {
+  position: absolute;
+  width: 140%;
+  height: 140%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.45) 0%, rgba(217, 70, 239, 0.25) 35%, rgba(57, 208, 255, 0.12) 55%, transparent 72%);
+  filter: blur(28px);
+  z-index: 1;
+  pointer-events: none;
+  animation: heroLogoHaloPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes heroLogoHaloPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.18);
+    opacity: 0.95;
+  }
+}
+
+.hero-logo-ring {
+  position: absolute;
+  width: 112%;
+  height: 112%;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(192, 132, 252, 0.5);
+  box-shadow: 0 0 22px rgba(139, 92, 246, 0.35), inset 0 0 22px rgba(139, 92, 246, 0.2);
+  z-index: 2;
+  pointer-events: none;
+  animation: heroLogoRingSpin 24s linear infinite;
+}
+
+@keyframes heroLogoRingSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.hero-floating-logo {
+  position: relative;
+  z-index: 5;
+  width: 84%;
+  height: 84%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 30px rgba(192, 132, 252, 0.85))
+          drop-shadow(0 0 60px rgba(217, 70, 239, 0.5))
+          drop-shadow(0 15px 35px rgba(0, 0, 0, 0.8));
+  user-select: none;
+  -webkit-user-drag: none;
+}
