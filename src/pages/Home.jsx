@@ -157,12 +157,12 @@ export default function Home({ onOpenModal }) {
               GV DESIGNTECH
             </div>
 
-            {/* Center Floating 3D Logo with High-Tech Outer Circle */}
+            {/* Center Floating 3D Logo with Site-Themed CAD Outer Circle */}
             <div className="hero-floating-logo-wrap">
               <div className="hero-logo-halo"></div>
               <img
-                src="/assets/cad-tech-circle.png"
-                alt="High-Tech Outer HUD Circle"
+                src="/assets/cad-engineering-circle.svg"
+                alt="GV DesignTech CAD Engineering Rotating Ring"
                 className="hero-logo-tech-circle"
               />
               <img
