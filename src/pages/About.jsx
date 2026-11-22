@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { aboutStyles as Im } from '../data/styles.js';
 
 export default function About({ onOpenModal }) {
+  const [activeShowcaseTab, setActiveShowcaseTab] = useState('training');
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -180,27 +182,74 @@ export default function About({ onOpenModal }) {
       </section>
 
       {/* Showcase Section */}
-      <section className={Im['ab-showcase']}>
-        <div className={Im['ab-showcase-wrap']}>
-          <div className={Im['ab-showcase-grid']}>
-            <div className={`${Im['ab-showcase-left']} ${Im['ab-reveal']} ${Im.visible}`}>
-              <div className={Im['ab-hero-tag']}>EXCELLENCE IN CAD ENGINEERING</div>
-              <h2>We're All About Industry-Standard CAD Solutions That Transform Careers</h2>
-              <p>
-                Our students model, analyze, and detail real-world engineering assemblies and architectural structures. Through weekly design challenges, 1-on-1 portfolio reviews, and corporate industry projects, we cultivate true engineering design mastery.
-              </p>
-              <div className={Im['ab-showcase-badges']}>
-                <span>AutoCAD 2D/3D</span>
-                <span>SolidWorks</span>
-                <span>Revit BIM</span>
-                <span>CATIA</span>
-                <span>CNC / CAM</span>
-                <span>Ansys FEA</span>
-              </div>
+      <section className="cad-showcase-section">
+        <div className="cad-showcase-wrap">
+          {/* Left Column: Visual with Digital Twin blueprint & Telemetry chips */}
+          <div className="cad-showcase-visual">
+            <img alt="GV Design Tech CAD Engineering Showcase" src="/assets/cad-success-model.jpg" />
+            <div className="cad-showcase-visual-overlay"></div>
+            
+            <div className="cad-telemetry-chip cad-chip-tl">
+              <span className="cad-chip-dot"></span>
+              <span>Digital Twin CAD Assembly</span>
             </div>
-            <div className={`${Im['ab-showcase-right']} ${Im['ab-reveal']} ${Im.visible}`}>
-              <img alt="GV Design Tech CAD Engineering" src="/assets/cad-success-model.jpg" style={{ borderRadius: '16px', objectFit: 'cover' }} />
+            
+            <div className="cad-telemetry-chip cad-chip-br">
+              <span className="cad-chip-dot" style={{ background: '#ec4899', boxShadow: '0 0 8px #ec4899' }}></span>
+              <span>GD&amp;T Precision ±0.01mm</span>
             </div>
+          </div>
+
+          {/* Right Column: Content with Tabs, Badges, and CTA */}
+          <div className="cad-showcase-content">
+            <div className="cad-showcase-tag">EXCELLENCE IN CAD ENGINEERING</div>
+            <h2 className="cad-showcase-title">
+              We're All About <span>Industry-Standard CAD Solutions</span> That Transform Careers
+            </h2>
+            <p className="cad-showcase-desc">
+              Our students model, analyze, and detail real-world engineering assemblies and architectural structures. Through weekly design challenges, 1-on-1 portfolio reviews, and corporate industry projects, we cultivate true engineering design mastery.
+            </p>
+
+            <div className="cad-showcase-tabs">
+              <button
+                type="button"
+                className={`cad-showcase-tab-btn ${activeShowcaseTab === 'training' ? 'active' : ''}`}
+                onClick={() => setActiveShowcaseTab('training')}
+              >
+                Studio CAD Training
+              </button>
+              <button
+                type="button"
+                className={`cad-showcase-tab-btn ${activeShowcaseTab === 'innovation' ? 'active' : ''}`}
+                onClick={() => setActiveShowcaseTab('innovation')}
+              >
+                Industrial BIM &amp; CAM
+              </button>
+            </div>
+
+            <div className="cad-showcase-tab-desc">
+              {activeShowcaseTab === 'training'
+                ? 'Hands-on laboratory training covering 2D drafting standards, parametric 3D solid modeling, sheet metal layouts, and mechanical engineering assembly tolerances.'
+                : 'Advanced Building Information Modeling (BIM) structural workflows, MEP architectural coordination, and 5-axis CNC G-code toolpath simulations.'}
+            </div>
+
+            <div className="cad-showcase-badges">
+              <span className="cad-showcase-pill">📐 AutoCAD 2D/3D</span>
+              <span className="cad-showcase-pill">⚙️ SolidWorks</span>
+              <span className="cad-showcase-pill">🏛️ Revit BIM</span>
+              <span className="cad-showcase-pill">🚀 CATIA V5</span>
+              <span className="cad-showcase-pill">⚡ CNC / CAM</span>
+              <span className="cad-showcase-pill">🔬 Ansys FEA</span>
+            </div>
+
+            <button
+              type="button"
+              className="cad-showcase-cta"
+              onClick={onOpenModal}
+            >
+              <span>Explore CAD Design Studio</span>
+              <span>→</span>
+            </button>
           </div>
         </div>
       </section>
