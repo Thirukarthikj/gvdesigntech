@@ -127,16 +127,16 @@ export default function Home({ onOpenModal }) {
   }, []);
 
   const marqueeItems = [
-    'Artificial Intelligence Certification Course – Gen AI, LLM & Deep Learning',
-    'Advanced Data Science Blueprint – Python, Statistics & Machine Learning',
-    'Machine Learning Engineering Bootcamp – NLP, Computer Vision & Predictive Models',
-    'Data Analytics Institute – SQL, Excel & Business Analytics Insights',
-    'Power BI Corporate Training – Dashboards, Reports & Data Visualization Tools',
-    'Python Full Stack Developer Track – HTML, CSS, JavaScript & Django Architecture',
-    'Cloud Computing Deployment Labs – AWS, Azure & DevOps Automation',
-    'Cyber Security Training Infrastructure – Ethical Hacking & Network Protection',
-    'Generative AI Certification – Prompt Engineering Concepts & Autonomous AI Agents',
-    'Data Engineering Academy – Scalable ETL Pipelines & Big Data Clusters'
+    'AutoCAD 2D Drafting & 3D Architectural Modeling Certification',
+    'Mechanical Product Design & Digital Prototyping – SolidWorks & CATIA',
+    'Civil CADD & Structural BIM Coordination – Revit, Tekla & ETABS',
+    'CNC Programming & Precision CAM Machining – MasterCAM & G-Code',
+    'Automobile Engineering CAD – Chassis, Powertrain & Sheet Metal Design',
+    'Piping & Structural Drafting – SP3D, PDMS & Plant Design Systems',
+    'Electrical CADD & Industrial Automation Panel Wiring Schematics',
+    '3D Interior & Exterior Architectural Visualization – 3ds Max & V-Ray',
+    'Finite Element Analysis (FEA) & Computational Simulation – ANSYS',
+    'Master Diploma in Mechanical, Civil & Architectural CADD Systems'
   ];
 
   return (
@@ -249,7 +249,7 @@ export default function Home({ onOpenModal }) {
         {/* Section 1: Marquee */}
         <div className={P['trusted-section']}>
           <p className={P['trusted-label']}>
-            ©MASTER THE MOST DEMANDED TECHNOLOGIES OF THE FUTURE &amp; CAREER SUCCESS
+            MASTER INDUSTRY-STANDARD CAD, CAM &amp; ENGINEERING DESIGN DISCIPLINES
           </p>
           <div className={P['marquee-wrap']}>
             <div className={P['marquee-track']}>
@@ -402,35 +402,35 @@ export default function Home({ onOpenModal }) {
           <div className={P['ai-right']}>
             <span className={P['mini-title']}>WELCOME TO GV DESIGNTECH</span>
             <h2>
-              Pioneering the Future of Data Science &amp; <span>Generative AI Classes</span>
+              Industry-Aligned Modules Across <span>Mechanical, Civil &amp; CNC CAD</span>
             </h2>
             <p className={P.desc}>
-              Master cutting-edge technologies, from Generative AI and Large Language Models to scalable enterprise data pipelines. Build real-world expertise with our industry-aligned local career paths.
+              Industry-aligned modules across Mechanical &amp; Automobile CAD, Civil Drafting, CNC Programming. Master industry-standard engineering tools with real-world project portfolios, interactive 3D simulations, and hands-on laboratory training.
             </p>
             <div className={P.feature}>
               <span className={P.dot}></span>
               <div>
-                <h4>Generative AI &amp; LLM Systems Integration</h4>
+                <h4>Mechanical &amp; Automobile CAD Design</h4>
                 <p>
-                  Deploy, build, and optimize foundational model pipelines to architect secure transactional knowledge networks and smart conversational workflows.
+                  Master SolidWorks, CATIA, Creo, and Autodesk Inventor with parametric 3D assembly, GD&amp;T, sheet metal fabrication, and automobile powertrain component modeling.
                 </p>
               </div>
             </div>
             <div className={P.feature}>
               <span className={P.dot}></span>
               <div>
-                <h4>Predictive Data Science Analytics &amp; Big Data Systems</h4>
+                <h4>Civil Drafting &amp; Architectural BIM Modeling</h4>
                 <p>
-                  Convert massive telemetry streams into structural business foresights utilizing automated modeling loops and predictive algorithmic vectors.
+                  Develop structural building plans, Revit BIM 3D models, 3ds Max architectural visualizations, structural reinforcement detailing, and municipal permit blueprints.
                 </p>
               </div>
             </div>
             <div className={P.feature}>
               <span className={P.dot}></span>
               <div>
-                <h4>Enterprise Infrastructure Data Pipeline Engineering</h4>
+                <h4>CNC Programming &amp; Precision CAM Machining</h4>
                 <p>
-                  Build secure, reliable, and compliant real-time ETL configurations tailored to localized data processing mandates.
+                  Generate multi-axis CNC lathe and milling toolpaths using MasterCAM, NX CAM, G-Code/M-Code simulation, and production-ready manufacturing documentation.
                 </p>
               </div>
             </div>
