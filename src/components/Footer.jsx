@@ -9,7 +9,7 @@ export default function Footer() {
           <h3>
             Let's make something <span>great work together.</span>
           </h3>
-          <p>Join 15,000+ learners already enrolled in GV DesignTech.</p>
+          <p>Join 15,000+ learners already enrolled in GV Design Tech.</p>
         </div>
         <div className="nl-form">
           <div className="nl-badge-showcase">
@@ -31,11 +31,11 @@ export default function Footer() {
       <div className="footer-grid">
         <div className="footer-brand">
           <Link to="/" className="foot-logo">
-            <img alt="GV DesignTech Logo" src="/assets/gv-logo.png" />
-            <span>GV DesignTech</span>
+            <img alt="GV Design Tech Logo" src="/assets/gv-logo.png" />
+            <span>GV Design Tech</span>
           </Link>
           <p>
-            GV DesignTech provides premier CAD &amp; Engineering Design training. We empower engineers and designers with industry-ready skills through AutoCAD, Revit, SolidWorks, and BIM frameworks.
+            GV Design Tech provides premier CAD &amp; Engineering Design training. We empower engineers and designers with industry-ready skills through AutoCAD, Revit, SolidWorks, and BIM frameworks.
           </p>
           <div className="social-row">
             <div className="footer-stats">
@@ -98,12 +98,12 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <p>
-          <a href="https://profenaainfotech.com/" target="_blank" rel="noopener noreferrer">
-            © 2026 Profenaa Infotech.
-          </a>{' '}
+          <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
+            © 2026 GV Design Tech.
+          </Link>{' '}
           All rights reserved.
         </p>
-        <p className="credits">Designed for GV DesignTech</p>
+        <p className="credits">Designed for GV Design Tech</p>
       </div>
     </footer>
   );
