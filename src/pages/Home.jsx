@@ -553,22 +553,22 @@ export default function Home({ onOpenModal }) {
           <div className={P['stat-pill']}>
             <div>
               <div className={P['big-n']}>500+</div>
-              <div className={P['sm-l']}>Placed Tech Candidates</div>
+              <div className={P['sm-l']}>Placed CAD Engineers</div>
             </div>
             <div style={{ width: '1px', height: '40px', background: 'rgba(255, 255, 255, 0.1)' }}></div>
             <div>
               <div className={P['big-n']}>
                 94<sup>%</sup>
               </div>
-              <div className={P['sm-l']}>Verified Career Placement Rate</div>
+              <div className={P['sm-l']}>Core Industry Placement Rate</div>
             </div>
           </div>
 
           <h2 className={`${P.h2} ${P.reveal} ${P.visible} ${P.show}`}>
-            The Tech Ecosystem of Tomorrow Is Here — Are You Ready to Join <span>GV DesignTech?</span>
+            The Future of Engineering Design Starts Here — Are You Ready to Join <span>GV DesignTech?</span>
           </h2>
           <p>
-            Master specialized modern methodologies including contextual natural language structures, automated diagnostic pipelines, and scalable enterprise data models built for fast workflows. Apply near you today.
+            Master industry-grade CAD, CAM &amp; CAE workflows including parametric 3D modeling, precision GD&amp;T drafting, architectural BIM coordination, and CNC toolpath programming. Launch your engineering design career with us today.
           </p>
           <div className={P['cta-btns']}>
             <button
@@ -580,7 +580,7 @@ export default function Home({ onOpenModal }) {
               Get Started Now
             </button>
             <Link className={P['btn-outline']} to="/Contactus">
-              Talk to a Career Expert Near You
+              Talk to a CAD Career Expert Near You
             </Link>
           </div>
         </div>
