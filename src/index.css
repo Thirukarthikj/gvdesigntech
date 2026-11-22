@@ -584,3 +584,138 @@
   box-shadow: 0 12px 30px rgba(124, 58, 237, 0.55);
   background: linear-gradient(90deg, #6d28d9, #d946ef);
 }
+
+/* ==========================================================================
+   Curated Disciplines Dropdown (Courses Menu)
+   ========================================================================== */
+.dropdown-menu.courses-curated-dropdown {
+  min-width: 330px;
+  padding: 0 !important;
+  gap: 0 !important;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0d0c22fa !important;
+  border: 1px solid rgba(139, 92, 246, 0.25) !important;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.75), 0 0 25px rgba(139, 92, 246, 0.15) !important;
+}
+
+.dropdown-menu.courses-curated-dropdown:before {
+  display: none !important;
+}
+
+.curated-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.curated-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+  display: inline-block;
+}
+
+.curated-list {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0;
+}
+
+.curated-item {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 10px 20px !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  width: 100% !important;
+}
+
+.curated-item:hover {
+  background: rgba(139, 92, 246, 0.12) !important;
+  padding-left: 24px !important;
+}
+
+.curated-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.curated-item-title {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  transition: color 0.2s ease;
+}
+
+.curated-item:hover .curated-item-title {
+  color: #c084fc;
+}
+
+.curated-item-modules {
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.curated-arrow {
+  color: #94a3b8;
+  font-size: 16px;
+  font-weight: 500;
+  transition: transform 0.2s ease, color 0.2s ease;
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
+.curated-item:hover .curated-arrow {
+  color: #c084fc;
+  transform: translateX(4px);
+}
+
+.curated-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 20px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.curated-browse-all {
+  color: #ffffff !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  display: block !important;
+  text-align: center !important;
+  padding: 4px 0 !important;
+  transition: color 0.2s ease !important;
+}
+
+.curated-browse-all:hover {
+  color: #c084fc !important;
+}
+
+@media (max-width: 868px) {
+  .dropdown.active .dropdown-menu.courses-curated-dropdown {
+    max-height: 520px !important;
+    padding: 0 !important;
+  }
+  .curated-item {
+    padding: 9px 16px !important;
+  }
+}

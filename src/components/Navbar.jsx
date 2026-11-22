@@ -51,11 +51,66 @@ export default function Navbar() {
             <span className="dropdown-trigger" onClick={(e) => toggleDropdown('courses', e)}>
               Courses <i className="chevron"></i>
             </span>
-            <div className="dropdown-menu">
-              <Link to="/datascience" onClick={closeAll}>Data Science</Link>
-              <Link to="/dataanalytics" onClick={closeAll}>Data Analytics</Link>
-              <Link to="/Artificial" onClick={closeAll}>Artificial Intelligence</Link>
-              <Link to="/machinelearning" onClick={closeAll}>Machine Learning</Link>
+            <div className="dropdown-menu courses-curated-dropdown">
+              <div className="curated-header">
+                <span>CURATED DISCIPLINES (6)</span>
+                <span className="curated-dot"></span>
+              </div>
+              <div className="curated-list">
+                <Link to="/datascience" className="curated-item" onClick={closeAll}>
+                  <div className="curated-item-info">
+                    <span className="curated-item-title">Mechanical &amp; Automobile</span>
+                    <span className="curated-item-modules">8 Software modules</span>
+                  </div>
+                  <span className="curated-arrow">→</span>
+                </Link>
+
+                <Link to="/dataanalytics" className="curated-item" onClick={closeAll}>
+                  <div className="curated-item-info">
+                    <span className="curated-item-title">Civil Engineering</span>
+                    <span className="curated-item-modules">10 Software modules</span>
+                  </div>
+                  <span className="curated-arrow">→</span>
+                </Link>
+
+                <Link to="/machinelearning" className="curated-item" onClick={closeAll}>
+                  <div className="curated-item-info">
+                    <span className="curated-item-title">CNC Programming</span>
+                    <span className="curated-item-modules">1 Software modules</span>
+                  </div>
+                  <span className="curated-arrow">→</span>
+                </Link>
+
+                <Link to="/Artificial" className="curated-item" onClick={closeAll}>
+                  <div className="curated-item-info">
+                    <span className="curated-item-title">Computer Science &amp; IT</span>
+                    <span className="curated-item-modules">8 Software modules</span>
+                  </div>
+                  <span className="curated-arrow">→</span>
+                </Link>
+
+                <Link to="/datascience" className="curated-item" onClick={closeAll}>
+                  <div className="curated-item-info">
+                    <span className="curated-item-title">Multimedia &amp; Graphic Design</span>
+                    <span className="curated-item-modules">5 Software modules</span>
+                  </div>
+                  <span className="curated-arrow">→</span>
+                </Link>
+
+                <Link to="/dataanalytics" className="curated-item" onClick={closeAll}>
+                  <div className="curated-item-info">
+                    <span className="curated-item-title">Arts &amp; Multimedia</span>
+                    <span className="curated-item-modules">1 Software modules</span>
+                  </div>
+                  <span className="curated-arrow">→</span>
+                </Link>
+              </div>
+
+              <div className="curated-footer">
+                <Link to="/datascience" className="curated-browse-all" onClick={closeAll}>
+                  Browse All Courses →
+                </Link>
+              </div>
             </div>
           </div>
 
