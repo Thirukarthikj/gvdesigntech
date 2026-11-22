@@ -179,3 +179,170 @@
     transform: translateY(-50%) scale(1);
   }
 }
+
+/* ==========================================================================
+   CAD Program Cards (About Page Specialization Grid)
+   ========================================================================== */
+.cad-programs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: 1400px;
+  margin: 48px auto 0;
+  padding: 0 20px;
+  position: relative;
+  z-index: 5;
+}
+
+@media (max-width: 1080px) {
+  .cad-programs-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cad-programs-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 16px;
+  }
+}
+
+.cad-program-card {
+  background: linear-gradient(145deg, rgba(20, 16, 52, 0.75) 0%, rgba(10, 8, 28, 0.9) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.22);
+  border-radius: 22px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.6);
+  position: relative;
+  backdrop-filter: blur(14px);
+}
+
+.cad-program-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(192, 132, 252, 0.55);
+  box-shadow: 0 24px 48px -12px rgba(139, 92, 246, 0.38), 0 0 28px rgba(192, 132, 252, 0.18);
+}
+
+.cad-card-media {
+  position: relative;
+  width: 100%;
+  height: 210px;
+  overflow: hidden;
+  background: #080718;
+}
+
+.cad-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  display: block;
+}
+
+.cad-program-card:hover .cad-card-media img {
+  transform: scale(1.06);
+}
+
+.cad-card-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 8, 28, 0.1) 0%, rgba(10, 8, 28, 0.75) 75%, rgba(10, 8, 28, 1) 100%);
+  pointer-events: none;
+}
+
+.cad-card-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  background: rgba(15, 12, 38, 0.85);
+  border: 1px solid rgba(192, 132, 252, 0.4);
+  color: #c084fc;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cad-card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.cad-card-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 10px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.cad-card-desc {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.7;
+  margin: 0 0 20px;
+  flex-grow: 1;
+}
+
+.cad-card-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.cad-tool-pill {
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.28);
+  color: #e2d8fe;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 11px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+
+.cad-program-card:hover .cad-tool-pill {
+  border-color: rgba(192, 132, 252, 0.45);
+  background: rgba(139, 92, 246, 0.2);
+}
+
+.cad-card-action-btn {
+  background: linear-gradient(90deg, #7c3aed, #c084fc);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  width: 100%;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(124, 58, 237, 0.35);
+}
+
+.cad-card-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(124, 58, 237, 0.55);
+  background: linear-gradient(90deg, #6d28d9, #d946ef);
+}

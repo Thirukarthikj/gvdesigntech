@@ -88,35 +88,92 @@ export default function About({ onOpenModal }) {
             </h2>
           </div>
 
-          <div className={Im['ab-svc-row']}>
-            <div className={`${Im['ab-svc-col']} ${Im['ab-reveal']} ${Im.visible}`}>
-              <div className={Im['ab-svc-img']}>
-                <img alt="Mechanical & Automobile CAD" src="/assets/cad-isometric-room.png" />
+          <div className="cad-programs-grid">
+            {/* Card 1: Mechanical & Automobile CAD */}
+            <div className="cad-program-card">
+              <div className="cad-card-media">
+                <span className="cad-card-badge">⚙️ Mechanical &amp; Auto CAD</span>
+                <img alt="Mechanical & Automobile CAD" src="/assets/cad-card-mechanical.jpg" />
+                <div className="cad-card-media-overlay"></div>
               </div>
-              <h3 className={Im['ab-svc-title']}>Mechanical &amp; Automobile CAD</h3>
-              <p className={Im['ab-svc-desc']}>
-                Parametric 3D solid modeling, assembly design, sheet metal, and GD&amp;T production drafting using AutoCAD, SolidWorks, and CATIA.
-              </p>
+              <div className="cad-card-body">
+                <h3 className="cad-card-title">Mechanical &amp; Automobile CAD</h3>
+                <p className="cad-card-desc">
+                  Master parametric 3D solid modeling, powertrain assembly design, sheet metal fabrication, and GD&amp;T production drafting.
+                </p>
+                <div className="cad-card-tools">
+                  <span className="cad-tool-pill">AutoCAD 2D/3D</span>
+                  <span className="cad-tool-pill">SolidWorks</span>
+                  <span className="cad-tool-pill">CATIA V5</span>
+                  <span className="cad-tool-pill">Ansys FEA</span>
+                  <span className="cad-tool-pill">GD&amp;T</span>
+                </div>
+                <button
+                  type="button"
+                  className="cad-card-action-btn"
+                  onClick={onOpenModal}
+                >
+                  Explore Mechanical Track →
+                </button>
+              </div>
             </div>
 
-            <div className={`${Im['ab-svc-col']} ${Im['ab-reveal']} ${Im.visible}`}>
-              <div className={Im['ab-svc-img']}>
-                <img alt="Civil BIM & Architectural Drafting" src="/assets/cad-floorplan-hero.jpg" />
+            {/* Card 2: Civil BIM & Architectural Drafting */}
+            <div className="cad-program-card">
+              <div className="cad-card-media">
+                <span className="cad-card-badge">🏛️ Civil &amp; Architectural BIM</span>
+                <img alt="Civil BIM & Architectural Drafting" src="/assets/cad-card-civil.jpg" />
+                <div className="cad-card-media-overlay"></div>
               </div>
-              <h3 className={Im['ab-svc-title']}>Civil BIM &amp; Architectural Drafting</h3>
-              <p className={Im['ab-svc-desc']}>
-                Structural 2D drafting, 3D elevation rendering, MEP coordination, and Building Information Modeling with Revit and Navisworks.
-              </p>
+              <div className="cad-card-body">
+                <h3 className="cad-card-title">Civil BIM &amp; Architectural Drafting</h3>
+                <p className="cad-card-desc">
+                  Learn structural engineering drafting, 3D architectural elevations, MEP service coordination, and Building Information Modeling.
+                </p>
+                <div className="cad-card-tools">
+                  <span className="cad-tool-pill">Revit Architecture</span>
+                  <span className="cad-tool-pill">AutoCAD Civil 3D</span>
+                  <span className="cad-tool-pill">BIM Modeling</span>
+                  <span className="cad-tool-pill">Navisworks</span>
+                  <span className="cad-tool-pill">3ds Max</span>
+                </div>
+                <button
+                  type="button"
+                  className="cad-card-action-btn"
+                  onClick={onOpenModal}
+                >
+                  Explore Civil BIM Track →
+                </button>
+              </div>
             </div>
 
-            <div className={`${Im['ab-svc-col']} ${Im['ab-reveal']} ${Im.visible}`}>
-              <div className={Im['ab-svc-img']}>
-                <img alt="CNC Programming & CAM" src="/assets/cad-success-model.jpg" />
+            {/* Card 3: CNC Programming & CAM */}
+            <div className="cad-program-card">
+              <div className="cad-card-media">
+                <span className="cad-card-badge">⚡ CNC Machining &amp; CAM</span>
+                <img alt="CNC Programming & CAM" src="/assets/cad-card-cnc.jpg" />
+                <div className="cad-card-media-overlay"></div>
               </div>
-              <h3 className={Im['ab-svc-title']}>CNC Programming &amp; CAM</h3>
-              <p className={Im['ab-svc-desc']}>
-                Precision G-code / M-code generation, 3-axis/5-axis CNC turning and milling toolpath simulations, and modern CAM workflows.
-              </p>
+              <div className="cad-card-body">
+                <h3 className="cad-card-title">CNC Programming &amp; CAM</h3>
+                <p className="cad-card-desc">
+                  Develop precision G-code &amp; M-code routines, 3-axis/5-axis CNC turning and milling toolpath simulations, and modern CAM workflows.
+                </p>
+                <div className="cad-card-tools">
+                  <span className="cad-tool-pill">MasterCAM</span>
+                  <span className="cad-tool-pill">CNC Turning</span>
+                  <span className="cad-tool-pill">5-Axis Milling</span>
+                  <span className="cad-tool-pill">G-Code / M-Code</span>
+                  <span className="cad-tool-pill">Toolpath Sim</span>
+                </div>
+                <button
+                  type="button"
+                  className="cad-card-action-btn"
+                  onClick={onOpenModal}
+                >
+                  Explore CNC Track →
+                </button>
+              </div>
             </div>
           </div>
         </div>
