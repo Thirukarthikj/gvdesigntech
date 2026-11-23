@@ -913,7 +913,8 @@
   align-items: flex-end;
   gap: 14px;
   z-index: 2;
-  align-self: end;
+  align-self: flex-start;
+  margin-left: 0;
 }
 
 .hero-leaders-group ._hero-chairman_tpo9n_4013,
@@ -986,6 +987,8 @@
   .hero-leaders-group {
     display: flex;
     align-items: flex-end;
+    align-self: flex-start !important;
+    margin-left: 0 !important;
     gap: 14px;
     margin-top: 2px;
   }
