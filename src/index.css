@@ -948,4 +948,21 @@
   }
 }
 
+/* Hero Row Grid: Headline Left, Leaders Middle, Description Right */
+@media (min-width: 801px) {
+  ._hero-row_tpo9n_771 {
+    grid-template-columns: minmax(0, 1.25fr) auto minmax(280px, 340px) !important;
+    align-items: end !important;
+    gap: 36px 30px !important;
+  }
+}
+
+@media (min-width: 801px) and (max-width: 1160px) {
+  ._hero-row_tpo9n_771 {
+    grid-template-columns: 1fr auto !important;
+    gap: 28px 24px !important;
+  }
+}
+
+
 

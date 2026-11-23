@@ -183,6 +183,11 @@ export default function Home({ onOpenModal }) {
           </div>
 
           <div className={P['hero-row']}>
+            <div className={`${P['row-left']} ${P.reveal} ${P.visible} ${P.show}`}>
+              <h1>Best CAD &amp; Engineering Design Training Center</h1>
+              <div className={P['mini-line']}></div>
+            </div>
+
             <div className="hero-leaders-group">
               <figure className={`${P['hero-chairman']} ${P.reveal} ${P.visible} ${P.show}`}>
                 <div className={P['hero-chairman-frame']}>
@@ -224,11 +229,6 @@ export default function Home({ onOpenModal }) {
                   </div>
                 </div>
               </figure>
-            </div>
-
-            <div className={`${P['row-left']} ${P.reveal} ${P.visible} ${P.show}`}>
-              <h1>Best CAD &amp; Engineering Design Training Center</h1>
-              <div className={P['mini-line']}></div>
             </div>
 
             <div className={`${P['row-right']} ${P.reveal} ${P.visible} ${P.show}`}>
