@@ -948,19 +948,77 @@
   }
 }
 
-/* Hero Row Grid: Headline Left, Leaders Middle, Description Right */
+/* ==========================================================================
+   Hero Row 2-Column Split: Headline + Leaders on Left, CTA on Right
+   ========================================================================== */
 @media (min-width: 801px) {
   ._hero-row_tpo9n_771 {
-    grid-template-columns: minmax(0, 1.25fr) auto minmax(280px, 340px) !important;
-    align-items: end !important;
-    gap: 36px 30px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+    gap: 40px !important;
+    max-width: 1320px !important;
+    margin: 30px auto 0 !important;
+    padding: 20px 4% 0 !important;
+  }
+
+  .hero-leaders-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    flex: 1 1 auto;
+    max-width: 680px;
+  }
+
+  .hero-leaders-col ._row-left_tpo9n_799 {
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .hero-leaders-col ._row-left_tpo9n_799 h1 {
+    margin-bottom: 12px !important;
+    line-height: 1.1 !important;
+    font-size: clamp(28px, 3.2vw, 46px) !important;
+    text-align: left !important;
+  }
+
+  .hero-leaders-group {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    margin-top: 2px;
+  }
+
+  ._row-right_tpo9n_845 {
+    flex: 0 0 clamp(300px, 28vw, 380px) !important;
+    margin-bottom: 8px !important;
   }
 }
 
-@media (min-width: 801px) and (max-width: 1160px) {
-  ._hero-row_tpo9n_771 {
-    grid-template-columns: 1fr auto !important;
-    gap: 28px 24px !important;
+@media (max-width: 800px) {
+  .hero-leaders-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-leaders-col ._row-left_tpo9n_799 {
+    align-items: center !important;
+  }
+
+  .hero-leaders-col ._row-left_tpo9n_799 h1 {
+    text-align: center !important;
+  }
+
+  .hero-leaders-group {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
   }
 }
 

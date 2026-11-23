@@ -183,52 +183,54 @@ export default function Home({ onOpenModal }) {
           </div>
 
           <div className={P['hero-row']}>
-            <div className={`${P['row-left']} ${P.reveal} ${P.visible} ${P.show}`}>
-              <h1>Best CAD &amp; Engineering Design Training Center</h1>
-              <div className={P['mini-line']}></div>
-            </div>
+            <div className="hero-leaders-col">
+              <div className={`${P['row-left']} ${P.reveal} ${P.visible} ${P.show}`}>
+                <h1>Best CAD &amp; Engineering Design Training Center</h1>
+                <div className={P['mini-line']}></div>
+              </div>
 
-            <div className="hero-leaders-group">
-              <figure className={`${P['hero-chairman']} ${P.reveal} ${P.visible} ${P.show}`}>
-                <div className={P['hero-chairman-frame']}>
-                  <div className={P['hero-chairman-inner']}>
-                    <img
-                      alt="Vinith Gunasekaran, Founder and CEO of GV DesignTech"
-                      className={P['hero-chairman-img']}
-                      width="1122"
-                      height="1402"
-                      decoding="async"
-                      src="/assets/chairman-real-uq_F_5Yk.jpg"
-                    />
-                    <figcaption className={P['hero-chairman-cap']}>
-                      <span className={P['hero-chairman-role']}>Vinith Gunasekaran</span>
-                      <span className={P['hero-chairman-title']}>Founder / CEO</span>
-                      <span className={P['hero-chairman-org']}>GV DesignTech</span>
-                    </figcaption>
+              <div className="hero-leaders-group">
+                <figure className={`${P['hero-chairman']} ${P.reveal} ${P.visible} ${P.show}`}>
+                  <div className={P['hero-chairman-frame']}>
+                    <div className={P['hero-chairman-inner']}>
+                      <img
+                        alt="Vinith Gunasekaran, Founder and CEO of GV DesignTech"
+                        className={P['hero-chairman-img']}
+                        width="1122"
+                        height="1402"
+                        decoding="async"
+                        src="/assets/chairman-real-uq_F_5Yk.jpg"
+                      />
+                      <figcaption className={P['hero-chairman-cap']}>
+                        <span className={P['hero-chairman-role']}>Vinith Gunasekaran</span>
+                        <span className={P['hero-chairman-title']}>Founder / CEO</span>
+                        <span className={P['hero-chairman-org']}>GV DesignTech</span>
+                      </figcaption>
+                    </div>
                   </div>
-                </div>
-              </figure>
+                </figure>
 
-              <figure className={`${P['hero-chairman']} ${P.reveal} ${P.visible} ${P.show}`}>
-                <div className={P['hero-chairman-frame']} style={{ animationDelay: '-3.5s' }}>
-                  <div className={P['hero-chairman-inner']}>
-                    <img
-                      alt="Gokul Prasath K, Managing Director of GV DesignTech"
-                      className={P['hero-chairman-img']}
-                      width="819"
-                      height="1024"
-                      decoding="async"
-                      src="/assets/gokul-prasath.jpg"
-                      style={{ objectPosition: 'center 12%' }}
-                    />
-                    <figcaption className={P['hero-chairman-cap']}>
-                      <span className={P['hero-chairman-role']}>Gokul Prasath K</span>
-                      <span className={P['hero-chairman-title']}>Managing Director</span>
-                      <span className={P['hero-chairman-org']}>GV DesignTech</span>
-                    </figcaption>
+                <figure className={`${P['hero-chairman']} ${P.reveal} ${P.visible} ${P.show}`}>
+                  <div className={P['hero-chairman-frame']} style={{ animationDelay: '-3.5s' }}>
+                    <div className={P['hero-chairman-inner']}>
+                      <img
+                        alt="Gokul Prasath K, Managing Director of GV DesignTech"
+                        className={P['hero-chairman-img']}
+                        width="819"
+                        height="1024"
+                        decoding="async"
+                        src="/assets/gokul-prasath.jpg"
+                        style={{ objectPosition: 'center 12%' }}
+                      />
+                      <figcaption className={P['hero-chairman-cap']}>
+                        <span className={P['hero-chairman-role']}>Gokul Prasath K</span>
+                        <span className={P['hero-chairman-title']}>Managing Director</span>
+                        <span className={P['hero-chairman-org']}>GV DesignTech</span>
+                      </figcaption>
+                    </div>
                   </div>
-                </div>
-              </figure>
+                </figure>
+              </div>
             </div>
 
             <div className={`${P['row-right']} ${P.reveal} ${P.visible} ${P.show}`}>
