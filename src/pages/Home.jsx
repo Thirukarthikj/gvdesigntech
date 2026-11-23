@@ -142,9 +142,6 @@ export default function Home({ onOpenModal }) {
               <span className={P.dot}></span>
               <span>Future of CAD & Engineering Design Hub Near You</span>
             </div>
-            <div className={`${P['hero-bg-text']} hero-brand-centered`}>
-              GV DESIGNTECH
-            </div>
 
             {/* Center Floating 3D Logo with Site-Themed CAD Outer Circle */}
             <div className="hero-floating-logo-wrap">
