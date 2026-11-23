@@ -261,13 +261,13 @@ export default function DataScience({ onOpenModal }) {
       </div>
 
       {/* Hero Header */}
-      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '120px 24px 70px', textAlign: 'center' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 18px', background: 'rgba(197, 34, 31, 0.15)', border: '1px solid rgba(197, 34, 31, 0.4)', borderRadius: '999px', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', color: '#f87171', marginBottom: '22px' }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ef4444' }}></span>
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '120px 24px 60px', textAlign: 'center' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 18px', background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.4)', borderRadius: '999px', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', color: '#c084fc', marginBottom: '22px', boxShadow: '0 0 16px rgba(139, 92, 246, 0.2)' }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22d3ee', boxShadow: '0 0 8px #22d3ee' }}></span>
           GV DESIGNTECH · MECHANICAL &amp; AUTOMOBILE
         </div>
 
-        <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 20px', background: 'linear-gradient(135deg, #ffffff 40%, #fca5a5 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+        <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 20px', background: 'linear-gradient(135deg, #ffffff 40%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
           Master Mechanical &amp; Automobile<br />Engineering Design
         </h1>
 
@@ -279,13 +279,13 @@ export default function DataScience({ onOpenModal }) {
           <button
             type="button"
             onClick={onOpenModal}
-            style={{ padding: '14px 36px', background: 'linear-gradient(135deg, #c5221f, #dc2626)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 24px rgba(197, 34, 31, 0.35)' }}
+            style={{ padding: '14px 36px', background: 'linear-gradient(135deg, #8b5cf6, #d946ef)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 24px rgba(217, 70, 239, 0.35)', transition: 'all 0.25s ease' }}
           >
             Apply for Next Batch
           </button>
           <a
             href="#mechanical-courses"
-            style={{ padding: '14px 32px', background: 'rgba(255, 255, 255, 0.08)', border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '12px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: '600' }}
+            style={{ padding: '14px 32px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.18)', borderRadius: '12px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: '600', backdropFilter: 'blur(10px)' }}
           >
             Explore Courses ↓
           </a>
@@ -293,84 +293,88 @@ export default function DataScience({ onOpenModal }) {
       </div>
 
       {/* =========================================================================
-          White Container Wrapper for Mechanical Courses & Software Programs
+          Mechanical Courses & Software Programs (Cohesive Cosmic Dark Theme)
           ========================================================================= */}
-      <div className="mech-page-white-wrapper" id="mechanical-courses">
-        <div className="mech-page-container">
+      <div className="mech-page-container" id="mechanical-courses">
 
-          {/* Section 1: Mechanical Courses (Image 1) */}
-          <section className="mech-courses-section">
-            <div className="mech-courses-header">
-              <span className="mech-eyebrow">— WHAT WE TEACH —</span>
-              <h2 className="mech-title">
-                MECHANICAL <span className="highlight-red">COURSES</span>
-              </h2>
-              <p className="mech-subtitle">
-                Hands-on, industry-aligned programs designed to make you job-ready from day one. Click any card to explore the curriculum.
-              </p>
-            </div>
+        {/* Section 1: Mechanical Courses (Image 1) */}
+        <section className="mech-courses-section">
+          <div className="mech-courses-header">
+            <span className="mech-eyebrow">
+              <span className="mech-eyebrow-dot"></span>
+              WHAT WE TEACH
+            </span>
+            <h2 className="mech-title">
+              MECHANICAL <span className="highlight-red">COURSES</span>
+            </h2>
+            <p className="mech-subtitle">
+              Hands-on, industry-aligned programs designed to make you job-ready from day one. Click any card to explore the curriculum.
+            </p>
+          </div>
 
-            <div className="mech-grid">
-              {mechanicalCourses.map((c) => (
-                <div key={c.id} className="mech-card" onClick={onOpenModal}>
-                  <div className="mech-card-media">
-                    <span className="mech-badge-popular">{c.badge}</span>
-                    <img className="mech-card-img" alt={c.title} src={c.image} />
-                    <span className="mech-badge-category">{c.category}</span>
-                  </div>
-                  <div className="mech-card-body">
-                    <div className="mech-meta-row">
-                      <span className="mech-duration">{c.duration}</span>
-                      <span className="mech-level">{c.level}</span>
-                    </div>
-                    <h3 className="mech-card-heading">{c.title}</h3>
-                    <p className="mech-card-desc">{c.desc}</p>
-                    <button
-                      type="button"
-                      className="mech-btn-learn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onOpenModal();
-                      }}
-                    >
-                      Learn More
-                    </button>
-                  </div>
+          <div className="mech-grid">
+            {mechanicalCourses.map((c) => (
+              <div key={c.id} className="mech-card" onClick={onOpenModal}>
+                <div className="mech-card-media">
+                  <span className="mech-badge-popular">{c.badge}</span>
+                  <img className="mech-card-img" alt={c.title} src={c.image} />
+                  <span className="mech-badge-category">{c.category}</span>
                 </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Section 2: Software Training Programs (Image 2) */}
-          <section className="sw-programs-section" id="software-programs" style={{ marginTop: '76px' }}>
-            <div className="sw-programs-header">
-              <span className="mech-eyebrow">— TOOLS &amp; PLATFORMS —</span>
-              <h2 className="mech-title">
-                SOFTWARE <span className="highlight-red">TRAINING PROGRAMS</span>
-              </h2>
-              <p className="mech-subtitle">
-                Industry standard mechanical design tools used by top engineering companies worldwide.
-              </p>
-            </div>
-
-            <div className="sw-grid">
-              {softwarePrograms.map((s) => (
-                <div key={s.id} className="sw-card" onClick={onOpenModal}>
-                  <div className="sw-card-media">
-                    <span className="sw-badge-category">{s.category}</span>
-                    <img className="sw-card-img" alt={s.title} src={s.image} />
-                    <div className="sw-avatar">{s.letter}</div>
+                <div className="mech-card-body">
+                  <div className="mech-meta-row">
+                    <span className="mech-duration">⏱ {c.duration}</span>
+                    <span className="mech-level">{c.level}</span>
                   </div>
-                  <div className="sw-card-body">
-                    <h4 className="sw-card-title">{s.title}</h4>
-                    <p className="sw-card-subtitle">{s.subtitle}</p>
-                  </div>
+                  <h3 className="mech-card-heading">{c.title}</h3>
+                  <p className="mech-card-desc">{c.desc}</p>
+                  <button
+                    type="button"
+                    className="mech-btn-learn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenModal();
+                    }}
+                  >
+                    Learn More →
+                  </button>
                 </div>
-              ))}
-            </div>
-          </section>
+              </div>
+            ))}
+          </div>
+        </section>
 
-        </div>
+        {/* Section 2: Software Training Programs (Image 2) */}
+        <section className="sw-programs-section" id="software-programs">
+          <div className="sw-programs-header">
+            <span className="mech-eyebrow">
+              <span className="mech-eyebrow-dot"></span>
+              TOOLS &amp; PLATFORMS
+            </span>
+            <h2 className="mech-title">
+              SOFTWARE <span className="highlight-red">TRAINING PROGRAMS</span>
+            </h2>
+            <p className="mech-subtitle">
+              Industry standard mechanical design tools used by top engineering companies worldwide.
+            </p>
+          </div>
+
+          <div className="sw-grid">
+            {softwarePrograms.map((s) => (
+              <div key={s.id} className="sw-card" onClick={onOpenModal}>
+                <div className="sw-card-media">
+                  <span className="sw-badge-category">{s.category}</span>
+                  <img className="sw-card-img" alt={s.title} src={s.image} />
+                  <div className="sw-avatar">{s.letter}</div>
+                </div>
+                <div className="sw-card-body">
+                  <h4 className="sw-card-title">{s.title}</h4>
+                  <p className="sw-card-subtitle">{s.subtitle}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
       </div>
 
       {/* Main Container Continued: 6-Month Roadmap & FAQs */}
@@ -423,7 +427,7 @@ export default function DataScience({ onOpenModal }) {
               <div
                 key={idx}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.04)',
+                  background: 'rgba(255, 255, 255, 0.03)',
                   border: '1px solid rgba(139, 92, 246, 0.25)',
                   borderRadius: '12px',
                   overflow: 'hidden'
@@ -448,7 +452,7 @@ export default function DataScience({ onOpenModal }) {
                   }}
                 >
                   <span>{faq.q}</span>
-                  <span style={{ fontSize: '20px', color: '#f87171', transform: activeFaq === idx ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s' }}>
+                  <span style={{ fontSize: '20px', color: '#c084fc', transform: activeFaq === idx ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s' }}>
                     +
                   </span>
                 </button>
@@ -463,7 +467,7 @@ export default function DataScience({ onOpenModal }) {
         </section>
 
         {/* Bottom Banner */}
-        <div style={{ textAlign: 'center', padding: '52px 32px', background: 'linear-gradient(135deg, rgba(197,34,31,0.2), rgba(220,38,38,0.25))', border: '1px solid rgba(220,38,38,0.4)', borderRadius: '24px', backdropFilter: 'blur(10px)' }}>
+        <div style={{ textAlign: 'center', padding: '52px 32px', background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.22), rgba(217, 70, 239, 0.22))', border: '1px solid rgba(217, 70, 239, 0.4)', borderRadius: '24px', backdropFilter: 'blur(10px)', boxShadow: '0 16px 40px rgba(0, 0, 0, 0.4)' }}>
           <h2 style={{ fontSize: '30px', fontWeight: '800', marginBottom: '12px', color: '#fff' }}>
             Your Mechanical &amp; Automobile Career Starts Today
           </h2>
@@ -473,7 +477,7 @@ export default function DataScience({ onOpenModal }) {
           <button
             type="button"
             onClick={onOpenModal}
-            style={{ padding: '14px 40px', background: 'linear-gradient(135deg, #c5221f, #dc2626)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 24px rgba(197, 34, 31, 0.35)' }}
+            style={{ padding: '14px 40px', background: 'linear-gradient(135deg, #8b5cf6, #d946ef)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 24px rgba(217, 70, 239, 0.35)', transition: 'all 0.25s ease' }}
           >
             Enroll in Mechanical Track
           </button>
