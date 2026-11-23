@@ -123,20 +123,6 @@ export default function Home({ onOpenModal }) {
       <div id="home-content">
         {/* Section 0: Hero */}
         <section className={`${P.hero} ${P.reveal} ${P.visible} ${P.show}`}>
-          {/* Background Video */}
-          <div className="hero-video-bg-wrap">
-            <video
-              className="hero-video-bg"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              src="/assets/hero-bg.mp4"
-            />
-            <div className="hero-video-overlay" />
-          </div>
-
           <div className={P['hero-stack']} ref={heroCardRef}>
             <div className={P['hero-badge']}>
               <span className={P.dot}></span>
