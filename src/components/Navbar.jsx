@@ -25,9 +25,13 @@ export default function Navbar() {
 
   return (
     <nav className="nav">
-      {/* Mobile Hamburger Toggle (Left on Mobile) */}
+      <Link className="brand" to="/" onClick={closeAll}>
+        <img alt="GV DesignTech Logo" className="logo" src="/assets/gv-logo.png" />
+        <span>GV DesignTech</span>
+      </Link>
+
       <button
-        className={`hamburger ${isOpen ? 'open active' : ''}`}
+        className={`hamburger ${isOpen ? 'open' : ''}`}
         aria-label="Toggle navigation"
         aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}
@@ -37,7 +41,6 @@ export default function Navbar() {
         <span className="bar"></span>
       </button>
 
-      {/* Nav Links Container (Left on Desktop, Drawer on Mobile) */}
       <div className={`nav-container ${isOpen ? 'open' : ''}`}>
         <div className="nav-links">
           <Link to="/" onClick={closeAll}>Home</Link>
@@ -142,27 +145,9 @@ export default function Navbar() {
           <Link to="/Contactus" onClick={closeAll}>Contact Us</Link>
         </div>
 
-        {/* Mobile Drawer Skill Test CTA */}
-        <Link className="nav-cta nav-cta-mobile" to="/pest-exam" onClick={closeAll}>
+        <Link className="nav-cta" to="/pest-exam" onClick={closeAll}>
           Skill Test
         </Link>
-      </div>
-
-      {/* 1. Company Logo in Exact Horizontal Center */}
-      <Link className="brand nav-brand-center" to="/" onClick={closeAll}>
-        <img alt="GV DesignTech Logo" className="logo" src="/assets/gv-logo.png" />
-        <span>GV DesignTech</span>
-      </Link>
-
-      {/* 2. Far-Right Header Actions: Skill Test CTA & 24/7 Availability Badge */}
-      <div className="nav-right-actions">
-        <Link className="nav-cta nav-cta-desktop" to="/pest-exam" onClick={closeAll}>
-          Skill Test
-        </Link>
-        <div className="nav-availability-badge" aria-label="24/7 Availability">
-          <span className="nav-availability-dot"></span>
-          <span className="nav-availability-text">24/7 Availability</span>
-        </div>
       </div>
     </nav>
   );

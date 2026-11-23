@@ -755,7 +755,7 @@
    ========================================================================== */
 .hero-floating-logo-wrap {
   position: absolute;
-  top: 49%;
+  top: 57%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 8;
@@ -773,7 +773,7 @@
 
 @media (max-width: 1024px) {
   .hero-floating-logo-wrap {
-    top: 48%;
+    top: 56%;
     width: clamp(220px, 34vw, 320px);
     height: clamp(220px, 34vw, 320px);
   }
@@ -781,7 +781,7 @@
 
 @media (max-width: 768px) {
   .hero-floating-logo-wrap {
-    top: 47%;
+    top: 55%;
     width: clamp(200px, 58vw, 280px);
     height: clamp(200px, 58vw, 280px);
   }
@@ -789,7 +789,7 @@
 
 @media (max-width: 480px) {
   .hero-floating-logo-wrap {
-    top: 46%;
+    top: 55%;
     width: clamp(180px, 60vw, 240px);
     height: clamp(180px, 60vw, 240px);
   }
@@ -873,298 +873,35 @@
 }
 
 /* ==========================================================================
-   Header Layout: Exact Horizontal Center Logo & Far-Right 24/7 Availability Badge
+   Realtime Labs Card - Positioned on Right Side (Clear Center Area)
    ========================================================================== */
-
-/* Main Header Container */
-.nav {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(1440px, calc(100% - 60px));
-  padding: 12px 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 80px;
-  background: rgba(10, 10, 25, 0.85);
-  border: 1px solid var(--line);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  z-index: 9000;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35), 0 0 30px rgba(139, 92, 246, 0.08);
+._card-bottom_tpo9n_1025,
+[class*="card-bottom"] {
+  bottom: 8% !important;
+  right: 5% !important;
+  left: auto !important;
+  transform: none !important;
 }
 
-/* 1. Company Logo in Exact Horizontal Center */
-.nav .brand,
-.nav .nav-brand-center {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 22px;
-  font-weight: 800;
-  color: #fff;
-  text-decoration: none;
-  z-index: 9005;
-  white-space: nowrap;
-  pointer-events: auto;
-  transition: opacity 0.25s ease;
-}
-
-.nav .brand:hover {
-  opacity: 0.92;
-}
-
-.nav .brand .logo {
-  height: 32px;
-  width: auto;
-  object-fit: contain;
-}
-
-/* Left Nav Links Container */
-.nav .nav-container {
-  display: flex;
-  align-items: center;
-  margin-left: 0;
-  width: auto;
-}
-
-.nav .nav-links {
-  display: flex;
-  align-items: center;
-  gap: clamp(10px, 1.2vw, 20px);
-  margin: 0;
-}
-
-.nav .nav-links > a,
-.nav .dropdown-trigger {
-  color: rgba(255, 255, 255, 0.85);
-  cursor: pointer;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.3s;
-  display: inline-flex;
-  position: relative;
-  white-space: nowrap;
-  text-decoration: none;
-}
-
-.nav .nav-links > a:hover,
-.nav .dropdown-trigger:hover {
-  color: #fff;
-}
-
-/* Far-Right Header Actions (CTA + 24/7 Availability Badge) */
-.nav-right-actions {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-left: auto;
-  z-index: 9006;
-}
-
-.nav-cta-desktop {
-  display: inline-flex !important;
-}
-
-.nav-cta-mobile {
-  display: none !important;
-}
-
-/* 2. 24/7 Availability Badge on Far-Right */
-.nav-availability-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 15px;
-  border-radius: 999px;
-  background: rgba(139, 92, 246, 0.12);
-  border: 1px solid rgba(139, 92, 246, 0.35);
-  box-shadow: 0 0 16px rgba(139, 92, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  white-space: nowrap;
-  user-select: none;
-  transition: all 0.3s ease;
-}
-
-.nav-availability-badge:hover {
-  background: rgba(139, 92, 246, 0.22);
-  border-color: rgba(217, 70, 239, 0.5);
-  box-shadow: 0 0 22px rgba(168, 85, 247, 0.3);
-}
-
-.nav-availability-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 0 8px #22c55e, 0 0 14px #22c55e;
-  display: inline-block;
-  flex-shrink: 0;
-  animation: navAvailabilityPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes navAvailabilityPulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-    box-shadow: 0 0 8px #22c55e, 0 0 14px #22c55e;
-  }
-  50% {
-    opacity: 0.55;
-    transform: scale(0.85);
-    box-shadow: 0 0 4px #22c55e;
+@media (max-width: 1024px) {
+  ._card-bottom_tpo9n_1025,
+  [class*="card-bottom"] {
+    bottom: 5% !important;
+    right: 3% !important;
+    left: auto !important;
+    transform: none !important;
   }
 }
 
-/* Tablet & Mobile Breakpoints (Responsive Layout) */
-@media (max-width: 1080px) {
-  .nav {
-    border-radius: 30px;
-    width: calc(100% - 30px);
-    padding: 12px 20px;
-    top: 15px;
-  }
-
-  .nav .brand,
-  .nav .nav-brand-center {
-    font-size: clamp(17px, 3.5vw, 21px);
-    gap: 8px;
-  }
-
-  .nav .brand .logo {
-    height: 28px;
-  }
-
-  /* Hamburger on Far-Left */
-  .hamburger {
-    display: flex !important;
-    cursor: pointer;
-    z-index: 9020;
-    background: transparent;
-    border: none;
-    flex-direction: column;
-    gap: 6px;
-    transition: all 0.3s;
-    order: -1;
-  }
-
-  .hamburger .bar {
-    background-color: #fff;
-    border-radius: 2px;
-    width: 24px;
-    height: 2px;
-    transition: all 0.3s ease-in-out;
-    display: block;
-  }
-
-  .hamburger.open .bar:nth-child(2),
-  .hamburger.active .bar:nth-child(2) {
-    opacity: 0;
-  }
-
-  .hamburger.open .bar:first-child,
-  .hamburger.active .bar:first-child {
-    background: #d946ef;
-    transform: translateY(8px) rotate(45deg);
-  }
-
-  .hamburger.open .bar:nth-child(3),
-  .hamburger.active .bar:nth-child(3) {
-    background: #d946ef;
-    transform: translateY(-8px) rotate(-45deg);
-  }
-
-  /* Slide-Out Navigation Drawer */
-  .nav-container {
-    border-left: 1px solid var(--line);
-    gap: 20px;
-    width: min(320px, 80vw);
-    height: 100vh;
-    margin-left: 0;
-    transition: right 0.4s cubic-bezier(0.1, 1, 0.1, 1);
-    position: fixed;
-    top: 0;
-    right: -100%;
-    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.6);
-    z-index: 9010 !important;
-    background: #080814 !important;
-    flex-direction: column !important;
-    justify-content: flex-start !important;
-    align-items: center !important;
-    padding: 90px 24px 40px !important;
-    display: flex !important;
-  }
-
-  .nav-container.open {
-    right: 0 !important;
-  }
-
-  .nav-cta-desktop {
-    display: none !important;
-  }
-
-  .nav-cta-mobile {
-    display: inline-flex !important;
-    text-align: center;
-    box-sizing: border-box;
-    z-index: 1006;
-    width: 100%;
-    margin-top: 15px;
-    justify-content: center;
-  }
-
-  .nav-right-actions {
-    margin-left: auto;
-  }
-
-  .nav-availability-badge {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 640px) {
-  .nav {
-    width: calc(100% - 20px);
-    padding: 10px 14px;
-    top: 12px;
-  }
-
-  .nav .brand,
-  .nav .nav-brand-center {
-    font-size: 16px;
-    gap: 6px;
-  }
-
-  .nav .brand .logo {
-    height: 24px;
-  }
-
-  .nav-availability-badge {
-    padding: 5px 10px;
-    font-size: 11px;
-    gap: 6px;
-  }
-}
-
-@media (max-width: 400px) {
-  .nav .brand span {
-    font-size: 14px;
-  }
-
-  .nav-availability-badge .nav-availability-text {
-    font-size: 10.5px;
+@media (max-width: 768px) {
+  ._card-bottom_tpo9n_1025,
+  [class*="card-bottom"] {
+    position: absolute !important;
+    bottom: 12px !important;
+    right: 12px !important;
+    left: auto !important;
+    transform: none !important;
+    width: clamp(132px, 46vw, 170px) !important;
   }
 }
 
