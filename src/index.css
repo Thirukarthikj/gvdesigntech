@@ -905,3 +905,47 @@
   }
 }
 
+/* ==========================================================================
+   Hero Leaders Group (Founder / CEO & Managing Director Cards)
+   ========================================================================== */
+.hero-leaders-group {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  z-index: 2;
+  align-self: end;
+}
+
+.hero-leaders-group ._hero-chairman_tpo9n_4013,
+.hero-leaders-group [class*="hero-chairman"] {
+  width: clamp(138px, 10.5vw, 170px);
+  margin: 0;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1200px) {
+  .hero-leaders-group {
+    gap: 10px;
+  }
+  .hero-leaders-group ._hero-chairman_tpo9n_4013,
+  .hero-leaders-group [class*="hero-chairman"] {
+    width: clamp(128px, 11vw, 150px);
+  }
+}
+
+@media (max-width: 800px) {
+  .hero-leaders-group {
+    order: 1;
+    width: 100%;
+    max-width: 380px;
+    justify-content: center;
+    gap: 12px;
+    margin: 10px auto 4px;
+  }
+  .hero-leaders-group ._hero-chairman_tpo9n_4013,
+  .hero-leaders-group [class*="hero-chairman"] {
+    width: clamp(135px, 42vw, 165px);
+  }
+}
+
+
