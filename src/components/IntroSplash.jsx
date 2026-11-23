@@ -47,19 +47,6 @@ export default function IntroSplash({ onFinish }) {
       {/* Ambient Cosmic Background */}
       <div className="intro-cosmic-bg"></div>
 
-      {/* Subtle Skip Button */}
-      <button
-        type="button"
-        className="intro-skip-btn"
-        onClick={(e) => {
-          e.stopPropagation();
-          complete();
-        }}
-        aria-label="Skip Intro Animation"
-      >
-        Skip Intro ✕
-      </button>
-
       {/* Main Animated Cluster: Zoom In -> Zoom Out -> 1s Wait -> Zoom In */}
       <div className="intro-cluster">
         <div className="intro-logo-wrap">
