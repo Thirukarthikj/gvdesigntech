@@ -9,16 +9,10 @@ export default function Footer() {
           <h3>
             Let's make something <span>great work together.</span>
           </h3>
-          <p>Join 15,000+ learners already enrolled in GV Design Tech.</p>
+          <p>Join 8,500+ learners already enrolled in GV Design Tech.</p>
         </div>
         <div className="nl-form">
           <div className="nl-badge-showcase">
-            <div className="badge-text-wrap">
-              <div className="badge-pill">ISO 9001:2015 Certified</div>
-              <p>
-                Empowering global engineering workflows with industry-vetted portfolios and secure deep learning laboratory clusters.
-              </p>
-            </div>
             <div className="badge-rating">
               <span className="rating-num">4.9</span>
               <div className="rating-stars">★★★★★</div>
@@ -37,26 +31,6 @@ export default function Footer() {
           <p>
             GV Design Tech provides premier CAD &amp; Engineering Design training. We empower engineers and designers with industry-ready skills through AutoCAD, Revit, SolidWorks, and BIM frameworks.
           </p>
-          <div className="social-row">
-            <div className="footer-stats">
-              <div className="stat-box">
-                <span className="stat-number">15K+</span>
-                <span className="stat-label">Students</span>
-              </div>
-              <div className="stat-box">
-                <span className="stat-number">500+</span>
-                <span className="stat-label">Workshops</span>
-              </div>
-              <div className="stat-box">
-                <span className="stat-number">1000+</span>
-                <span className="stat-label">Placements</span>
-              </div>
-              <div className="stat-box">
-                <span className="stat-number">50+</span>
-                <span className="stat-label">Partners</span>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div className="footer-col">

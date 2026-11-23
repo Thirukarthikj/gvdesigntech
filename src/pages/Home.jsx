@@ -50,9 +50,9 @@ export default function Home({ onOpenModal }) {
             const timePassed = Date.now() - start;
             const progress = Math.min(1, timePassed / duration);
             setCounts({
-              professionals: Math.floor(progress * 1000),
-              years: Math.floor(progress * 13),
-              alumni: Math.floor(progress * 500),
+              professionals: Math.floor(progress * 8500),
+              years: Math.floor(progress * 3),
+              alumni: Math.floor(progress * 250),
               awards: Math.floor(progress * 25)
             });
             if (progress === 1) clearInterval(timer);
@@ -65,31 +65,6 @@ export default function Home({ onOpenModal }) {
     if (statsRef.current) observer.observe(statsRef.current);
     return () => observer.disconnect();
   }, [statsAnimated]);
-
-  // 3D tilt effect on hero robot card
-  useEffect(() => {
-    const el = heroCardRef.current;
-    if (!el) return;
-
-    const handleMouseMove = (e) => {
-      if (window.innerWidth <= 800) return;
-      const rect = el.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 20;
-      const y = ((e.clientY - rect.top) / rect.height - 0.5) * -12;
-      el.style.transform = `perspective(1200px) rotateX(${y}deg) rotateY(${x}deg) scale(1.02)`;
-    };
-
-    const handleMouseLeave = () => {
-      el.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)';
-    };
-
-    el.addEventListener('mousemove', handleMouseMove);
-    el.addEventListener('mouseleave', handleMouseLeave);
-    return () => {
-      el.removeEventListener('mousemove', handleMouseMove);
-      el.removeEventListener('mouseleave', handleMouseLeave);
-    };
-  }, []);
 
   // 3D rotation & tilt on CAD Showcase visual
   useEffect(() => {
