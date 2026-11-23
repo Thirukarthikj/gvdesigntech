@@ -53,7 +53,7 @@ export default function Navbar() {
             </span>
             <div className="dropdown-menu courses-curated-dropdown">
               <div className="curated-header">
-                <span>CURATED DISCIPLINES (6)</span>
+                <span>CURATED DISCIPLINES (7)</span>
                 <span className="curated-dot"></span>
               </div>
               <div className="curated-list">
@@ -91,16 +91,24 @@ export default function Navbar() {
 
                 <Link to="/datascience" className="curated-item" onClick={closeAll}>
                   <div className="curated-item-info">
-                    <span className="curated-item-title">Multimedia &amp; Graphic Design</span>
+                    <span className="curated-item-title">EEE/Instrumentation</span>
+                    <span className="curated-item-modules">6 Software modules</span>
+                  </div>
+                  <span className="curated-arrow">→</span>
+                </Link>
+
+                <Link to="/Artificial" className="curated-item" onClick={closeAll}>
+                  <div className="curated-item-info">
+                    <span className="curated-item-title">ECE</span>
                     <span className="curated-item-modules">5 Software modules</span>
                   </div>
                   <span className="curated-arrow">→</span>
                 </Link>
 
-                <Link to="/dataanalytics" className="curated-item" onClick={closeAll}>
+                <Link to="/datascience" className="curated-item" onClick={closeAll}>
                   <div className="curated-item-info">
-                    <span className="curated-item-title">Arts &amp; Multimedia</span>
-                    <span className="curated-item-modules">1 Software modules</span>
+                    <span className="curated-item-title">Piping (Oil &amp; Gas)</span>
+                    <span className="curated-item-modules">4 Software modules</span>
                   </div>
                   <span className="curated-arrow">→</span>
                 </Link>

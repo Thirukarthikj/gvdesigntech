@@ -26,7 +26,7 @@ export default function About({ onOpenModal }) {
       {/* Hero Section */}
       <section className={Im['ab-hero']}>
         <div className={Im['ab-hero-bg']}>
-          <img alt="GV Design Tech Hero" src="/assets/cad-floorplan-bg.jpg" />
+          <img alt="GV Design Tech Hero" src="/assets/universe-BQ8nDLQQ.png" />
           <div className={Im['ab-hero-overlay']}></div>
         </div>
         <div className={Im['ab-hero-content']}>

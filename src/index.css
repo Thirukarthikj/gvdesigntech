@@ -1025,5 +1025,19 @@
   }
 }
 
+/* ==========================================================================
+   About Us Hero Cosmic Universe Background Styling
+   ========================================================================== */
+._ab-hero-bg_ouj9p_99 img {
+  object-fit: cover !important;
+  object-position: center !important;
+  opacity: 0.95 !important;
+}
+
+._ab-hero-overlay_ouj9p_101 {
+  background: radial-gradient(circle at 50% 40%, rgba(139, 92, 246, 0.15) 0%, rgba(2, 4, 18, 0.42) 65%, rgba(2, 4, 18, 0.78) 100%) !important;
+}
+
+
 
 
