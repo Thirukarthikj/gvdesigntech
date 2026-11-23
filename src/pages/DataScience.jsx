@@ -4,7 +4,7 @@ export default function DataScience({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
   const canvasRef = useRef(null);
 
-  // Digital matrix / synaptic background canvas
+  // Digital technical grid & connection canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -18,14 +18,14 @@ export default function DataScience({ onOpenModal }) {
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    // Floating data particles
-    const particles = Array.from({ length: 45 }, () => ({
+    // Floating particles
+    const particles = Array.from({ length: 40 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       radius: Math.random() * 2 + 0.5,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      alpha: Math.random() * 0.6 + 0.2
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      alpha: Math.random() * 0.5 + 0.2
     }));
 
     const render = () => {
@@ -72,172 +72,350 @@ export default function DataScience({ onOpenModal }) {
     };
   }, []);
 
-  const modules = [
-    { title: 'Python & Data Wrangling', desc: 'Master modern Python, NumPy, Pandas, automated cleaning loops, and vector operations.' },
-    { title: 'Applied Statistics & EDA', desc: 'Probability theory, hypothesis testing, Bayesian analysis, distributions, and statistical modeling.' },
-    { title: 'Supervised & Unsupervised ML', desc: 'Linear/Logistic regression, Decision Trees, Random Forests, XGBoost, and KMeans clustering.' },
-    { title: 'Deep Learning & Neural Networks', desc: 'Perceptrons, backpropagation, PyTorch architectures, loss optimization, and gradient clipping.' },
-    { title: 'Natural Language Processing & LLMs', desc: 'Transformers, BERT, LangChain agents, token embeddings, prompt engineering, and fine-tuning.' },
-    { title: 'Computer Vision Systems', desc: 'OpenCV image processing, CNNs, YOLO object detection, image segmentation, and edge AI.' },
-    { title: 'Big Data & Cloud Analytics', desc: 'SQL querying, PySpark clusters, AWS S3 / SageMaker data pipelines, and distributed analytics.' },
-    { title: 'Production MLOps & Capstone', desc: 'Docker containerization, FastAPI microservices, model tracking with MLflow, and live deployment.' }
+  const mechanicalCourses = [
+    {
+      id: 'cad',
+      title: 'CAD – COMPUTER AIDED DESIGN',
+      duration: '3 Months',
+      level: 'BEGINNER → ADVANCED',
+      badge: 'MOST POPULAR',
+      category: 'CAD',
+      desc: 'Learn 2D Drafting, 3D Modeling, GD&T and Production Drawings using industry-standard tools.',
+      image: '/assets/mech-cad.jpg'
+    },
+    {
+      id: 'cam',
+      title: 'CAM – COMPUTER AIDED MANUFACTURING',
+      duration: '2 Months',
+      level: 'INTERMEDIATE',
+      badge: 'IN DEMAND',
+      category: 'CAM',
+      desc: 'Learn CNC Programming, Tool Paths and Manufacturing Process Design for real production environments.',
+      image: '/assets/mech-cam.jpg'
+    },
+    {
+      id: 'cae',
+      title: 'CAE – COMPUTER AIDED ENGINEERING',
+      duration: '3 Months',
+      level: 'ADVANCED',
+      badge: 'HIGH VALUE',
+      category: 'CAE',
+      desc: 'Learn Structural Analysis, Thermal Analysis and Simulation Techniques used in aerospace and automotive.',
+      image: '/assets/mech-cae.jpg'
+    },
+    {
+      id: 'prod-design',
+      title: 'PRODUCT DESIGN',
+      duration: '4 Months',
+      level: 'INTERMEDIATE',
+      badge: 'COMPREHENSIVE',
+      category: 'DESIGN',
+      desc: 'Complete Product Development Workflow from concept sketching to manufacturing-ready 3D models.',
+      image: '/assets/mech-prod-design.jpg'
+    },
+    {
+      id: 'gdt',
+      title: 'GD&T – GEOMETRIC DIMENSIONING',
+      duration: '1 Month',
+      level: 'ALL LEVELS',
+      badge: 'FAST TRACK',
+      category: 'GD&T',
+      desc: 'Industry standard dimensioning and tolerancing for precision manufacturing and quality control.',
+      image: '/assets/mech-gdt.jpg'
+    },
+    {
+      id: 'rev-eng',
+      title: 'REVERSE ENGINEERING',
+      duration: '2 Months',
+      level: 'ADVANCED',
+      badge: 'SPECIALISED',
+      category: 'RE',
+      desc: '3D scanning and product reconstruction for legacy part documentation and design improvement.',
+      image: '/assets/mech-rev-eng.jpg'
+    }
+  ];
+
+  const softwarePrograms = [
+    {
+      id: 'autocad',
+      title: 'AUTOCAD',
+      subtitle: '2D Drafting & 3D Modeling',
+      category: 'CAD',
+      letter: 'A',
+      image: '/assets/sw-autocad.jpg'
+    },
+    {
+      id: 'solidworks',
+      title: 'SOLIDWORKS',
+      subtitle: 'Parametric 3D Design',
+      category: 'CAD/CAE',
+      letter: 'S',
+      image: '/assets/sw-solidworks.jpg'
+    },
+    {
+      id: 'catia',
+      title: 'CATIA',
+      subtitle: 'Advanced Surface Modeling',
+      category: 'CAD',
+      letter: 'C',
+      image: '/assets/sw-catia.jpg'
+    },
+    {
+      id: 'ansys',
+      title: 'ANSYS',
+      subtitle: 'FEA & Simulation',
+      category: 'CAE',
+      letter: 'A',
+      image: '/assets/sw-ansys.jpg'
+    },
+    {
+      id: 'creo',
+      title: 'CREO',
+      subtitle: 'Product Design & PLM',
+      category: 'CAD',
+      letter: 'C',
+      image: '/assets/sw-creo.jpg'
+    },
+    {
+      id: 'nxcad',
+      title: 'NX CAD',
+      subtitle: 'Industrial Design & Mfg',
+      category: 'CAD/CAM',
+      letter: 'N',
+      image: '/assets/sw-nxcad.jpg'
+    },
+    {
+      id: 'hypermesh',
+      title: 'HYPERMESH',
+      subtitle: 'Pre/Post Processing',
+      category: 'CAE',
+      letter: 'H',
+      image: '/assets/sw-hypermesh.jpg'
+    },
+    {
+      id: 'mastercam',
+      title: 'MASTERCAM',
+      subtitle: 'CNC Programming & CAM',
+      category: 'CAM',
+      letter: 'M',
+      image: '/assets/sw-mastercam.jpg'
+    }
   ];
 
   const faqs = [
-    { q: 'Who is this Data Science course for?', a: 'This course is tailored for fresh engineering graduates, software developers, and analytical minds looking to break into high-paying AI, Data Science, and Machine Learning engineering roles.' },
-    { q: 'What prerequisites are required?', a: 'Basic mathematics and general computer familiarity. We start with foundational Python and programming fundamentals before moving into advanced neural networks.' },
-    { q: 'How does the 100% placement support work?', a: 'Our dedicated placement cell arranges mock technical rounds, algorithmic coding tests, resume ATS optimization, and direct interview referrals to over 150+ hiring partner companies.' },
-    { q: 'Is this course available in offline and online modes?', a: 'Yes! We conduct classroom sessions at our modern AI laboratory in Pollachi, Coimbatore, as well as live interactive hybrid online cohorts with 24/7 sandbox lab access.' }
+    {
+      q: 'Who is this Mechanical & Automobile Engineering program for?',
+      a: 'This track is designed for Mechanical, Automobile, Mechatronics, and Production engineering students, recent graduates, and drafting professionals looking to master industry-grade CAD/CAM/CAE tools and secure high-growth design engineering roles.'
+    },
+    {
+      q: 'What software certifications are included?',
+      a: 'Students receive authorized certifications for AutoCAD 2D/3D, SolidWorks Parametric Modeling, CATIA Surface Design, ANSYS Structural Simulation, and MasterCAM CNC Machining upon completing practical project evaluations.'
+    },
+    {
+      q: 'How does 100% placement support work for core mechanical companies?',
+      a: 'Our placement team works directly with over 150+ tier-1 manufacturing, automotive OEM, and precision engineering design centers across India. We provide resume preparation, portfolio design books, GD&T test drills, and direct interviews.'
+    },
+    {
+      q: 'Are courses available in offline classroom and online modes?',
+      a: 'Yes! We conduct interactive hands-on studio sessions with high-performance CAD workstations at our center, as well as live online batches with 24/7 remote lab access.'
+    }
   ];
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', background: '#f8fafc', color: '#fff', overflow: 'hidden' }}>
-      {/* Visual Canvas & Nebula Background */}
+    <div style={{ position: 'relative', minHeight: '100vh', background: '#0a0d1e', color: '#fff', overflow: 'hidden' }}>
+      {/* Visual Canvas & Cosmic Ambient Background */}
       <canvas className="ds3-brain-canvas" ref={canvasRef} />
       <div className="ds3-nebula"></div>
       <div className="stars"></div>
 
-      {/* Futuristic Telemetry HUD Panels */}
+      {/* Engineering Telemetry HUD Panels */}
       <div className="ds3-hud-panel ds3-hud-tl">
-        ▸ NEURAL NET STATUS<br />
-        <span style={{ color: '#22d3ee' }}>Model: TransformerXL</span> · Epoch: 1418<br />
-        Loss: 0.045 · Acc: 98.0%
+        ▸ CAD TOLERANCE HUD<br />
+        <span style={{ color: '#22d3ee' }}>Precision: ±0.005 mm</span> · ISO 2768<br />
+        Surface Finish: Ra 0.8 µm
       </div>
       <div className="ds3-hud-panel ds3-hud-tr">
-        SYNAPSE ACTIVITY ◂<br />
-        2,847 nodes active · 14.2k connections<br />
-        <span style={{ color: '#a78bfa' }}>Freq: 40 Hz · Layer: Deep Cortex</span>
+        FEA SIMULATION HUD ◂<br />
+        Von Mises: 240 MPa · Safety: 2.1<br />
+        <span style={{ color: '#a78bfa' }}>Mesh: Tetrahedral 2.4M Elements</span>
       </div>
       <div className="ds3-hud-panel ds3-hud-br">
-        DATA PIPELINE ◂<br />
-        Batch: 512 · LR: 1e-4<br />
-        <span style={{ color: '#34d399' }}>GPU: A100 · 97% UTIL</span>
+        CNC TOOLPATH HUD ◂<br />
+        Feed: 1,800 mm/min · Spindle: 8,500 RPM<br />
+        <span style={{ color: '#34d399' }}>5-Axis CAM · 34% Cycle Reduction</span>
       </div>
 
       <div className="ds3-floating-widgets">
         <div className="ds3-widget-pill">
-          <span className="ds3-w-lbl">MODEL ACCURACY</span>
-          <span className="ds3-w-val" style={{ color: '#22d3ee' }}>97.3%</span>
+          <span className="ds3-w-lbl">MODEL PRECISION</span>
+          <span className="ds3-w-val" style={{ color: '#22d3ee' }}>99.8%</span>
         </div>
         <div className="ds3-widget-pill">
-          <span className="ds3-w-lbl">TRAINING LOSS</span>
-          <span className="ds3-w-val" style={{ color: '#f472b6' }}>0.043</span>
+          <span className="ds3-w-lbl">GD&amp;T COMPLIANCE</span>
+          <span className="ds3-w-val" style={{ color: '#f472b6' }}>ASME Y14.5</span>
         </div>
         <div className="ds3-widget-pill">
-          <span className="ds3-w-lbl">F1 SCORE</span>
-          <span className="ds3-w-val" style={{ color: '#a78bfa' }}>0.961</span>
+          <span className="ds3-w-lbl">FEA BENCHMARK</span>
+          <span className="ds3-w-val" style={{ color: '#a78bfa' }}>99.2%</span>
         </div>
       </div>
 
-      {/* Main Container */}
-      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '120px 24px 80px' }}>
-        {/* Hero Header */}
-        <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.4)', borderRadius: '999px', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', color: '#c084fc', marginBottom: '20px' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22d3ee' }}></span>
-            GV DESIGNTECH · DATA SCIENCE PRO
-          </div>
-          <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 20px', background: 'linear-gradient(135deg, #ffffff 40%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            Master Data Science<br />&amp; Get Placed in 90 Days
-          </h1>
-          <p style={{ maxWidth: '780px', margin: '0 auto 32px', fontSize: '17px', lineHeight: 1.6, color: '#475569' }}>
-            Industry-aligned curriculum covering Python, Machine Learning, Deep Learning, Generative AI, and Big Data. Build real-world portfolio architectures and secure high-paying placements.
-          </p>
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button
-              type="button"
-              onClick={onOpenModal}
-              style={{ padding: '14px 36px', background: 'linear-gradient(135deg, #8b5cf6, #d946ef)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 24px rgba(217, 70, 239, 0.35)' }}
-            >
-              Apply for Next Batch
-            </button>
-            <a
-              href="#curriculum"
-              style={{ padding: '14px 32px', background: '#ffffff', border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '12px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: '600' }}
-            >
-              View Curriculum ↓
-            </a>
-          </div>
+      {/* Hero Header */}
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '120px 24px 70px', textAlign: 'center' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 18px', background: 'rgba(197, 34, 31, 0.15)', border: '1px solid rgba(197, 34, 31, 0.4)', borderRadius: '999px', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', color: '#f87171', marginBottom: '22px' }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ef4444' }}></span>
+          GV DESIGNTECH · MECHANICAL &amp; AUTOMOBILE
         </div>
 
-        {/* 8 Modules Section */}
-        <section id="curriculum" style={{ marginBottom: '80px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <h2 style={{ fontSize: '32px', fontWeight: '700', color: '#fff', marginBottom: '8px' }}>
-              8 Modules. One Career.
-            </h2>
-            <p style={{ color: '#475569', fontSize: '16px' }}>
-              From foundational programming to autonomous AI agents
-            </p>
-          </div>
+        <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 20px', background: 'linear-gradient(135deg, #ffffff 40%, #fca5a5 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          Master Mechanical &amp; Automobile<br />Engineering Design
+        </h1>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))', gap: '20px' }}>
-            {modules.map((m, idx) => (
-              <div
-                key={idx}
-                style={{
-                  padding: '24px',
-                  background: 'linear-gradient(160deg, rgba(30, 22, 68, 0.6), rgba(6, 6, 24, 0.7))',
-                  border: '1px solid rgba(139, 92, 246, 0.3)',
-                  borderRadius: '16px',
-                  backdropFilter: 'blur(10px)',
-                  transition: 'transform 0.25s ease, border-color 0.25s ease'
-                }}
-              >
-                <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, #8b5cf6, #d946ef)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800', fontSize: '14px', marginBottom: '16px' }}>
-                  0{idx + 1}
+        <p style={{ maxWidth: '780px', margin: '0 auto 34px', fontSize: '17px', lineHeight: 1.6, color: '#94a3b8' }}>
+          Industry-aligned curriculum covering 2D Drafting, 3D Parametric Modeling, FEA Simulation, CNC Programming, and Product Design. Build real-world portfolio assemblies and secure premier core engineering placements.
+        </p>
+
+        <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            onClick={onOpenModal}
+            style={{ padding: '14px 36px', background: 'linear-gradient(135deg, #c5221f, #dc2626)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 24px rgba(197, 34, 31, 0.35)' }}
+          >
+            Apply for Next Batch
+          </button>
+          <a
+            href="#mechanical-courses"
+            style={{ padding: '14px 32px', background: 'rgba(255, 255, 255, 0.08)', border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '12px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: '600' }}
+          >
+            Explore Courses ↓
+          </a>
+        </div>
+      </div>
+
+      {/* =========================================================================
+          White Container Wrapper for Mechanical Courses & Software Programs
+          ========================================================================= */}
+      <div className="mech-page-white-wrapper" id="mechanical-courses">
+        <div className="mech-page-container">
+
+          {/* Section 1: Mechanical Courses (Image 1) */}
+          <section className="mech-courses-section">
+            <div className="mech-courses-header">
+              <span className="mech-eyebrow">— WHAT WE TEACH —</span>
+              <h2 className="mech-title">
+                MECHANICAL <span className="highlight-red">COURSES</span>
+              </h2>
+              <p className="mech-subtitle">
+                Hands-on, industry-aligned programs designed to make you job-ready from day one. Click any card to explore the curriculum.
+              </p>
+            </div>
+
+            <div className="mech-grid">
+              {mechanicalCourses.map((c) => (
+                <div key={c.id} className="mech-card" onClick={onOpenModal}>
+                  <div className="mech-card-media">
+                    <span className="mech-badge-popular">{c.badge}</span>
+                    <img className="mech-card-img" alt={c.title} src={c.image} />
+                    <span className="mech-badge-category">{c.category}</span>
+                  </div>
+                  <div className="mech-card-body">
+                    <div className="mech-meta-row">
+                      <span className="mech-duration">{c.duration}</span>
+                      <span className="mech-level">{c.level}</span>
+                    </div>
+                    <h3 className="mech-card-heading">{c.title}</h3>
+                    <p className="mech-card-desc">{c.desc}</p>
+                    <button
+                      type="button"
+                      className="mech-btn-learn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onOpenModal();
+                      }}
+                    >
+                      Learn More
+                    </button>
+                  </div>
                 </div>
-                <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '10px', color: '#fff' }}>
-                  {m.title}
-                </h4>
-                <p style={{ fontSize: '14px', lineHeight: 1.55, color: '#475569' }}>
-                  {m.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
 
-        {/* 6-Month Roadmap */}
-        <section style={{ marginBottom: '80px', padding: '40px', background: 'rgba(20, 14, 52, 0.6)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '24px' }}>
-          <h2 style={{ fontSize: '28px', fontWeight: '700', textAlign: 'center', marginBottom: '36px' }}>
-            Your 6-Month Journey
+          {/* Section 2: Software Training Programs (Image 2) */}
+          <section className="sw-programs-section" id="software-programs" style={{ marginTop: '76px' }}>
+            <div className="sw-programs-header">
+              <span className="mech-eyebrow">— TOOLS &amp; PLATFORMS —</span>
+              <h2 className="mech-title">
+                SOFTWARE <span className="highlight-red">TRAINING PROGRAMS</span>
+              </h2>
+              <p className="mech-subtitle">
+                Industry standard mechanical design tools used by top engineering companies worldwide.
+              </p>
+            </div>
+
+            <div className="sw-grid">
+              {softwarePrograms.map((s) => (
+                <div key={s.id} className="sw-card" onClick={onOpenModal}>
+                  <div className="sw-card-media">
+                    <span className="sw-badge-category">{s.category}</span>
+                    <img className="sw-card-img" alt={s.title} src={s.image} />
+                    <div className="sw-avatar">{s.letter}</div>
+                  </div>
+                  <div className="sw-card-body">
+                    <h4 className="sw-card-title">{s.title}</h4>
+                    <p className="sw-card-subtitle">{s.subtitle}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+      {/* Main Container Continued: 6-Month Roadmap & FAQs */}
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '80px 24px' }}>
+        
+        {/* 6-Month Career Roadmap */}
+        <section style={{ marginBottom: '80px', padding: '44px 36px', background: 'rgba(20, 14, 52, 0.6)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '24px', backdropFilter: 'blur(10px)' }}>
+          <h2 style={{ fontSize: '28px', fontWeight: '800', textAlign: 'center', marginBottom: '36px', color: '#fff' }}>
+            Your 6-Month Engineering Roadmap
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '24px' }}>
             <div>
               <div style={{ color: '#22d3ee', fontWeight: '700', fontSize: '13px', marginBottom: '6px' }}>MONTH 1–2</div>
-              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px' }}>Foundations</h4>
-              <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.5 }}>
-                Python syntax, computational statistics, linear algebra, SQL databases, and data visual dashboards.
+              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: '#fff' }}>2D Drafting &amp; GD&amp;T</h4>
+              <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.55 }}>
+                Master AutoCAD 2D drafting, orthographic projections, isometric views, sectioning, and ASME Y14.5 GD&amp;T symbols.
               </p>
             </div>
             <div>
               <div style={{ color: '#a78bfa', fontWeight: '700', fontSize: '13px', marginBottom: '6px' }}>MONTH 3–4</div>
-              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px' }}>Machine Learning</h4>
-              <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.5 }}>
-                Classical predictive algorithms, hyperparameter tuning, model validation matrices, and ensemble pipelines.
+              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: '#fff' }}>3D Parametric CAD</h4>
+              <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.55 }}>
+                SolidWorks &amp; CATIA solid modeling, sheet metal fabrication, complex surfacing, assembly constraints, and kinematics.
               </p>
             </div>
             <div>
               <div style={{ color: '#e879f9', fontWeight: '700', fontSize: '13px', marginBottom: '6px' }}>MONTH 5</div>
-              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px' }}>Deep Learning &amp; NLP</h4>
-              <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.5 }}>
-                PyTorch networks, CNNs, Recurrent systems, Transformers, LangChain, and Generative AI applications.
+              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: '#fff' }}>CAE &amp; Finite Element Analysis</h4>
+              <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.55 }}>
+                ANSYS static structural simulation, thermal analysis, mesh convergence, modal analysis, and stress optimization.
               </p>
             </div>
             <div>
               <div style={{ color: '#34d399', fontWeight: '700', fontSize: '13px', marginBottom: '6px' }}>MONTH 6</div>
-              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px' }}>Capstone + Placement</h4>
-              <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.5 }}>
-                Industrial client capstone project, Dockerized deployment, portfolio optimization, and interview drives.
+              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: '#fff' }}>CAM, Capstone &amp; Placement</h4>
+              <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.55 }}>
+                MasterCAM CNC milling/turning toolpaths, full automotive assembly capstone project, portfolio prep, and interviews.
               </p>
             </div>
           </div>
         </section>
 
         {/* FAQ Accordion */}
-        <section style={{ maxWidth: '800px', margin: '0 auto 60px' }}>
-          <h2 style={{ fontSize: '28px', fontWeight: '700', textAlign: 'center', marginBottom: '32px' }}>
+        <section style={{ maxWidth: '820px', margin: '0 auto 70px' }}>
+          <h2 style={{ fontSize: '28px', fontWeight: '800', textAlign: 'center', marginBottom: '32px', color: '#fff' }}>
             Frequently Asked Questions
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -245,7 +423,7 @@ export default function DataScience({ onOpenModal }) {
               <div
                 key={idx}
                 style={{
-                  background: '#ffffff',
+                  background: 'rgba(255, 255, 255, 0.04)',
                   border: '1px solid rgba(139, 92, 246, 0.25)',
                   borderRadius: '12px',
                   overflow: 'hidden'
@@ -270,12 +448,12 @@ export default function DataScience({ onOpenModal }) {
                   }}
                 >
                   <span>{faq.q}</span>
-                  <span style={{ fontSize: '20px', color: '#c084fc', transform: activeFaq === idx ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s' }}>
+                  <span style={{ fontSize: '20px', color: '#f87171', transform: activeFaq === idx ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s' }}>
                     +
                   </span>
                 </button>
                 {activeFaq === idx && (
-                  <div style={{ padding: '0 24px 20px', color: '#475569', fontSize: '14.5px', lineHeight: 1.6 }}>
+                  <div style={{ padding: '0 24px 20px', color: '#94a3b8', fontSize: '14.5px', lineHeight: 1.6 }}>
                     {faq.a}
                   </div>
                 )}
@@ -285,21 +463,22 @@ export default function DataScience({ onOpenModal }) {
         </section>
 
         {/* Bottom Banner */}
-        <div style={{ textAlign: 'center', padding: '48px', background: 'linear-gradient(135deg, rgba(139,92,246,0.2), rgba(217,70,239,0.2))', border: '1px solid rgba(217,70,239,0.4)', borderRadius: '24px' }}>
-          <h2 style={{ fontSize: '30px', fontWeight: '700', marginBottom: '12px' }}>
-            Your Data Science Career Starts Today
+        <div style={{ textAlign: 'center', padding: '52px 32px', background: 'linear-gradient(135deg, rgba(197,34,31,0.2), rgba(220,38,38,0.25))', border: '1px solid rgba(220,38,38,0.4)', borderRadius: '24px', backdropFilter: 'blur(10px)' }}>
+          <h2 style={{ fontSize: '30px', fontWeight: '800', marginBottom: '12px', color: '#fff' }}>
+            Your Mechanical &amp; Automobile Career Starts Today
           </h2>
-          <p style={{ color: '#475569', marginBottom: '24px', fontSize: '16px' }}>
-            Limited seats per cohort to guarantee personalized mentorship and hands-on lab infrastructure.
+          <p style={{ color: '#cbd5e1', marginBottom: '26px', fontSize: '16px', maxWidth: '640px', margin: '0 auto 26px' }}>
+            Limited seats per cohort to guarantee personalized one-on-one CAD software mentorship and physical workshop access.
           </p>
           <button
             type="button"
             onClick={onOpenModal}
-            style={{ padding: '14px 38px', background: 'linear-gradient(135deg, #8b5cf6, #d946ef)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer' }}
+            style={{ padding: '14px 40px', background: 'linear-gradient(135deg, #c5221f, #dc2626)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 24px rgba(197, 34, 31, 0.35)' }}
           >
-            Enroll in Data Science Track
+            Enroll in Mechanical Track
           </button>
         </div>
+
       </div>
     </div>
   );

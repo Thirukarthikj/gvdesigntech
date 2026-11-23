@@ -1038,6 +1038,332 @@
   background: radial-gradient(circle at 50% 40%, rgba(139, 92, 246, 0.15) 0%, rgba(2, 4, 18, 0.42) 65%, rgba(2, 4, 18, 0.78) 100%) !important;
 }
 
+/* ==========================================================================
+   Mechanical & Automobile Page: Mechanical Courses & Software Programs
+   ========================================================================== */
+.mech-page-white-wrapper {
+  background: #ffffff;
+  padding: 64px 0 84px;
+  position: relative;
+  z-index: 2;
+}
+
+.mech-page-container {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.mech-courses-header,
+.sw-programs-header {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.mech-eyebrow {
+  display: inline-block;
+  color: #c5221f;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.mech-title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900;
+  color: #111827;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  margin: 0 0 14px 0;
+  line-height: 1.15;
+}
+
+.mech-title .highlight-red {
+  color: #c5221f;
+}
+
+.mech-subtitle {
+  font-size: 15.5px;
+  color: #4b5563;
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* 6-Card Mechanical Courses Grid */
+.mech-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.mech-card {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  cursor: pointer;
+  text-align: left;
+}
+
+.mech-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e1;
+}
+
+.mech-card-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #111827;
+}
+
+.mech-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.mech-card:hover .mech-card-img {
+  transform: scale(1.05);
+}
+
+.mech-badge-popular {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #c5221f;
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 3.5px 9px;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(197, 34, 31, 0.4);
+  z-index: 2;
+}
+
+.mech-badge-category {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(17, 24, 39, 0.88);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 2.5px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 2;
+}
+
+.mech-card-body {
+  padding: 22px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.mech-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 12.5px;
+}
+
+.mech-duration {
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.mech-level {
+  color: #c5221f;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.mech-card-heading {
+  font-size: 17px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 10px 0;
+  line-height: 1.35;
+  text-transform: uppercase;
+  letter-spacing: -0.2px;
+}
+
+.mech-card-desc {
+  font-size: 13.5px;
+  color: #4b5563;
+  line-height: 1.55;
+  margin: 0 0 22px 0;
+  flex: 1;
+}
+
+.mech-btn-learn {
+  background: #c5221f;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  width: 100%;
+  display: block;
+  box-shadow: 0 3px 10px rgba(197, 34, 31, 0.25);
+}
+
+.mech-btn-learn:hover {
+  background: #a91b18;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(197, 34, 31, 0.35);
+}
+
+/* 8-Card Software Training Programs Grid */
+.sw-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.sw-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  cursor: pointer;
+  text-align: left;
+}
+
+.sw-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.09);
+  border-color: #cbd5e1;
+}
+
+.sw-card-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 8.5;
+  background: #0f172a;
+  overflow: hidden;
+}
+
+.sw-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.sw-card:hover .sw-card-img {
+  transform: scale(1.05);
+}
+
+.sw-badge-category {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  background: #c5221f;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2.5px 7px;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(197, 34, 31, 0.4);
+  z-index: 2;
+}
+
+.sw-avatar {
+  position: absolute;
+  bottom: -16px;
+  left: 16px;
+  width: 34px;
+  height: 34px;
+  background: #111827;
+  border: 2px solid #ffffff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 15px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+}
+
+.sw-card-body {
+  padding: 24px 16px 18px;
+}
+
+.sw-card-title {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+  letter-spacing: -0.2px;
+}
+
+.sw-card-subtitle {
+  font-size: 12.5px;
+  color: #6b7280;
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+@media (max-width: 1080px) {
+  .mech-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+  .sw-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .mech-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .sw-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .mech-page-white-wrapper {
+    padding: 44px 0 60px;
+  }
+}
+
+
 
 
 
