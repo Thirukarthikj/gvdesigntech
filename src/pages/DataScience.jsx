@@ -224,44 +224,12 @@ export default function DataScience({ onOpenModal }) {
   return (
     <div style={{ position: 'relative', minHeight: '100vh', background: '#0a0d1e', color: '#fff', overflow: 'hidden' }}>
       {/* Visual Canvas & Cosmic Ambient Background */}
-      <canvas className="ds3-brain-canvas" ref={canvasRef} />
-      <div className="ds3-nebula"></div>
-      <div className="stars"></div>
-
-      {/* Engineering Telemetry HUD Panels */}
-      <div className="ds3-hud-panel ds3-hud-tl">
-        ▸ CAD TOLERANCE HUD<br />
-        <span style={{ color: '#22d3ee' }}>Precision: ±0.005 mm</span> · ISO 2768<br />
-        Surface Finish: Ra 0.8 µm
-      </div>
-      <div className="ds3-hud-panel ds3-hud-tr">
-        FEA SIMULATION HUD ◂<br />
-        Von Mises: 240 MPa · Safety: 2.1<br />
-        <span style={{ color: '#a78bfa' }}>Mesh: Tetrahedral 2.4M Elements</span>
-      </div>
-      <div className="ds3-hud-panel ds3-hud-br">
-        CNC TOOLPATH HUD ◂<br />
-        Feed: 1,800 mm/min · Spindle: 8,500 RPM<br />
-        <span style={{ color: '#34d399' }}>5-Axis CAM · 34% Cycle Reduction</span>
-      </div>
-
-      <div className="ds3-floating-widgets">
-        <div className="ds3-widget-pill">
-          <span className="ds3-w-lbl">MODEL PRECISION</span>
-          <span className="ds3-w-val" style={{ color: '#22d3ee' }}>99.8%</span>
-        </div>
-        <div className="ds3-widget-pill">
-          <span className="ds3-w-lbl">GD&amp;T COMPLIANCE</span>
-          <span className="ds3-w-val" style={{ color: '#f472b6' }}>ASME Y14.5</span>
-        </div>
-        <div className="ds3-widget-pill">
-          <span className="ds3-w-lbl">FEA BENCHMARK</span>
-          <span className="ds3-w-val" style={{ color: '#a78bfa' }}>99.2%</span>
-        </div>
-      </div>
+      <canvas className="ds3-brain-canvas" ref={canvasRef} style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }} />
+      <div className="ds3-nebula" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }}></div>
+      <div className="stars" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }}></div>
 
       {/* Hero Header */}
-      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '120px 24px 60px', textAlign: 'center' }}>
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '100px 24px 36px', textAlign: 'center' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 18px', background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.4)', borderRadius: '999px', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', color: '#c084fc', marginBottom: '22px', boxShadow: '0 0 16px rgba(139, 92, 246, 0.2)' }}>
           <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22d3ee', boxShadow: '0 0 8px #22d3ee' }}></span>
           GV DESIGNTECH · MECHANICAL &amp; AUTOMOBILE
@@ -378,10 +346,10 @@ export default function DataScience({ onOpenModal }) {
       </div>
 
       {/* Main Container Continued: 6-Month Roadmap & FAQs */}
-      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '80px 24px' }}>
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '10px 24px 60px' }}>
         
         {/* 6-Month Career Roadmap */}
-        <section style={{ marginBottom: '80px', padding: '44px 36px', background: 'rgba(20, 14, 52, 0.6)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '24px', backdropFilter: 'blur(10px)' }}>
+        <section style={{ marginBottom: '50px', padding: '40px 32px', background: 'rgba(20, 14, 52, 0.6)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '24px', backdropFilter: 'blur(10px)' }}>
           <h2 style={{ fontSize: '28px', fontWeight: '800', textAlign: 'center', marginBottom: '36px', color: '#fff' }}>
             Your 6-Month Engineering Roadmap
           </h2>

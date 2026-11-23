@@ -1041,6 +1041,19 @@
 /* ==========================================================================
    Mechanical & Automobile Page: Cosmic Theme & Glassmorphism
    ========================================================================== */
+.ds3-brain-canvas,
+.ds3-nebula {
+  position: fixed !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+.ds3-hud-panel,
+.ds3-floating-widgets {
+  display: none !important;
+}
+
 .mech-page-container {
   max-width: 1240px;
   margin: 0 auto;
@@ -1052,19 +1065,19 @@
 .mech-courses-section {
   position: relative;
   z-index: 2;
-  margin-bottom: 90px;
+  margin-bottom: 54px;
 }
 
 .sw-programs-section {
   position: relative;
   z-index: 2;
-  margin-bottom: 90px;
+  margin-bottom: 54px;
 }
 
 .mech-courses-header,
 .sw-programs-header {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 34px;
 }
 
 .mech-eyebrow {
