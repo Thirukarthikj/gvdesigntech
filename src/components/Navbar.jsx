@@ -89,26 +89,26 @@ export default function Navbar() {
                   <span className="curated-arrow">→</span>
                 </Link>
 
-                <Link to="/mechanical" className="curated-item" onClick={closeAll}>
+                <Link to="/eee-instrumentation" className="curated-item" onClick={closeAll}>
                   <div className="curated-item-info">
                     <span className="curated-item-title">EEE/Instrumentation</span>
-                    <span className="curated-item-modules">6 Software modules</span>
+                    <span className="curated-item-modules">8 Software modules</span>
                   </div>
                   <span className="curated-arrow">→</span>
                 </Link>
 
-                <Link to="/computer-science" className="curated-item" onClick={closeAll}>
+                <Link to="/ece" className="curated-item" onClick={closeAll}>
                   <div className="curated-item-info">
                     <span className="curated-item-title">ECE</span>
-                    <span className="curated-item-modules">5 Software modules</span>
+                    <span className="curated-item-modules">7 Software modules</span>
                   </div>
                   <span className="curated-arrow">→</span>
                 </Link>
 
-                <Link to="/mechanical" className="curated-item" onClick={closeAll}>
+                <Link to="/piping-engineering" className="curated-item" onClick={closeAll}>
                   <div className="curated-item-info">
                     <span className="curated-item-title">Piping (Oil &amp; Gas)</span>
-                    <span className="curated-item-modules">4 Software modules</span>
+                    <span className="curated-item-modules">8 Software modules</span>
                   </div>
                   <span className="curated-arrow">→</span>
                 </Link>

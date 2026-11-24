@@ -13,6 +13,9 @@ import Mechanical from './pages/Mechanical.jsx';
 import CivilEngineering from './pages/CivilEngineering.jsx';
 import CncProgramming from './pages/CncProgramming.jsx';
 import ComputerScience from './pages/ComputerScience.jsx';
+import EeeInstrumentation from './pages/EeeInstrumentation.jsx';
+import EceCommunication from './pages/EceCommunication.jsx';
+import PipingEngineering from './pages/PipingEngineering.jsx';
 import FlagshipMou from './pages/FlagshipMou.jsx';
 import FlagshipPlacement from './pages/FlagshipPlacement.jsx';
 import FlagshipGallery from './pages/FlagshipGallery.jsx';
@@ -72,6 +75,18 @@ export default function App() {
         
         <Route path="/computer-science" element={<ComputerScience onOpenModal={openModal} />} />
         <Route path="/Artificial" element={<ComputerScience onOpenModal={openModal} />} />
+        
+        <Route path="/eee-instrumentation" element={<EeeInstrumentation onOpenModal={openModal} />} />
+        <Route path="/eee" element={<EeeInstrumentation onOpenModal={openModal} />} />
+        <Route path="/instrumentation" element={<EeeInstrumentation onOpenModal={openModal} />} />
+        
+        <Route path="/ece" element={<EceCommunication onOpenModal={openModal} />} />
+        <Route path="/ece-communication" element={<EceCommunication onOpenModal={openModal} />} />
+        <Route path="/electronics" element={<EceCommunication onOpenModal={openModal} />} />
+        
+        <Route path="/piping-engineering" element={<PipingEngineering onOpenModal={openModal} />} />
+        <Route path="/piping" element={<PipingEngineering onOpenModal={openModal} />} />
+        <Route path="/piping-design" element={<PipingEngineering onOpenModal={openModal} />} />
         
         {/* Flagship */}
         <Route path="/flagship/mou" element={<FlagshipMou onOpenModal={openModal} />} />
