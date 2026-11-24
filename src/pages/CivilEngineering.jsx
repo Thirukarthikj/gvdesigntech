@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-export default function DataScience({ onOpenModal }) {
+export default function CivilEngineering({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
   const canvasRef = useRef(null);
 
-  // Digital technical grid & connection canvas
+  // Structural coordinate matrix canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -18,47 +18,28 @@ export default function DataScience({ onOpenModal }) {
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    // Floating particles
-    const particles = Array.from({ length: 40 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      radius: Math.random() * 2 + 0.5,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.35,
-      alpha: Math.random() * 0.5 + 0.2
-    }));
+    // Grid coordinates
+    const cols = 22;
+    const rows = 14;
+    let t = 0;
 
     const render = () => {
+      t += 0.018;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const cellW = canvas.width / cols;
+      const cellH = canvas.height / rows;
 
-      particles.forEach((p) => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) {
+          const x = i * cellW + cellW / 2;
+          const y = j * cellH + cellH / 2;
+          const dist = Math.sin(t + i * 0.28 + j * 0.22);
+          const alpha = Math.max(0.03, 0.14 + dist * 0.09);
 
-        ctx.fillStyle = `rgba(139, 92, 246, ${p.alpha})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      // Connections
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
-            ctx.strokeStyle = `rgba(34, 211, 238, ${0.15 * (1 - dist / 120)})`;
-            ctx.lineWidth = 0.6;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
+          ctx.fillStyle = `rgba(139, 92, 246, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(x, y, 1.2, 0, Math.PI * 2);
+          ctx.fill();
         }
       }
 
@@ -72,175 +53,159 @@ export default function DataScience({ onOpenModal }) {
     };
   }, []);
 
-  const mechanicalCourses = [
+  const civilCourses = [
     {
-      id: 'cad',
-      title: 'CAD – COMPUTER AIDED DESIGN',
+      id: 'structural-design',
+      title: 'Structural Design & Detailing',
       duration: '3 Months',
       level: 'BEGINNER → ADVANCED',
       badge: 'MOST POPULAR',
-      category: 'CAD',
-      desc: 'Learn 2D Drafting, 3D Modeling, GD&T and Production Drawings using industry-standard tools.',
-      image: '/assets/mech-cad.jpg'
+      scale: '1:75',
+      desc: 'Learn RCC design, steel detailing, and reinforcement drawings using STAAD.Pro and AutoCAD.',
+      image: '/assets/civil-structural-design.jpg'
     },
     {
-      id: 'cam',
-      title: 'CAM – COMPUTER AIDED MANUFACTURING',
+      id: 'bim',
+      title: 'Building Information Modeling',
       duration: '2 Months',
       level: 'INTERMEDIATE',
       badge: 'IN DEMAND',
-      category: 'CAM',
-      desc: 'Learn CNC Programming, Tool Paths and Manufacturing Process Design for real production environments.',
-      image: '/assets/mech-cam.jpg'
+      scale: '1:50',
+      desc: 'Learn 3D BIM modeling, clash detection and coordinated drawing sets using Revit.',
+      image: '/assets/civil-bim.jpg'
     },
     {
-      id: 'cae',
-      title: 'CAE – COMPUTER AIDED ENGINEERING',
+      id: 'quantity-surveying',
+      title: 'Quantity Surveying & Estimation',
+      duration: '2 Months',
+      level: 'ALL LEVELS',
+      badge: 'HIGH VALUE',
+      scale: '1:100',
+      desc: 'Master BOQ preparation, rate analysis, and cost estimation for real construction projects.',
+      image: '/assets/civil-quantity-survey.jpg'
+    },
+    {
+      id: 'site-planning',
+      title: 'Site Planning & Surveying',
+      duration: '1.5 Months',
+      level: 'INTERMEDIATE',
+      badge: 'FAST TRACK',
+      scale: '1:200',
+      desc: 'Complete site layout workflow from topographic survey to grading and earthworks planning.',
+      image: '/assets/civil-site-planning.jpg'
+    },
+    {
+      id: 'structural-analysis-fea',
+      title: 'Structural Analysis (FEA)',
       duration: '3 Months',
       level: 'ADVANCED',
-      badge: 'HIGH VALUE',
-      category: 'CAE',
-      desc: 'Learn Structural Analysis, Thermal Analysis and Simulation Techniques used in aerospace and automotive.',
-      image: '/assets/mech-cae.jpg'
+      badge: 'SPECIALISED',
+      scale: '1:25',
+      desc: 'Learn finite element analysis for structures using ANSYS, covering load cases and seismic checks.',
+      image: '/assets/civil-fea.jpg'
     },
     {
-      id: 'prod-design',
-      title: 'PRODUCT DESIGN',
-      duration: '4 Months',
+      id: '3d-visualization',
+      title: '3D Visualization & Rendering',
+      duration: '1.5 Months',
       level: 'INTERMEDIATE',
       badge: 'COMPREHENSIVE',
-      category: 'DESIGN',
-      desc: 'Complete Product Development Workflow from concept sketching to manufacturing-ready 3D models.',
-      image: '/assets/mech-prod-design.jpg'
-    },
-    {
-      id: 'gdt',
-      title: 'GD&T – GEOMETRIC DIMENSIONING',
-      duration: '1 Month',
-      level: 'ALL LEVELS',
-      badge: 'FAST TRACK',
-      category: 'GD&T',
-      desc: 'Industry standard dimensioning and tolerancing for precision manufacturing and quality control.',
-      image: '/assets/mech-gdt.jpg'
-    },
-    {
-      id: 'rev-eng',
-      title: 'REVERSE ENGINEERING',
-      duration: '2 Months',
-      level: 'ADVANCED',
-      badge: 'SPECIALISED',
-      category: 'RE',
-      desc: '3D scanning and product reconstruction for legacy part documentation and design improvement.',
-      image: '/assets/mech-rev-eng.jpg'
+      scale: '1:1',
+      desc: 'Create photorealistic walkthroughs and renders for client presentations using 3ds Max and SketchUp.',
+      image: '/assets/civil-3d-viz.jpg'
     }
   ];
 
   const softwarePrograms = [
     {
-      id: 'autocad',
-      title: 'AUTOCAD',
-      subtitle: '2D Drafting & 3D Modeling',
+      id: 'civilcad',
+      title: 'CivilCAD',
+      subtitle: 'Site Layout & Earthworks',
       category: 'CAD',
-      letter: 'A',
-      image: '/assets/sw-autocad.jpg'
+      scale: '1:100',
+      image: '/assets/civil-quantity-survey.jpg'
     },
     {
-      id: 'solidworks',
-      title: 'SOLIDWORKS',
-      subtitle: 'Parametric 3D Design',
-      category: 'CAD/CAE',
-      letter: 'S',
-      image: '/assets/sw-solidworks.jpg'
+      id: 'revit',
+      title: 'Revit',
+      subtitle: 'BIM & Structural Modeling',
+      category: 'BIM',
+      scale: '1:50',
+      image: '/assets/civil-bim.jpg'
     },
     {
-      id: 'catia',
-      title: 'CATIA',
-      subtitle: 'Advanced Surface Modeling',
-      category: 'CAD',
-      letter: 'C',
-      image: '/assets/sw-catia.jpg'
-    },
-    {
-      id: 'ansys',
-      title: 'ANSYS',
-      subtitle: 'FEA & Simulation',
+      id: 'staad-pro',
+      title: 'STAAD.Pro',
+      subtitle: 'Structural Analysis & Design',
       category: 'CAE',
-      letter: 'A',
-      image: '/assets/sw-ansys.jpg'
+      scale: '1:75',
+      image: '/assets/civil-structural-design.jpg'
     },
     {
-      id: 'creo',
-      title: 'CREO',
-      subtitle: 'Product Design & PLM',
+      id: 'sketchup',
+      title: 'SketchUp',
+      subtitle: '3D Conceptual Modeling',
       category: 'CAD',
-      letter: 'C',
-      image: '/assets/sw-creo.jpg'
+      scale: '1:200',
+      image: '/assets/civil-3d-viz.jpg'
     },
     {
-      id: 'nxcad',
-      title: 'NX CAD',
-      subtitle: 'Industrial Design & Mfg',
-      category: 'CAD/CAM',
-      letter: 'N',
-      image: '/assets/sw-nxcad.jpg'
-    },
-    {
-      id: 'hypermesh',
-      title: 'HYPERMESH',
-      subtitle: 'Pre/Post Processing',
+      id: 'ansys-civil',
+      title: 'ANSYS Civil',
+      subtitle: 'FEA for Structures',
       category: 'CAE',
-      letter: 'H',
-      image: '/assets/sw-hypermesh.jpg'
+      scale: '1:25',
+      image: '/assets/civil-fea.jpg'
     },
     {
-      id: 'mastercam',
-      title: 'MASTERCAM',
-      subtitle: 'CNC Programming & CAM',
-      category: 'CAM',
-      letter: 'M',
-      image: '/assets/sw-mastercam.jpg'
+      id: '3ds-max',
+      title: '3ds Max',
+      subtitle: 'Visualization & Rendering',
+      category: 'VIZ',
+      scale: '1:1',
+      image: '/assets/civil-sw-3dsmax.jpg'
     }
   ];
 
   const faqs = [
     {
-      q: 'Who is this Mechanical & Automobile Engineering program for?',
-      a: 'This track is designed for Mechanical, Automobile, Mechatronics, and Production engineering students, recent graduates, and drafting professionals looking to master industry-grade CAD/CAM/CAE tools and secure high-growth design engineering roles.'
+      q: 'Who is this Civil Engineering & BIM track designed for?',
+      a: 'This track is tailored for Civil, Structural, Architecture, and Construction engineering students, fresh graduates, and site engineers looking to master digital drafting, 3D BIM, structural analysis, and quantity estimation.'
     },
     {
-      q: 'What software certifications are included?',
-      a: 'Students receive authorized certifications for AutoCAD 2D/3D, SolidWorks Parametric Modeling, CATIA Surface Design, ANSYS Structural Simulation, and MasterCAM CNC Machining upon completing practical project evaluations.'
+      q: 'What certifications are awarded upon completion?',
+      a: 'Graduates receive authorized certifications for AutoCAD Civil 2D/3D, Revit BIM Architecture & Structure, STAAD.Pro Structural Design, and 3ds Max Architectural Visualization.'
     },
     {
-      q: 'How does 100% placement support work for core mechanical companies?',
-      a: 'Our placement team works directly with over 150+ tier-1 manufacturing, automotive OEM, and precision engineering design centers across India. We provide resume preparation, portfolio design books, GD&T test drills, and direct interviews.'
+      q: 'How does 100% placement support work for civil engineering firms?',
+      a: 'Our placement team coordinates directly with over 150+ infrastructure conglomerates, structural design consultancies, and BIM modeling firms. We provide technical interview preparation, drawing portfolio creation, and direct placement drives.'
     },
     {
       q: 'Are courses available in offline classroom and online modes?',
-      a: 'Yes! We conduct interactive hands-on studio sessions with high-performance CAD workstations at our center, as well as live online batches with 24/7 remote lab access.'
+      a: 'Yes! We conduct hands-on studio workstation training at our center with real project drawing sets, as well as live online interactive batches with 24/7 digital lab access.'
     }
   ];
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh', background: '#0a0d1e', color: '#fff', overflow: 'hidden' }}>
-      {/* Visual Canvas & Cosmic Ambient Background */}
-      <canvas className="ds3-brain-canvas" ref={canvasRef} style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }} />
-      <div className="ds3-nebula" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }}></div>
-      <div className="stars" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }}></div>
+      {/* Background Matrix Canvas & Nebula Glow */}
+      <canvas className="da-canvas" ref={canvasRef} style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }} />
+      <div className="da-nebula" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }}></div>
+      <div className="da-stars" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }}></div>
 
       {/* Hero Header */}
       <div style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '100px 24px 36px', textAlign: 'center' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 18px', background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.4)', borderRadius: '999px', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', color: '#c084fc', marginBottom: '22px', boxShadow: '0 0 16px rgba(139, 92, 246, 0.2)' }}>
           <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22d3ee', boxShadow: '0 0 8px #22d3ee' }}></span>
-          GV DESIGNTECH · MECHANICAL &amp; AUTOMOBILE
+          GV DESIGNTECH · CIVIL ENGINEERING &amp; BIM
         </div>
 
         <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 20px', background: 'linear-gradient(135deg, #ffffff 40%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-          Master Mechanical &amp; Automobile<br />Engineering Design
+          Master Civil Engineering, BIM<br />&amp; Structural Design
         </h1>
 
         <p style={{ maxWidth: '780px', margin: '0 auto 34px', fontSize: '17px', lineHeight: 1.6, color: '#94a3b8' }}>
-          Industry-aligned curriculum covering 2D Drafting, 3D Parametric Modeling, FEA Simulation, CNC Programming, and Product Design. Build real-world portfolio assemblies and secure premier core engineering placements.
+          Industry-aligned curriculum covering AutoCAD Civil, Revit BIM, STAAD.Pro, Quantity Surveying, 3ds Max Architectural Visualization, and Structural FEA. Build real-world portfolio drawing sets and secure premier engineering placements.
         </p>
 
         <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -252,7 +217,7 @@ export default function DataScience({ onOpenModal }) {
             Apply for Next Batch
           </button>
           <a
-            href="#mechanical-courses"
+            href="#civil-courses"
             style={{ padding: '14px 32px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.18)', borderRadius: '12px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: '600', backdropFilter: 'blur(10px)' }}
           >
             Explore Courses ↓
@@ -261,11 +226,11 @@ export default function DataScience({ onOpenModal }) {
       </div>
 
       {/* =========================================================================
-          Mechanical Courses & Software Programs (Cohesive Cosmic Dark Theme)
+          Civil Courses & Software Programs (Cohesive Cosmic Dark Theme)
           ========================================================================= */}
-      <div className="mech-page-container" id="mechanical-courses">
+      <div className="mech-page-container" id="civil-courses">
 
-        {/* Section 1: Mechanical Courses (Image 1) */}
+        {/* Section 1: Civil Courses (Image 1) */}
         <section className="mech-courses-section">
           <div className="mech-courses-header">
             <span className="mech-eyebrow">
@@ -273,7 +238,7 @@ export default function DataScience({ onOpenModal }) {
               WHAT WE TEACH
             </span>
             <h2 className="mech-title">
-              MECHANICAL <span className="highlight-red">COURSES</span>
+              CIVIL &amp; STRUCTURAL <span className="highlight-red">COURSES</span>
             </h2>
             <p className="mech-subtitle">
               Hands-on, industry-aligned programs designed to make you job-ready from day one. Click any card to explore the curriculum.
@@ -281,12 +246,12 @@ export default function DataScience({ onOpenModal }) {
           </div>
 
           <div className="mech-grid">
-            {mechanicalCourses.map((c) => (
+            {civilCourses.map((c) => (
               <div key={c.id} className="mech-card" onClick={onOpenModal}>
                 <div className="mech-card-media">
                   <span className="mech-badge-popular">{c.badge}</span>
                   <img className="mech-card-img" alt={c.title} src={c.image} />
-                  <span className="mech-badge-category">{c.category}</span>
+                  <span className="civil-scale-badge">{c.scale}</span>
                 </div>
                 <div className="mech-card-body">
                   <div className="mech-meta-row">
@@ -322,19 +287,19 @@ export default function DataScience({ onOpenModal }) {
               SOFTWARE <span className="highlight-red">TRAINING PROGRAMS</span>
             </h2>
             <p className="mech-subtitle">
-              Industry standard mechanical design tools used by top engineering companies worldwide.
+              Industry standard civil engineering and structural design tools used on real construction projects.
             </p>
           </div>
 
-          <div className="sw-grid">
+          <div className="civil-sw-grid">
             {softwarePrograms.map((s) => (
               <div key={s.id} className="sw-card" onClick={onOpenModal}>
                 <div className="sw-card-media">
                   <span className="sw-badge-category">{s.category}</span>
                   <img className="sw-card-img" alt={s.title} src={s.image} />
-                  <div className="sw-avatar">{s.letter}</div>
+                  <span className="civil-sw-scale-badge">{s.scale}</span>
                 </div>
-                <div className="sw-card-body">
+                <div className="sw-card-body" style={{ padding: '20px 18px' }}>
                   <h4 className="sw-card-title">{s.title}</h4>
                   <p className="sw-card-subtitle">{s.subtitle}</p>
                 </div>
@@ -351,35 +316,35 @@ export default function DataScience({ onOpenModal }) {
         {/* 6-Month Career Roadmap */}
         <section style={{ marginBottom: '50px', padding: '40px 32px', background: 'rgba(20, 14, 52, 0.6)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '24px', backdropFilter: 'blur(10px)' }}>
           <h2 style={{ fontSize: '28px', fontWeight: '800', textAlign: 'center', marginBottom: '36px', color: '#fff' }}>
-            Your 6-Month Engineering Roadmap
+            Your 6-Month Civil Engineering Roadmap
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '24px' }}>
             <div>
               <div style={{ color: '#22d3ee', fontWeight: '700', fontSize: '13px', marginBottom: '6px' }}>MONTH 1–2</div>
-              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: '#fff' }}>2D Drafting &amp; GD&amp;T</h4>
+              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: '#fff' }}>2D Drafting &amp; Estimation</h4>
               <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.55 }}>
-                Master AutoCAD 2D drafting, orthographic projections, isometric views, sectioning, and ASME Y14.5 GD&amp;T symbols.
+                Master AutoCAD Civil 2D, municipal approval drawings, BOQ estimation, and topographic site surveys.
               </p>
             </div>
             <div>
               <div style={{ color: '#a78bfa', fontWeight: '700', fontSize: '13px', marginBottom: '6px' }}>MONTH 3–4</div>
-              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: '#fff' }}>3D Parametric CAD</h4>
+              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: '#fff' }}>3D BIM Modeling</h4>
               <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.55 }}>
-                SolidWorks &amp; CATIA solid modeling, sheet metal fabrication, complex surfacing, assembly constraints, and kinematics.
+                Revit Architecture, Structural BIM, MEP services coordination, families creation, and Navisworks clash detection.
               </p>
             </div>
             <div>
               <div style={{ color: '#e879f9', fontWeight: '700', fontSize: '13px', marginBottom: '6px' }}>MONTH 5</div>
-              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: '#fff' }}>CAE &amp; Finite Element Analysis</h4>
+              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: '#fff' }}>Structural Analysis &amp; FEA</h4>
               <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.55 }}>
-                ANSYS static structural simulation, thermal analysis, mesh convergence, modal analysis, and stress optimization.
+                STAAD.Pro &amp; ETABS concrete/steel framing, dead/live/wind loads, seismic analysis, and ANSYS structural simulation.
               </p>
             </div>
             <div>
               <div style={{ color: '#34d399', fontWeight: '700', fontSize: '13px', marginBottom: '6px' }}>MONTH 6</div>
-              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: '#fff' }}>CAM, Capstone &amp; Placement</h4>
+              <h4 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: '#fff' }}>Visualization &amp; Placement</h4>
               <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.55 }}>
-                MasterCAM CNC milling/turning toolpaths, full automotive assembly capstone project, portfolio prep, and interviews.
+                Photorealistic walkthroughs with 3ds Max &amp; SketchUp, comprehensive drawing portfolio, and corporate interview drives.
               </p>
             </div>
           </div>
@@ -437,17 +402,17 @@ export default function DataScience({ onOpenModal }) {
         {/* Bottom Banner */}
         <div style={{ textAlign: 'center', padding: '52px 32px', background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.22), rgba(217, 70, 239, 0.22))', border: '1px solid rgba(217, 70, 239, 0.4)', borderRadius: '24px', backdropFilter: 'blur(10px)', boxShadow: '0 16px 40px rgba(0, 0, 0, 0.4)' }}>
           <h2 style={{ fontSize: '30px', fontWeight: '800', marginBottom: '12px', color: '#fff' }}>
-            Your Mechanical &amp; Automobile Career Starts Today
+            Your Civil Engineering &amp; BIM Career Starts Today
           </h2>
           <p style={{ color: '#cbd5e1', marginBottom: '26px', fontSize: '16px', maxWidth: '640px', margin: '0 auto 26px' }}>
-            Limited seats per cohort to guarantee personalized one-on-one CAD software mentorship and physical workshop access.
+            Limited seats per batch to guarantee hands-on live project training with certified industry BIM experts.
           </p>
           <button
             type="button"
             onClick={onOpenModal}
             style={{ padding: '14px 40px', background: 'linear-gradient(135deg, #8b5cf6, #d946ef)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 24px rgba(217, 70, 239, 0.35)', transition: 'all 0.25s ease' }}
           >
-            Enroll in Mechanical Track
+            Enroll in Civil &amp; BIM Track
           </button>
         </div>
 

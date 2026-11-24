@@ -32,7 +32,7 @@ export default function ContactUs() {
             Find Us With Our<br />Updated Contact Options
           </h1>
           <p style={{ maxWidth: '680px', margin: '0 auto', fontSize: '16.5px', color: '#475569', lineHeight: 1.6 }}>
-            Have questions about our AI, Data Science, or Full Stack programs? Reach out to our admissions team at our Headquarters in Oddanchatram, Tamil Nadu.
+            Have questions about our Mechanical CAD, Civil BIM, CNC Programming, or Engineering programs? Reach out to our admissions team at our Headquarters in Oddanchatram, Tamil Nadu.
           </p>
         </div>
 

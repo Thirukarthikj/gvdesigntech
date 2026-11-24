@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { aiStyles as z } from '../data/styles.js';
 
-export default function ArtificialIntelligence({ onOpenModal }) {
+export default function ComputerScience({ onOpenModal }) {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -37,12 +37,12 @@ export default function ArtificialIntelligence({ onOpenModal }) {
       {/* Hero */}
       <section style={{ padding: '140px 24px 80px', textAlign: 'center', position: 'relative' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <div className={z['ai-section-tag']}>PYBOT AI SOLUTIONS</div>
+          <div className={z['ai-section-tag']}>GV DESIGNTECH AI &amp; IT SOLUTIONS</div>
           <h1 style={{ fontSize: 'clamp(36px, 6vw, 68px)', fontWeight: '800', lineHeight: 1.15, margin: '20px 0', color: '#fff' }}>
             Transform Business With <span className={z['ai-grad-text']}>Artificial Intelligence</span>
           </h1>
-          <p style={{ maxWidth: '780px', margin: '0 auto 36px', fontSize: '18px', lineHeight: 1.6, color: '#475569' }}>
-            PYBOT AI Solutions empowers organisations through Generative AI, Machine Learning, and Intelligent Automation. We build production-ready AI models that drive transformative efficiency.
+          <p style={{ maxWidth: '780px', margin: '0 auto 36px', fontSize: '18px', lineHeight: 1.6, color: '#94a3b8' }}>
+            GV DesignTech empowers engineering students and tech professionals through Generative AI, Full Stack Development, Cloud Computing, and Intelligent Automation. We build production-ready engineering models that drive transformative efficiency.
           </p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button

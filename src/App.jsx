@@ -9,10 +9,10 @@ import IntroSplash from './components/IntroSplash.jsx';
 
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
-import DataScience from './pages/DataScience.jsx';
-import DataAnalytics from './pages/DataAnalytics.jsx';
-import ArtificialIntelligence from './pages/ArtificialIntelligence.jsx';
-import MachineLearning from './pages/MachineLearning.jsx';
+import Mechanical from './pages/Mechanical.jsx';
+import CivilEngineering from './pages/CivilEngineering.jsx';
+import CncProgramming from './pages/CncProgramming.jsx';
+import ComputerScience from './pages/ComputerScience.jsx';
 import FlagshipMou from './pages/FlagshipMou.jsx';
 import FlagshipPlacement from './pages/FlagshipPlacement.jsx';
 import FlagshipGallery from './pages/FlagshipGallery.jsx';
@@ -27,7 +27,7 @@ import ContactUs from './pages/ContactUs.jsx';
 import SkillTest from './pages/SkillTest.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
-import PybotVideo from './pages/PybotVideo.jsx';
+import ShowcaseVideo from './pages/ShowcaseVideo.jsx';
 
 export default function App() {
   const [showIntro, setShowIntro] = useState(true);
@@ -62,10 +62,20 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home onOpenModal={openModal} />} />
         <Route path="/about" element={<About onOpenModal={openModal} />} />
-        <Route path="/datascience" element={<DataScience onOpenModal={openModal} />} />
-        <Route path="/dataanalytics" element={<DataAnalytics onOpenModal={openModal} />} />
-        <Route path="/Artificial" element={<ArtificialIntelligence onOpenModal={openModal} />} />
-        <Route path="/machinelearning" element={<MachineLearning onOpenModal={openModal} />} />
+        
+        {/* Core CAD, BIM & Engineering Courses */}
+        <Route path="/mechanical" element={<Mechanical onOpenModal={openModal} />} />
+        <Route path="/datascience" element={<Mechanical onOpenModal={openModal} />} />
+        
+        <Route path="/civil-engineering" element={<CivilEngineering onOpenModal={openModal} />} />
+        <Route path="/civil" element={<CivilEngineering onOpenModal={openModal} />} />
+        <Route path="/dataanalytics" element={<CivilEngineering onOpenModal={openModal} />} />
+        
+        <Route path="/cnc-programming" element={<CncProgramming onOpenModal={openModal} />} />
+        <Route path="/machinelearning" element={<CncProgramming onOpenModal={openModal} />} />
+        
+        <Route path="/computer-science" element={<ComputerScience onOpenModal={openModal} />} />
+        <Route path="/Artificial" element={<ComputerScience onOpenModal={openModal} />} />
         
         {/* Flagship */}
         <Route path="/flagship/mou" element={<FlagshipMou onOpenModal={openModal} />} />
@@ -85,7 +95,8 @@ export default function App() {
         <Route path="/certificate-verification" element={<CertificateVerification />} />
         <Route path="/Contactus" element={<ContactUs />} />
         <Route path="/pest-exam" element={<SkillTest />} />
-        <Route path="/Pybot-video" element={<PybotVideo />} />
+        <Route path="/showcase-video" element={<ShowcaseVideo />} />
+        <Route path="/Pybot-video" element={<ShowcaseVideo />} />
 
         {/* Auth */}
         <Route path="/Login" element={<Login />} />

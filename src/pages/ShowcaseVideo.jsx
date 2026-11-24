@@ -1,18 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function PybotVideo() {
+export default function ShowcaseVideo() {
   return (
-    <div style={{ minHeight: '100vh', background: '#f8fafc', color: '#fff', padding: '140px 24px 80px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <div style={{ maxWidth: '900px', width: '100%', textAlign: 'center' }}>
+    <div style={{ minHeight: '100vh', background: '#04020a', color: '#fff', padding: '140px 24px 80px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+      <div style={{ maxWidth: '960px', width: '100%', textAlign: 'center' }}>
         <div style={{ display: 'inline-block', padding: '6px 18px', background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.4)', borderRadius: '999px', color: '#c084fc', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', marginBottom: '16px' }}>
           GV DESIGNTECH SHOWCASE
         </div>
         <h1 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: '800', lineHeight: 1.2, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-          Watch How We Shape the Future of AI Education
+          Watch How We Shape the Future of CAD &amp; Engineering Design Education
         </h1>
-        <p style={{ maxWidth: '680px', margin: '0 auto 40px', fontSize: '16px', color: '#475569', lineHeight: 1.6 }}>
-          Take a guided virtual tour through our modern training laboratories, hands-on project reviews, hackathon arenas, and placement mentorship sessions in Pollachi, Coimbatore.
+        <p style={{ maxWidth: '680px', margin: '0 auto 40px', fontSize: '16px', color: '#94a3b8', lineHeight: 1.6 }}>
+          Take a guided virtual tour through our state-of-the-art CAD workstations, hands-on 3D printing &amp; prototyping labs, BIM coordination studios, and placement training sessions at GV DesignTech.
         </p>
 
         {/* Video Player Box */}
@@ -34,13 +34,14 @@ export default function PybotVideo() {
             to="/"
             style={{
               padding: '12px 28px',
-              background: '#ffffff',
-              border: '1px solid rgba(255,255,255,0.2)',
+              background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
+              border: 'none',
               borderRadius: '10px',
               color: '#fff',
               textDecoration: 'none',
               fontSize: '15px',
-              fontWeight: '600'
+              fontWeight: '600',
+              boxShadow: '0 8px 24px rgba(139, 92, 246, 0.35)'
             }}
           >
             ← Back to Home

@@ -57,7 +57,7 @@ export default function Navbar() {
                 <span className="curated-dot"></span>
               </div>
               <div className="curated-list">
-                <Link to="/datascience" className="curated-item" onClick={closeAll}>
+                <Link to="/mechanical" className="curated-item" onClick={closeAll}>
                   <div className="curated-item-info">
                     <span className="curated-item-title">Mechanical &amp; Automobile</span>
                     <span className="curated-item-modules">8 Software modules</span>
@@ -65,23 +65,23 @@ export default function Navbar() {
                   <span className="curated-arrow">→</span>
                 </Link>
 
-                <Link to="/dataanalytics" className="curated-item" onClick={closeAll}>
+                <Link to="/civil-engineering" className="curated-item" onClick={closeAll}>
                   <div className="curated-item-info">
                     <span className="curated-item-title">Civil Engineering</span>
-                    <span className="curated-item-modules">10 Software modules</span>
+                    <span className="curated-item-modules">6 Software modules</span>
                   </div>
                   <span className="curated-arrow">→</span>
                 </Link>
 
-                <Link to="/machinelearning" className="curated-item" onClick={closeAll}>
+                <Link to="/cnc-programming" className="curated-item" onClick={closeAll}>
                   <div className="curated-item-info">
                     <span className="curated-item-title">CNC Programming</span>
-                    <span className="curated-item-modules">1 Software modules</span>
+                    <span className="curated-item-modules">6 Software modules</span>
                   </div>
                   <span className="curated-arrow">→</span>
                 </Link>
 
-                <Link to="/Artificial" className="curated-item" onClick={closeAll}>
+                <Link to="/computer-science" className="curated-item" onClick={closeAll}>
                   <div className="curated-item-info">
                     <span className="curated-item-title">Computer Science &amp; IT</span>
                     <span className="curated-item-modules">8 Software modules</span>
@@ -89,7 +89,7 @@ export default function Navbar() {
                   <span className="curated-arrow">→</span>
                 </Link>
 
-                <Link to="/datascience" className="curated-item" onClick={closeAll}>
+                <Link to="/mechanical" className="curated-item" onClick={closeAll}>
                   <div className="curated-item-info">
                     <span className="curated-item-title">EEE/Instrumentation</span>
                     <span className="curated-item-modules">6 Software modules</span>
@@ -97,7 +97,7 @@ export default function Navbar() {
                   <span className="curated-arrow">→</span>
                 </Link>
 
-                <Link to="/Artificial" className="curated-item" onClick={closeAll}>
+                <Link to="/computer-science" className="curated-item" onClick={closeAll}>
                   <div className="curated-item-info">
                     <span className="curated-item-title">ECE</span>
                     <span className="curated-item-modules">5 Software modules</span>
@@ -105,7 +105,7 @@ export default function Navbar() {
                   <span className="curated-arrow">→</span>
                 </Link>
 
-                <Link to="/datascience" className="curated-item" onClick={closeAll}>
+                <Link to="/mechanical" className="curated-item" onClick={closeAll}>
                   <div className="curated-item-info">
                     <span className="curated-item-title">Piping (Oil &amp; Gas)</span>
                     <span className="curated-item-modules">4 Software modules</span>
@@ -115,7 +115,7 @@ export default function Navbar() {
               </div>
 
               <div className="curated-footer">
-                <Link to="/datascience" className="curated-browse-all" onClick={closeAll}>
+                <Link to="/mechanical" className="curated-browse-all" onClick={closeAll}>
                   Browse All Courses →
                 </Link>
               </div>

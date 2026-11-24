@@ -7,6 +7,30 @@ export default function CertificateVerification() {
   const [searched, setSearched] = useState(false);
 
   const mockDatabase = {
+    'GV-CAD-2024-105': {
+      name: 'Karthik Raja',
+      course: 'Master Diploma in Mechanical CAD & FEA Simulation',
+      completionDate: '15 November 2026',
+      grade: 'Distinction (A+)',
+      status: 'VERIFIED AUTHENTIC',
+      issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
+    },
+    'GV-BIM-2024-204': {
+      name: 'Praveen Kumar',
+      course: 'Civil CADD & Structural BIM Architecture',
+      completionDate: '20 November 2026',
+      grade: 'Distinction (A+)',
+      status: 'VERIFIED AUTHENTIC',
+      issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
+    },
+    'GV-CNC-2024-301': {
+      name: 'Suresh Babu',
+      course: 'CNC Programming & MasterCAM Precision Machining',
+      completionDate: '18 November 2026',
+      grade: 'Distinction (A+)',
+      status: 'VERIFIED AUTHENTIC',
+      issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
+    },
     'GV-AI-2024-001': {
       name: 'Arun Kumar',
       course: 'Artificial Intelligence & Deep Learning Master Track',

@@ -247,7 +247,7 @@ export default function Home({ onOpenModal }) {
                   Get Started Now
                 </button>
                 <Link
-                  to="/Pybot-video"
+                  to="/showcase-video"
                   className={P['btn-secondary']}
                   style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
                 >
