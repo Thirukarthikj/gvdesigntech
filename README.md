@@ -1,6 +1,6 @@
 # GV DesignTech — Frontend Application Clone
 
-A responsive, high-fidelity React.js clone of [GV DesignTech](https://www.pybotaisolutions.com/) (Oddanchatram, Tamil Nadu), built using **Vite**, **React 18**, **JavaScript (ES Modules)**, **HTML5**, and **CSS3**.
+A responsive, high-fidelity React.js web platform for **GV DesignTech** (Oddanchatram, Tamil Nadu), built using **Vite**, **React 18**, **JavaScript (ES Modules)**, **HTML5**, and **CSS3**.
 
 This project reproduces the visual design, interactive functionality, responsive layouts, and authentic assets of the original website without creative redesign or placeholder shortcuts.
 
@@ -14,7 +14,7 @@ This project reproduces the visual design, interactive functionality, responsive
   - Dynamic desktop dropdown menus with hover/focus states:
     - **Courses (4 tracks):** Data Science, Data Analytics, Artificial Intelligence, Machine Learning.
     - **Internship (5 tracks):** AI Internship, Summer Internship, College Internship, Data Science Internship, Machine Learning Internship.
-    - **Flagship (5 tracks):** MoU & Partnerships, Placement Records, Gallery Showcase, Tech Blog, Pybot Video.
+    - **Flagship (4 tracks):** MoU & Partnerships, Placement Records, Gallery Showcase, Tech Blog.
   - Direct links for **About Us**, **Student Portal** (external redirect), and **Contact Us**.
   - **Skill Test CTA:** Highlights interactive competency quiz.
   - **Mobile Responsive Drawer:** Animated hamburger toggle with touch-friendly accordion dropdowns and direct route links.
@@ -49,11 +49,10 @@ This project reproduces the visual design, interactive functionality, responsive
 | `/flagship/Placement` | `FlagshipPlacement.jsx` | Placement statistics, 5-stage student career journey, 9 preparation pillars, and verified student placement cards. |
 | `/flagship/Blog-page` | `FlagshipBlog.jsx` | 50 authentic technical blog posts with category filtering, real-time search filter, featured article banner, and interactive full-text article reader modal. |
 | `/internship/*` | 5 Internship Pages | Dedicated pages for AI, Summer, College, Data Science, and Machine Learning internships with weekly syllabus, real project deliverables, and mentor listings. |
-| `/certificate-verification` | `CertificateVerification.jsx` | Real-time credential lookup engine with instant validation against authentic student ID formats (e.g. `PYBOT-AI-2024-001`), issuing dates, and grade badges. |
+| `/certificate-verification` | `CertificateVerification.jsx` | Real-time credential lookup engine with instant validation against authentic student ID formats (e.g. `GVDT-CAD-2026-001`), issuing dates, and grade badges. |
 | `/Contactus` | `ContactUs.jsx` | Oddanchatram campus address, interactive Google Maps embed, phone/email contact cards, and working message submission form. |
-| `/pest-exam` | `SkillTest.jsx` | Interactive multi-domain assessment engine (Python, AI & ML, Data Analytics) with timer, instant scoring, question review, and result card. |
-| `/Login` & `/Register` | `Login.jsx` / `Register.jsx` | Secure student portal authentication forms with toggleable password visibility and remember-me controls. |
-| `/Pybot-video` | `PybotVideo.jsx` | Interactive video player showcasing student testimonials, classroom sessions, and workshop recaps. |
+| `/pest-exam` | `SkillTest.jsx` | Interactive multi-domain assessment engine (CAD, BIM, Python, Data Analytics) with timer, instant scoring, question review, and result card. |
+| `/showcase-video` | `ShowcaseVideo.jsx` | Interactive video player showcasing student testimonials, classroom sessions, and workshop recaps. |
 
 ---
 
@@ -109,18 +108,13 @@ This project reproduces the visual design, interactive functionality, responsive
 │   │   ├── FlagshipMou.jsx
 │   │   ├── FlagshipPlacement.jsx
 │   │   ├── Home.jsx
-│   │   ├── Login.jsx
-│   │   ├── MachineLearning.jsx
 │   │   ├── MachineLearningInternship.jsx
-│   │   ├── PybotVideo.jsx
-│   │   ├── Register.jsx
+│   │   ├── ShowcaseVideo.jsx
 │   │   ├── SkillTest.jsx
 │   │   └── SummerInternship.jsx
 │   ├── App.jsx               # Application root, routing & layout orchestration
 │   ├── index.css             # Authentic master styling & CSS animations
 │   └── main.jsx              # React 18 entry point
-├── tools/
-│   └── extraction/           # Data & asset extraction utilities used during build
 ├── index.html                # HTML5 container with Google Fonts & metadata
 ├── package.json
 └── vite.config.js

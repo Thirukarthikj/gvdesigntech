@@ -113,7 +113,6 @@ export default function App() {
         <Route path="/Contactus" element={<ContactUs />} />
         <Route path="/pest-exam" element={<SkillTest />} />
         <Route path="/showcase-video" element={<ShowcaseVideo />} />
-        <Route path="/Pybot-video" element={<ShowcaseVideo />} />
 
         {/* Redirect removed auth routes to Home */}
         <Route path="/Login" element={<Navigate to="/" replace />} />
