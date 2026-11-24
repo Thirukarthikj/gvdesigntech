@@ -3,14 +3,24 @@ import { Link } from 'react-router-dom';
 import BrainCanvas from '../components/BrainCanvas.jsx';
 import { homeStyles as P } from '../data/styles.js';
 import { testimonialsRow1, testimonialsRow2 } from '../data/testimonials.js';
+import { getStoredLeaders } from '../data/contentPersistence.js';
 
 export default function Home({ onOpenModal }) {
+  const [leaders, setLeaders] = useState(() => getStoredLeaders());
   const [counts, setCounts] = useState({
     professionals: 0,
     years: 0,
     alumni: 0,
     awards: 0
   });
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      setLeaders(getStoredLeaders());
+    };
+    window.addEventListener('gv_content_updated', handleUpdate);
+    return () => window.removeEventListener('gv_content_updated', handleUpdate);
+  }, []);
   const [statsAnimated, setStatsAnimated] = useState(false);
   const statsRef = useRef(null);
   const heroCardRef = useRef(null);
@@ -190,46 +200,29 @@ export default function Home({ onOpenModal }) {
               </div>
 
               <div className="hero-leaders-group">
-                <figure className={`${P['hero-chairman']} ${P.reveal} ${P.visible} ${P.show}`}>
-                  <div className={P['hero-chairman-frame']}>
-                    <div className={P['hero-chairman-inner']}>
-                      <img
-                        alt="Vinith Gunasekaran, Founder and CEO of GV DesignTech"
-                        className={P['hero-chairman-img']}
-                        width="1122"
-                        height="1402"
-                        decoding="async"
-                        src="/assets/chairman-real-uq_F_5Yk.jpg"
-                      />
-                      <figcaption className={P['hero-chairman-cap']}>
-                        <span className={P['hero-chairman-role']}>Vinith Gunasekaran</span>
-                        <span className={P['hero-chairman-title']}>Founder / CEO</span>
-                        <span className={P['hero-chairman-org']}>GV DesignTech</span>
-                      </figcaption>
+                {leaders.map((leader, idx) => (
+                  <figure key={leader.id || idx} className={`${P['hero-chairman']} ${P.reveal} ${P.visible} ${P.show}`}>
+                    <div className={P['hero-chairman-frame']} style={idx === 1 ? { animationDelay: '-3.5s' } : {}}>
+                      <div className={P['hero-chairman-inner']}>
+                        <img
+                          alt={`${leader.name}, ${leader.role} of ${leader.org || 'GV DesignTech'}`}
+                          className={P['hero-chairman-img']}
+                          width="1122"
+                          height="1402"
+                          decoding="async"
+                          src={leader.image}
+                          style={leader.objectPosition ? { objectPosition: leader.objectPosition } : {}}
+                          onError={(e) => { e.target.src = '/assets/chairman-real-uq_F_5Yk.jpg'; }}
+                        />
+                        <figcaption className={P['hero-chairman-cap']}>
+                          <span className={P['hero-chairman-role']}>{leader.name}</span>
+                          <span className={P['hero-chairman-title']}>{leader.role}</span>
+                          <span className={P['hero-chairman-org']}>{leader.org || 'GV DesignTech'}</span>
+                        </figcaption>
+                      </div>
                     </div>
-                  </div>
-                </figure>
-
-                <figure className={`${P['hero-chairman']} ${P.reveal} ${P.visible} ${P.show}`}>
-                  <div className={P['hero-chairman-frame']} style={{ animationDelay: '-3.5s' }}>
-                    <div className={P['hero-chairman-inner']}>
-                      <img
-                        alt="Gokul Prasath K, Managing Director of GV DesignTech"
-                        className={P['hero-chairman-img']}
-                        width="819"
-                        height="1024"
-                        decoding="async"
-                        src="/assets/gokul-prasath.jpg"
-                        style={{ objectPosition: 'center 12%' }}
-                      />
-                      <figcaption className={P['hero-chairman-cap']}>
-                        <span className={P['hero-chairman-role']}>Gokul Prasath K</span>
-                        <span className={P['hero-chairman-title']}>Managing Director</span>
-                        <span className={P['hero-chairman-org']}>GV DesignTech</span>
-                      </figcaption>
-                    </div>
-                  </div>
-                </figure>
+                  </figure>
+                ))}
               </div>
             </div>
 

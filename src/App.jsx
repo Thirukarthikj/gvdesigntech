@@ -45,6 +45,7 @@ import AdminGalleryManager from './pages/admin/AdminGalleryManager.jsx';
 import AdminPlacementManager from './pages/admin/AdminPlacementManager.jsx';
 import AdminBlogManager from './pages/admin/AdminBlogManager.jsx';
 import AdminCertificateManager from './pages/admin/AdminCertificateManager.jsx';
+import AdminLeaderManager from './pages/admin/AdminLeaderManager.jsx';
 
 export default function App() {
   const [showIntro, setShowIntro] = useState(true);
@@ -138,6 +139,7 @@ export default function App() {
           <Route path="courses" element={<AdminCourses />} />
           <Route path="internships" element={<AdminInternships />} />
           <Route path="partners" element={<AdminMouManager />} />
+          <Route path="content-leaders" element={<AdminLeaderManager />} />
           <Route path="content-mou" element={<AdminMouManager />} />
           <Route path="content-gallery" element={<AdminGalleryManager />} />
           <Route path="content-placement" element={<AdminPlacementManager />} />

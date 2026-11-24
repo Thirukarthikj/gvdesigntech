@@ -8,6 +8,27 @@ const GALLERY_KEY = 'gv_admin_gallery';
 const PLACEMENT_KEY = 'gv_admin_placement';
 const BLOG_KEY = 'gv_admin_blogs';
 const CERT_KEY = 'gv_admin_certificates';
+const LEADERS_KEY = 'gv_admin_leaders';
+
+// Default Leaders Data
+export const defaultLeaders = [
+  {
+    id: 'leader-1',
+    name: 'Vinith Gunasekaran',
+    role: 'Founder / CEO',
+    org: 'GV DesignTech',
+    image: '/assets/chairman-real-uq_F_5Yk.jpg',
+    objectPosition: 'center center'
+  },
+  {
+    id: 'leader-2',
+    name: 'Gokul Prasath K',
+    role: 'Managing Director',
+    org: 'GV DesignTech',
+    image: '/assets/gokul-prasath.jpg',
+    objectPosition: 'center 12%'
+  }
+];
 
 // Default Placements Data
 export const defaultPlacements = {
@@ -213,5 +234,28 @@ export function saveStoredCertificates(registry) {
     window.dispatchEvent(new Event('gv_content_updated'));
   } catch (err) {
     console.error('Failed to save Certificates', err);
+  }
+}
+
+/* --- 6. Leadership Profiles Persistence --- */
+export function getStoredLeaders() {
+  try {
+    const raw = localStorage.getItem(LEADERS_KEY);
+    if (!raw) {
+      localStorage.setItem(LEADERS_KEY, JSON.stringify(defaultLeaders));
+      return defaultLeaders;
+    }
+    return JSON.parse(raw);
+  } catch {
+    return defaultLeaders;
+  }
+}
+
+export function saveStoredLeaders(leaders) {
+  try {
+    localStorage.setItem(LEADERS_KEY, JSON.stringify(leaders));
+    window.dispatchEvent(new Event('gv_content_updated'));
+  } catch (err) {
+    console.error('Failed to save Leaders', err);
   }
 }

@@ -43,6 +43,7 @@ export default function AdminLayout() {
     {
       title: 'CONTENT & PAGES',
       items: [
+        { to: '/admin/content-leaders', icon: '👑', label: 'Leadership & Founders' },
         { to: '/admin/content-mou', icon: '🏛️', label: 'Manage MOUs' },
         { to: '/admin/content-gallery', icon: '📸', label: 'Manage Gallery' },
         { to: '/admin/content-placement', icon: '🎯', label: 'Manage Placements' },
@@ -63,6 +64,7 @@ export default function AdminLayout() {
     if (path.includes('enrollments')) return 'Student Inquiries & Admissions';
     if (path.includes('courses')) return 'Course Cohorts & Batch Management';
     if (path.includes('internships')) return 'Internship Applications';
+    if (path.includes('content-leaders')) return 'Leadership & Executive Profiles';
     if (path.includes('content-mou') || path.includes('partners')) return 'MOU & Institutional Partnerships';
     if (path.includes('content-gallery')) return 'Campus Gallery & Infrastructure Photos';
     if (path.includes('content-placement')) return 'Placements, Hiring Partners & Student Stories';
