@@ -31,6 +31,16 @@ import ContactUs from './pages/ContactUs.jsx';
 import SkillTest from './pages/SkillTest.jsx';
 import ShowcaseVideo from './pages/ShowcaseVideo.jsx';
 
+// Admin Portal Pages
+import AdminLogin from './pages/admin/AdminLogin.jsx';
+import AdminLayout from './pages/admin/AdminLayout.jsx';
+import AdminDashboard from './pages/admin/AdminDashboard.jsx';
+import AdminEnrollments from './pages/admin/AdminEnrollments.jsx';
+import AdminCourses from './pages/admin/AdminCourses.jsx';
+import AdminInternships from './pages/admin/AdminInternships.jsx';
+import AdminPartners from './pages/admin/AdminPartners.jsx';
+import AdminSettings from './pages/admin/AdminSettings.jsx';
+
 export default function App() {
   const [showIntro, setShowIntro] = useState(true);
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
@@ -113,6 +123,18 @@ export default function App() {
         <Route path="/Contactus" element={<ContactUs />} />
         <Route path="/pest-exam" element={<SkillTest />} />
         <Route path="/showcase-video" element={<ShowcaseVideo />} />
+
+        {/* Admin Portal Protected Routing */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="enrollments" element={<AdminEnrollments />} />
+          <Route path="courses" element={<AdminCourses />} />
+          <Route path="internships" element={<AdminInternships />} />
+          <Route path="partners" element={<AdminPartners />} />
+          <Route path="settings" element={<AdminSettings />} />
+        </Route>
 
         {/* Redirect removed auth routes to Home */}
         <Route path="/Login" element={<Navigate to="/" replace />} />

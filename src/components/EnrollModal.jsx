@@ -45,6 +45,26 @@ export default function EnrollModal({ isOpen, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
+
+    // Save lead to localStorage for Admin Portal in real time
+    try {
+      const existing = JSON.parse(localStorage.getItem('gv_admin_leads') || '[]');
+      const newLead = {
+        id: 'lead-' + Date.now(),
+        name: `${formData.firstName} ${formData.lastName}`.trim() || 'Website Inquirer',
+        email: formData.email || 'N/A',
+        phone: formData.phone || 'N/A',
+        college: 'Website Direct Inquirer',
+        program: formData.program || 'Mechanical & Automobile CAD',
+        message: formData.message || 'Submitted via Instant Enroll Modal',
+        date: new Date().toISOString().split('T')[0],
+        status: 'New'
+      };
+      localStorage.setItem('gv_admin_leads', JSON.stringify([newLead, ...existing]));
+    } catch {
+      // ignore
+    }
+
     setTimeout(() => {
       setSubmitted(false);
       onClose();
