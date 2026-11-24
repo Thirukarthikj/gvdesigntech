@@ -128,6 +128,9 @@ export default function Navbar() {
               Internship <i className="chevron"></i>
             </span>
             <div className="dropdown-menu">
+              <Link to="/internship" onClick={closeAll} style={{ color: '#c084fc', fontWeight: '700', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '8px', marginBottom: '4px' }}>
+                All Internship Programs →
+              </Link>
               <Link to="/internship/aiInternship" onClick={closeAll}>AI Internship</Link>
               <Link to="/internship/summerinternship" onClick={closeAll}>Summer Internship</Link>
               <Link to="/internship/college" onClick={closeAll}>College Internship</Link>

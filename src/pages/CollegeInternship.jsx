@@ -1,50 +1,300 @@
-import React from 'react';
-import { collegeInternStyles as U } from '../data/styles.js';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function CollegeInternship({ onOpenModal }) {
-  const tracks = [
-    { title: 'Computer Science & IT', topics: 'Full Stack Web, Python, Cloud Databases, AI Integrations' },
-    { title: 'ECE & Telecommunication', topics: 'Embedded AI, Edge Computing, Signal Processing, IoT Systems' },
-    { title: 'EEE & Robotics', topics: 'Robotic Process Automation, Predictive Power Analytics, Sensor Telemetry' },
-    { title: 'Mechanical & Civil', topics: 'Computational Modeling, CAD Python Automation, Structural Analytics' }
+  const [activeFaq, setActiveFaq] = useState(null);
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animId;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    const nodes = Array.from({ length: 30 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 2 + 0.8,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      alpha: Math.random() * 0.5 + 0.25
+    }));
+
+    const render = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      nodes.forEach((n) => {
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0) n.x = canvas.width;
+        if (n.x > canvas.width) n.x = 0;
+        if (n.y < 0) n.y = canvas.height;
+        if (n.y > canvas.height) n.y = 0;
+
+        ctx.fillStyle = `rgba(56, 189, 248, ${n.alpha})`;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.strokeStyle = `rgba(14, 165, 233, ${0.18 * (1 - dist / 120)})`;
+            ctx.lineWidth = 0.6;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      animId = requestAnimationFrame(render);
+    };
+    render();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(animId);
+    };
+  }, []);
+
+  const modules = [
+    { title: 'Technical Skill Development', desc: 'Accelerated foundation in core computer science, software engineering principles, algorithms, and modular design patterns.' },
+    { title: 'Mini & Final-Year Projects', desc: 'Guidance and mentorship for university academic project deliverables, problem definition, architecture blueprints, and code reviews.' },
+    { title: 'Full Stack Development', desc: 'End-to-end web engineering covering modern frontends, robust backend microservices, SQL/NoSQL databases, and cloud hosting.' },
+    { title: 'Programming Fundamentals', desc: 'Mastering clean code, object-oriented paradigms, asynchronous event loops, error handling, and unit testing.' },
+    { title: 'Team-Based Projects', desc: 'Collaborating in agile teams with Git workflows, pull requests, issue tracking, and peer code reviews simulating tech company environments.' },
+    { title: 'Project Documentation and Guidance', desc: 'Comprehensive IEEE-format project documentation, synopsis preparation, viva-voce presentation coaching, and mentor evaluation reports.' }
+  ];
+
+  const benefits = [
+    { icon: '💻', title: 'Practical Training', desc: 'Hands-on technical learning.' },
+    { icon: '🚀', title: 'Live Projects', desc: 'Work on practical projects.' },
+    { icon: '👨‍🏫', title: 'Expert Guidance', desc: 'Learn with mentor support.' },
+    { icon: '📜', title: 'Internship Certificate', desc: 'Certificate upon meeting program requirements.' }
+  ];
+
+  const faqs = [
+    { q: 'Is this College Internship approved for university academic credit?', a: 'Yes! Our syllabus adheres to AICTE and Anna University guidelines, complete with attendance logs, project reports, and verifiable internship completion letters.' },
+    { q: 'What is the primary target outcome?', a: 'Develop industry-ready skills and gain confidence in practical project development, giving you a competitive edge in campus recruitment.' },
+    { q: 'Can my team work together on our final-year project?', a: 'Absolutely! We offer team slots where 2 to 4 students can work together under a dedicated technical mentor to build an impressive final-year project.' }
   ];
 
   return (
-    <div className={U['ci-page']} style={{ minHeight: '100vh', background: '#04020a', color: '#fff', padding: '140px 24px 80px' }}>
-      <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-          <div style={{ display: 'inline-block', padding: '6px 18px', background: 'rgba(57, 208, 255, 0.15)', border: '1px solid rgba(57, 208, 255, 0.4)', borderRadius: '999px', color: '#39d0ff', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', marginBottom: '16px' }}>
-            ACADEMIC ACCREDITED INTERNSHIP
+    <div style={{ position: 'relative', minHeight: '100vh', background: '#04020a', color: '#f8fafc', overflowX: 'hidden' }}>
+      <canvas ref={canvasRef} style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }} />
+
+      {/* HERO SECTION */}
+      <section style={{ position: 'relative', zIndex: 1, paddingTop: '150px', paddingBottom: '70px', paddingLeft: '24px', paddingRight: '24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 20px', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', borderRadius: '999px', fontSize: '13px', fontWeight: '700', color: '#38bdf8', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '24px' }}>
+            <span>🎓</span>
+            <span>PROGRAM 03 • ACADEMIC ACCREDITED</span>
           </div>
-          <h1 style={{ fontSize: 'clamp(32px, 5vw, 60px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #38bdf8 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            College Internship Program
+
+          <h1 style={{ fontSize: 'clamp(36px, 6vw, 68px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 30%, #38bdf8 70%, #0284c7 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            College Internship
           </h1>
-          <p style={{ maxWidth: '750px', margin: '0 auto 36px', fontSize: '17px', color: '#94a3b8', lineHeight: 1.6 }}>
-            Designed specifically for engineering and technology students fulfilling mandatory university internship credits. Complete real industrial projects in CAD, BIM, and Software with verified certificates and mentor sign-offs.
+
+          <div style={{ fontSize: 'clamp(20px, 3vw, 26px)', fontWeight: '700', color: '#f8fafc', marginBottom: '20px' }}>
+            College Internship Program
+          </div>
+
+          <p style={{ maxWidth: '820px', margin: '0 auto 40px', fontSize: '18px', lineHeight: 1.65, color: '#94a3b8' }}>
+            Bridge the gap between academic learning and industry requirements through practical training and project-based learning.
+          </p>
+
+          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              onClick={onOpenModal}
+              style={{
+                padding: '16px 36px',
+                background: 'linear-gradient(135deg, #0284c7, #0369a1)',
+                border: 'none',
+                borderRadius: '12px',
+                color: '#fff',
+                fontSize: '16px',
+                fontWeight: '700',
+                cursor: 'pointer',
+                boxShadow: '0 8px 28px rgba(2, 132, 199, 0.35)',
+                transition: 'transform 0.2s'
+              }}
+            >
+              Apply for College Batch
+            </button>
+            <Link
+              to="/internship"
+              style={{
+                padding: '16px 32px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(56, 189, 248, 0.3)',
+                borderRadius: '12px',
+                color: '#f8fafc',
+                fontSize: '16px',
+                fontWeight: '600',
+                textDecoration: 'none',
+                backdropFilter: 'blur(10px)'
+              }}
+            >
+              All Internship Tracks ←
+            </Link>
+          </div>
+
+          {/* Outcome Highlight Box */}
+          <div style={{ maxWidth: '840px', margin: '50px auto 0', background: 'rgba(56, 189, 248, 0.08)', border: '1px solid rgba(56, 189, 248, 0.35)', borderRadius: '16px', padding: '24px 30px', textAlign: 'left', backdropFilter: 'blur(10px)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+              <span style={{ fontSize: '20px' }}>🎯</span>
+              <span style={{ fontSize: '13px', fontWeight: '800', color: '#38bdf8', letterSpacing: '1px', textTransform: 'uppercase' }}>Program Outcome</span>
+            </div>
+            <p style={{ margin: 0, fontSize: '16px', color: '#f8fafc', fontWeight: '600', lineHeight: 1.6 }}>
+              Outcome: Develop industry-ready skills and gain confidence in practical project development.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* CURRICULUM MODULES */}
+      <section style={{ position: 'relative', zIndex: 1, padding: '70px 24px', maxWidth: '1280px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+          <div style={{ color: '#38bdf8', fontSize: '13px', fontWeight: '700', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
+            — SYLLABUS &amp; CORE TOPICS —
+          </div>
+          <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 44px)', fontWeight: '800', margin: 0, textTransform: 'uppercase', letterSpacing: '1px' }}>
+            WHAT YOU WILL <span style={{ color: '#38bdf8' }}>LEARN</span>
+          </h2>
+          <p style={{ color: '#94a3b8', fontSize: '16px', maxWidth: '640px', margin: '12px auto 0' }}>
+            Designed specifically to align with engineering curricula and industry recruitment expectations.
+          </p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '24px' }}>
+          {modules.map((m, idx) => (
+            <div
+              key={idx}
+              style={{
+                background: 'rgba(15, 11, 33, 0.85)',
+                border: '1px solid rgba(56, 189, 248, 0.25)',
+                borderRadius: '16px',
+                padding: '28px',
+                display: 'flex',
+                gap: '18px',
+                backdropFilter: 'blur(10px)',
+                transition: 'transform 0.25s ease, border-color 0.25s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.6)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.25)';
+              }}
+            >
+              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(56, 189, 248, 0.15)', border: '1px solid rgba(56, 189, 248, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#38bdf8', fontWeight: '800', fontSize: '15px', flexShrink: 0 }}>
+                0{idx + 1}
+              </div>
+              <div>
+                <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#f8fafc', margin: '0 0 8px' }}>
+                  {m.title}
+                </h3>
+                <p style={{ color: '#94a3b8', fontSize: '14px', lineHeight: 1.6, margin: 0 }}>
+                  {m.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* COMMON INTERNSHIP BENEFITS */}
+      <section style={{ position: 'relative', zIndex: 1, padding: '70px 24px', background: 'rgba(10, 8, 26, 0.7)', borderTop: '1px solid rgba(56, 189, 248, 0.15)', borderBottom: '1px solid rgba(56, 189, 248, 0.15)' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+            <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 42px)', fontWeight: '800', margin: '0 0 12px' }}>
+              Common Internship Benefits
+            </h2>
+            <p style={{ color: '#94a3b8', fontSize: '16px' }}>
+              Guaranteed advantages included across our internship programs.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px' }}>
+            {benefits.map((b, idx) => (
+              <div key={idx} style={{ background: 'rgba(15, 11, 33, 0.85)', border: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: '16px', padding: '28px 24px', textAlign: 'left' }}>
+                <div style={{ fontSize: '32px', marginBottom: '14px' }}>{b.icon}</div>
+                <h4 style={{ fontSize: '19px', fontWeight: '700', color: '#f8fafc', margin: '0 0 8px' }}>{b.title}</h4>
+                <p style={{ color: '#94a3b8', fontSize: '14px', margin: 0, lineHeight: 1.5 }}>{b.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQS */}
+      <section style={{ position: 'relative', zIndex: 1, padding: '70px 24px', maxWidth: '860px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <h3 style={{ fontSize: '28px', fontWeight: '800', margin: '0 0 8px' }}>
+            Frequently Asked Questions
+          </h3>
+          <p style={{ color: '#94a3b8', fontSize: '15px' }}>
+            Have questions about the College Internship Program?
+          </p>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          {faqs.map((faq, idx) => (
+            <div key={idx} style={{ background: 'rgba(15, 11, 33, 0.8)', border: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: '12px', overflow: 'hidden' }}>
+              <button
+                type="button"
+                onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
+                style={{ width: '100%', textAlign: 'left', padding: '18px 22px', background: 'none', border: 'none', color: '#f8fafc', fontSize: '16px', fontWeight: '600', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+              >
+                <span>{faq.q}</span>
+                <span style={{ color: '#38bdf8', fontSize: '20px', transition: 'transform 0.2s', transform: activeFaq === idx ? 'rotate(45deg)' : 'none' }}>+</span>
+              </button>
+              {activeFaq === idx && (
+                <div style={{ padding: '0 22px 18px', color: '#94a3b8', fontSize: '14px', lineHeight: 1.65 }}>
+                  {faq.a}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CALL TO ACTION */}
+      <section style={{ position: 'relative', zIndex: 1, padding: '80px 24px 120px', textAlign: 'center' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto', background: 'linear-gradient(135deg, rgba(2, 132, 199, 0.25), rgba(15, 11, 33, 0.9))', border: '1px solid rgba(56, 189, 248, 0.4)', borderRadius: '24px', padding: '60px 32px', boxShadow: '0 24px 60px rgba(2, 132, 199, 0.2)', backdropFilter: 'blur(16px)' }}>
+          <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 42px)', fontWeight: '800', margin: '0 0 16px', color: '#f8fafc' }}>
+            Start Your Internship Journey Today!
+          </h2>
+          <div style={{ fontSize: 'clamp(18px, 2.5vw, 24px)', fontWeight: '700', color: '#38bdf8', marginBottom: '24px', letterSpacing: '1px' }}>
+            Learn. Practice. Build. Grow.
+          </div>
+          <p style={{ color: '#94a3b8', fontSize: '17px', maxWidth: '640px', margin: '0 auto 32px', lineHeight: 1.6 }}>
+            Develop industry-ready skills, complete verified academic project work, and gain confidence in practical engineering execution.
           </p>
           <button
             type="button"
             onClick={onOpenModal}
-            style={{ padding: '14px 38px', background: 'linear-gradient(135deg, #39d0ff, #8b5cf6)', border: 'none', borderRadius: '12px', color: '#020412', fontSize: '16px', fontWeight: '700', cursor: 'pointer' }}
+            style={{ padding: '16px 40px', background: 'linear-gradient(135deg, #0284c7, #0369a1)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 30px rgba(2, 132, 199, 0.4)', transition: 'transform 0.2s' }}
           >
-            Apply for College Batch
+            Apply for College Internship →
           </button>
         </div>
-
-        <section style={{ marginBottom: '80px' }}>
-          <h2 style={{ fontSize: '30px', fontWeight: '800', textAlign: 'center', marginBottom: '40px' }}>
-            Department Specialized Tracks
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
-            {tracks.map((t, idx) => (
-              <div key={idx} style={{ padding: '28px', background: 'linear-gradient(160deg, rgba(30, 22, 68, 0.6), rgba(6, 6, 24, 0.7))', border: '1px solid rgba(57, 208, 255, 0.3)', borderRadius: '20px' }}>
-                <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#fff', marginBottom: '10px' }}>{t.title}</h3>
-                <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.5, margin: 0 }}>{t.topics}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
+      </section>
     </div>
   );
 }

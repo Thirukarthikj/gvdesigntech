@@ -20,6 +20,7 @@ import FlagshipMou from './pages/FlagshipMou.jsx';
 import FlagshipPlacement from './pages/FlagshipPlacement.jsx';
 import FlagshipGallery from './pages/FlagshipGallery.jsx';
 import FlagshipBlog from './pages/FlagshipBlog.jsx';
+import InternshipPrograms from './pages/InternshipPrograms.jsx';
 import AiInternship from './pages/AiInternship.jsx';
 import SummerInternship from './pages/SummerInternship.jsx';
 import CollegeInternship from './pages/CollegeInternship.jsx';
@@ -96,11 +97,16 @@ export default function App() {
         <Route path="/flagship/Blog-page" element={<FlagshipBlog />} />
         
         {/* Internships */}
+        <Route path="/internship" element={<InternshipPrograms onOpenModal={openModal} />} />
+        <Route path="/internships" element={<InternshipPrograms onOpenModal={openModal} />} />
         <Route path="/internship/aiInternship" element={<AiInternship onOpenModal={openModal} />} />
+        <Route path="/internship/ai" element={<AiInternship onOpenModal={openModal} />} />
         <Route path="/internship/summerinternship" element={<SummerInternship onOpenModal={openModal} />} />
+        <Route path="/internship/summer" element={<SummerInternship onOpenModal={openModal} />} />
         <Route path="/internship/college" element={<CollegeInternship onOpenModal={openModal} />} />
         <Route path="/internship/datascience" element={<DataScienceInternship onOpenModal={openModal} />} />
         <Route path="/internship/Machinelearning" element={<MachineLearningInternship onOpenModal={openModal} />} />
+        <Route path="/internship/machinelearning" element={<MachineLearningInternship onOpenModal={openModal} />} />
 
         {/* Core Verification, Contact, Skill Test */}
         <Route path="/certificate-verification" element={<CertificateVerification />} />
