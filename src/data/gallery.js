@@ -1,213 +1,98 @@
 export const galleryItems = [
   {
-    "id": 1,
-    "image": "/gallery/gallery-01.jpg",
-    "category": "internships",
-    "title": "Tech Giants Internship",
-    "description": "Students at FAANG companies"
+    id: 1,
+    image: "/assets/gallery/gallery-01.jpg",
+    category: "internships",
+    tag: "Batch Cohort",
+    title: "CAD & Engineering Internship Cohort",
+    description: "Hands-on engineering batch celebration with lead CAD instructors and student innovators at GV DesignTech."
   },
   {
-    "id": 2,
-    "category": "workshops",
-    "title": "AI/ML Workshop",
-    "description": "Hands-on machine learning session"
+    id: 2,
+    image: "/assets/gallery/gallery-02.jpg",
+    category: "workshops",
+    tag: "Campus Outreach",
+    title: "University Technical CAD Seminar",
+    description: "Interactive auditorium guest lecture and technical seminar on future CAD, CAM & FEA industry workflows."
   },
   {
-    "id": 3,
-    "category": "placements",
-    "title": "Dream Job Placements",
-    "description": "Class of 2024 achievements"
+    id: 3,
+    image: "/assets/gallery/gallery-03.jpg",
+    category: "labs",
+    tag: "Parametric Design",
+    title: "Hands-On CAD Modeling & Detailing",
+    description: "Students collaborating on 3D parametric component drafting, orthographic layouts, and drawing sets."
   },
   {
-    "id": 4,
-    "category": "hackathons",
-    "title": "24-Hour Code Sprint",
-    "description": "Innovation at its peak"
+    id: 4,
+    image: "/assets/gallery/gallery-04.jpg",
+    category: "workshops",
+    tag: "Lab Mentorship",
+    title: "Classroom CAD Lab Training Session",
+    description: "Senior technical mentor guiding students through real-time modeling exercises in the central CAD lab."
   },
   {
-    "id": 5,
-    "category": "certifications",
-    "title": "AWS Certifications",
-    "description": "Cloud expertise validated"
+    id: 5,
+    image: "/assets/gallery/gallery-05.jpg",
+    category: "internships",
+    tag: "Skill Development",
+    title: "Dedicated Project Workstations",
+    description: "Learners executing capstone project designs in high-performance digital CAD workstations."
   },
   {
-    "id": 6,
-    "category": "events",
-    "title": "Tech Fest 2024",
-    "description": "Annual technology celebration"
+    id: 6,
+    image: "/assets/gallery/gallery-06.jpg",
+    category: "projects",
+    tag: "Industry Review",
+    title: "Blueprint Review & Structural Collaboration",
+    description: "Student engineering team evaluating architectural CAD plans and mechanical assembly tolerances."
   },
   {
-    "id": 7,
-    "category": "internships",
-    "title": "Startup Internships",
-    "description": "Learning at emerging companies"
+    id: 7,
+    image: "/assets/gallery/gallery-02.jpg",
+    category: "workshops",
+    tag: "Guest Lecture",
+    title: "Engineering College Auditorium Workshop",
+    description: "Inspiring future engineers with practical live demonstrations of modern BIM and CNC machining technologies."
   },
   {
-    "id": 8,
-    "category": "workshops",
-    "title": "Full-Stack Development",
-    "description": "Complete web development bootcamp"
+    id: 8,
+    image: "/assets/gallery/gallery-04.jpg",
+    category: "labs",
+    tag: "Advanced Drafting",
+    title: "Interactive Studio Drafting Sessions",
+    description: "Full-batch intensive training covering GD&T compliance, tolerance analysis, and manufacturing workflows."
   },
   {
-    "id": 9,
-    "category": "placements",
-    "title": "Campus Drive Success",
-    "description": "Multiple offers secured"
+    id: 9,
+    image: "/assets/gallery/gallery-01.jpg",
+    category: "internships",
+    tag: "Milestone",
+    title: "Internship Certificate Completion",
+    description: "Celebrating verified internship milestone achievements and successful capstone project submissions."
   },
   {
-    "id": 10,
-    "category": "hackathons",
-    "title": "Smart India Hackathon",
-    "description": "National level competition"
+    id: 10,
+    image: "/assets/gallery/gallery-06.jpg",
+    category: "projects",
+    tag: "Capstone",
+    title: "Technical Design Team Consultation",
+    description: "Collaborative CAD layout evaluation preparing students for real-world corporate engineering placement drives."
   },
   {
-    "id": 11,
-    "category": "certifications",
-    "title": "Google Cloud Certs",
-    "description": "Professional cloud skills"
+    id: 11,
+    image: "/assets/gallery/gallery-03.jpg",
+    category: "labs",
+    tag: "Peer Learning",
+    title: "Dual Workstation Collaboration",
+    description: "Pair modeling and cross-checking 2D/3D models against international drafting standards."
   },
   {
-    "id": 12,
-    "category": "events",
-    "title": "Industry Connect",
-    "description": "Networking with leaders"
-  },
-  {
-    "id": 13,
-    "category": "internships",
-    "title": "Research Internships",
-    "description": "R&D at premier institutes"
-  },
-  {
-    "id": 14,
-    "category": "workshops",
-    "title": "Data Science Masterclass",
-    "description": "Analytics deep dive"
-  },
-  {
-    "id": 15,
-    "category": "placements",
-    "title": "Product Companies",
-    "description": "Securing product roles"
-  },
-  {
-    "id": 16,
-    "category": "hackathons",
-    "title": "Internal Innovation",
-    "description": "Student-led projects"
-  },
-  {
-    "id": 17,
-    "category": "certifications",
-    "title": "Microsoft Azure",
-    "description": "Cloud platform expertise"
-  },
-  {
-    "id": 18,
-    "category": "events",
-    "title": "Alumni Meet",
-    "description": "Connecting generations"
-  },
-  {
-    "id": 19,
-    "category": "internships",
-    "title": "Remote Internships",
-    "description": "Global opportunities"
-  },
-  {
-    "id": 20,
-    "category": "workshops",
-    "title": "Cybersecurity Workshop",
-    "description": "Ethical hacking basics"
-  },
-  {
-    "id": 21,
-    "category": "placements",
-    "title": "Highest Package",
-    "description": "Record-breaking offers"
-  },
-  {
-    "id": 22,
-    "category": "hackathons",
-    "title": "Women in Tech",
-    "description": "Empowering female coders"
-  },
-  {
-    "id": 23,
-    "category": "certifications",
-    "title": "PMP Certifications",
-    "description": "Project management skills"
-  },
-  {
-    "id": 24,
-    "category": "events",
-    "title": "Cultural Night",
-    "description": "Celebrating diversity"
-  },
-  {
-    "id": 25,
-    "category": "internships",
-    "title": "Winter Internships",
-    "description": "Seasonal programs"
-  },
-  {
-    "id": 26,
-    "category": "workshops",
-    "title": "Mobile Development",
-    "description": "iOS and Android apps"
-  },
-  {
-    "id": 27,
-    "category": "placements",
-    "title": "Bulk Hiring",
-    "description": "Mass recruitment drive"
-  },
-  {
-    "id": 28,
-    "category": "hackathons",
-    "title": "Blockchain Hackathon",
-    "description": "Web3 innovation"
-  },
-  {
-    "id": 29,
-    "category": "certifications",
-    "title": "Oracle Certifications",
-    "description": "Database expertise"
-  },
-  {
-    "id": 30,
-    "category": "events",
-    "title": "Industrial Visit",
-    "description": "Factory tours"
-  },
-  {
-    "id": 31,
-    "category": "internships",
-    "title": "Summer Research",
-    "description": "Academic collaborations"
-  },
-  {
-    "id": 32,
-    "category": "workshops",
-    "title": "DevOps Bootcamp",
-    "description": "CI/CD pipelines"
-  },
-  {
-    "id": 33,
-    "category": "placements",
-    "title": "International Offers",
-    "description": "Jobs abroad"
-  },
-  {
-    "id": 34,
-    "category": "hackathons",
-    "title": "Healthcare Hack",
-    "description": "Tech for good"
-  },
-  {
-    "id": 35,
-    "category": "events",
-    "title": "Graduation Day",
-    "description": "Celebrating milestones"
+    id: 12,
+    image: "/assets/gallery/gallery-05.jpg",
+    category: "workshops",
+    tag: "Innovation",
+    title: "Self-Paced Design & Detailing Lab",
+    description: "Continuous practice hours enabling learners to build extensive professional drawing portfolios."
   }
 ];
