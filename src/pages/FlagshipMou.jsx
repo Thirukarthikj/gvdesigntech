@@ -14,8 +14,8 @@ export default function FlagshipMou({ onOpenModal }) {
           <h1 style={{ fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 20px', color: '#fff' }}>
             Memorandum of<br /><span style={{ background: 'linear-gradient(135deg, #a78bfa, #d946ef)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Understanding</span>
           </h1>
-          <p style={{ maxWidth: '720px', margin: '0 auto 36px', fontSize: '17px', lineHeight: 1.6, color: '#475569' }}>
-            Bridging academia and the artificial intelligence industry through collaborative curriculum design, certified student internships, state-of-the-art incubation labs, and dedicated campus hiring drives.
+          <p style={{ maxWidth: '720px', margin: '0 auto 36px', fontSize: '17px', lineHeight: 1.6, color: '#94a3b8' }}>
+            Bridging academia and the core CAD &amp; engineering design industry through collaborative curriculum design, certified student internships, state-of-the-art incubation labs, and dedicated campus hiring drives.
           </p>
           <div style={{ display: 'flex', gap: '30px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <div>

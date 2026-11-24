@@ -2,13 +2,24 @@ import React, { useState } from 'react';
 import { pestStyles as J } from '../data/styles.js';
 
 export default function SkillTest() {
-  const [selectedDomain, setSelectedDomain] = useState('python');
+  const [selectedDomain, setSelectedDomain] = useState('cad');
   const [currentQ, setCurrentQ] = useState(0);
   const [selectedAns, setSelectedAns] = useState({});
   const [isFinished, setIsFinished] = useState(false);
   const [testStarted, setTestStarted] = useState(false);
 
   const testData = {
+    cad: [
+      { q: 'Which projection method is standard in European engineering drawings?', options: ['First Angle Projection', 'Third Angle Projection', 'Isometric Projection', 'Oblique Projection'], correct: 0 },
+      { q: 'What does the GD&T symbol ⌖ represent?', options: ['True Position', 'Concentricity', 'Perpendicularity', 'Runout'], correct: 0 },
+      { q: 'In parametric CAD, what is a fully defined sketch?', options: ['All geometry is constrained by dimensions and geometric relations', 'All lines are converted to construction lines', 'A 3D solid is already extruded', 'An imported DXF drawing'], correct: 0 },
+      { q: 'Which FEA element type is best suited for thin-walled sheet metal structures?', options: ['2D Shell Elements', 'Solid Tetrahedral Elements', '1D Beam Elements', 'Hexahedral Brick Elements'], correct: 0 }
+    ],
+    civil: [
+      { q: 'What does BIM Level 2 primarily entail?', options: ['Collaborative 3D working with separate discipline models in common data environments', '2D drafting only', 'Complete cloud digital twin integration', 'Paper-based blueprint exchange'], correct: 0 },
+      { q: 'In structural design using STAAD.Pro, what is P-Delta analysis?', options: ['Second-order geometric non-linear analysis under axial and lateral loads', 'Linear static gravity analysis', 'Thermal load expansion test', 'Dynamic seismic spectrum only'], correct: 0 },
+      { q: 'What is the standard characteristic compressive strength of M25 concrete at 28 days?', options: ['25 N/mm²', '20 N/mm²', '30 N/mm²', '15 N/mm²'], correct: 0 }
+    ],
     python: [
       { q: 'Which of the following data structures in Python is immutable?', options: ['List', 'Set', 'Tuple', 'Dictionary'], correct: 2 },
       { q: 'What is the output of bool([]) in Python?', options: ['True', 'False', 'None', 'Error'], correct: 1 },
@@ -20,15 +31,10 @@ export default function SkillTest() {
       { q: 'What does the attention mechanism in Transformers calculate?', options: ['Weights between all pairs of input tokens', 'Gradient descent step size', 'Image pixel convolution kernel', 'Batch normalization mean'], correct: 0 },
       { q: 'Which metric is best suited for an imbalanced classification problem?', options: ['Accuracy', 'F1-Score / PR-AUC', 'Mean Absolute Error', 'R-Squared'], correct: 1 },
       { q: 'What technique prevents neural networks from overfitting during training?', options: ['Dropout', 'Increasing epochs', 'Removing validation data', 'Using zero learning rate'], correct: 0 }
-    ],
-    data: [
-      { q: 'Which SQL clause is used to filter groups created by GROUP BY?', options: ['WHERE', 'HAVING', 'ORDER BY', 'LIMIT'], correct: 1 },
-      { q: 'What is the difference between INNER JOIN and LEFT JOIN?', options: ['INNER returns all rows from left table', 'LEFT JOIN returns all matching rows plus non-matching rows from left table', 'There is no difference', 'INNER JOIN is always slower'], correct: 1 },
-      { q: 'In statistics, what does the p-value represent in hypothesis testing?', options: ['Probability of observing data assuming null hypothesis is true', 'The standard error of mean', 'The margin of error percentage', 'The coefficient of determination'], correct: 0 }
     ]
   };
 
-  const questions = testData[selectedDomain] || testData.python;
+  const questions = testData[selectedDomain] || testData.cad;
 
   const handleSelectOption = (idx) => {
     setSelectedAns({ ...selectedAns, [currentQ]: idx });
@@ -54,30 +60,31 @@ export default function SkillTest() {
   };
 
   return (
-    <div className={J['mi-page']} style={{ minHeight: '100vh', background: '#f8fafc', color: '#fff', padding: '140px 24px 80px' }}>
+    <div className={J['mi-page']} style={{ minHeight: '100vh', background: '#04020a', color: '#fff', padding: '140px 24px 80px' }}>
       <div style={{ maxWidth: '960px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
           <div style={{ display: 'inline-block', padding: '6px 18px', background: 'rgba(217, 70, 239, 0.15)', border: '1px solid rgba(217, 70, 239, 0.4)', borderRadius: '999px', color: '#f472b6', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', marginBottom: '16px' }}>
-            SKILL TEST — GV DESIGNTECH SKILL TEST
+            SKILL TEST — GV DESIGNTECH BENCHMARK
           </div>
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #e879f9 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            GV DesignTech Skill Test<br />P.S.T
+            GV DesignTech Technical Assessment<br />P.S.T
           </h1>
-          <p style={{ maxWidth: '680px', margin: '0 auto', fontSize: '16.5px', color: '#475569', lineHeight: 1.6 }}>
-            Build industry-ready skills with a structured learning experience designed to strengthen your technical knowledge and benchmark your interview readiness.
+          <p style={{ maxWidth: '680px', margin: '0 auto', fontSize: '16.5px', color: '#94a3b8', lineHeight: 1.6 }}>
+            Benchmark your engineering design skills with an industry-standard technical assessment. Test your knowledge in Mechanical CAD, Civil BIM, and Modern Software Engineering.
           </p>
         </div>
 
         {!testStarted ? (
           <div>
             <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-              <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '16px' }}>Choose Your Skill Test</h2>
+              <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '16px' }}>Choose Your Assessment Track</h2>
               <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
                 {[
-                  { key: 'python', label: 'Python Programming', icon: '🐍' },
-                  { key: 'ai', label: 'AI & Machine Learning', icon: '🧠' },
-                  { key: 'data', label: 'Data Analytics & SQL', icon: '📊' }
+                  { key: 'cad', label: 'Mechanical CAD & CAE', icon: '⚙️' },
+                  { key: 'civil', label: 'Civil BIM & Structural', icon: '🏛️' },
+                  { key: 'python', label: 'Python Automation', icon: '🐍' },
+                  { key: 'ai', label: 'AI & Data Science', icon: '🧠' }
                 ].map((t) => (
                   <button
                     key={t.key}

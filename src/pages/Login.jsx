@@ -17,7 +17,7 @@ export default function Login() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc', padding: '24px', color: '#fff' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#04020a', padding: '24px', color: '#fff' }}>
       <div style={{ width: '100%', maxWidth: '420px', padding: '40px', background: 'linear-gradient(160deg, rgba(30, 22, 68, 0.9), rgba(6, 6, 24, 0.95))', border: '1px solid rgba(139, 92, 246, 0.4)', borderRadius: '24px', boxShadow: '0 20px 50px rgba(0,0,0,0.6)' }}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
@@ -25,7 +25,7 @@ export default function Login() {
             <span style={{ fontSize: '22px', fontWeight: '800', color: '#fff' }}>GV DesignTech</span>
           </Link>
           <h2 style={{ fontSize: '22px', fontWeight: '700', marginTop: '16px', marginBottom: '6px' }}>Student Login</h2>
-          <p style={{ color: '#475569', fontSize: '13.5px', margin: 0 }}>Access your training portal and live labs</p>
+          <p style={{ color: '#94a3b8', fontSize: '13.5px', margin: 0 }}>Access your training portal and live labs</p>
         </div>
 
         {error && (
@@ -36,26 +36,26 @@ export default function Login() {
 
         <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div>
-            <label style={{ display: 'block', fontSize: '12.5px', fontWeight: '600', color: '#475569', marginBottom: '6px' }}>Email Address</label>
+            <label style={{ display: 'block', fontSize: '12.5px', fontWeight: '600', color: '#cbd5e1', marginBottom: '6px' }}>Email Address</label>
             <input
               type="email"
               required
               placeholder="student@gvdesigntech.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', background: '#ffffff', border: '1px solid rgba(139,92,246,0.3)', color: '#fff', fontSize: '14.5px', outline: 'none' }}
+              style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(139,92,246,0.3)', color: '#fff', fontSize: '14.5px', outline: 'none' }}
             />
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '12.5px', fontWeight: '600', color: '#475569', marginBottom: '6px' }}>Password</label>
+            <label style={{ display: 'block', fontSize: '12.5px', fontWeight: '600', color: '#cbd5e1', marginBottom: '6px' }}>Password</label>
             <input
               type="password"
               required
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', background: '#ffffff', border: '1px solid rgba(139,92,246,0.3)', color: '#fff', fontSize: '14.5px', outline: 'none' }}
+              style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(139,92,246,0.3)', color: '#fff', fontSize: '14.5px', outline: 'none' }}
             />
           </div>
 

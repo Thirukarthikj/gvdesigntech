@@ -48,7 +48,7 @@ export default function EnrollModal({ isOpen, onClose }) {
     setTimeout(() => {
       setSubmitted(false);
       onClose();
-      sessionStorage.setItem('pybot_enrolled', 'true');
+      sessionStorage.setItem('gv_enrolled', 'true');
     }, 2000);
   };
 

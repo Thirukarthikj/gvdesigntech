@@ -17,7 +17,7 @@ export default function SummerInternship({ onOpenModal }) {
   ];
 
   return (
-    <div className={H['si-page']} style={{ minHeight: '100vh', background: '#f8fafc', color: '#fff', padding: '140px 24px 80px' }}>
+    <div className={H['si-page']} style={{ minHeight: '100vh', background: '#04020a', color: '#fff', padding: '140px 24px 80px' }}>
       <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '64px' }}>
           <div style={{ display: 'inline-block', padding: '6px 18px', background: 'rgba(217, 70, 239, 0.15)', border: '1px solid rgba(217, 70, 239, 0.4)', borderRadius: '999px', color: '#f472b6', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', marginBottom: '16px' }}>
@@ -26,7 +26,7 @@ export default function SummerInternship({ onOpenModal }) {
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 60px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #e879f9 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Build Real Skills.<br />Launch Your Career.
           </h1>
-          <p style={{ maxWidth: '750px', margin: '0 auto 36px', fontSize: '17px', color: '#475569', lineHeight: 1.6 }}>
+          <p style={{ maxWidth: '750px', margin: '0 auto 36px', fontSize: '17px', color: '#94a3b8', lineHeight: 1.6 }}>
             Make your vacation truly count. 4 weeks of hands-on industrial projects, live mentor feedback, verified certification, and direct hiring drive opportunities.
           </p>
           <button

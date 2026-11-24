@@ -39,14 +39,6 @@ export default function CertificateVerification() {
       status: 'VERIFIED AUTHENTIC',
       issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
     },
-    'PYBOT-AI-2024-001': {
-      name: 'Arun Kumar',
-      course: 'Artificial Intelligence & Deep Learning Master Track',
-      completionDate: '14 August 2026',
-      grade: 'Distinction (A+)',
-      status: 'VERIFIED AUTHENTIC',
-      issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
-    },
     'GV-DS-2024-042': {
       name: 'Sanjana Priya',
       course: 'Advanced Data Science & MLOps Certification',
@@ -87,17 +79,17 @@ export default function CertificateVerification() {
   };
 
   return (
-    <div className={q.page} style={{ minHeight: '100vh', background: '#f8fafc', color: '#fff', padding: '140px 24px 80px' }}>
+    <div className={q.page} style={{ minHeight: '100vh', background: '#04020a', color: '#fff', padding: '140px 24px 80px' }}>
       <div style={{ maxWidth: '960px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
           <div style={{ display: 'inline-block', padding: '6px 18px', background: 'rgba(57, 208, 255, 0.15)', border: '1px solid rgba(57, 208, 255, 0.4)', borderRadius: '999px', color: '#39d0ff', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', marginBottom: '16px' }}>
             CREDENTIAL VERIFICATION
           </div>
-          <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #0f172a 40%, #0284c7 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #38bdf8 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Verify Your Professional Credentials
           </h1>
-          <p style={{ maxWidth: '680px', margin: '0 auto 32px', fontSize: '16.5px', color: '#475569', lineHeight: 1.6 }}>
+          <p style={{ maxWidth: '680px', margin: '0 auto 32px', fontSize: '16.5px', color: '#94a3b8', lineHeight: 1.6 }}>
             Instant digital validation for corporate recruiters, university registrars, and hiring managers worldwide.
           </p>
 
@@ -105,7 +97,7 @@ export default function CertificateVerification() {
           <form onSubmit={handleVerify} style={{ maxWidth: '560px', margin: '0 auto 40px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             <input
               type="text"
-              placeholder="Enter Certificate ID (e.g. GV-AI-2024-001)"
+              placeholder="Enter Certificate ID (e.g. GV-CAD-2024-105)"
               value={certId}
               onChange={(e) => setCertId(e.target.value)}
               required
@@ -114,7 +106,7 @@ export default function CertificateVerification() {
                 minWidth: '260px',
                 padding: '14px 20px',
                 borderRadius: '12px',
-                background: '#ffffff',
+                background: 'rgba(255, 255, 255, 0.05)',
                 border: '1px solid rgba(139, 92, 246, 0.4)',
                 color: '#fff',
                 fontSize: '15px',

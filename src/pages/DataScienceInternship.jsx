@@ -10,7 +10,7 @@ export default function DataScienceInternship({ onOpenModal }) {
   ];
 
   return (
-    <div className={W.dsPage} style={{ minHeight: '100vh', background: '#f8fafc', color: '#fff', padding: '140px 24px 80px' }}>
+    <div className={W.dsPage} style={{ minHeight: '100vh', background: '#04020a', color: '#fff', padding: '140px 24px 80px' }}>
       <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '64px' }}>
           <div style={{ display: 'inline-block', padding: '6px 18px', background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.4)', borderRadius: '999px', color: '#c084fc', fontSize: '13px', fontWeight: '700', letterSpacing: '1px', marginBottom: '16px' }}>
@@ -19,8 +19,8 @@ export default function DataScienceInternship({ onOpenModal }) {
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 60px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Data Science Internship Program
           </h1>
-          <p style={{ maxWidth: '750px', margin: '0 auto 36px', fontSize: '17px', color: '#475569', lineHeight: 1.6 }}>
-            Immerse yourself in full-lifecycle data science. Clean raw datasets, train state-of-the-art predictive algorithms, and deploy live analytics solutions.
+          <p style={{ maxWidth: '750px', margin: '0 auto 36px', fontSize: '17px', color: '#94a3b8', lineHeight: 1.6 }}>
+            Immerse yourself in full-lifecycle data analytics. Clean raw datasets, train state-of-the-art predictive algorithms, and deploy live analytics dashboards.
           </p>
           <button
             type="button"

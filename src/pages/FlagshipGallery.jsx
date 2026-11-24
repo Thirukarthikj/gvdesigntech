@@ -18,7 +18,7 @@ export default function FlagshipGallery({ onOpenModal }) {
     : galleryItems.filter((item) => (item.category || '').toLowerCase() === selectedCategory);
 
   return (
-    <div className="gallery-page" style={{ minHeight: '100vh', background: '#f8fafc', color: '#fff', padding: '140px 24px 80px' }}>
+    <div className="gallery-page" style={{ minHeight: '100vh', background: '#04020a', color: '#fff', padding: '140px 24px 80px' }}>
       <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
@@ -28,7 +28,7 @@ export default function FlagshipGallery({ onOpenModal }) {
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #e879f9 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Capturing Every Milestone of Innovation
           </h1>
-          <p style={{ maxWidth: '720px', margin: '0 auto 32px', fontSize: '16.5px', color: '#475569', lineHeight: 1.6 }}>
+          <p style={{ maxWidth: '720px', margin: '0 auto 32px', fontSize: '16.5px', color: '#94a3b8', lineHeight: 1.6 }}>
             Highlighting internships, workshops, placements, hackathons, certifications, industrial visits, and student celebrations at GV DesignTech.
           </p>
 

@@ -33,13 +33,13 @@ export default function FlagshipPlacement({ onOpenModal }) {
   ];
 
   const stories = [
-    { name: 'Thiruvenkatesh', role: 'Data Scientist @ Top Analytics MNC', pkg: '7.2 LPA', quote: 'The real-world projects and mock interview simulations at GV DesignTech gave me the exact skills needed to clear all rounds in one attempt.' },
-    { name: 'Jeya Kutty', role: 'Full Stack Engineer @ Tech Startup', pkg: '6.5 LPA', quote: 'From zero coding background to deploying full stack Django applications — the mentors at GV DesignTech are exceptional.' },
-    { name: 'Revathi', role: 'ML Engineer @ Enterprise AI Lab', pkg: '7.0 LPA', quote: 'The deep learning curriculum with PyTorch and NLP was cutting-edge. I got 3 job offers within two months of graduation.' }
+    { name: 'Karthik Raja', role: 'Mechanical Design Engineer @ Automotive Tier-1', pkg: '7.2 LPA', quote: 'The SolidWorks 3D modeling and GD&T production drafting at GV DesignTech gave me the exact skills needed to clear all technical interview rounds.' },
+    { name: 'Praveen Kumar', role: 'BIM Modeler & Coordinator @ Infrastructure Firm', pkg: '6.8 LPA', quote: 'From 2D AutoCAD drafting to advanced 3D Revit architectural modeling and BIM clash detection — the practical guidance was outstanding.' },
+    { name: 'Suresh Babu', role: 'CNC CAM Engineer @ Precision Aerospace Tools', pkg: '6.5 LPA', quote: 'The MasterCAM multi-axis toolpath simulation and G-Code optimization workshops gave me immediate on-the-job confidence.' }
   ];
 
   return (
-    <div className={G.placementPage} style={{ minHeight: '100vh', background: '#f8fafc', color: '#fff', padding: '140px 24px 80px' }}>
+    <div className={G.placementPage} style={{ minHeight: '100vh', background: '#04020a', color: '#fff', padding: '140px 24px 80px' }}>
       <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
         {/* Hero */}
         <div style={{ textAlign: 'center', marginBottom: '64px' }}>
@@ -49,8 +49,8 @@ export default function FlagshipPlacement({ onOpenModal }) {
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 60px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Your Career Mission Starts Here
           </h1>
-          <p style={{ maxWidth: '740px', margin: '0 auto 36px', fontSize: '17px', color: '#475569', lineHeight: 1.6 }}>
-            Transform from student to industry-ready professional with GV DesignTech's comprehensive placement ecosystem, corporate hiring drives, and individualized mentoring.
+          <p style={{ maxWidth: '740px', margin: '0 auto 36px', fontSize: '17px', color: '#94a3b8', lineHeight: 1.6 }}>
+            Transform from student to industry-ready engineering professional with GV DesignTech's comprehensive placement ecosystem, corporate hiring drives, and individualized mentoring.
           </p>
 
           {/* Stats Grid */}
@@ -58,7 +58,7 @@ export default function FlagshipPlacement({ onOpenModal }) {
             {stats.map((s, idx) => (
               <div key={idx} style={{ padding: '20px', background: 'rgba(30, 22, 68, 0.6)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '16px', textAlign: 'center' }}>
                 <div style={{ fontSize: '32px', fontWeight: '800', color: '#22d3ee', marginBottom: '4px' }}>{s.target}</div>
-                <div style={{ fontSize: '13px', color: '#475569' }}>{s.label}</div>
+                <div style={{ fontSize: '13px', color: '#94a3b8' }}>{s.label}</div>
               </div>
             ))}
           </div>

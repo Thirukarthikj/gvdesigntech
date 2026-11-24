@@ -16,7 +16,7 @@ export default function FlagshipBlog() {
   const featured = blogPosts[0];
 
   return (
-    <div className={gC['blog-page']} style={{ minHeight: '100vh', background: '#f8fafc', color: '#fff', padding: '140px 24px 80px' }}>
+    <div className={gC['blog-page']} style={{ minHeight: '100vh', background: '#04020a', color: '#fff', padding: '140px 24px 80px' }}>
       <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
@@ -26,22 +26,22 @@ export default function FlagshipBlog() {
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Recent Articles &amp; Technical Insights
           </h1>
-          <p style={{ maxWidth: '680px', margin: '0 auto 32px', fontSize: '16.5px', color: '#475569', lineHeight: 1.6 }}>
-            Stay ahead with expert tutorials and industry trends on Full Stack, AI, Data Science, MERN, and Python — curated by GV DesignTech Experts.
+          <p style={{ maxWidth: '680px', margin: '0 auto 32px', fontSize: '16.5px', color: '#94a3b8', lineHeight: 1.6 }}>
+            Stay ahead with expert tutorials and industry trends on Mechanical CAD, Civil BIM, CNC Machining, and Modern Software Stacks — curated by GV DesignTech Experts.
           </p>
 
           {/* Search bar */}
           <div style={{ maxWidth: '480px', margin: '0 auto 28px', position: 'relative' }}>
             <input
               type="text"
-              placeholder="Search tutorials, languages, frameworks..."
+              placeholder="Search tutorials, software, engineering tools..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{
                 width: '100%',
                 padding: '14px 20px',
                 borderRadius: '12px',
-                background: '#ffffff',
+                background: 'rgba(255, 255, 255, 0.05)',
                 border: '1px solid rgba(139, 92, 246, 0.35)',
                 color: '#fff',
                 fontSize: '15px',

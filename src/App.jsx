@@ -43,7 +43,7 @@ export default function App() {
 
   // Automatically prompt EnrollModal on initial visit after intro completes smoothly
   useEffect(() => {
-    if (!sessionStorage.getItem('pybot_enrolled')) {
+    if (!sessionStorage.getItem('gv_enrolled')) {
       const timer = setTimeout(() => {
         setIsEnrollModalOpen(true);
       }, 5500);

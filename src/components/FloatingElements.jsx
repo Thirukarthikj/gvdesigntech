@@ -74,7 +74,7 @@ export default function FloatingElements() {
           </svg>
         </a>
         <a
-          href="https://www.facebook.com/pybotacademy/"
+          href="https://www.facebook.com/gvdesigntech/"
           target="_blank"
           rel="noopener noreferrer"
           className={sb.icon}
