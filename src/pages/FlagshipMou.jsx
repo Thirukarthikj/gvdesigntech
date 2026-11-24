@@ -149,6 +149,25 @@ export default function FlagshipMou({ onOpenModal }) {
                 e.currentTarget.style.boxShadow = 'none';
               }}
             >
+              {item.image && (
+                <div style={{
+                  width: '100%',
+                  height: '160px',
+                  borderRadius: '14px',
+                  overflow: 'hidden',
+                  background: '#090518',
+                  border: '1px solid rgba(139, 92, 246, 0.3)',
+                  marginBottom: '2px'
+                }}>
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    onError={(e) => { e.currentTarget.parentElement.style.display = 'none'; }}
+                  />
+                </div>
+              )}
+
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <span style={{ padding: '5px 14px', background: 'rgba(217, 70, 239, 0.15)', border: '1px solid rgba(217, 70, 239, 0.4)', borderRadius: '999px', fontSize: '12px', fontWeight: '700', color: '#f472b6' }}>
                   {item.tag || 'MOU Signed'}

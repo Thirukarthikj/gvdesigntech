@@ -14,8 +14,16 @@ export default function AdminMouManager() {
     name: '',
     detail: 'Academic Curriculum Collaboration & Placement Drives',
     tag: 'Placement',
-    date: new Date().getFullYear().toString()
+    date: new Date().getFullYear().toString(),
+    image: ''
   });
+
+  const photoPresets = [
+    { label: 'Campus Seminar', path: '/assets/gallery/gallery-02.jpg' },
+    { label: 'CAD Lab Training', path: '/assets/gallery/gallery-01.jpg' },
+    { label: 'Classroom Batch', path: '/assets/gallery/gallery-04.jpg' },
+    { label: 'Industry Review', path: '/assets/gallery/gallery-06.jpg' }
+  ];
 
   const showNotification = (msg) => {
     setToast(msg);
@@ -28,7 +36,8 @@ export default function AdminMouManager() {
       name: '',
       detail: 'Academic Curriculum Collaboration & Placement Drives',
       tag: 'Placement',
-      date: new Date().getFullYear().toString()
+      date: new Date().getFullYear().toString(),
+      image: ''
     });
     setIsModalOpen(true);
   };
@@ -39,9 +48,27 @@ export default function AdminMouManager() {
       name: item.name || '',
       detail: item.detail || '',
       tag: item.tag || 'Placement',
-      date: item.date || new Date().getFullYear().toString()
+      date: item.date || new Date().getFullYear().toString(),
+      image: item.image || ''
     });
     setIsModalOpen(true);
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file (JPG, PNG, WebP).');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (uploadEvent) => {
+      const base64Url = uploadEvent.target.result;
+      setFormData(prev => ({ ...prev, image: base64Url }));
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleDelete = (id, name) => {
@@ -194,7 +221,49 @@ export default function AdminMouManager() {
                 filtered.map((item, idx) => (
                   <tr key={item.id || idx}>
                     <td style={{ fontWeight: '700', color: '#fff', minWidth: '220px' }}>
-                      {item.name}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        {item.image ? (
+                          <div style={{
+                            width: '44px',
+                            height: '44px',
+                            borderRadius: '10px',
+                            overflow: 'hidden',
+                            background: '#090518',
+                            border: '1px solid rgba(139, 92, 246, 0.4)',
+                            flexShrink: 0
+                          }}>
+                            <img
+                              src={item.image}
+                              alt=""
+                              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                              onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                            />
+                          </div>
+                        ) : (
+                          <div style={{
+                            width: '44px',
+                            height: '44px',
+                            borderRadius: '10px',
+                            background: 'rgba(139, 92, 246, 0.12)',
+                            border: '1px solid rgba(139, 92, 246, 0.3)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '20px',
+                            flexShrink: 0
+                          }}>
+                            🏛️
+                          </div>
+                        )}
+                        <div>
+                          <div>{item.name}</div>
+                          {item.image && (
+                            <span style={{ fontSize: '11px', color: '#38bdf8', fontWeight: '500' }}>
+                              📷 Image attached
+                            </span>
+                          )}
+                        </div>
+                      </div>
                     </td>
                     <td style={{ color: '#cbd5e1', maxWidth: '360px' }}>
                       {item.detail}
@@ -277,7 +346,9 @@ export default function AdminMouManager() {
             border: '1px solid rgba(139, 92, 246, 0.4)',
             borderRadius: '20px',
             width: '100%',
-            maxWidth: '560px',
+            maxWidth: '580px',
+            maxHeight: '90vh',
+            overflowY: 'auto',
             padding: '32px',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)'
           }}>
@@ -390,6 +461,135 @@ export default function AdminMouManager() {
                     }}
                   />
                 </div>
+              </div>
+
+              {/* Institution / Event Image Section */}
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(139, 92, 246, 0.25)',
+                borderRadius: '14px',
+                padding: '16px'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <label style={{ fontSize: '13px', fontWeight: '700', color: '#c084fc', margin: 0 }}>
+                    📷 Institution / MOU Signing Photo or Logo
+                  </label>
+                  {formData.image && (
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, image: '' })}
+                      style={{
+                        background: 'transparent',
+                        border: 'none',
+                        color: '#f87171',
+                        fontSize: '12px',
+                        cursor: 'pointer',
+                        fontWeight: '600'
+                      }}
+                    >
+                      ✕ Remove Photo
+                    </button>
+                  )}
+                </div>
+
+                {/* File Upload from PC */}
+                <div style={{ marginBottom: '12px' }}>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>
+                    Upload Photo from Computer:
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileUpload}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      borderRadius: '8px',
+                      background: 'rgba(255, 255, 255, 0.04)',
+                      border: '1px dashed rgba(139, 92, 246, 0.4)',
+                      color: '#cbd5e1',
+                      fontSize: '12px',
+                      cursor: 'pointer'
+                    }}
+                  />
+                </div>
+
+                {/* Presets */}
+                <div style={{ marginBottom: '12px' }}>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>
+                    Or Choose Campus Preset:
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
+                    {photoPresets.map((preset, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, image: preset.path })}
+                        style={{
+                          padding: '7px 10px',
+                          borderRadius: '8px',
+                          border: '1px solid',
+                          borderColor: formData.image === preset.path ? '#d946ef' : 'rgba(255,255,255,0.1)',
+                          background: formData.image === preset.path ? 'rgba(217, 70, 239, 0.2)' : 'rgba(255,255,255,0.03)',
+                          color: formData.image === preset.path ? '#fff' : '#94a3b8',
+                          fontSize: '12px',
+                          cursor: 'pointer',
+                          textAlign: 'center'
+                        }}
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Direct URL input */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>
+                    Or enter image path / URL:
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. /assets/gallery/gallery-02.jpg or https://..."
+                    value={formData.image}
+                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                    style={{
+                      width: '100%',
+                      padding: '10px 14px',
+                      borderRadius: '8px',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(139, 92, 246, 0.3)',
+                      color: '#fff',
+                      fontSize: '13px',
+                      outline: 'none'
+                    }}
+                  />
+                </div>
+
+                {/* Live Preview */}
+                {formData.image && (
+                  <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+                    <div style={{
+                      width: '100px',
+                      height: '65px',
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                      background: '#0a0618',
+                      border: '1px solid rgba(217, 70, 239, 0.4)',
+                      flexShrink: 0
+                    }}>
+                      <img
+                        src={formData.image}
+                        alt="MOU Preview"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                      />
+                    </div>
+                    <span style={{ fontSize: '12px', color: '#4ade80' }}>
+                      ✓ Image attached and will appear on the public MOU card!
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '12px' }}>
