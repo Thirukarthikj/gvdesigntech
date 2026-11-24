@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
@@ -25,8 +25,6 @@ import MachineLearningInternship from './pages/MachineLearningInternship.jsx';
 import CertificateVerification from './pages/CertificateVerification.jsx';
 import ContactUs from './pages/ContactUs.jsx';
 import SkillTest from './pages/SkillTest.jsx';
-import Login from './pages/Login.jsx';
-import Register from './pages/Register.jsx';
 import ShowcaseVideo from './pages/ShowcaseVideo.jsx';
 
 export default function App() {
@@ -36,8 +34,6 @@ export default function App() {
 
   const isAuthOrAdmin =
     location.pathname.startsWith('/admin') ||
-    location.pathname === '/Login' ||
-    location.pathname === '/Register' ||
     location.pathname === '/dashboard' ||
     location.pathname === '/verify-otp';
 
@@ -98,9 +94,11 @@ export default function App() {
         <Route path="/showcase-video" element={<ShowcaseVideo />} />
         <Route path="/Pybot-video" element={<ShowcaseVideo />} />
 
-        {/* Auth */}
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
+        {/* Redirect removed auth routes to Home */}
+        <Route path="/Login" element={<Navigate to="/" replace />} />
+        <Route path="/login" element={<Navigate to="/" replace />} />
+        <Route path="/Register" element={<Navigate to="/" replace />} />
+        <Route path="/register" element={<Navigate to="/" replace />} />
 
         {/* Fallback */}
         <Route path="*" element={<Home onOpenModal={openModal} />} />

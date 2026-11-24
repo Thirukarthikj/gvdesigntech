@@ -112,7 +112,7 @@ export default function EnrollModal({ isOpen, onClose }) {
                 <div className={s['em-input-wrap']}>
                   <input
                     className={s['em-input']}
-                    placeholder="Gokul Prasath"
+                    placeholder="Enter first name"
                     required
                     type="text"
                     name="firstName"
@@ -127,7 +127,7 @@ export default function EnrollModal({ isOpen, onClose }) {
                 <div className={s['em-input-wrap']}>
                   <input
                     className={s['em-input']}
-                    placeholder="Doe"
+                    placeholder="Enter last name"
                     required
                     type="text"
                     name="lastName"
@@ -144,7 +144,7 @@ export default function EnrollModal({ isOpen, onClose }) {
               <div className={s['em-input-wrap']}>
                 <input
                   className={s['em-input']}
-                  placeholder="gokul@example.com"
+                  placeholder="name@example.com"
                   required
                   type="email"
                   name="email"
@@ -185,12 +185,14 @@ export default function EnrollModal({ isOpen, onClose }) {
                   onChange={handleChange}
                 >
                   <option value="">Choose your program…</option>
-                  <option value="Python for Beginners">Python for Beginners</option>
-                  <option value="Machine Learning">Machine Learning</option>
-                  <option value="Deep Learning">Deep Learning</option>
-                  <option value="Artificial Intelligence">Artificial Intelligence</option>
-                  <option value="Data Science">Data Science</option>
-                  <option value="Full Stack Development">Full Stack Development</option>
+                  <option value="Mechanical & Automobile CAD">Mechanical &amp; Automobile CAD</option>
+                  <option value="Civil Engineering & BIM">Civil Engineering &amp; BIM</option>
+                  <option value="CNC Programming & CAM">CNC Programming &amp; CAM</option>
+                  <option value="Computer Science & IT">Computer Science &amp; IT</option>
+                  <option value="EEE / Instrumentation">EEE / Instrumentation</option>
+                  <option value="ECE Design">ECE Design</option>
+                  <option value="Piping (Oil & Gas)">Piping (Oil &amp; Gas)</option>
+                  <option value="Engineering Internship">Engineering Internship</option>
                 </select>
                 <div className={s['em-select-arrow']}>
                   <svg viewBox="0 0 12 8" fill="none">
