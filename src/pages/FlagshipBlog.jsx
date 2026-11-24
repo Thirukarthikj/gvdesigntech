@@ -1,19 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { blogStyles as gC } from '../data/styles.js';
-import { blogCategories, blogPosts } from '../data/blogs.js';
+import { blogCategories } from '../data/blogs.js';
+import { getStoredBlogs } from '../data/contentPersistence.js';
 
 export default function FlagshipBlog() {
+  const [blogList, setBlogList] = useState(() => getStoredBlogs());
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeArticle, setActiveArticle] = useState(null);
 
-  const filtered = blogPosts.filter((b) => {
+  useEffect(() => {
+    const handleUpdate = () => {
+      setBlogList(getStoredBlogs());
+    };
+    window.addEventListener('gv_content_updated', handleUpdate);
+    return () => window.removeEventListener('gv_content_updated', handleUpdate);
+  }, []);
+
+  const filtered = blogList.filter((b) => {
     const matchesCategory = selectedCategory === 'All' || b.category === selectedCategory;
     const matchesSearch = !searchQuery || b.title.toLowerCase().includes(searchQuery.toLowerCase()) || (b.category || '').toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
-  const featured = blogPosts[0];
+  const featured = blogList[0];
 
   return (
     <div className={gC['blog-page']} style={{ minHeight: '100vh', background: '#04020a', color: '#fff', padding: '140px 24px 80px' }}>

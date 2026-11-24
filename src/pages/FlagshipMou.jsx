@@ -1,9 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { mouStyles as yb } from '../data/styles.js';
-import { mouList } from '../data/mous.js';
+import { getStoredMous } from '../data/contentPersistence.js';
 
 export default function FlagshipMou({ onOpenModal }) {
+  const [mous, setMous] = useState(() => getStoredMous());
   const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const handleUpdate = () => setMous(getStoredMous());
+    window.addEventListener('gv_content_updated', handleUpdate);
+    return () => window.removeEventListener('gv_content_updated', handleUpdate);
+  }, []);
 
   // High-tech partnership node canvas
   useEffect(() => {
@@ -117,7 +124,7 @@ export default function FlagshipMou({ onOpenModal }) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '24px' }}>
-          {mouList.map((item, idx) => (
+          {mous.map((item, idx) => (
             <div
               key={idx}
               style={{

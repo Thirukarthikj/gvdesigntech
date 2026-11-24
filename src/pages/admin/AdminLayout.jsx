@@ -30,13 +30,32 @@ export default function AdminLayout() {
     navigate('/admin/login', { replace: true });
   };
 
-  const navItems = [
-    { to: '/admin/dashboard', icon: '📊', label: 'Overview' },
-    { to: '/admin/enrollments', icon: '📝', label: 'Inquiries & Leads' },
-    { to: '/admin/courses', icon: '🎓', label: 'Courses & Batches' },
-    { to: '/admin/internships', icon: '💼', label: 'Internship Applicants' },
-    { to: '/admin/partners', icon: '🤝', label: 'MOU & Placements' },
-    { to: '/admin/settings', icon: '⚙️', label: 'Settings' }
+  const navSections = [
+    {
+      title: 'OPERATIONS',
+      items: [
+        { to: '/admin/dashboard', icon: '📊', label: 'Overview' },
+        { to: '/admin/enrollments', icon: '📝', label: 'Inquiries & Leads' },
+        { to: '/admin/courses', icon: '🎓', label: 'Courses & Batches' },
+        { to: '/admin/internships', icon: '💼', label: 'Internship Applicants' }
+      ]
+    },
+    {
+      title: 'CONTENT & PAGES',
+      items: [
+        { to: '/admin/content-mou', icon: '🏛️', label: 'Manage MOUs' },
+        { to: '/admin/content-gallery', icon: '📸', label: 'Manage Gallery' },
+        { to: '/admin/content-placement', icon: '🎯', label: 'Manage Placements' },
+        { to: '/admin/content-blog', icon: '📰', label: 'Manage Blogs' },
+        { to: '/admin/content-certificates', icon: '📜', label: 'Certificate Registry' }
+      ]
+    },
+    {
+      title: 'SYSTEM',
+      items: [
+        { to: '/admin/settings', icon: '⚙️', label: 'Portal Settings' }
+      ]
+    }
   ];
 
   const getPageTitle = () => {
@@ -44,7 +63,11 @@ export default function AdminLayout() {
     if (path.includes('enrollments')) return 'Student Inquiries & Admissions';
     if (path.includes('courses')) return 'Course Cohorts & Batch Management';
     if (path.includes('internships')) return 'Internship Applications';
-    if (path.includes('partners')) return 'MOU & Placement Corporate Partners';
+    if (path.includes('content-mou') || path.includes('partners')) return 'MOU & Institutional Partnerships';
+    if (path.includes('content-gallery')) return 'Campus Gallery & Infrastructure Photos';
+    if (path.includes('content-placement')) return 'Placements, Hiring Partners & Student Stories';
+    if (path.includes('content-blog')) return 'Technical Articles & Knowledge Insights';
+    if (path.includes('content-certificates')) return 'Official Certificate Registry & Validation';
     if (path.includes('settings')) return 'Portal Administration & Settings';
     return 'Executive CAD Operations Dashboard';
   };
@@ -64,16 +87,30 @@ export default function AdminLayout() {
         </div>
 
         <nav className="admin-nav">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}
-              onClick={() => setSidebarOpen(false)}
-            >
-              <span className="admin-nav-icon">{item.icon}</span>
-              <span>{item.label}</span>
-            </NavLink>
+          {navSections.map((sec, secIdx) => (
+            <div key={secIdx} style={{ marginBottom: '16px' }}>
+              <div style={{
+                fontSize: '11px',
+                fontWeight: '800',
+                letterSpacing: '1px',
+                color: '#64748b',
+                padding: '0 16px',
+                marginBottom: '8px'
+              }}>
+                {sec.title}
+              </div>
+              {sec.items.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <span className="admin-nav-icon">{item.icon}</span>
+                  <span>{item.label}</span>
+                </NavLink>
+              ))}
+            </div>
           ))}
         </nav>
 

@@ -1,68 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { certStyles as q } from '../data/styles.js';
+import { getStoredCertificates } from '../data/contentPersistence.js';
 
 export default function CertificateVerification() {
   const [certId, setCertId] = useState('');
   const [result, setResult] = useState(null);
   const [searched, setSearched] = useState(false);
+  const [certificates, setCertificates] = useState(() => getStoredCertificates());
 
-  const mockDatabase = {
-    'GV-CAD-2024-105': {
-      name: 'Karthik Raja',
-      course: 'Master Diploma in Mechanical CAD & FEA Simulation',
-      completionDate: '15 November 2026',
-      grade: 'Distinction (A+)',
-      status: 'VERIFIED AUTHENTIC',
-      issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
-    },
-    'GV-BIM-2024-204': {
-      name: 'Praveen Kumar',
-      course: 'Civil CADD & Structural BIM Architecture',
-      completionDate: '20 November 2026',
-      grade: 'Distinction (A+)',
-      status: 'VERIFIED AUTHENTIC',
-      issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
-    },
-    'GV-CNC-2024-301': {
-      name: 'Suresh Babu',
-      course: 'CNC Programming & MasterCAM Precision Machining',
-      completionDate: '18 November 2026',
-      grade: 'Distinction (A+)',
-      status: 'VERIFIED AUTHENTIC',
-      issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
-    },
-    'GV-AI-2024-001': {
-      name: 'Arun Kumar',
-      course: 'Artificial Intelligence & Deep Learning Master Track',
-      completionDate: '14 August 2026',
-      grade: 'Distinction (A+)',
-      status: 'VERIFIED AUTHENTIC',
-      issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
-    },
-    'GV-DS-2024-042': {
-      name: 'Sanjana Priya',
-      course: 'Advanced Data Science & MLOps Certification',
-      completionDate: '28 September 2026',
-      grade: 'Distinction (A+)',
-      status: 'VERIFIED AUTHENTIC',
-      issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
-    },
-    'GV-FS-2024-118': {
-      name: 'Vignesh Kumar',
-      course: 'Python Full Stack Web Developer Track',
-      completionDate: '10 October 2026',
-      grade: 'First Class (A)',
-      status: 'VERIFIED AUTHENTIC',
-      issuedBy: 'GV DesignTech, Oddanchatram, Tamil Nadu'
-    }
-  };
+  useEffect(() => {
+    const handleUpdate = () => {
+      setCertificates(getStoredCertificates());
+    };
+    window.addEventListener('gv_content_updated', handleUpdate);
+    return () => window.removeEventListener('gv_content_updated', handleUpdate);
+  }, []);
 
   const handleVerify = (e) => {
     e.preventDefault();
     setSearched(true);
     const key = certId.trim().toUpperCase();
-    if (mockDatabase[key]) {
-      setResult(mockDatabase[key]);
+    if (certificates[key]) {
+      setResult(certificates[key]);
     } else if (certId.trim().length > 3) {
       // Demo fallback verification
       setResult({

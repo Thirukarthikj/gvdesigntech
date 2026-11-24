@@ -123,36 +123,52 @@ export default function AdminDashboard() {
             </h3>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
             <Link to="/admin/enrollments" style={{ textDecoration: 'none' }}>
-              <div style={{ padding: '16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '14px', textAlign: 'center', transition: 'all 0.2s', cursor: 'pointer' }}>
-                <div style={{ fontSize: '24px', marginBottom: '8px' }}>📋</div>
-                <div style={{ fontSize: '13.5px', fontWeight: '700', color: '#fff' }}>Review Leads</div>
-                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>View recent inquiries</div>
+              <div style={{ padding: '14px 10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '14px', textAlign: 'center', transition: 'all 0.2s', cursor: 'pointer' }}>
+                <div style={{ fontSize: '22px', marginBottom: '6px' }}>📋</div>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>Leads &amp; Inquiries</div>
+                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>Review leads</div>
               </div>
             </Link>
 
-            <Link to="/admin/courses" style={{ textDecoration: 'none' }}>
-              <div style={{ padding: '16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '14px', textAlign: 'center', transition: 'all 0.2s', cursor: 'pointer' }}>
-                <div style={{ fontSize: '24px', marginBottom: '8px' }}>🗓️</div>
-                <div style={{ fontSize: '13.5px', fontWeight: '700', color: '#fff' }}>Course Batches</div>
-                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>Manage seat quotas</div>
+            <Link to="/admin/content-mou" style={{ textDecoration: 'none' }}>
+              <div style={{ padding: '14px 10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '14px', textAlign: 'center', transition: 'all 0.2s', cursor: 'pointer' }}>
+                <div style={{ fontSize: '22px', marginBottom: '6px' }}>🏛️</div>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>Manage MOUs</div>
+                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>Institutional ties</div>
               </div>
             </Link>
 
-            <Link to="/admin/internships" style={{ textDecoration: 'none' }}>
-              <div style={{ padding: '16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '14px', textAlign: 'center', transition: 'all 0.2s', cursor: 'pointer' }}>
-                <div style={{ fontSize: '24px', marginBottom: '8px' }}>💼</div>
-                <div style={{ fontSize: '13.5px', fontWeight: '700', color: '#fff' }}>Intern Applicants</div>
-                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>Shortlist candidates</div>
+            <Link to="/admin/content-gallery" style={{ textDecoration: 'none' }}>
+              <div style={{ padding: '14px 10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '14px', textAlign: 'center', transition: 'all 0.2s', cursor: 'pointer' }}>
+                <div style={{ fontSize: '22px', marginBottom: '6px' }}>📸</div>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>Edit Gallery</div>
+                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>Campus photos</div>
               </div>
             </Link>
 
-            <Link to="/admin/partners" style={{ textDecoration: 'none' }}>
-              <div style={{ padding: '16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '14px', textAlign: 'center', transition: 'all 0.2s', cursor: 'pointer' }}>
-                <div style={{ fontSize: '24px', marginBottom: '8px' }}>🤝</div>
-                <div style={{ fontSize: '13.5px', fontWeight: '700', color: '#fff' }}>College MOUs</div>
-                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>View institutional ties</div>
+            <Link to="/admin/content-placement" style={{ textDecoration: 'none' }}>
+              <div style={{ padding: '14px 10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '14px', textAlign: 'center', transition: 'all 0.2s', cursor: 'pointer' }}>
+                <div style={{ fontSize: '22px', marginBottom: '6px' }}>🎯</div>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>Placements</div>
+                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>Stats &amp; Stories</div>
+              </div>
+            </Link>
+
+            <Link to="/admin/content-blog" style={{ textDecoration: 'none' }}>
+              <div style={{ padding: '14px 10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '14px', textAlign: 'center', transition: 'all 0.2s', cursor: 'pointer' }}>
+                <div style={{ fontSize: '22px', marginBottom: '6px' }}>📰</div>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>Publish Blogs</div>
+                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>Tech articles</div>
+              </div>
+            </Link>
+
+            <Link to="/admin/content-certificates" style={{ textDecoration: 'none' }}>
+              <div style={{ padding: '14px 10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '14px', textAlign: 'center', transition: 'all 0.2s', cursor: 'pointer' }}>
+                <div style={{ fontSize: '22px', marginBottom: '6px' }}>📜</div>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>Certificates</div>
+                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>Issue &amp; verify</div>
               </div>
             </Link>
           </div>

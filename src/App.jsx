@@ -40,6 +40,11 @@ import AdminCourses from './pages/admin/AdminCourses.jsx';
 import AdminInternships from './pages/admin/AdminInternships.jsx';
 import AdminPartners from './pages/admin/AdminPartners.jsx';
 import AdminSettings from './pages/admin/AdminSettings.jsx';
+import AdminMouManager from './pages/admin/AdminMouManager.jsx';
+import AdminGalleryManager from './pages/admin/AdminGalleryManager.jsx';
+import AdminPlacementManager from './pages/admin/AdminPlacementManager.jsx';
+import AdminBlogManager from './pages/admin/AdminBlogManager.jsx';
+import AdminCertificateManager from './pages/admin/AdminCertificateManager.jsx';
 
 export default function App() {
   const [showIntro, setShowIntro] = useState(true);
@@ -132,7 +137,12 @@ export default function App() {
           <Route path="enrollments" element={<AdminEnrollments />} />
           <Route path="courses" element={<AdminCourses />} />
           <Route path="internships" element={<AdminInternships />} />
-          <Route path="partners" element={<AdminPartners />} />
+          <Route path="partners" element={<AdminMouManager />} />
+          <Route path="content-mou" element={<AdminMouManager />} />
+          <Route path="content-gallery" element={<AdminGalleryManager />} />
+          <Route path="content-placement" element={<AdminPlacementManager />} />
+          <Route path="content-blog" element={<AdminBlogManager />} />
+          <Route path="content-certificates" element={<AdminCertificateManager />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
 

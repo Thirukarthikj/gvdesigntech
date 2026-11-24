@@ -1,42 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { placementStyles as G } from '../data/styles.js';
+import { getStoredPlacements } from '../data/contentPersistence.js';
 
 export default function FlagshipPlacement({ onOpenModal }) {
   const [activeTab, setActiveTab] = useState(0);
+  const [placementData, setPlacementData] = useState(() => getStoredPlacements());
 
-  const stats = [
-    { target: '500+', label: 'Students Placed' },
-    { target: '150+', label: 'Hiring Partners' },
-    { target: '98%', label: 'Placement Rate' },
-    { target: '₹7.5L', label: 'Highest Package' },
-    { target: '₹5.2L', label: 'Average Package' }
-  ];
+  useEffect(() => {
+    const handleUpdate = () => {
+      setPlacementData(getStoredPlacements());
+    };
+    window.addEventListener('gv_content_updated', handleUpdate);
+    return () => window.removeEventListener('gv_content_updated', handleUpdate);
+  }, []);
 
-  const steps = [
-    { title: 'Explore', desc: 'Assess strengths, choose target technology tracks, and define personal career goals.' },
-    { title: 'Prepare', desc: 'Build foundational and advanced domain expertise through live laboratory projects.' },
-    { title: 'Practice', desc: 'Simulate coding tests, system architecture interviews, and behavioral HR rounds.' },
-    { title: 'Interview', desc: 'Direct referral pipelines to 150+ corporate partners and MNC recruitment drives.' },
-    { title: 'Get Hired', desc: 'Negotiate offers with confidence and onboard smoothly into junior to senior roles.' }
-  ];
-
-  const pillars = [
-    { title: 'Resume Building', desc: 'Transform academic projects into professional impact-driven achievements.' },
-    { title: 'Mock Interviews', desc: 'Real-time 1-on-1 simulations with senior engineers from top MNCs.' },
-    { title: 'Aptitude Training', desc: 'Quantitative problem solving, pattern deduction, and logical reasoning.' },
-    { title: 'Communication Coaching', desc: 'Master executive presence, client presentations, and technical storytelling.' },
-    { title: 'Technical Training', desc: 'In-depth algorithms, data structures, full stack frameworks, and AI.' },
-    { title: 'HR Preparation', desc: 'Master cultural fitment, compensation discussions, and situational answers.' },
-    { title: 'LinkedIn Optimization', desc: 'Boost inbound recruiter reach with tailored profile keywords.' },
-    { title: 'Portfolio Building', desc: 'Deploy live projects with clean documentation, GitHub repos, and demo URLs.' },
-    { title: 'ATS Optimization', desc: 'Format resumes to bypass automated screening filters with 90%+ match scores.' }
-  ];
-
-  const stories = [
-    { name: 'Karthik Raja', role: 'Mechanical Design Engineer @ Automotive Tier-1', pkg: '7.2 LPA', quote: 'The SolidWorks 3D modeling and GD&T production drafting at GV DesignTech gave me the exact skills needed to clear all technical interview rounds.' },
-    { name: 'Praveen Kumar', role: 'BIM Modeler & Coordinator @ Infrastructure Firm', pkg: '6.8 LPA', quote: 'From 2D AutoCAD drafting to advanced 3D Revit architectural modeling and BIM clash detection — the practical guidance was outstanding.' },
-    { name: 'Suresh Babu', role: 'CNC CAM Engineer @ Precision Aerospace Tools', pkg: '6.5 LPA', quote: 'The MasterCAM multi-axis toolpath simulation and G-Code optimization workshops gave me immediate on-the-job confidence.' }
-  ];
+  const stats = placementData.stats || [];
+  const stories = placementData.stories || [];
 
   return (
     <div className={G.placementPage} style={{ minHeight: '100vh', background: '#04020a', color: '#fff', padding: '140px 24px 80px' }}>

@@ -1,0 +1,425 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { getStoredMous, saveStoredMous } from '../../data/contentPersistence.js';
+
+export default function AdminMouManager() {
+  const [mous, setMous] = useState(() => getStoredMous());
+  const [search, setSearch] = useState('');
+  const [filterTag, setFilterTag] = useState('all');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
+  const [toast, setToast] = useState('');
+
+  const [formData, setFormData] = useState({
+    name: '',
+    detail: 'Academic Curriculum Collaboration & Placement Drives',
+    tag: 'Placement',
+    date: new Date().getFullYear().toString()
+  });
+
+  const showNotification = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(''), 3000);
+  };
+
+  const handleOpenAdd = () => {
+    setEditingItem(null);
+    setFormData({
+      name: '',
+      detail: 'Academic Curriculum Collaboration & Placement Drives',
+      tag: 'Placement',
+      date: new Date().getFullYear().toString()
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleOpenEdit = (item) => {
+    setEditingItem(item);
+    setFormData({
+      name: item.name || '',
+      detail: item.detail || '',
+      tag: item.tag || 'Placement',
+      date: item.date || new Date().getFullYear().toString()
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Are you sure you want to delete the MOU for "${name}"?`)) {
+      const updated = mous.filter(m => (m.id !== id && m.name !== name));
+      setMous(updated);
+      saveStoredMous(updated);
+      showNotification(`Deleted MOU for "${name}"`);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.name.trim()) return;
+
+    if (editingItem) {
+      const updated = mous.map(m => {
+        if ((editingItem.id && m.id === editingItem.id) || (!editingItem.id && m.name === editingItem.name)) {
+          return { ...m, ...formData };
+        }
+        return m;
+      });
+      setMous(updated);
+      saveStoredMous(updated);
+      showNotification(`Updated MOU for "${formData.name}"`);
+    } else {
+      const newItem = {
+        id: Date.now(),
+        ...formData
+      };
+      const updated = [newItem, ...mous];
+      setMous(updated);
+      saveStoredMous(updated);
+      showNotification(`Added new MOU for "${formData.name}"`);
+    }
+
+    setIsModalOpen(false);
+  };
+
+  const filtered = mous.filter(m => {
+    const matchesSearch = (m.name || '').toLowerCase().includes(search.toLowerCase()) ||
+                          (m.detail || '').toLowerCase().includes(search.toLowerCase());
+    const matchesTag = filterTag === 'all' || (m.tag || '').toLowerCase() === filterTag.toLowerCase();
+    return matchesSearch && matchesTag;
+  });
+
+  return (
+    <div>
+      {toast && (
+        <div style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          background: 'linear-gradient(135deg, #10b981, #059669)',
+          color: '#fff',
+          padding: '12px 24px',
+          borderRadius: '12px',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+          zIndex: 9999,
+          fontWeight: '600',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
+        }}>
+          <span>✅</span>
+          <span>{toast}</span>
+        </div>
+      )}
+
+      {/* Top Action Bar */}
+      <div className="admin-toolbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', marginBottom: '24px' }}>
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', flex: 1, minWidth: '280px' }}>
+          <input
+            type="text"
+            className="admin-search-input"
+            placeholder="🔍 Search college, university, scope..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+
+          <select
+            className="admin-select"
+            value={filterTag}
+            onChange={(e) => setFilterTag(e.target.value)}
+          >
+            <option value="all">All MOU Scopes</option>
+            <option value="Placement">Placement Drives</option>
+            <option value="Internship">Internship Collaboration</option>
+            <option value="Training">Industrial Training</option>
+            <option value="Skills">Skill Development</option>
+            <option value="Collaboration">Workshops & Seminars</option>
+          </select>
+        </div>
+
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <Link
+            to="/flagship/mou"
+            target="_blank"
+            className="admin-btn-secondary"
+            style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}
+          >
+            <span>👁️ View Public MOU Page</span>
+          </Link>
+          <button
+            type="button"
+            onClick={handleOpenAdd}
+            className="admin-btn-primary"
+          >
+            + Add New MOU Partnership
+          </button>
+        </div>
+      </div>
+
+      {/* Main Table Card */}
+      <div className="admin-card">
+        <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <h3 className="admin-card-title">
+              <span>🏛️</span>
+              <span>Signed Institutional MOUs ({filtered.length} Active Records)</span>
+            </h3>
+            <p style={{ margin: '4px 0 0', fontSize: '13px', color: '#94a3b8' }}>
+              Changes made here update the public <strong style={{ color: '#c084fc' }}>/flagship/mou</strong> page immediately.
+            </p>
+          </div>
+          <span style={{ fontSize: '12px', background: 'rgba(34, 197, 94, 0.15)', color: '#4ade80', padding: '4px 12px', borderRadius: '999px', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
+            ● Live Sync Enabled
+          </span>
+        </div>
+
+        <div className="admin-table-wrap">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>College / Institution</th>
+                <th>Partnership Scope / Objectives</th>
+                <th>Category Tag</th>
+                <th>Validity / Year</th>
+                <th style={{ textAlign: 'right' }}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.length === 0 ? (
+                <tr>
+                  <td colSpan="5" style={{ textAlign: 'center', padding: '40px', color: '#64748b' }}>
+                    No institutional MOUs matched your query.
+                  </td>
+                </tr>
+              ) : (
+                filtered.map((item, idx) => (
+                  <tr key={item.id || idx}>
+                    <td style={{ fontWeight: '700', color: '#fff', minWidth: '220px' }}>
+                      {item.name}
+                    </td>
+                    <td style={{ color: '#cbd5e1', maxWidth: '360px' }}>
+                      {item.detail}
+                    </td>
+                    <td>
+                      <span style={{
+                        padding: '4px 10px',
+                        borderRadius: '999px',
+                        background: 'rgba(217, 70, 239, 0.15)',
+                        border: '1px solid rgba(217, 70, 239, 0.4)',
+                        color: '#f472b6',
+                        fontSize: '12px',
+                        fontWeight: '700'
+                      }}>
+                        {item.tag || 'Academic'}
+                      </span>
+                    </td>
+                    <td style={{ color: '#38bdf8', fontWeight: '600' }}>
+                      {item.date || 'Active'}
+                    </td>
+                    <td style={{ textAlign: 'right' }}>
+                      <div style={{ display: 'inline-flex', gap: '8px' }}>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenEdit(item)}
+                          style={{
+                            background: 'rgba(139, 92, 246, 0.15)',
+                            border: '1px solid rgba(139, 92, 246, 0.4)',
+                            color: '#c084fc',
+                            padding: '6px 12px',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            fontSize: '12px',
+                            fontWeight: '600'
+                          }}
+                        >
+                          ✏️ Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(item.id, item.name)}
+                          style={{
+                            background: 'rgba(239, 68, 68, 0.15)',
+                            border: '1px solid rgba(239, 68, 68, 0.4)',
+                            color: '#f87171',
+                            padding: '6px 12px',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            fontSize: '12px',
+                            fontWeight: '600'
+                          }}
+                        >
+                          🗑️ Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Add / Edit Modal */}
+      {isModalOpen && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(4, 2, 10, 0.85)',
+          backdropFilter: 'blur(8px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px',
+          zIndex: 9999
+        }}>
+          <div style={{
+            background: 'linear-gradient(160deg, #181136, #090518)',
+            border: '1px solid rgba(139, 92, 246, 0.4)',
+            borderRadius: '20px',
+            width: '100%',
+            maxWidth: '560px',
+            padding: '32px',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+              <h3 style={{ fontSize: '20px', fontWeight: '800', color: '#fff', margin: 0 }}>
+                {editingItem ? '✏️ Edit Institutional MOU' : '🏛️ Add New Institutional Partner MOU'}
+              </h3>
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                style={{ background: 'transparent', border: 'none', color: '#94a3b8', fontSize: '22px', cursor: 'pointer' }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#cbd5e1', marginBottom: '6px' }}>
+                  College or Institution Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Government College of Engineering, Salem"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px',
+                    borderRadius: '10px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(139, 92, 246, 0.3)',
+                    color: '#fff',
+                    fontSize: '14px',
+                    outline: 'none'
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#cbd5e1', marginBottom: '6px' }}>
+                  Partnership Scope & Objectives *
+                </label>
+                <textarea
+                  rows="3"
+                  required
+                  placeholder="e.g. Mechanical CAD Lab Setup, Campus Placement Drives & Joint Summer Internships"
+                  value={formData.detail}
+                  onChange={(e) => setFormData({ ...formData, detail: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px',
+                    borderRadius: '10px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(139, 92, 246, 0.3)',
+                    color: '#fff',
+                    fontSize: '14px',
+                    outline: 'none',
+                    resize: 'vertical'
+                  }}
+                />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#cbd5e1', marginBottom: '6px' }}>
+                    Category Tag
+                  </label>
+                  <select
+                    value={formData.tag}
+                    onChange={(e) => setFormData({ ...formData, tag: e.target.value })}
+                    style={{
+                      width: '100%',
+                      padding: '12px 14px',
+                      borderRadius: '10px',
+                      background: '#150f30',
+                      border: '1px solid rgba(139, 92, 246, 0.3)',
+                      color: '#fff',
+                      fontSize: '14px',
+                      outline: 'none'
+                    }}
+                  >
+                    <option value="Placement">Placement</option>
+                    <option value="Internship">Internship</option>
+                    <option value="Training">Training</option>
+                    <option value="Skills">Skills</option>
+                    <option value="Collaboration">Collaboration</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#cbd5e1', marginBottom: '6px' }}>
+                    Validity / Signed Year
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 2024 - 2027"
+                    value={formData.date}
+                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    style={{
+                      width: '100%',
+                      padding: '12px 14px',
+                      borderRadius: '10px',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(139, 92, 246, 0.3)',
+                      color: '#fff',
+                      fontSize: '14px',
+                      outline: 'none'
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '12px' }}>
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  style={{
+                    padding: '10px 20px',
+                    borderRadius: '10px',
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    color: '#cbd5e1',
+                    fontSize: '14px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="admin-btn-primary"
+                  style={{ padding: '10px 24px', fontSize: '14px' }}
+                >
+                  {editingItem ? '💾 Save Changes' : '+ Add MOU'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

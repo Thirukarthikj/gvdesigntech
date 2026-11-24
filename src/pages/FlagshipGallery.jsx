@@ -1,10 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { galleryItems } from '../data/gallery.js';
+import { getStoredGallery } from '../data/contentPersistence.js';
 
 export default function FlagshipGallery({ onOpenModal }) {
+  const [galleryList, setGalleryList] = useState(() => getStoredGallery());
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [activeItem, setActiveItem] = useState(null);
   const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const handleUpdate = () => setGalleryList(getStoredGallery());
+    window.addEventListener('gv_content_updated', handleUpdate);
+    return () => window.removeEventListener('gv_content_updated', handleUpdate);
+  }, []);
 
   // Background dynamic star & grid canvas
   useEffect(() => {
@@ -80,8 +87,8 @@ export default function FlagshipGallery({ onOpenModal }) {
   ];
 
   const filtered = selectedCategory === 'all'
-    ? galleryItems
-    : galleryItems.filter((item) => (item.category || '').toLowerCase() === selectedCategory);
+    ? galleryList
+    : galleryList.filter((item) => (item.category || '').toLowerCase() === selectedCategory);
 
   return (
     <div className="gallery-page" style={{ position: 'relative', minHeight: '100vh', background: '#04020a', color: '#fff', padding: '140px 24px 80px', overflowX: 'hidden' }}>
