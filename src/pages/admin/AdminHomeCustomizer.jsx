@@ -208,6 +208,28 @@ export default function AdminHomeCustomizer() {
           <span>📝</span>
           <span>Enroll Form &amp; Offer Banner</span>
         </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('specializations')}
+          style={{
+            padding: '10px 20px',
+            background: activeTab === 'specializations' ? 'linear-gradient(135deg, #8b5cf6, #d946ef)' : 'rgba(255, 255, 255, 0.05)',
+            color: activeTab === 'specializations' ? '#fff' : '#94a3b8',
+            border: activeTab === 'specializations' ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '10px',
+            fontWeight: '700',
+            fontSize: '13.5px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          <span>🎯</span>
+          <span>Core Specialization Cards</span>
+        </button>
       </div>
 
       {/* ========================================================
@@ -1100,6 +1122,345 @@ export default function AdminHomeCustomizer() {
               </button>
               <button type="submit" className="admin-btn-primary">
                 Save Form &amp; Offer Configuration
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* ========================================================
+          TAB 6: CORE SPECIALIZATIONS (3 CARDS)
+          ======================================================== */}
+      {activeTab === 'specializations' && (
+        <div className="admin-card">
+          <div className="admin-card-header">
+            <h3 className="admin-card-title">
+              <span>🎯</span>
+              <span>Core Specialization Programs &amp; Cards (About Page)</span>
+            </h3>
+            <span style={{ fontSize: '12px', color: '#94a3b8' }}>
+              Displayed on About Us page in the "Our Core Specializations" section
+            </span>
+          </div>
+
+          <form onSubmit={(e) => { e.preventDefault(); handleSaveAll(); }}>
+            {/* Section Tag & Title */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '24px' }}>
+              <div className="admin-form-group">
+                <label className="admin-label">Section Tag</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={config.specializations?.sectionTag || ''}
+                  onChange={(e) => setConfig({
+                    ...config,
+                    specializations: { ...config.specializations, sectionTag: e.target.value }
+                  })}
+                  placeholder="e.g. OUR CORE SPECIALIZATIONS"
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label className="admin-label">Section Heading</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={config.specializations?.sectionTitle || ''}
+                  onChange={(e) => setConfig({
+                    ...config,
+                    specializations: { ...config.specializations, sectionTitle: e.target.value }
+                  })}
+                  placeholder="e.g. Drive Your Engineering Success With Our CAD Training Programs"
+                />
+              </div>
+            </div>
+
+            {/* List of Specialization Cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginBottom: '28px' }}>
+              {(config.specializations?.cards || []).map((card, idx) => (
+                <div
+                  key={card.id || idx}
+                  style={{
+                    padding: '24px',
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(139, 92, 246, 0.28)',
+                    borderRadius: '18px'
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+                    <div style={{ fontSize: '14px', fontWeight: '800', color: '#c084fc' }}>
+                      CARD #{idx + 1}: {card.title || 'Specialization Track'}
+                    </div>
+                    {config.specializations?.cards?.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = (config.specializations?.cards || []).filter((_, i) => i !== idx);
+                          setConfig({
+                            ...config,
+                            specializations: { ...config.specializations, cards: updated }
+                          });
+                        }}
+                        style={{
+                          padding: '6px 12px',
+                          background: 'rgba(239, 68, 68, 0.15)',
+                          border: '1px solid rgba(239, 68, 68, 0.3)',
+                          color: '#f87171',
+                          borderRadius: '8px',
+                          fontSize: '12px',
+                          fontWeight: '700',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        🗑️ Delete Card
+                      </button>
+                    )}
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+                    {/* Media Column */}
+                    <div>
+                      <div className="admin-form-group">
+                        <label className="admin-label">Card Banner Image</label>
+                        <div style={{ width: '100%', height: '170px', borderRadius: '12px', overflow: 'hidden', background: '#000', marginBottom: '10px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                          <img
+                            src={card.image || '/assets/cad-card-mechanical.jpg'}
+                            alt={card.title}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
+                        </div>
+                        <input
+                          type="text"
+                          className="admin-input"
+                          placeholder="Image URL or upload file below"
+                          value={card.image || ''}
+                          onChange={(e) => {
+                            const updated = [...config.specializations.cards];
+                            updated[idx] = { ...updated[idx], image: e.target.value };
+                            setConfig({
+                              ...config,
+                              specializations: { ...config.specializations, cards: updated }
+                            });
+                          }}
+                          style={{ marginBottom: '6px' }}
+                        />
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleFileUpload(e, (url) => {
+                            const updated = [...config.specializations.cards];
+                            updated[idx] = { ...updated[idx], image: url };
+                            setConfig({
+                              ...config,
+                              specializations: { ...config.specializations, cards: updated }
+                            });
+                          })}
+                          style={{ fontSize: '12px', color: '#94a3b8' }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Content Column */}
+                    <div>
+                      <div className="admin-form-group">
+                        <label className="admin-label">Badge Label</label>
+                        <input
+                          type="text"
+                          className="admin-input"
+                          value={card.badge || ''}
+                          onChange={(e) => {
+                            const updated = [...config.specializations.cards];
+                            updated[idx] = { ...updated[idx], badge: e.target.value };
+                            setConfig({
+                              ...config,
+                              specializations: { ...config.specializations, cards: updated }
+                            });
+                          }}
+                          placeholder="e.g. ⚙️ Mechanical & Auto CAD"
+                        />
+                      </div>
+
+                      <div className="admin-form-group">
+                        <label className="admin-label">Card Title</label>
+                        <input
+                          type="text"
+                          className="admin-input"
+                          required
+                          value={card.title || ''}
+                          onChange={(e) => {
+                            const updated = [...config.specializations.cards];
+                            updated[idx] = { ...updated[idx], title: e.target.value };
+                            setConfig({
+                              ...config,
+                              specializations: { ...config.specializations, cards: updated }
+                            });
+                          }}
+                          placeholder="e.g. Mechanical & Automobile CAD"
+                        />
+                      </div>
+
+                      <div className="admin-form-group">
+                        <label className="admin-label">Description</label>
+                        <textarea
+                          className="admin-input"
+                          rows={2}
+                          value={card.desc || ''}
+                          onChange={(e) => {
+                            const updated = [...config.specializations.cards];
+                            updated[idx] = { ...updated[idx], desc: e.target.value };
+                            setConfig({
+                              ...config,
+                              specializations: { ...config.specializations, cards: updated }
+                            });
+                          }}
+                        />
+                      </div>
+
+                      <div className="admin-form-group">
+                        <label className="admin-label">Tools &amp; Software Pills (comma-separated)</label>
+                        <input
+                          type="text"
+                          className="admin-input"
+                          value={Array.isArray(card.tools) ? card.tools.join(', ') : (card.tools || '')}
+                          onChange={(e) => {
+                            const arr = e.target.value.split(',').map(s => s.trim()).filter(Boolean);
+                            const updated = [...config.specializations.cards];
+                            updated[idx] = { ...updated[idx], tools: arr };
+                            setConfig({
+                              ...config,
+                              specializations: { ...config.specializations, cards: updated }
+                            });
+                          }}
+                          placeholder="e.g. AutoCAD 2D/3D, SolidWorks, CATIA V5, Ansys FEA, GD&T"
+                        />
+                      </div>
+
+                      <div className="admin-form-group">
+                        <label className="admin-label">Button CTA Text</label>
+                        <input
+                          type="text"
+                          className="admin-input"
+                          value={card.btnText || ''}
+                          onChange={(e) => {
+                            const updated = [...config.specializations.cards];
+                            updated[idx] = { ...updated[idx], btnText: e.target.value };
+                            setConfig({
+                              ...config,
+                              specializations: { ...config.specializations, cards: updated }
+                            });
+                          }}
+                          placeholder="e.g. Explore Mechanical Track →"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Add New Specialization Card Button */}
+            <div style={{ marginBottom: '24px' }}>
+              <button
+                type="button"
+                onClick={() => {
+                  const newCard = {
+                    id: 'spec-' + Date.now(),
+                    badge: '🎓 Engineering CAD Track',
+                    image: '/assets/cad-card-mechanical.jpg',
+                    title: 'New CAD Track',
+                    desc: 'Master industry-standard engineering tools and production detailing.',
+                    tools: ['AutoCAD', 'SolidWorks', 'FEA Analysis'],
+                    btnText: 'Explore Track →'
+                  };
+                  setConfig({
+                    ...config,
+                    specializations: {
+                      ...config.specializations,
+                      cards: [...(config.specializations?.cards || []), newCard]
+                    }
+                  });
+                }}
+                style={{
+                  padding: '10px 20px',
+                  background: 'rgba(139, 92, 246, 0.15)',
+                  border: '1px dashed #a78bfa',
+                  borderRadius: '10px',
+                  color: '#c084fc',
+                  fontWeight: '700',
+                  fontSize: '13.5px',
+                  cursor: 'pointer'
+                }}
+              >
+                + Add Another Specialization Card
+              </button>
+            </div>
+
+            {/* Live Visual Preview of 3 Cards Grid */}
+            <div style={{ padding: '24px', background: 'rgba(0, 0, 0, 0.65)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '18px' }}>
+              <div style={{ fontSize: '12px', fontWeight: '800', color: '#c084fc', marginBottom: '16px', letterSpacing: '1px' }}>
+                👀 LIVE ABOUT PAGE PREVIEW
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
+                {(config.specializations?.cards || []).map((card, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      background: 'linear-gradient(160deg, rgba(26, 18, 66, 0.8), rgba(4, 5, 22, 0.95))',
+                      border: '1px solid rgba(139, 92, 246, 0.3)',
+                      borderRadius: '16px',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}
+                  >
+                    <div style={{ height: '150px', position: 'relative', overflow: 'hidden' }}>
+                      <span style={{ position: 'absolute', top: '10px', left: '10px', padding: '4px 10px', background: 'rgba(2, 4, 18, 0.85)', border: '1px solid rgba(139, 92, 246, 0.4)', borderRadius: '999px', fontSize: '10.5px', fontWeight: '700', color: '#c084fc', zIndex: 2 }}>
+                        {card.badge}
+                      </span>
+                      <img src={card.image} alt={card.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+
+                    <div style={{ padding: '16px', flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      <h4 style={{ margin: 0, fontSize: '16px', fontWeight: '700', color: '#fff' }}>{card.title}</h4>
+                      <p style={{ margin: 0, fontSize: '12px', color: '#94a3b8', lineHeight: 1.4 }}>{card.desc}</p>
+                      
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: 'auto', paddingTop: '10px' }}>
+                        {(Array.isArray(card.tools) ? card.tools : (card.tools || '').split(',')).map((t, ti) => (
+                          <span key={ti} style={{ padding: '2px 8px', background: 'rgba(255,255,255,0.06)', borderRadius: '999px', fontSize: '10px', color: '#cbd5e1' }}>
+                            {typeof t === 'string' ? t.trim() : t}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div style={{
+                        marginTop: '8px',
+                        padding: '8px 12px',
+                        background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
+                        borderRadius: '8px',
+                        textAlign: 'center',
+                        color: '#fff',
+                        fontWeight: '700',
+                        fontSize: '12px'
+                      }}>
+                        {card.btnText || 'Explore Track →'}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
+              <button
+                type="button"
+                className="admin-btn-secondary"
+                onClick={() => handleSaveAll({ ...config, specializations: initialSiteConfig.specializations })}
+              >
+                Reset to Defaults
+              </button>
+              <button type="submit" className="admin-btn-primary">
+                Save Specialization Cards
               </button>
             </div>
           </form>

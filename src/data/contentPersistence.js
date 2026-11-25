@@ -53,6 +53,39 @@ export const initialSiteConfig = {
     offerSub: 'Diwali Special · Pay your course fee in installments',
     offerMinutes: 2,
     buttonText: 'Join Us'
+  },
+  specializations: {
+    sectionTag: 'OUR CORE SPECIALIZATIONS',
+    sectionTitle: 'Drive Your Engineering Success With Our CAD Training Programs',
+    cards: [
+      {
+        id: 'spec-mech',
+        badge: '⚙️ Mechanical & Auto CAD',
+        image: '/assets/cad-card-mechanical.jpg',
+        title: 'Mechanical & Automobile CAD',
+        desc: 'Master parametric 3D solid modeling, powertrain assembly design, sheet metal fabrication, and GD&T production drafting.',
+        tools: ['AutoCAD 2D/3D', 'SolidWorks', 'CATIA V5', 'Ansys FEA', 'GD&T'],
+        btnText: 'Explore Mechanical Track →'
+      },
+      {
+        id: 'spec-civil',
+        badge: '🏛️ Civil & Architectural BIM',
+        image: '/assets/cad-card-civil.jpg',
+        title: 'Civil BIM & Architectural Drafting',
+        desc: 'Learn structural engineering drafting, 3D architectural elevations, MEP service coordination, and Building Information Modeling.',
+        tools: ['Revit Architecture', 'AutoCAD Civil 3D', 'BIM Modeling', 'Navisworks', '3ds Max'],
+        btnText: 'Explore Civil BIM Track →'
+      },
+      {
+        id: 'spec-cnc',
+        badge: '⚡ CNC Machining & CAM',
+        image: '/assets/cad-card-cnc.jpg',
+        title: 'CNC Programming & CAM',
+        desc: 'Develop precision G-code & M-code routines, 3-axis/5-axis CNC turning and milling toolpath simulations, and modern CAM workflows.',
+        tools: ['MasterCAM', 'CNC Turning', '5-Axis Milling', 'G-Code / M-Code', 'Toolpath Sim'],
+        btnText: 'Explore CNC Track →'
+      }
+    ]
   }
 };
 
@@ -633,7 +666,14 @@ export function getStoredSiteConfig() {
         ? parsed.stats
         : initialSiteConfig.stats,
       showcaseImages: { ...initialSiteConfig.showcaseImages, ...(parsed.showcaseImages || {}) },
-      enrollModal: { ...initialSiteConfig.enrollModal, ...(parsed.enrollModal || {}) }
+      enrollModal: { ...initialSiteConfig.enrollModal, ...(parsed.enrollModal || {}) },
+      specializations: {
+        ...initialSiteConfig.specializations,
+        ...(parsed.specializations || {}),
+        cards: (Array.isArray(parsed.specializations?.cards) && parsed.specializations.cards.length > 0)
+          ? parsed.specializations.cards
+          : initialSiteConfig.specializations.cards
+      }
     };
   } catch {
     return initialSiteConfig;

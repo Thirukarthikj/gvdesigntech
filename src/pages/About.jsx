@@ -1,9 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { aboutStyles as Im } from '../data/styles.js';
+import { getStoredSiteConfig, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function About({ onOpenModal }) {
   const [activeShowcaseTab, setActiveShowcaseTab] = useState('training');
+  const [siteConfig, setSiteConfig] = useState(() => getStoredSiteConfig());
+
+  useEffect(() => {
+    return subscribeToContentUpdates(() => {
+      setSiteConfig(getStoredSiteConfig());
+    });
+  }, []);
+
+  const specData = siteConfig.specializations || {};
+  const cards = (Array.isArray(specData.cards) && specData.cards.length > 0)
+    ? specData.cards
+    : [
+        {
+          id: 'spec-mech',
+          badge: '⚙️ Mechanical & Auto CAD',
+          image: '/assets/cad-card-mechanical.jpg',
+          title: 'Mechanical & Automobile CAD',
+          desc: 'Master parametric 3D solid modeling, powertrain assembly design, sheet metal fabrication, and GD&T production drafting.',
+          tools: ['AutoCAD 2D/3D', 'SolidWorks', 'CATIA V5', 'Ansys FEA', 'GD&T'],
+          btnText: 'Explore Mechanical Track →'
+        },
+        {
+          id: 'spec-civil',
+          badge: '🏛️ Civil & Architectural BIM',
+          image: '/assets/cad-card-civil.jpg',
+          title: 'Civil BIM & Architectural Drafting',
+          desc: 'Learn structural engineering drafting, 3D architectural elevations, MEP service coordination, and Building Information Modeling.',
+          tools: ['Revit Architecture', 'AutoCAD Civil 3D', 'BIM Modeling', 'Navisworks', '3ds Max'],
+          btnText: 'Explore Civil BIM Track →'
+        },
+        {
+          id: 'spec-cnc',
+          badge: '⚡ CNC Machining & CAM',
+          image: '/assets/cad-card-cnc.jpg',
+          title: 'CNC Programming & CAM',
+          desc: 'Develop precision G-code & M-code routines, 3-axis/5-axis CNC turning and milling toolpath simulations, and modern CAM workflows.',
+          tools: ['MasterCAM', 'CNC Turning', '5-Axis Milling', 'G-Code / M-Code', 'Toolpath Sim'],
+          btnText: 'Explore CNC Track →'
+        }
+      ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -84,99 +125,48 @@ export default function About({ onOpenModal }) {
       <section className={Im['ab-services']} id="services">
         <div className={Im['ab-about-container']}>
           <div className={Im['ab-svc-header']}>
-            <div className={Im['ab-hero-tag']}>OUR CORE SPECIALIZATIONS</div>
+            <div className={Im['ab-hero-tag']}>{specData.sectionTag || 'OUR CORE SPECIALIZATIONS'}</div>
             <h2>
-              Drive Your Engineering Success With<br />Our CAD Training Programs
+              {specData.sectionTitle ? (
+                specData.sectionTitle
+              ) : (
+                <>
+                  Drive Your Engineering Success With<br />Our CAD Training Programs
+                </>
+              )}
             </h2>
           </div>
 
           <div className="cad-programs-grid">
-            {/* Card 1: Mechanical & Automobile CAD */}
-            <div className="cad-program-card">
-              <div className="cad-card-media">
-                <span className="cad-card-badge">⚙️ Mechanical &amp; Auto CAD</span>
-                <img alt="Mechanical & Automobile CAD" src="/assets/cad-card-mechanical.jpg" />
-                <div className="cad-card-media-overlay"></div>
-              </div>
-              <div className="cad-card-body">
-                <h3 className="cad-card-title">Mechanical &amp; Automobile CAD</h3>
-                <p className="cad-card-desc">
-                  Master parametric 3D solid modeling, powertrain assembly design, sheet metal fabrication, and GD&amp;T production drafting.
-                </p>
-                <div className="cad-card-tools">
-                  <span className="cad-tool-pill">AutoCAD 2D/3D</span>
-                  <span className="cad-tool-pill">SolidWorks</span>
-                  <span className="cad-tool-pill">CATIA V5</span>
-                  <span className="cad-tool-pill">Ansys FEA</span>
-                  <span className="cad-tool-pill">GD&amp;T</span>
+            {cards.map((card, idx) => (
+              <div key={card.id || idx} className="cad-program-card">
+                <div className="cad-card-media">
+                  <span className="cad-card-badge">{card.badge}</span>
+                  <img
+                    alt={card.title}
+                    src={card.image}
+                    onError={(e) => { e.currentTarget.src = "/assets/cad-card-mechanical.jpg"; }}
+                  />
+                  <div className="cad-card-media-overlay"></div>
                 </div>
-                <button
-                  type="button"
-                  className="cad-card-action-btn"
-                  onClick={onOpenModal}
-                >
-                  Explore Mechanical Track →
-                </button>
-              </div>
-            </div>
-
-            {/* Card 2: Civil BIM & Architectural Drafting */}
-            <div className="cad-program-card">
-              <div className="cad-card-media">
-                <span className="cad-card-badge">🏛️ Civil &amp; Architectural BIM</span>
-                <img alt="Civil BIM & Architectural Drafting" src="/assets/cad-card-civil.jpg" />
-                <div className="cad-card-media-overlay"></div>
-              </div>
-              <div className="cad-card-body">
-                <h3 className="cad-card-title">Civil BIM &amp; Architectural Drafting</h3>
-                <p className="cad-card-desc">
-                  Learn structural engineering drafting, 3D architectural elevations, MEP service coordination, and Building Information Modeling.
-                </p>
-                <div className="cad-card-tools">
-                  <span className="cad-tool-pill">Revit Architecture</span>
-                  <span className="cad-tool-pill">AutoCAD Civil 3D</span>
-                  <span className="cad-tool-pill">BIM Modeling</span>
-                  <span className="cad-tool-pill">Navisworks</span>
-                  <span className="cad-tool-pill">3ds Max</span>
+                <div className="cad-card-body">
+                  <h3 className="cad-card-title">{card.title}</h3>
+                  <p className="cad-card-desc">{card.desc}</p>
+                  <div className="cad-card-tools">
+                    {(Array.isArray(card.tools) ? card.tools : (card.tools || '').split(',')).map((tool, tIdx) => (
+                      <span key={tIdx} className="cad-tool-pill">{typeof tool === 'string' ? tool.trim() : tool}</span>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    className="cad-card-action-btn"
+                    onClick={onOpenModal}
+                  >
+                    {card.btnText || 'Explore Track →'}
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  className="cad-card-action-btn"
-                  onClick={onOpenModal}
-                >
-                  Explore Civil BIM Track →
-                </button>
               </div>
-            </div>
-
-            {/* Card 3: CNC Programming & CAM */}
-            <div className="cad-program-card">
-              <div className="cad-card-media">
-                <span className="cad-card-badge">⚡ CNC Machining &amp; CAM</span>
-                <img alt="CNC Programming & CAM" src="/assets/cad-card-cnc.jpg" />
-                <div className="cad-card-media-overlay"></div>
-              </div>
-              <div className="cad-card-body">
-                <h3 className="cad-card-title">CNC Programming &amp; CAM</h3>
-                <p className="cad-card-desc">
-                  Develop precision G-code &amp; M-code routines, 3-axis/5-axis CNC turning and milling toolpath simulations, and modern CAM workflows.
-                </p>
-                <div className="cad-card-tools">
-                  <span className="cad-tool-pill">MasterCAM</span>
-                  <span className="cad-tool-pill">CNC Turning</span>
-                  <span className="cad-tool-pill">5-Axis Milling</span>
-                  <span className="cad-tool-pill">G-Code / M-Code</span>
-                  <span className="cad-tool-pill">Toolpath Sim</span>
-                </div>
-                <button
-                  type="button"
-                  className="cad-card-action-btn"
-                  onClick={onOpenModal}
-                >
-                  Explore CNC Track →
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
