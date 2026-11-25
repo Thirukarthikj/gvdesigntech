@@ -554,7 +554,7 @@ export default function AdminMouManager() {
 
                 {/* Live Preview */}
                 {formData.image && (
-                  <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+                  <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '14px', background: 'rgba(0,0,0,0.25)', padding: '10px 12px', borderRadius: '10px' }}>
                     <div style={{
                       width: '100px',
                       height: '65px',
@@ -571,9 +571,21 @@ export default function AdminMouManager() {
                         onError={(e) => { e.currentTarget.style.display = 'none'; }}
                       />
                     </div>
-                    <span style={{ fontSize: '12px', color: '#4ade80' }}>
-                      ✓ Image attached and will appear on the public MOU card!
-                    </span>
+                    <div>
+                      {formData.image.startsWith('https://res.cloudinary.com') ? (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#38bdf8', fontSize: '12px', fontWeight: '700' }}>
+                          <span>☁️</span>
+                          <span>Hosted on Cloudinary CDN</span>
+                        </div>
+                      ) : (
+                        <div style={{ fontSize: '12px', color: '#4ade80', fontWeight: '600' }}>
+                          ✓ Image attached and will appear on the public MOU card!
+                        </div>
+                      )}
+                      <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px', wordBreak: 'break-all' }}>
+                        {formData.image.startsWith('data:') ? 'Local compressed image preview' : (formData.image.length > 55 ? formData.image.substring(0, 52) + '...' : formData.image)}
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>

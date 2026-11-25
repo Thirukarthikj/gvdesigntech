@@ -258,10 +258,11 @@ export async function testCloudinaryConnection(cloudName, uploadPreset, apiKey, 
 }
 
 /**
- * Helper to convert File/Blob/String to base64 DataURL
+ * Helper to convert File/Blob/String to optimized base64 DataURL
+ * Automatically scales down high-resolution images to max 1280px to prevent localStorage quota issues
  */
-function fileToDataUrl(file) {
-  return new Promise((resolve, reject) => {
+function fileToDataUrl(file, maxWidth = 1280, maxHeight = 1280, quality = 0.82) {
+  return new Promise((resolve) => {
     if (typeof file === 'string') {
       return resolve(file);
     }
@@ -269,8 +270,35 @@ function fileToDataUrl(file) {
       return resolve('');
     }
     const reader = new FileReader();
-    reader.onload = (e) => resolve(e.target.result);
-    reader.onerror = (e) => reject(e);
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxWidth || height > maxHeight) {
+          if (width / maxWidth > height / maxHeight) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          } else {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          const dataUrl = canvas.toDataURL('image/jpeg', quality);
+          resolve(dataUrl);
+        } catch {
+          resolve(e.target.result);
+        }
+      };
+      img.onerror = () => resolve(e.target.result);
+      img.src = e.target.result;
+    };
+    reader.onerror = () => resolve('');
     reader.readAsDataURL(file);
   });
 }

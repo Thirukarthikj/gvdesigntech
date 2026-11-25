@@ -261,15 +261,25 @@ export default function AdminSettings() {
           </div>
         </form>
 
-        <div style={{ marginTop: '20px', padding: '14px', background: 'rgba(139, 92, 246, 0.08)', border: '1px solid rgba(139, 92, 246, 0.25)', borderRadius: '10px', fontSize: '12.5px', color: '#cbd5e1', lineHeight: 1.6 }}>
-          <strong style={{ color: '#c084fc' }}>💡 Quick Cloudinary Setup (1 Minute):</strong>
-          <ol style={{ margin: '6px 0 0 16px', padding: 0 }}>
-            <li>Sign in or create a free account at <strong>cloudinary.com</strong>.</li>
-            <li>Go to <strong>Settings</strong> ⚙️ &gt; <strong>Upload</strong>.</li>
+        <div style={{ marginTop: '20px', padding: '16px', background: 'rgba(139, 92, 246, 0.1)', border: '1px solid rgba(139, 92, 246, 0.35)', borderRadius: '12px', fontSize: '13px', color: '#e2e8f0', lineHeight: 1.7 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#c084fc', fontWeight: '700', fontSize: '14px', marginBottom: '8px' }}>
+            <span>⚡</span>
+            <span>Cloudinary Direct Browser Upload Setup (One-time, 30 seconds):</span>
+          </div>
+          <p style={{ margin: '0 0 10px', color: '#94a3b8' }}>
+            To allow direct browser image uploads to Cloudinary without exposing secrets or hitting API key permissions, enable an <strong>Unsigned Upload Preset</strong> in your Cloudinary Console:
+          </p>
+          <ol style={{ margin: '0 0 12px 20px', padding: 0 }}>
+            <li>Open <a href="https://console.cloudinary.com/settings/upload" target="_blank" rel="noopener noreferrer" style={{ color: '#38bdf8', textDecoration: 'underline' }}>console.cloudinary.com/settings/upload</a> (Settings ⚙️ &rarr; <strong>Upload</strong>).</li>
             <li>Scroll to <strong>Upload presets</strong> and click <strong>Add upload preset</strong>.</li>
-            <li>Set <strong>Signing Mode</strong> to <strong>Unsigned</strong> and save.</li>
-            <li>Copy your <strong>Cloud Name</strong> and <strong>Preset Name</strong> into the inputs above and click Save.</li>
+            <li>Set <strong>Upload preset name</strong> to: <code style={{ background: 'rgba(0,0,0,0.4)', padding: '2px 6px', borderRadius: '4px', color: '#f472b6', fontWeight: '700' }}>gvdesigntech</code></li>
+            <li>Set <strong>Signing Mode</strong> to: <code style={{ background: 'rgba(0,0,0,0.4)', padding: '2px 6px', borderRadius: '4px', color: '#4ade80', fontWeight: '700' }}>Unsigned</code> (Important!)</li>
+            <li>Set <strong>Folder</strong> to: <code style={{ background: 'rgba(0,0,0,0.4)', padding: '2px 6px', borderRadius: '4px', color: '#38bdf8' }}>gvdesigntech</code></li>
+            <li>Click <strong>Save</strong> at the top right.</li>
           </ol>
+          <div style={{ padding: '8px 12px', background: 'rgba(34, 197, 94, 0.12)', border: '1px solid rgba(34, 197, 94, 0.25)', borderRadius: '8px', fontSize: '12px', color: '#4ade80' }}>
+            ✓ Once saved, click <strong>"⚡ Test Connection"</strong> above to verify green status. All images added or edited in the Admin panel will instantly upload to Cloudinary CDN and appear on the live website!
+          </div>
         </div>
       </div>
 
