@@ -488,6 +488,16 @@
   border-color: #8b5cf6;
 }
 
+/* Table Desktop Container vs Mobile Cards */
+.admin-table-desktop {
+  display: block;
+  width: 100%;
+}
+
+.admin-cards-mobile {
+  display: none;
+}
+
 /* Data Table Styles */
 .admin-table-wrap {
   overflow-x: auto;
@@ -910,7 +920,124 @@
     gap: 12px !important;
   }
 
-  /* Tables: Smooth touch horizontal swipe */
+  /* Tables: Desktop table hidden on mobile, replaced by top-to-bottom vertical cards */
+  .admin-table-desktop {
+    display: none !important;
+  }
+
+  .admin-cards-mobile {
+    display: flex !important;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+    width: 100%;
+  }
+
+  .admin-mobile-data-card {
+    background: rgba(18, 14, 38, 0.7);
+    border: 1px solid rgba(139, 92, 246, 0.22);
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  }
+
+  .admin-mobile-data-card:active {
+    border-color: rgba(217, 70, 239, 0.45);
+    background: rgba(26, 20, 52, 0.85);
+  }
+
+  .admin-mobile-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .admin-mobile-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  .admin-mobile-card-subtitle {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 2px;
+  }
+
+  .admin-mobile-card-badge {
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    align-self: flex-start;
+  }
+
+  .admin-mobile-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+  }
+
+  .admin-mobile-card-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #cbd5e1;
+    font-size: 13px;
+  }
+
+  .admin-mobile-card-note {
+    background: rgba(0, 0, 0, 0.28);
+    border-left: 3px solid #a855f7;
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: #f1f5f9;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.4;
+    margin-top: 4px;
+  }
+
+  .admin-mobile-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    flex-wrap: wrap;
+  }
+
+  .admin-mobile-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .admin-mobile-action-pill {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+
+  /* Tables: Fallback smooth touch horizontal swipe */
   .admin-table-wrap {
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;

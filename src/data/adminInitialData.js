@@ -269,11 +269,16 @@ export function saveStoredBatches(batches) {
 export function getStoredInternships() {
   try {
     const raw = localStorage.getItem(INTERNS_KEY);
-    if (!raw) {
+    if (!raw || raw === '[]') {
       localStorage.setItem(INTERNS_KEY, JSON.stringify(initialAdminInternships));
       return initialAdminInternships;
     }
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed) || parsed.length === 0) {
+      localStorage.setItem(INTERNS_KEY, JSON.stringify(initialAdminInternships));
+      return initialAdminInternships;
+    }
+    return parsed;
   } catch {
     return initialAdminInternships;
   }

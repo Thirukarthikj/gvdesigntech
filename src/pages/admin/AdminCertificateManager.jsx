@@ -200,119 +200,214 @@ export default function AdminCertificateManager() {
           </span>
         </div>
 
-        <div className="admin-table-wrap">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Certificate ID</th>
-                <th>Student Graduate</th>
-                <th>Certification Course</th>
-                <th>Grade</th>
-                <th>Issue Date</th>
-                <th>Status</th>
-                <th style={{ textAlign: 'right' }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.length === 0 ? (
+        {/* Desktop Table View */}
+        <div className="admin-table-desktop">
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
                 <tr>
-                  <td colSpan="7" style={{ textAlign: 'center', padding: '40px', color: '#64748b' }}>
-                    No certificates found matching your criteria.
-                  </td>
+                  <th>Certificate ID</th>
+                  <th>Student Graduate</th>
+                  <th>Certification Course</th>
+                  <th>Grade</th>
+                  <th>Issue Date</th>
+                  <th>Status</th>
+                  <th style={{ textAlign: 'right' }}>Actions</th>
                 </tr>
-              ) : (
-                filtered.map((cert) => {
-                  const isRevoked = cert.status === 'REVOKED';
-                  return (
-                    <tr key={cert.id}>
-                      <td style={{ fontWeight: '800', color: '#38bdf8', letterSpacing: '0.5px' }}>
+              </thead>
+              <tbody>
+                {filtered.length === 0 ? (
+                  <tr>
+                    <td colSpan="7" style={{ textAlign: 'center', padding: '40px', color: '#64748b' }}>
+                      No certificates found matching your criteria.
+                    </td>
+                  </tr>
+                ) : (
+                  filtered.map((cert) => {
+                    const isRevoked = cert.status === 'REVOKED';
+                    return (
+                      <tr key={cert.id}>
+                        <td style={{ fontWeight: '800', color: '#38bdf8', letterSpacing: '0.5px' }}>
+                          {cert.id}
+                        </td>
+                        <td style={{ fontWeight: '700', color: '#fff' }}>
+                          {cert.name}
+                        </td>
+                        <td style={{ color: '#cbd5e1', maxWidth: '280px' }}>
+                          {cert.course}
+                        </td>
+                        <td style={{ color: '#e879f9', fontWeight: '600' }}>
+                          {cert.grade}
+                        </td>
+                        <td style={{ color: '#94a3b8', fontSize: '13px' }}>
+                          {cert.completionDate}
+                        </td>
+                        <td>
+                          <span style={{
+                            padding: '4px 10px',
+                            borderRadius: '999px',
+                            background: isRevoked ? 'rgba(239, 68, 68, 0.15)' : 'rgba(34, 197, 94, 0.15)',
+                            border: `1px solid ${isRevoked ? 'rgba(239, 68, 68, 0.4)' : 'rgba(34, 197, 94, 0.4)'}`,
+                            color: isRevoked ? '#f87171' : '#4ade80',
+                            fontSize: '11px',
+                            fontWeight: '800',
+                            letterSpacing: '0.5px'
+                          }}>
+                            {cert.status || 'VERIFIED AUTHENTIC'}
+                          </span>
+                        </td>
+                        <td style={{ textAlign: 'right' }}>
+                          <div style={{ display: 'inline-flex', gap: '8px' }}>
+                            <button
+                              type="button"
+                              onClick={() => handleOpenEdit(cert)}
+                              style={{
+                                background: 'rgba(139, 92, 246, 0.15)',
+                                border: '1px solid rgba(139, 92, 246, 0.4)',
+                                color: '#c084fc',
+                                padding: '6px 12px',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                fontSize: '12px',
+                                fontWeight: '600'
+                              }}
+                            >
+                              ✏️ Edit
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleToggleRevoke(cert)}
+                              title={isRevoked ? 'Reinstate Certificate' : 'Revoke Certificate'}
+                              style={{
+                                background: isRevoked ? 'rgba(34, 197, 94, 0.15)' : 'rgba(234, 179, 8, 0.15)',
+                                border: `1px solid ${isRevoked ? 'rgba(34, 197, 94, 0.4)' : 'rgba(234, 179, 8, 0.4)'}`,
+                                color: isRevoked ? '#4ade80' : '#facc15',
+                                padding: '6px 10px',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                fontSize: '12px',
+                                fontWeight: '600'
+                              }}
+                            >
+                              {isRevoked ? 'Re-verify' : 'Revoke'}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDelete(cert.id, cert.name)}
+                              style={{
+                                background: 'rgba(239, 68, 68, 0.15)',
+                                border: '1px solid rgba(239, 68, 68, 0.4)',
+                                color: '#f87171',
+                                padding: '6px 10px',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                fontSize: '12px',
+                                fontWeight: '600'
+                              }}
+                            >
+                              🗑️
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Mobile Vertical Cards (Top to Bottom Scroll) */}
+        <div className="admin-cards-mobile">
+          {filtered.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '36px', color: '#64748b', background: 'rgba(5, 5, 18, 0.6)', borderRadius: '12px' }}>
+              No certificates found matching your criteria.
+            </div>
+          ) : (
+            filtered.map((cert) => {
+              const isRevoked = cert.status === 'REVOKED';
+              return (
+                <div key={cert.id} className="admin-mobile-data-card">
+                  <div className="admin-mobile-card-header">
+                    <div>
+                      <h4 className="admin-mobile-card-title">{cert.name}</h4>
+                      <div className="admin-mobile-card-subtitle" style={{ color: '#38bdf8', fontFamily: 'monospace', fontWeight: '700' }}>
                         {cert.id}
-                      </td>
-                      <td style={{ fontWeight: '700', color: '#fff' }}>
-                        {cert.name}
-                      </td>
-                      <td style={{ color: '#cbd5e1', maxWidth: '280px' }}>
-                        {cert.course}
-                      </td>
-                      <td style={{ color: '#e879f9', fontWeight: '600' }}>
-                        {cert.grade}
-                      </td>
-                      <td style={{ color: '#94a3b8', fontSize: '13px' }}>
-                        {cert.completionDate}
-                      </td>
-                      <td>
-                        <span style={{
-                          padding: '4px 10px',
-                          borderRadius: '999px',
-                          background: isRevoked ? 'rgba(239, 68, 68, 0.15)' : 'rgba(34, 197, 94, 0.15)',
-                          border: `1px solid ${isRevoked ? 'rgba(239, 68, 68, 0.4)' : 'rgba(34, 197, 94, 0.4)'}`,
-                          color: isRevoked ? '#f87171' : '#4ade80',
-                          fontSize: '11px',
-                          fontWeight: '800',
-                          letterSpacing: '0.5px'
-                        }}>
-                          {cert.status || 'VERIFIED AUTHENTIC'}
-                        </span>
-                      </td>
-                      <td style={{ textAlign: 'right' }}>
-                        <div style={{ display: 'inline-flex', gap: '8px' }}>
-                          <button
-                            type="button"
-                            onClick={() => handleOpenEdit(cert)}
-                            style={{
-                              background: 'rgba(139, 92, 246, 0.15)',
-                              border: '1px solid rgba(139, 92, 246, 0.4)',
-                              color: '#c084fc',
-                              padding: '6px 12px',
-                              borderRadius: '8px',
-                              cursor: 'pointer',
-                              fontSize: '12px',
-                              fontWeight: '600'
-                            }}
-                          >
-                            ✏️ Edit
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleToggleRevoke(cert)}
-                            title={isRevoked ? 'Reinstate Certificate' : 'Revoke Certificate'}
-                            style={{
-                              background: isRevoked ? 'rgba(34, 197, 94, 0.15)' : 'rgba(234, 179, 8, 0.15)',
-                              border: `1px solid ${isRevoked ? 'rgba(34, 197, 94, 0.4)' : 'rgba(234, 179, 8, 0.4)'}`,
-                              color: isRevoked ? '#4ade80' : '#facc15',
-                              padding: '6px 10px',
-                              borderRadius: '8px',
-                              cursor: 'pointer',
-                              fontSize: '12px',
-                              fontWeight: '600'
-                            }}
-                          >
-                            {isRevoked ? 'Re-verify' : 'Revoke'}
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleDelete(cert.id, cert.name)}
-                            style={{
-                              background: 'rgba(239, 68, 68, 0.15)',
-                              border: '1px solid rgba(239, 68, 68, 0.4)',
-                              color: '#f87171',
-                              padding: '6px 10px',
-                              borderRadius: '8px',
-                              cursor: 'pointer',
-                              fontSize: '12px',
-                              fontWeight: '600'
-                            }}
-                          >
-                            🗑️
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
+                      </div>
+                    </div>
+                    <span
+                      className="admin-mobile-card-badge"
+                      style={{
+                        background: isRevoked ? 'rgba(239, 68, 68, 0.15)' : 'rgba(34, 197, 94, 0.15)',
+                        border: `1px solid ${isRevoked ? 'rgba(239, 68, 68, 0.4)' : 'rgba(34, 197, 94, 0.4)'}`,
+                        color: isRevoked ? '#f87171' : '#4ade80'
+                      }}
+                    >
+                      {cert.status || 'VERIFIED AUTHENTIC'}
+                    </span>
+                  </div>
+
+                  <div className="admin-mobile-card-body">
+                    <div className="admin-mobile-card-item">
+                      <span>📜</span>
+                      <span>{cert.course}</span>
+                    </div>
+                    <div className="admin-mobile-card-item">
+                      <span>🎯</span>
+                      <span>Grade: <strong style={{ color: '#e879f9' }}>{cert.grade}</strong></span>
+                    </div>
+                    <div className="admin-mobile-card-item" style={{ fontSize: '12px', color: '#94a3b8' }}>
+                      <span>📅</span>
+                      <span>Issue Date: {cert.completionDate}</span>
+                    </div>
+                  </div>
+
+                  <div className="admin-mobile-card-footer">
+                    <button
+                      type="button"
+                      onClick={() => handleToggleRevoke(cert)}
+                      className="admin-mobile-action-pill"
+                      style={{
+                        background: isRevoked ? 'rgba(34, 197, 94, 0.15)' : 'rgba(234, 179, 8, 0.15)',
+                        border: `1px solid ${isRevoked ? 'rgba(34, 197, 94, 0.4)' : 'rgba(234, 179, 8, 0.4)'}`,
+                        color: isRevoked ? '#4ade80' : '#facc15'
+                      }}
+                    >
+                      {isRevoked ? '✓ Re-verify' : '✕ Revoke'}
+                    </button>
+
+                    <div className="admin-mobile-card-actions">
+                      <button
+                        type="button"
+                        onClick={() => handleOpenEdit(cert)}
+                        className="admin-mobile-action-pill"
+                        style={{
+                          background: 'rgba(139, 92, 246, 0.15)',
+                          border: '1px solid rgba(139, 92, 246, 0.4)',
+                          color: '#c084fc'
+                        }}
+                      >
+                        ✏️ Edit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(cert.id, cert.name)}
+                        className="admin-mobile-action-pill"
+                        style={{
+                          background: 'rgba(239, 68, 68, 0.15)',
+                          border: '1px solid rgba(239, 68, 68, 0.4)',
+                          color: '#f87171'
+                        }}
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
 

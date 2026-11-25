@@ -203,37 +203,73 @@ export default function AdminDashboard() {
           </Link>
         </div>
 
-        <div className="admin-table-wrap">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Student</th>
-                <th>Program</th>
-                <th>College / Institution</th>
-                <th>Phone</th>
-                <th>Date</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leads.slice(0, 5).map((l) => (
-                <tr key={l.id}>
-                  <td style={{ fontWeight: '600', color: '#fff' }}>{l.name}</td>
-                  <td>
-                    <span style={{ color: '#c084fc', fontWeight: '600' }}>{l.program}</span>
-                  </td>
-                  <td style={{ color: '#94a3b8' }}>{l.college || 'Direct Inquiry'}</td>
-                  <td>{l.phone}</td>
-                  <td style={{ color: '#94a3b8', fontSize: '13px' }}>{l.date}</td>
-                  <td>
-                    <span className={`admin-badge admin-badge-${l.status.toLowerCase()}`}>
-                      {l.status}
-                    </span>
-                  </td>
+        {/* Desktop Table View */}
+        <div className="admin-table-desktop">
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Program</th>
+                  <th>College / Institution</th>
+                  <th>Phone</th>
+                  <th>Date</th>
+                  <th>Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {leads.slice(0, 5).map((l) => (
+                  <tr key={l.id}>
+                    <td style={{ fontWeight: '600', color: '#fff' }}>{l.name}</td>
+                    <td>
+                      <span style={{ color: '#c084fc', fontWeight: '600' }}>{l.program}</span>
+                    </td>
+                    <td style={{ color: '#94a3b8' }}>{l.college || 'Direct Inquiry'}</td>
+                    <td>{l.phone}</td>
+                    <td style={{ color: '#94a3b8', fontSize: '13px' }}>{l.date}</td>
+                    <td>
+                      <span className={`admin-badge admin-badge-${l.status.toLowerCase()}`}>
+                        {l.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Mobile Vertical Cards (Top to Bottom Scroll) */}
+        <div className="admin-cards-mobile">
+          {leads.slice(0, 5).map((l) => (
+            <div key={l.id} className="admin-mobile-data-card">
+              <div className="admin-mobile-card-header">
+                <div>
+                  <h4 className="admin-mobile-card-title">{l.name}</h4>
+                  <div className="admin-mobile-card-subtitle">{l.college || 'Direct Inquiry'}</div>
+                </div>
+                <span className={`admin-badge admin-badge-${l.status.toLowerCase()}`}>
+                  {l.status}
+                </span>
+              </div>
+              <div className="admin-mobile-card-body">
+                <div className="admin-mobile-card-item">
+                  <span>🎓</span>
+                  <span style={{ color: '#c084fc', fontWeight: '600' }}>{l.program}</span>
+                </div>
+                <div className="admin-mobile-card-item">
+                  <span>📞</span>
+                  <a href={`tel:${l.phone}`} style={{ color: '#38bdf8', textDecoration: 'none', fontFamily: 'monospace' }}>
+                    {l.phone}
+                  </a>
+                </div>
+                <div className="admin-mobile-card-item" style={{ fontSize: '12px', color: '#94a3b8' }}>
+                  <span>📅</span>
+                  <span>Received: {l.date}</span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

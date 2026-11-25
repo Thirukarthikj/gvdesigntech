@@ -163,120 +163,228 @@ export default function AdminEnrollments() {
           </span>
         </div>
 
-        <div className="admin-table-wrap">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Student Candidate</th>
-                <th>Desired Program</th>
-                <th>College / Background</th>
-                <th>Phone / Contact</th>
-                <th>Date Received</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.length === 0 ? (
+        {/* Desktop Table View */}
+        <div className="admin-table-desktop">
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
                 <tr>
-                  <td colSpan="7" style={{ textAlign: 'center', padding: '36px', color: '#94a3b8' }}>
-                    No student inquiries match the applied filters.
-                  </td>
+                  <th>Student Candidate</th>
+                  <th>Desired Program</th>
+                  <th>College / Background</th>
+                  <th>Phone / Contact</th>
+                  <th>Date Received</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
-              ) : (
-                filtered.map((l) => (
-                  <React.Fragment key={l.id}>
-                    <tr
-                      style={{ cursor: 'pointer', background: selectedLead?.id === l.id ? 'rgba(139, 92, 246, 0.12)' : 'transparent' }}
-                      onClick={() => setSelectedLead(selectedLead?.id === l.id ? null : l)}
-                    >
-                      <td style={{ fontWeight: '700', color: '#fff' }}>
-                        <div>{l.name}</div>
-                        <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 'normal' }}>{l.email}</div>
-                      </td>
-                      <td>
-                        <span style={{ color: '#c084fc', fontWeight: '600' }}>{l.program}</span>
-                      </td>
-                      <td style={{ color: '#cbd5e1' }}>{l.college || 'Direct Walk-in'}</td>
-                      <td style={{ fontFamily: 'monospace', color: '#38bdf8' }}>{l.phone}</td>
-                      <td style={{ fontSize: '13px', color: '#94a3b8' }}>{l.date}</td>
-                      <td>
-                        <select
-                          value={l.status}
-                          onClick={(e) => e.stopPropagation()}
-                          onChange={(e) => handleStatusChange(l.id, e.target.value)}
-                          style={{
-                            padding: '4px 10px',
-                            borderRadius: '999px',
-                            background: '#0d0f28',
-                            border: '1px solid rgba(139, 92, 246, 0.4)',
-                            color: l.status === 'Enrolled' ? '#34d399' : l.status === 'New' ? '#22d3ee' : '#fbbf24',
-                            fontSize: '12px',
-                            fontWeight: '700',
-                            cursor: 'pointer'
-                          }}
-                        >
-                          <option value="New">New</option>
-                          <option value="Contacted">Contacted</option>
-                          <option value="Enrolled">Enrolled</option>
-                          <option value="Archived">Archived</option>
-                        </select>
-                      </td>
-                      <td>
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteLead(l.id);
-                          }}
-                          style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '15px' }}
-                          title="Delete inquiry"
-                        >
-                          🗑️
-                        </button>
-                      </td>
-                    </tr>
-
-                    {/* Expandable Details Drawer */}
-                    {selectedLead?.id === l.id && (
-                      <tr style={{ background: 'rgba(20, 16, 45, 0.95)' }}>
-                        <td colSpan="7" style={{ padding: '20px 24px', borderBottom: '2px solid rgba(217, 70, 239, 0.4)' }}>
-                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
-                            <div>
-                              <div style={{ fontSize: '12px', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '4px' }}>Inquiry Message / Requirement</div>
-                              <p style={{ margin: 0, color: '#f8fafc', fontSize: '14px', lineHeight: 1.5, background: 'rgba(0,0,0,0.3)', padding: '12px', borderRadius: '8px' }}>
-                                "{l.message || 'No additional note provided by student.'}"
-                              </p>
-                            </div>
-
-                            <div>
-                              <div style={{ fontSize: '12px', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '4px' }}>Communication Channels</div>
-                              <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
-                                <a
-                                  href={`tel:${l.phone}`}
-                                  style={{ padding: '6px 14px', background: 'rgba(6, 182, 212, 0.15)', border: '1px solid rgba(6, 182, 212, 0.35)', color: '#22d3ee', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
-                                >
-                                  📞 Call Student
-                                </a>
-                                <a
-                                  href={`https://wa.me/${l.phone.replace(/[^0-9]/g, '')}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  style={{ padding: '6px 14px', background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.35)', color: '#34d399', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
-                                >
-                                  💬 WhatsApp Chat
-                                </a>
-                              </div>
-                            </div>
-                          </div>
+              </thead>
+              <tbody>
+                {filtered.length === 0 ? (
+                  <tr>
+                    <td colSpan="7" style={{ textAlign: 'center', padding: '36px', color: '#94a3b8' }}>
+                      No student inquiries match the applied filters.
+                    </td>
+                  </tr>
+                ) : (
+                  filtered.map((l) => (
+                    <React.Fragment key={l.id}>
+                      <tr
+                        style={{ cursor: 'pointer', background: selectedLead?.id === l.id ? 'rgba(139, 92, 246, 0.12)' : 'transparent' }}
+                        onClick={() => setSelectedLead(selectedLead?.id === l.id ? null : l)}
+                      >
+                        <td style={{ fontWeight: '700', color: '#fff' }}>
+                          <div>{l.name}</div>
+                          <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 'normal' }}>{l.email}</div>
+                        </td>
+                        <td>
+                          <span style={{ color: '#c084fc', fontWeight: '600' }}>{l.program}</span>
+                        </td>
+                        <td style={{ color: '#cbd5e1' }}>{l.college || 'Direct Walk-in'}</td>
+                        <td style={{ fontFamily: 'monospace', color: '#38bdf8' }}>{l.phone}</td>
+                        <td style={{ fontSize: '13px', color: '#94a3b8' }}>{l.date}</td>
+                        <td>
+                          <select
+                            value={l.status}
+                            onClick={(e) => e.stopPropagation()}
+                            onChange={(e) => handleStatusChange(l.id, e.target.value)}
+                            style={{
+                              padding: '4px 10px',
+                              borderRadius: '999px',
+                              background: '#0d0f28',
+                              border: '1px solid rgba(139, 92, 246, 0.4)',
+                              color: l.status === 'Enrolled' ? '#34d399' : l.status === 'New' ? '#22d3ee' : '#fbbf24',
+                              fontSize: '12px',
+                              fontWeight: '700',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            <option value="New">New</option>
+                            <option value="Contacted">Contacted</option>
+                            <option value="Enrolled">Enrolled</option>
+                            <option value="Archived">Archived</option>
+                          </select>
+                        </td>
+                        <td>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteLead(l.id);
+                            }}
+                            style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '15px' }}
+                            title="Delete inquiry"
+                          >
+                            🗑️
+                          </button>
                         </td>
                       </tr>
-                    )}
-                  </React.Fragment>
-                ))
-              )}
-            </tbody>
-          </table>
+
+                      {/* Expandable Details Drawer */}
+                      {selectedLead?.id === l.id && (
+                        <tr style={{ background: 'rgba(20, 16, 45, 0.95)' }}>
+                          <td colSpan="7" style={{ padding: '20px 24px', borderBottom: '2px solid rgba(217, 70, 239, 0.4)' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
+                              <div>
+                                <div style={{ fontSize: '12px', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '4px' }}>Inquiry Message / Requirement</div>
+                                <p style={{ margin: 0, color: '#f8fafc', fontSize: '14px', lineHeight: 1.5, background: 'rgba(0,0,0,0.3)', padding: '12px', borderRadius: '8px' }}>
+                                  "{l.message || 'No additional note provided by student.'}"
+                                </p>
+                              </div>
+
+                              <div>
+                                <div style={{ fontSize: '12px', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '4px' }}>Communication Channels</div>
+                                <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
+                                  <a
+                                    href={`tel:${l.phone}`}
+                                    style={{ padding: '6px 14px', background: 'rgba(6, 182, 212, 0.15)', border: '1px solid rgba(6, 182, 212, 0.35)', color: '#22d3ee', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
+                                  >
+                                    📞 Call Student
+                                  </a>
+                                  <a
+                                    href={`https://wa.me/${l.phone.replace(/[^0-9]/g, '')}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{ padding: '6px 14px', background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.35)', color: '#34d399', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
+                                  >
+                                    💬 WhatsApp Chat
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Mobile Vertical Cards (Top to Bottom Scroll) */}
+        <div className="admin-cards-mobile">
+          {filtered.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '36px', color: '#94a3b8', background: 'rgba(5, 5, 18, 0.6)', borderRadius: '12px' }}>
+              No student inquiries match the applied filters.
+            </div>
+          ) : (
+            filtered.map((l) => (
+              <div key={l.id} className="admin-mobile-data-card">
+                <div className="admin-mobile-card-header">
+                  <div>
+                    <h4 className="admin-mobile-card-title">{l.name}</h4>
+                    <div className="admin-mobile-card-subtitle">{l.email}</div>
+                  </div>
+                  <span
+                    className="admin-mobile-card-badge"
+                    style={{
+                      background: 'rgba(192, 132, 252, 0.15)',
+                      border: '1px solid rgba(192, 132, 252, 0.35)',
+                      color: '#c084fc'
+                    }}
+                  >
+                    {l.program}
+                  </span>
+                </div>
+
+                <div className="admin-mobile-card-body">
+                  <div className="admin-mobile-card-item">
+                    <span>🎓</span>
+                    <span>{l.college || 'Direct Walk-in'}</span>
+                  </div>
+                  <div className="admin-mobile-card-item">
+                    <span>📞</span>
+                    <a href={`tel:${l.phone}`} style={{ color: '#38bdf8', textDecoration: 'none', fontFamily: 'monospace', fontWeight: '600' }}>
+                      {l.phone}
+                    </a>
+                  </div>
+                  <div className="admin-mobile-card-item" style={{ fontSize: '12px', color: '#94a3b8' }}>
+                    <span>📅</span>
+                    <span>Received: {l.date}</span>
+                  </div>
+
+                  {l.message && (
+                    <div className="admin-mobile-card-note">
+                      "{l.message}"
+                    </div>
+                  )}
+                </div>
+
+                <div className="admin-mobile-card-footer">
+                  <select
+                    value={l.status}
+                    onChange={(e) => handleStatusChange(l.id, e.target.value)}
+                    style={{
+                      padding: '5px 12px',
+                      borderRadius: '999px',
+                      background: '#0d0f28',
+                      border: '1px solid rgba(139, 92, 246, 0.4)',
+                      color: l.status === 'Enrolled' ? '#34d399' : l.status === 'New' ? '#22d3ee' : '#fbbf24',
+                      fontSize: '12px',
+                      fontWeight: '700',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <option value="New">New</option>
+                    <option value="Contacted">Contacted</option>
+                    <option value="Enrolled">Enrolled</option>
+                    <option value="Archived">Archived</option>
+                  </select>
+
+                  <div className="admin-mobile-card-actions">
+                    <a
+                      href={`tel:${l.phone}`}
+                      className="admin-mobile-action-pill"
+                      style={{ background: 'rgba(6, 182, 212, 0.15)', border: '1px solid rgba(6, 182, 212, 0.35)', color: '#22d3ee' }}
+                      title="Call candidate"
+                    >
+                      📞 Call
+                    </a>
+                    <a
+                      href={`https://wa.me/${l.phone.replace(/[^0-9]/g, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="admin-mobile-action-pill"
+                      style={{ background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.35)', color: '#34d399' }}
+                      title="WhatsApp message"
+                    >
+                      💬 Chat
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteLead(l.id)}
+                      className="admin-mobile-action-pill"
+                      style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.35)', color: '#f87171' }}
+                      title="Delete inquiry"
+                    >
+                      🗑️
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
 
