@@ -1,6 +1,7 @@
 import { mouList } from './mous.js';
 import { galleryItems } from './gallery.js';
 import { blogPosts, blogCategories } from './blogs.js';
+import { syncToFirestore, subscribeToFirestore } from '../services/firebase.js';
 
 // Keys for localStorage
 const MOU_KEY = 'gv_admin_mous';
@@ -164,6 +165,42 @@ export function subscribeToContentUpdates(callback) {
     syncChannel.addEventListener('message', bcListener);
   }
 
+  // 5. Cloud Firestore Realtime Listeners (multi-device cloud sync)
+  const unsubMous = subscribeToFirestore('mous', (data) => {
+    if (Array.isArray(data) && data.length > 0) {
+      localStorage.setItem(MOU_KEY, JSON.stringify(data));
+      handleUpdate();
+    }
+  });
+
+  const unsubGallery = subscribeToFirestore('gallery', (data) => {
+    if (Array.isArray(data) && data.length > 0) {
+      localStorage.setItem(GALLERY_KEY, JSON.stringify(data));
+      handleUpdate();
+    }
+  });
+
+  const unsubPlacements = subscribeToFirestore('placements', (data) => {
+    if (data && (data.stats || data.stories)) {
+      localStorage.setItem(PLACEMENT_KEY, JSON.stringify(data));
+      handleUpdate();
+    }
+  });
+
+  const unsubBlogs = subscribeToFirestore('blogs', (data) => {
+    if (Array.isArray(data) && data.length > 0) {
+      localStorage.setItem(BLOG_KEY, JSON.stringify(data));
+      handleUpdate();
+    }
+  });
+
+  const unsubLeaders = subscribeToFirestore('leaders', (data) => {
+    if (Array.isArray(data) && data.length > 0) {
+      localStorage.setItem(LEADERS_KEY, JSON.stringify(data));
+      handleUpdate();
+    }
+  });
+
   return () => {
     window.removeEventListener('gv_content_updated', handleUpdate);
     window.removeEventListener('storage', handleUpdate);
@@ -172,6 +209,11 @@ export function subscribeToContentUpdates(callback) {
     if (syncChannel && bcListener) {
       syncChannel.removeEventListener('message', bcListener);
     }
+    if (unsubMous) unsubMous();
+    if (unsubGallery) unsubGallery();
+    if (unsubPlacements) unsubPlacements();
+    if (unsubBlogs) unsubBlogs();
+    if (unsubLeaders) unsubLeaders();
   };
 }
 
@@ -181,6 +223,7 @@ export function getStoredMous() {
     const raw = localStorage.getItem(MOU_KEY);
     if (!raw) {
       localStorage.setItem(MOU_KEY, JSON.stringify(mouList));
+      syncToFirestore('mous', mouList);
       return mouList;
     }
     const list = JSON.parse(raw);
@@ -203,6 +246,7 @@ export function saveStoredMous(list) {
   try {
     localStorage.setItem(MOU_KEY, JSON.stringify(list));
     notifyContentUpdate('mou');
+    syncToFirestore('mous', list);
   } catch (err) {
     console.error('Failed to save MOUs', err);
   }
@@ -214,6 +258,7 @@ export function getStoredGallery() {
     const raw = localStorage.getItem(GALLERY_KEY);
     if (!raw) {
       localStorage.setItem(GALLERY_KEY, JSON.stringify(galleryItems));
+      syncToFirestore('gallery', galleryItems);
       return galleryItems;
     }
     return JSON.parse(raw);
@@ -226,6 +271,7 @@ export function saveStoredGallery(items) {
   try {
     localStorage.setItem(GALLERY_KEY, JSON.stringify(items));
     notifyContentUpdate('gallery');
+    syncToFirestore('gallery', items);
   } catch (err) {
     console.error('Failed to save Gallery', err);
   }
@@ -237,6 +283,7 @@ export function getStoredPlacements() {
     const raw = localStorage.getItem(PLACEMENT_KEY);
     if (!raw) {
       localStorage.setItem(PLACEMENT_KEY, JSON.stringify(defaultPlacements));
+      syncToFirestore('placements', defaultPlacements);
       return defaultPlacements;
     }
     return JSON.parse(raw);
@@ -249,6 +296,7 @@ export function saveStoredPlacements(data) {
   try {
     localStorage.setItem(PLACEMENT_KEY, JSON.stringify(data));
     notifyContentUpdate('placement');
+    syncToFirestore('placements', data);
   } catch (err) {
     console.error('Failed to save Placements', err);
   }
@@ -260,6 +308,7 @@ export function getStoredBlogs() {
     const raw = localStorage.getItem(BLOG_KEY);
     if (!raw) {
       localStorage.setItem(BLOG_KEY, JSON.stringify(blogPosts));
+      syncToFirestore('blogs', blogPosts);
       return blogPosts;
     }
     return JSON.parse(raw);
@@ -272,6 +321,7 @@ export function saveStoredBlogs(posts) {
   try {
     localStorage.setItem(BLOG_KEY, JSON.stringify(posts));
     notifyContentUpdate('blogs');
+    syncToFirestore('blogs', posts);
   } catch (err) {
     console.error('Failed to save Blogs', err);
   }
@@ -283,6 +333,7 @@ export function getStoredCertificates() {
     const raw = localStorage.getItem(CERT_KEY);
     if (!raw) {
       localStorage.setItem(CERT_KEY, JSON.stringify(defaultCertificates));
+      syncToFirestore('certificates', defaultCertificates);
       return defaultCertificates;
     }
     return JSON.parse(raw);
@@ -295,6 +346,7 @@ export function saveStoredCertificates(registry) {
   try {
     localStorage.setItem(CERT_KEY, JSON.stringify(registry));
     notifyContentUpdate('certificates');
+    syncToFirestore('certificates', registry);
   } catch (err) {
     console.error('Failed to save Certificates', err);
   }
@@ -306,6 +358,7 @@ export function getStoredLeaders() {
     const raw = localStorage.getItem(LEADERS_KEY);
     if (!raw) {
       localStorage.setItem(LEADERS_KEY, JSON.stringify(defaultLeaders));
+      syncToFirestore('leaders', defaultLeaders);
       return defaultLeaders;
     }
     return JSON.parse(raw);
@@ -318,6 +371,7 @@ export function saveStoredLeaders(leaders) {
   try {
     localStorage.setItem(LEADERS_KEY, JSON.stringify(leaders));
     notifyContentUpdate('leaders');
+    syncToFirestore('leaders', leaders);
   } catch (err) {
     console.error('Failed to save Leaders', err);
   }

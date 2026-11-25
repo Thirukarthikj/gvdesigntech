@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { modalStyles } from '../data/styles.js';
+import { syncToFirestore } from '../services/firebase.js';
 
 export default function EnrollModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -60,7 +61,9 @@ export default function EnrollModal({ isOpen, onClose }) {
         date: new Date().toISOString().split('T')[0],
         status: 'New'
       };
-      localStorage.setItem('gv_admin_leads', JSON.stringify([newLead, ...existing]));
+      const updated = [newLead, ...existing];
+      localStorage.setItem('gv_admin_leads', JSON.stringify(updated));
+      syncToFirestore('leads', updated);
     } catch {
       // ignore
     }

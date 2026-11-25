@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { initialAdminLeads, initialAdminBatches, initialAdminInternships, saveStoredLeads, saveStoredBatches, saveStoredInternships } from '../../data/adminInitialData.js';
 import { getCloudinaryConfig, saveCloudinaryConfig, testCloudinaryConnection } from '../../services/cloudinaryService.js';
+import { firebaseConfig, syncToFirestore } from '../../services/firebase.js';
+import { getStoredMous, getStoredGallery, getStoredPlacements, getStoredBlogs, getStoredLeaders, getStoredCertificates } from '../../data/contentPersistence.js';
 
 export default function AdminSettings() {
   const [notificationSaved, setNotificationSaved] = useState(false);
@@ -12,6 +14,9 @@ export default function AdminSettings() {
   const [cloudinaryConfig, setCloudinaryConfig] = useState(() => getCloudinaryConfig());
   const [cloudinaryStatus, setCloudinaryStatus] = useState({ testing: false, msg: '', success: null });
   const [cloudinarySaved, setCloudinarySaved] = useState(false);
+
+  // Firebase status state
+  const [firebaseStatus, setFirebaseStatus] = useState({ syncing: false, msg: '', success: null });
 
   const handleExportBackup = () => {
     const backup = {
@@ -59,6 +64,67 @@ export default function AdminSettings() {
       cloudinaryConfig.apiSecret
     );
     setCloudinaryStatus({ testing: false, msg: res.message, success: res.success });
+  };
+
+  const handleSyncAllToFirebase = async () => {
+    setFirebaseStatus({ syncing: true, msg: 'Syncing all records to Firebase Cloud Firestore...', success: null });
+    try {
+      const mous = getStoredMous();
+      const gallery = getStoredGallery();
+      const placements = getStoredPlacements();
+      const blogs = getStoredBlogs();
+      const leaders = getStoredLeaders();
+      const certs = getStoredCertificates();
+      const leads = JSON.parse(localStorage.getItem('gv_admin_leads') || '[]');
+
+      await Promise.all([
+        syncToFirestore('mous', mous),
+        syncToFirestore('gallery', gallery),
+        syncToFirestore('placements', placements),
+        syncToFirestore('blogs', blogs),
+        syncToFirestore('leaders', leaders),
+        syncToFirestore('certificates', certs),
+        syncToFirestore('leads', leads)
+      ]);
+
+      setFirebaseStatus({
+        syncing: false,
+        msg: 'All MOUs, Gallery, Placements, Blogs, Leaders, and Student Leads synced to Firebase Firestore successfully!',
+        success: true
+      });
+    } catch (err) {
+      setFirebaseStatus({
+        syncing: false,
+        msg: 'Sync error: ' + err.message,
+        success: false
+      });
+    }
+  };
+
+  const handleTestFirebase = async () => {
+    setFirebaseStatus({ syncing: true, msg: 'Testing Firebase Firestore connection...', success: null });
+    try {
+      const testSuccess = await syncToFirestore('system_health', {
+        timestamp: new Date().toISOString(),
+        status: 'online',
+        testMessage: 'GV DesignTech Firebase Connection Verified'
+      });
+      if (testSuccess) {
+        setFirebaseStatus({
+          syncing: false,
+          msg: `Firebase Firestore (Project: ${firebaseConfig.projectId}) is connected and live!`,
+          success: true
+        });
+      } else {
+        setFirebaseStatus({
+          syncing: false,
+          msg: `Connected to Firebase app, but Firestore rules may need read/write permissions.`,
+          success: false
+        });
+      }
+    } catch (err) {
+      setFirebaseStatus({ syncing: false, msg: 'Firebase error: ' + err.message, success: false });
+    }
   };
 
   return (
@@ -280,6 +346,87 @@ export default function AdminSettings() {
           <div style={{ padding: '8px 12px', background: 'rgba(34, 197, 94, 0.12)', border: '1px solid rgba(34, 197, 94, 0.25)', borderRadius: '8px', fontSize: '12px', color: '#4ade80' }}>
             ✓ Once saved, click <strong>"⚡ Test Connection"</strong> above to verify green status. All images added or edited in the Admin panel will instantly upload to Cloudinary CDN and appear on the live website!
           </div>
+        </div>
+      </div>
+
+      {/* Firebase Cloud Infrastructure (gvde-3e923) */}
+      <div className="admin-card">
+        <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h3 className="admin-card-title">
+            <span>🔥</span>
+            <span>Firebase Cloud Infrastructure</span>
+          </h3>
+          <span style={{
+            fontSize: '12px',
+            padding: '4px 10px',
+            borderRadius: '999px',
+            background: 'rgba(245, 158, 11, 0.15)',
+            color: '#fbbf24',
+            border: '1px solid rgba(245, 158, 11, 0.35)',
+            fontWeight: '600'
+          }}>
+            ● Firebase App: {firebaseConfig.projectId}
+          </span>
+        </div>
+
+        {firebaseStatus.msg && (
+          <div style={{
+            padding: '12px 16px',
+            background: firebaseStatus.success ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)',
+            border: '1px solid',
+            borderColor: firebaseStatus.success ? 'rgba(16, 185, 129, 0.4)' : 'rgba(239, 68, 68, 0.4)',
+            borderRadius: '10px',
+            color: firebaseStatus.success ? '#34d399' : '#f87171',
+            fontSize: '13.5px',
+            marginBottom: '18px'
+          }}>
+            {firebaseStatus.success ? '✅ ' : '⚠️ '}
+            {firebaseStatus.msg}
+          </div>
+        )}
+
+        <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.6, marginBottom: '20px' }}>
+          GV DesignTech is linked to Google Firebase for real-time multi-device cloud synchronization, Google Analytics 4 tracking, and cloud data persistence.
+        </p>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' }}>
+          <div style={{ padding: '14px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px' }}>
+            <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Project ID</div>
+            <div style={{ fontSize: '15px', fontWeight: '700', color: '#fff', marginTop: '4px' }}>{firebaseConfig.projectId}</div>
+          </div>
+          <div style={{ padding: '14px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px' }}>
+            <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Storage Bucket</div>
+            <div style={{ fontSize: '13.5px', fontWeight: '700', color: '#38bdf8', marginTop: '4px', wordBreak: 'break-all' }}>{firebaseConfig.storageBucket}</div>
+          </div>
+          <div style={{ padding: '14px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px' }}>
+            <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Auth Domain</div>
+            <div style={{ fontSize: '14px', fontWeight: '700', color: '#fff', marginTop: '4px' }}>{firebaseConfig.authDomain}</div>
+          </div>
+          <div style={{ padding: '14px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px' }}>
+            <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Analytics Measurement ID</div>
+            <div style={{ fontSize: '14px', fontWeight: '700', color: '#fbbf24', marginTop: '4px' }}>{firebaseConfig.measurementId}</div>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+          <button
+            type="button"
+            onClick={handleSyncAllToFirebase}
+            disabled={firebaseStatus.syncing}
+            className="admin-btn-primary"
+            style={{ cursor: firebaseStatus.syncing ? 'wait' : 'pointer' }}
+          >
+            {firebaseStatus.syncing ? '⏳ Syncing to Cloud...' : '🔥 Sync All Content to Firebase Cloud'}
+          </button>
+          <button
+            type="button"
+            onClick={handleTestFirebase}
+            disabled={firebaseStatus.syncing}
+            className="admin-btn-secondary"
+            style={{ cursor: firebaseStatus.syncing ? 'wait' : 'pointer' }}
+          >
+            ⚡ Test Firebase Connection
+          </button>
         </div>
       </div>
 

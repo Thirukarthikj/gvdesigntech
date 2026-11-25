@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { contactStyles as L } from '../data/styles.js';
+import { syncToFirestore } from '../services/firebase.js';
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
@@ -14,6 +15,27 @@ export default function ContactUs() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
+
+    try {
+      const existing = JSON.parse(localStorage.getItem('gv_admin_leads') || '[]');
+      const newLead = {
+        id: 'lead-' + Date.now(),
+        name: formData.name || 'Website Inquirer',
+        email: formData.email || 'N/A',
+        phone: formData.phone || 'N/A',
+        college: 'General Inquiry',
+        program: formData.subject || 'Course Inquiries & Admissions',
+        message: formData.message || 'Submitted via Contact Us page',
+        date: new Date().toISOString().split('T')[0],
+        status: 'New'
+      };
+      const updated = [newLead, ...existing];
+      localStorage.setItem('gv_admin_leads', JSON.stringify(updated));
+      syncToFirestore('leads', updated);
+    } catch {
+      // ignore
+    }
+
     setTimeout(() => {
       setSubmitted(false);
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
