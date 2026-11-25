@@ -186,6 +186,28 @@ export default function AdminHomeCustomizer() {
           <span>🏫</span>
           <span>Classroom &amp; Lab Photos</span>
         </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('enrollModal')}
+          style={{
+            padding: '10px 20px',
+            background: activeTab === 'enrollModal' ? 'linear-gradient(135deg, #8b5cf6, #d946ef)' : 'rgba(255, 255, 255, 0.05)',
+            color: activeTab === 'enrollModal' ? '#fff' : '#94a3b8',
+            border: activeTab === 'enrollModal' ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '10px',
+            fontWeight: '700',
+            fontSize: '13.5px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          <span>📝</span>
+          <span>Enroll Form &amp; Offer Banner</span>
+        </button>
       </div>
 
       {/* ========================================================
@@ -771,6 +793,313 @@ export default function AdminHomeCustomizer() {
               </button>
               <button type="submit" className="admin-btn-primary">
                 Save Showcase Photos
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* ========================================================
+          TAB 5: ENROLL MODAL & OFFER BANNER
+          ======================================================== */}
+      {activeTab === 'enrollModal' && (
+        <div className="admin-card">
+          <div className="admin-card-header">
+            <h3 className="admin-card-title">
+              <span>📝</span>
+              <span>Enroll Now Modal &amp; Offer Banner Customizer</span>
+            </h3>
+            <span style={{ fontSize: '12px', color: '#94a3b8' }}>
+              Displayed on the website when visitors click "Get Started Now", "Enroll Now", or course enrollment buttons
+            </span>
+          </div>
+
+          <form onSubmit={(e) => { e.preventDefault(); handleSaveAll(); }}>
+            {/* Modal Heading Section */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '20px' }}>
+              <div className="admin-form-group">
+                <label className="admin-label">Modal Title</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={config.enrollModal?.title || ''}
+                  onChange={(e) => setConfig({
+                    ...config,
+                    enrollModal: { ...config.enrollModal, title: e.target.value }
+                  })}
+                  placeholder="e.g. Enroll Now"
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label className="admin-label">Modal Subtitle</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={config.enrollModal?.subtitle || ''}
+                  onChange={(e) => setConfig({
+                    ...config,
+                    enrollModal: { ...config.enrollModal, subtitle: e.target.value }
+                  })}
+                  placeholder="e.g. Start your journey with GV DesignTech"
+                />
+              </div>
+            </div>
+
+            {/* Offer Banner Card */}
+            <div style={{ padding: '20px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(217, 70, 239, 0.3)', borderRadius: '16px', marginBottom: '24px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+                <div style={{ fontSize: '14px', fontWeight: '800', color: '#f472b6' }}>
+                  🎁 PROMOTIONAL OFFER BANNER &amp; BADGE IMAGE
+                </div>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', color: '#fff', fontWeight: '600' }}>
+                  <input
+                    type="checkbox"
+                    checked={config.enrollModal?.showOffer !== false}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      enrollModal: { ...config.enrollModal, showOffer: e.target.checked }
+                    })}
+                    style={{ width: '18px', height: '18px', accentColor: '#d946ef', cursor: 'pointer' }}
+                  />
+                  <span>Show Offer Banner on Modal</span>
+                </label>
+              </div>
+
+              {/* Offer Badge Image & Text */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '16px' }}>
+                <div className="admin-form-group">
+                  <label className="admin-label">
+                    Badge Logo / Icon Image
+                  </label>
+                  <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                    <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: '#fff', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #d946ef', flexShrink: 0 }}>
+                      {config.enrollModal?.offerBadgeImage ? (
+                        <img
+                          src={config.enrollModal.offerBadgeImage}
+                          alt="Offer Badge"
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      ) : (
+                        <div style={{ textAlign: 'center', lineHeight: 1.1 }}>
+                          <strong style={{ display: 'block', fontSize: '12px', color: '#b91c1c' }}>{config.enrollModal?.offerBadgeText || 'EMI'}</strong>
+                          <span style={{ fontSize: '9px', fontWeight: '800', color: '#334155' }}>{config.enrollModal?.offerBadgeSub || 'OFFER'}</span>
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        placeholder="Image URL or upload file below"
+                        value={config.enrollModal?.offerBadgeImage || ''}
+                        onChange={(e) => setConfig({
+                          ...config,
+                          enrollModal: { ...config.enrollModal, offerBadgeImage: e.target.value }
+                        })}
+                        style={{ marginBottom: '6px' }}
+                      />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleFileUpload(e, (url) => {
+                          setConfig(prev => ({
+                            ...prev,
+                            enrollModal: { ...prev.enrollModal, offerBadgeImage: url }
+                          }));
+                        })}
+                        style={{ fontSize: '12px', color: '#94a3b8' }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="admin-form-group">
+                  <label className="admin-label">Badge Text Fallback (if no image)</label>
+                  <div style={{ display: 'flex', gap: '10px' }}>
+                    <input
+                      type="text"
+                      className="admin-input"
+                      placeholder="e.g. EMI"
+                      value={config.enrollModal?.offerBadgeText || ''}
+                      onChange={(e) => setConfig({
+                        ...config,
+                        enrollModal: { ...config.enrollModal, offerBadgeText: e.target.value }
+                      })}
+                    />
+                    <input
+                      type="text"
+                      className="admin-input"
+                      placeholder="e.g. OFFER"
+                      value={config.enrollModal?.offerBadgeSub || ''}
+                      onChange={(e) => setConfig({
+                        ...config,
+                        enrollModal: { ...config.enrollModal, offerBadgeSub: e.target.value }
+                      })}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Offer Content */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+                <div className="admin-form-group">
+                  <label className="admin-label">Offer Headline</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={config.enrollModal?.offerTitle || ''}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      enrollModal: { ...config.enrollModal, offerTitle: e.target.value }
+                    })}
+                    placeholder="e.g. 🪔 Instant Installment Offer"
+                  />
+                </div>
+
+                <div className="admin-form-group">
+                  <label className="admin-label">Offer Subtitle / Details</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={config.enrollModal?.offerSub || ''}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      enrollModal: { ...config.enrollModal, offerSub: e.target.value }
+                    })}
+                    placeholder="e.g. Diwali Special · Pay your course fee in installments"
+                  />
+                </div>
+
+                <div className="admin-form-group">
+                  <label className="admin-label">Countdown Duration (Minutes)</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="60"
+                    className="admin-input"
+                    value={config.enrollModal?.offerMinutes || 2}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      enrollModal: { ...config.enrollModal, offerMinutes: parseInt(e.target.value, 10) || 2 }
+                    })}
+                  />
+                </div>
+
+                <div className="admin-form-group">
+                  <label className="admin-label">Submit Button CTA Text</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={config.enrollModal?.buttonText || ''}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      enrollModal: { ...config.enrollModal, buttonText: e.target.value }
+                    })}
+                    placeholder="e.g. Join Us or Enroll Now"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Live Visual Preview of Enroll Modal */}
+            <div style={{ padding: '24px', background: 'rgba(0, 0, 0, 0.65)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '18px' }}>
+              <div style={{ fontSize: '12px', fontWeight: '800', color: '#c084fc', marginBottom: '16px', letterSpacing: '1px' }}>
+                👀 LIVE ENROLL MODAL PREVIEW
+              </div>
+
+              <div style={{ maxWidth: '420px', margin: '0 auto', background: '#0e0924', border: '1px solid rgba(139, 92, 246, 0.35)', borderRadius: '20px', padding: '22px', boxShadow: '0 20px 50px rgba(0,0,0,0.8)' }}>
+                {/* Header */}
+                <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+                  <h3 style={{ margin: 0, fontSize: '20px', fontWeight: '800', color: '#fff' }}>
+                    {config.enrollModal?.title || 'Enroll Now'}
+                  </h3>
+                  <p style={{ margin: '4px 0 0', fontSize: '12.5px', color: '#94a3b8' }}>
+                    {config.enrollModal?.subtitle || 'Start your journey with GV DesignTech'}
+                  </p>
+                </div>
+
+                {/* Offer Banner */}
+                {config.enrollModal?.showOffer !== false && (
+                  <div style={{
+                    background: 'linear-gradient(135deg, #ef4444, #f97316)',
+                    borderRadius: '12px',
+                    padding: '12px 14px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    marginBottom: '16px',
+                    boxShadow: '0 8px 20px rgba(239, 68, 68, 0.3)'
+                  }}>
+                    <div style={{ width: '42px', height: '42px', borderRadius: '50%', background: '#fff', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      {config.enrollModal?.offerBadgeImage ? (
+                        <img
+                          src={config.enrollModal.offerBadgeImage}
+                          alt="Badge Preview"
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      ) : (
+                        <div style={{ textAlign: 'center', lineHeight: 1 }}>
+                          <strong style={{ display: 'block', fontSize: '10px', color: '#b91c1c' }}>{config.enrollModal?.offerBadgeText || 'EMI'}</strong>
+                          <span style={{ fontSize: '7.5px', fontWeight: '800', color: '#334155' }}>{config.enrollModal?.offerBadgeSub || 'OFFER'}</span>
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: '12px', fontWeight: '800', color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {config.enrollModal?.offerTitle || '🪔 Instant Installment Offer'}
+                      </div>
+                      <div style={{ fontSize: '10.5px', color: 'rgba(255,255,255,0.9)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {config.enrollModal?.offerSub || 'Diwali Special · Pay your course fee in installments'}
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', gap: '3px', alignItems: 'center' }}>
+                      <div style={{ background: '#7f1d1d', borderRadius: '4px', padding: '2px 4px', fontSize: '11px', fontWeight: '800', color: '#fff' }}>01</div>
+                      <span style={{ color: '#fff', fontSize: '10px' }}>:</span>
+                      <div style={{ background: '#7f1d1d', borderRadius: '4px', padding: '2px 4px', fontSize: '11px', fontWeight: '800', color: '#fff' }}>52</div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Form fields mockup */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <div style={{ flex: 1, height: '36px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', padding: '0 10px', fontSize: '11.5px', color: '#64748b' }}>First Name</div>
+                    <div style={{ flex: 1, height: '36px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', padding: '0 10px', fontSize: '11.5px', color: '#64748b' }}>Last Name</div>
+                  </div>
+                  <div style={{ height: '36px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', padding: '0 10px', fontSize: '11.5px', color: '#64748b' }}>Email</div>
+                  <div style={{ height: '36px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', padding: '0 10px', fontSize: '11.5px', color: '#64748b' }}>Phone Number</div>
+                  <div style={{ height: '36px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', padding: '0 10px', fontSize: '11.5px', color: '#64748b' }}>Choose your program…</div>
+
+                  <div style={{
+                    height: '42px',
+                    marginTop: '6px',
+                    background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#fff',
+                    fontWeight: '700',
+                    fontSize: '13px',
+                    boxShadow: '0 8px 24px rgba(139, 92, 246, 0.4)'
+                  }}>
+                    {config.enrollModal?.buttonText || 'Join Us'} →
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
+              <button
+                type="button"
+                className="admin-btn-secondary"
+                onClick={() => handleSaveAll({ ...config, enrollModal: initialSiteConfig.enrollModal })}
+              >
+                Reset to Defaults
+              </button>
+              <button type="submit" className="admin-btn-primary">
+                Save Form &amp; Offer Configuration
               </button>
             </div>
           </form>

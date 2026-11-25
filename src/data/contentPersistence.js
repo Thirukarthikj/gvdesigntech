@@ -41,6 +41,18 @@ export const initialSiteConfig = {
     alt1: 'CAD Design Classroom and Workshop at GV DesignTech',
     image2: '/assets/cad-lab-students.jpg',
     alt2: 'Students Practicing 2D and 3D CAD Modeling at GV DesignTech'
+  },
+  enrollModal: {
+    title: 'Enroll Now',
+    subtitle: 'Start your journey with GV DesignTech',
+    showOffer: true,
+    offerBadgeImage: '',
+    offerBadgeText: 'EMI',
+    offerBadgeSub: 'OFFER',
+    offerTitle: '🪔 Instant Installment Offer',
+    offerSub: 'Diwali Special · Pay your course fee in installments',
+    offerMinutes: 2,
+    buttonText: 'Join Us'
   }
 };
 
@@ -620,7 +632,8 @@ export function getStoredSiteConfig() {
       stats: (Array.isArray(parsed.stats) && parsed.stats.length === 4)
         ? parsed.stats
         : initialSiteConfig.stats,
-      showcaseImages: { ...initialSiteConfig.showcaseImages, ...(parsed.showcaseImages || {}) }
+      showcaseImages: { ...initialSiteConfig.showcaseImages, ...(parsed.showcaseImages || {}) },
+      enrollModal: { ...initialSiteConfig.enrollModal, ...(parsed.enrollModal || {}) }
     };
   } catch {
     return initialSiteConfig;

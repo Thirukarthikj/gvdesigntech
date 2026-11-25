@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { modalStyles } from '../data/styles.js';
 import { syncToFirestore } from '../services/firebase.js';
+import { getStoredSiteConfig, getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function EnrollModal({ isOpen, onClose }) {
+  const [siteConfig, setSiteConfig] = useState(() => getStoredSiteConfig());
+  const [courses, setCourses] = useState(() => getStoredCourses());
+  const modalConfig = siteConfig.enrollModal || {};
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -12,15 +17,25 @@ export default function EnrollModal({ isOpen, onClose }) {
     message: ''
   });
   const [submitted, setSubmitted] = useState(false);
-  const [secondsLeft, setSecondsLeft] = useState(112); // ~1m 52s
+
+  const offerTotalSeconds = (modalConfig.offerMinutes ? modalConfig.offerMinutes * 60 : 120);
+  const [secondsLeft, setSecondsLeft] = useState(offerTotalSeconds);
+
+  useEffect(() => {
+    return subscribeToContentUpdates(() => {
+      setSiteConfig(getStoredSiteConfig());
+      setCourses(getStoredCourses());
+    });
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
+    setSecondsLeft(offerTotalSeconds);
     const timer = setInterval(() => {
-      setSecondsLeft((prev) => (prev > 0 ? prev - 1 : 120));
+      setSecondsLeft((prev) => (prev > 0 ? prev - 1 : offerTotalSeconds));
     }, 1000);
     return () => clearInterval(timer);
-  }, [isOpen]);
+  }, [isOpen, offerTotalSeconds]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -88,34 +103,46 @@ export default function EnrollModal({ isOpen, onClose }) {
         </button>
 
         <div className={s['em-header']}>
-          <h2 className={s['em-title']}>Enroll Now</h2>
-          <p className={s['em-subtitle']}>Start your journey with GV DesignTech</p>
+          <h2 className={s['em-title']}>{modalConfig.title || 'Enroll Now'}</h2>
+          <p className={s['em-subtitle']}>{modalConfig.subtitle || 'Start your journey with GV DesignTech'}</p>
         </div>
 
-        <div className={s['em-offer']}>
-          <div className={s['em-offer-badge']}>
-            <strong>EMI</strong>
-            <span>OFFER</span>
+        {modalConfig.showOffer !== false && (
+          <div className={s['em-offer']}>
+            <div className={s['em-offer-badge']} style={{ overflow: 'hidden', padding: 0 }}>
+              {modalConfig.offerBadgeImage ? (
+                <img
+                  src={modalConfig.offerBadgeImage}
+                  alt="Offer Badge"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+                />
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+                  <strong>{modalConfig.offerBadgeText || 'EMI'}</strong>
+                  <span>{modalConfig.offerBadgeSub || 'OFFER'}</span>
+                </div>
+              )}
+            </div>
+            <div className={s['em-offer-body']}>
+              <p className={s['em-offer-title']}>{modalConfig.offerTitle || '🪔 Instant Installment Offer'}</p>
+              <p className={s['em-offer-sub']}>{modalConfig.offerSub || 'Diwali Special · Pay your course fee in installments'}</p>
+            </div>
+            <div className={s['em-offer-timer']} role="timer" aria-label="Offer time remaining">
+              <span className={s['em-offer-box']}>
+                <b>{minutes}</b>
+                <i>MIN</i>
+              </span>
+              <span className={s['em-offer-colon']}>:</span>
+              <span className={s['em-offer-box']}>
+                <b>{seconds}</b>
+                <i>SEC</i>
+              </span>
+            </div>
+            <div className={s['em-offer-bar']}>
+              <span style={{ width: `${progressPercent}%` }}></span>
+            </div>
           </div>
-          <div className={s['em-offer-body']}>
-            <p className={s['em-offer-title']}>🪔 Instant Installment Offer</p>
-            <p className={s['em-offer-sub']}>Diwali Special · Pay your course fee in installments</p>
-          </div>
-          <div className={s['em-offer-timer']} role="timer" aria-label="Offer time remaining">
-            <span className={s['em-offer-box']}>
-              <b>{minutes}</b>
-              <i>MIN</i>
-            </span>
-            <span className={s['em-offer-colon']}>:</span>
-            <span className={s['em-offer-box']}>
-              <b>{seconds}</b>
-              <i>SEC</i>
-            </span>
-          </div>
-          <div className={s['em-offer-bar']}>
-            <span style={{ width: `${progressPercent}%` }}></span>
-          </div>
-        </div>
+        )}
 
         {submitted ? (
           <div style={{ textAlign: 'center', padding: '40px 20px', color: '#fff' }}>
@@ -208,14 +235,24 @@ export default function EnrollModal({ isOpen, onClose }) {
                   onChange={handleChange}
                 >
                   <option value="">Choose your program…</option>
-                  <option value="Mechanical & Automobile CAD">Mechanical &amp; Automobile CAD</option>
-                  <option value="Civil Engineering & BIM">Civil Engineering &amp; BIM</option>
-                  <option value="CNC Programming & CAM">CNC Programming &amp; CAM</option>
-                  <option value="Computer Science & IT">Computer Science &amp; IT</option>
-                  <option value="EEE / Instrumentation">EEE / Instrumentation</option>
-                  <option value="ECE Design">ECE Design</option>
-                  <option value="Piping (Oil & Gas)">Piping (Oil &amp; Gas)</option>
-                  <option value="Engineering Internship">Engineering Internship</option>
+                  {courses && courses.length > 0 ? (
+                    courses.map((c) => (
+                      <option key={c.id || c.title} value={c.title || c.department}>
+                        {c.title || c.department}
+                      </option>
+                    ))
+                  ) : (
+                    <>
+                      <option value="Mechanical & Automobile CAD">Mechanical &amp; Automobile CAD</option>
+                      <option value="Civil Engineering & BIM">Civil Engineering &amp; BIM</option>
+                      <option value="CNC Programming & CAM">CNC Programming &amp; CAM</option>
+                      <option value="Computer Science & IT">Computer Science &amp; IT</option>
+                      <option value="EEE / Instrumentation">EEE / Instrumentation</option>
+                      <option value="ECE Design">ECE Design</option>
+                      <option value="Piping (Oil & Gas)">Piping (Oil &amp; Gas)</option>
+                      <option value="Engineering Internship">Engineering Internship</option>
+                    </>
+                  )}
                 </select>
                 <div className={s['em-select-arrow']}>
                   <svg viewBox="0 0 12 8" fill="none">
@@ -242,7 +279,7 @@ export default function EnrollModal({ isOpen, onClose }) {
             </div>
 
             <button type="submit" className={`${s['em-field']} ${s['em-field-7']} ${s['em-submit']}`}>
-              <span className={s['em-submit-text']}>Join Us</span>
+              <span className={s['em-submit-text']}>{modalConfig.buttonText || 'Join Us'}</span>
               <span className={s['em-submit-shine']}></span>
               <svg className={s['em-submit-icon']} viewBox="0 0 20 20" fill="none">
                 <path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
