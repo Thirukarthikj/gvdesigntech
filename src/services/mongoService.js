@@ -334,3 +334,73 @@ export async function deleteLeadInMongo(id) {
     return null;
   }
 }
+
+/* ==================================================
+   8. Courses & Curriculum
+   ================================================== */
+export async function fetchCoursesFromMongo() {
+  try {
+    const res = await fetch(`${API_BASE}/courses`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    console.warn('Could not fetch courses from MongoDB:', err.message);
+    return null;
+  }
+}
+
+export async function createCourseInMongo(course) {
+  try {
+    const res = await fetch(`${API_BASE}/courses`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(course)
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    console.warn('Could not create course in MongoDB:', err.message);
+    return null;
+  }
+}
+
+export async function updateCourseInMongo(id, course) {
+  try {
+    const res = await fetch(`${API_BASE}/courses/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(course)
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    console.warn('Could not update course in MongoDB:', err.message);
+    return null;
+  }
+}
+
+export async function deleteCourseInMongo(id) {
+  try {
+    const res = await fetch(`${API_BASE}/courses/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    console.warn('Could not delete course in MongoDB:', err.message);
+    return null;
+  }
+}
+
+export async function syncCoursesToMongo(courses) {
+  try {
+    const res = await fetch(`${API_BASE}/courses/sync`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(courses)
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    console.warn('Could not sync courses to MongoDB:', err.message);
+    return null;
+  }
+}

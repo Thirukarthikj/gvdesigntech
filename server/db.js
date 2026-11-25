@@ -5,6 +5,7 @@ import { galleryItems } from '../src/data/gallery.js';
 import { defaultPlacements, defaultLeaders, defaultCertificates } from '../src/data/contentPersistence.js';
 import { blogPosts } from '../src/data/blogs.js';
 import { initialAdminLeads } from '../src/data/adminInitialData.js';
+import { initialCourses } from '../src/data/coursesData.js';
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/gvdesigntech';
 const DB_NAME = 'gvdesigntech';
@@ -111,8 +112,28 @@ async function seedInitialData(database) {
     const leadsCol = database.collection('leads');
     const leadsCount = await leadsCol.countDocuments();
     if (leadsCount === 0) {
-      await leadsCol.insertMany(initialAdminLeads);
+      const cleanLeads = initialAdminLeads.map(l => {
+        const { _id, ...rest } = l;
+        return rest;
+      });
+      await leadsCol.insertMany(cleanLeads);
       console.log(`✅ Seeded initial student inquiries into MongoDB`);
+    }
+
+    // 8. Courses & Curriculum Collection
+    const courseCol = database.collection('courses');
+    const courseCount = await courseCol.countDocuments();
+    if (courseCount === 0) {
+      const cleanCourses = initialCourses.map((c, idx) => {
+        const { _id, ...rest } = c;
+        return {
+          ...rest,
+          order: rest.order ?? idx,
+          createdAt: rest.createdAt || new Date(Date.now() - (idx * 5000)).toISOString()
+        };
+      });
+      await courseCol.insertMany(cleanCourses);
+      console.log(`✅ Seeded ${cleanCourses.length} courses into MongoDB`);
     }
   } catch (seedErr) {
     console.error('Error during MongoDB initial data seeding:', seedErr);

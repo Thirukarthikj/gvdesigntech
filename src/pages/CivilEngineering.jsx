@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function CivilEngineering({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -115,6 +116,27 @@ export default function CivilEngineering({ onOpenModal }) {
       image: '/assets/civil-3d-viz.jpg'
     }
   ];
+
+  const [coursesList, setCoursesList] = useState(() => {
+    const stored = getStoredCourses().filter(c =>
+      (c.department && c.department.toLowerCase().includes('civil')) ||
+      (c.category && c.category.toLowerCase().includes('civil'))
+    );
+    const custom = stored.filter(s => !civilCourses.some(m => m.id === s.id || m.title === s.title));
+    return [...civilCourses, ...custom];
+  });
+
+  useEffect(() => {
+    const unsub = subscribeToContentUpdates(() => {
+      const stored = getStoredCourses().filter(c =>
+        (c.department && c.department.toLowerCase().includes('civil')) ||
+        (c.category && c.category.toLowerCase().includes('civil'))
+      );
+      const custom = stored.filter(s => !civilCourses.some(m => m.id === s.id || m.title === s.title));
+      setCoursesList([...civilCourses, ...custom]);
+    });
+    return () => unsub();
+  }, []);
 
   const softwarePrograms = [
     {
@@ -246,8 +268,8 @@ export default function CivilEngineering({ onOpenModal }) {
           </div>
 
           <div className="mech-grid">
-            {civilCourses.map((c) => (
-              <div key={c.id} className="mech-card" onClick={onOpenModal}>
+            {coursesList.map((c) => (
+              <div key={c.id || c._id} className="mech-card" onClick={onOpenModal}>
                 <div className="mech-card-media">
                   <span className="mech-badge-popular">{c.badge}</span>
                   <img className="mech-card-img" alt={c.title} src={c.image} />

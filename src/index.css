@@ -618,6 +618,15 @@
 /* ==========================================================================
    Curated Disciplines Dropdown (Courses Menu)
    ========================================================================== */
+.dropdown.active .dropdown-menu,
+.dropdown:hover .dropdown-menu {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateY(0) !important;
+}
+
 .dropdown-menu.courses-curated-dropdown {
   min-width: 330px;
   padding: 0 !important;

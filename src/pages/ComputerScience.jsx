@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function ComputerScience({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -152,6 +153,27 @@ export default function ComputerScience({ onOpenModal }) {
     }
   ];
 
+  const [coursesList, setCoursesList] = useState(() => {
+    const stored = getStoredCourses().filter(c =>
+      (c.department && c.department.toLowerCase().includes('computer')) ||
+      (c.category && c.category.toLowerCase().includes('computer'))
+    );
+    const custom = stored.filter(s => !csCourses.some(m => m.id === s.id || m.title === s.title));
+    return [...csCourses, ...custom];
+  });
+
+  useEffect(() => {
+    const unsub = subscribeToContentUpdates(() => {
+      const stored = getStoredCourses().filter(c =>
+        (c.department && c.department.toLowerCase().includes('computer')) ||
+        (c.category && c.category.toLowerCase().includes('computer'))
+      );
+      const custom = stored.filter(s => !csCourses.some(m => m.id === s.id || m.title === s.title));
+      setCoursesList([...csCourses, ...custom]);
+    });
+    return () => unsub();
+  }, []);
+
   const softwarePrograms = [
     { code: 'P', tag: 'LANG', title: 'Python 3', subtitle: 'Automation & Data Engineering', img: '/assets/python-data-science-WAA-mEXC.webp' },
     { code: 'J', tag: 'LANG', title: 'Java & Spring', subtitle: 'Enterprise Backend Architectures', img: '/assets/java-springboot-api-DpH3i4I0.webp' },
@@ -283,9 +305,9 @@ export default function ComputerScience({ onOpenModal }) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px' }}>
-          {csCourses.map((c, i) => (
+          {coursesList.map((c, i) => (
             <div
-              key={i}
+              key={c.id || c._id || i}
               style={{
                 background: 'rgba(15, 11, 33, 0.85)',
                 border: '1px solid rgba(56, 189, 248, 0.25)',

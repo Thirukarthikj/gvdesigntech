@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [courses, setCourses] = useState(() => getStoredCourses());
   const location = useLocation();
+
+  useEffect(() => {
+    setCourses(getStoredCourses());
+    const unsub = subscribeToContentUpdates(() => {
+      setCourses(getStoredCourses());
+    });
+    return () => unsub();
+  }, []);
 
   // Close menus on route change
   useEffect(() => {
@@ -53,65 +63,28 @@ export default function Navbar() {
             </span>
             <div className="dropdown-menu courses-curated-dropdown">
               <div className="curated-header">
-                <span>CURATED DISCIPLINES (7)</span>
+                <span>CURATED DISCIPLINES ({courses.length})</span>
                 <span className="curated-dot"></span>
               </div>
               <div className="curated-list">
-                <Link to="/mechanical" className="curated-item" onClick={closeAll}>
-                  <div className="curated-item-info">
-                    <span className="curated-item-title">Mechanical &amp; Automobile</span>
-                    <span className="curated-item-modules">8 Software modules</span>
-                  </div>
-                  <span className="curated-arrow">→</span>
-                </Link>
-
-                <Link to="/civil-engineering" className="curated-item" onClick={closeAll}>
-                  <div className="curated-item-info">
-                    <span className="curated-item-title">Civil Engineering</span>
-                    <span className="curated-item-modules">6 Software modules</span>
-                  </div>
-                  <span className="curated-arrow">→</span>
-                </Link>
-
-                <Link to="/cnc-programming" className="curated-item" onClick={closeAll}>
-                  <div className="curated-item-info">
-                    <span className="curated-item-title">CNC Programming</span>
-                    <span className="curated-item-modules">6 Software modules</span>
-                  </div>
-                  <span className="curated-arrow">→</span>
-                </Link>
-
-                <Link to="/computer-science" className="curated-item" onClick={closeAll}>
-                  <div className="curated-item-info">
-                    <span className="curated-item-title">Computer Science &amp; IT</span>
-                    <span className="curated-item-modules">8 Software modules</span>
-                  </div>
-                  <span className="curated-arrow">→</span>
-                </Link>
-
-                <Link to="/eee-instrumentation" className="curated-item" onClick={closeAll}>
-                  <div className="curated-item-info">
-                    <span className="curated-item-title">EEE/Instrumentation</span>
-                    <span className="curated-item-modules">8 Software modules</span>
-                  </div>
-                  <span className="curated-arrow">→</span>
-                </Link>
-
-                <Link to="/ece" className="curated-item" onClick={closeAll}>
-                  <div className="curated-item-info">
-                    <span className="curated-item-title">ECE</span>
-                    <span className="curated-item-modules">7 Software modules</span>
-                  </div>
-                  <span className="curated-arrow">→</span>
-                </Link>
-
-                <Link to="/piping-engineering" className="curated-item" onClick={closeAll}>
-                  <div className="curated-item-info">
-                    <span className="curated-item-title">Piping (Oil &amp; Gas)</span>
-                    <span className="curated-item-modules">8 Software modules</span>
-                  </div>
-                  <span className="curated-arrow">→</span>
-                </Link>
+                {courses.map((course) => {
+                  const title = course.title || course.department;
+                  const mod = course.modules ? course.modules.split('(')[0].trim() : `${course.duration || 'Specialized'}`;
+                  return (
+                    <Link
+                      to={course.link || '/mechanical'}
+                      key={course.id || course._id || title}
+                      className="curated-item"
+                      onClick={closeAll}
+                    >
+                      <div className="curated-item-info">
+                        <span className="curated-item-title">{course.title || course.department}</span>
+                        <span className="curated-item-modules">{mod}</span>
+                      </div>
+                      <span className="curated-arrow">→</span>
+                    </Link>
+                  );
+                })}
               </div>
 
               <div className="curated-footer">

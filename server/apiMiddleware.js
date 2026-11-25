@@ -455,7 +455,86 @@ apiRouter.delete('/leads/:id', async (req, res) => {
 });
 
 /* ==========================================
-   8. MongoDB Health & Stats
+   8. Courses & Curriculum Collection
+   ========================================== */
+apiRouter.get('/courses', async (req, res) => {
+  try {
+    const list = await req.db.collection('courses')
+      .find({})
+      .sort({ order: 1, createdAt: -1, _id: -1 })
+      .toArray();
+    res.json(list);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.post('/courses/sync', async (req, res) => {
+  try {
+    const list = req.body;
+    if (Array.isArray(list)) {
+      await req.db.collection('courses').deleteMany({});
+      if (list.length > 0) {
+        const now = Date.now();
+        const cleanList = list.map((item, idx) => {
+          const { _id, ...clean } = item;
+          return {
+            ...clean,
+            id: clean.id || `course-${now - (idx * 1000)}`,
+            order: clean.order ?? idx,
+            createdAt: clean.createdAt || new Date(now - (idx * 1000)).toISOString(),
+            updatedAt: new Date().toISOString()
+          };
+        });
+        await req.db.collection('courses').insertMany(cleanList);
+      }
+    }
+    res.json({ success: true, count: list.length });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.post('/courses', async (req, res) => {
+  try {
+    const item = {
+      ...req.body,
+      id: req.body.id || `course-${Date.now()}`,
+      order: req.body.order ?? 0,
+      createdAt: req.body.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    const result = await req.db.collection('courses').insertOne(item);
+    res.status(201).json({ ...item, _id: result.insertedId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.put('/courses/:id', async (req, res) => {
+  try {
+    const query = buildIdQuery(req.params.id);
+    const { _id, ...updateData } = req.body;
+    updateData.updatedAt = new Date().toISOString();
+    const result = await req.db.collection('courses').updateOne(query, { $set: updateData });
+    res.json({ success: result.modifiedCount > 0, ...updateData });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.delete('/courses/:id', async (req, res) => {
+  try {
+    const query = buildIdQuery(req.params.id);
+    const result = await req.db.collection('courses').deleteOne(query);
+    res.json({ success: result.deletedCount > 0 });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/* ==========================================
+   9. MongoDB Health & Stats
    ========================================== */
 apiRouter.get('/health', async (req, res) => {
   try {

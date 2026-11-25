@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function Mechanical({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -134,6 +135,27 @@ export default function Mechanical({ onOpenModal }) {
       image: '/assets/mech-rev-eng.jpg'
     }
   ];
+
+  const [coursesList, setCoursesList] = useState(() => {
+    const stored = getStoredCourses().filter(c =>
+      (c.department && c.department.toLowerCase().includes('mechanical')) ||
+      (c.category && c.category.toLowerCase().includes('mechanical'))
+    );
+    const custom = stored.filter(s => !mechanicalCourses.some(m => m.id === s.id || m.title === s.title));
+    return [...mechanicalCourses, ...custom];
+  });
+
+  useEffect(() => {
+    const unsub = subscribeToContentUpdates(() => {
+      const stored = getStoredCourses().filter(c =>
+        (c.department && c.department.toLowerCase().includes('mechanical')) ||
+        (c.category && c.category.toLowerCase().includes('mechanical'))
+      );
+      const custom = stored.filter(s => !mechanicalCourses.some(m => m.id === s.id || m.title === s.title));
+      setCoursesList([...mechanicalCourses, ...custom]);
+    });
+    return () => unsub();
+  }, []);
 
   const softwarePrograms = [
     {
@@ -281,8 +303,8 @@ export default function Mechanical({ onOpenModal }) {
           </div>
 
           <div className="mech-grid">
-            {mechanicalCourses.map((c) => (
-              <div key={c.id} className="mech-card" onClick={onOpenModal}>
+            {coursesList.map((c) => (
+              <div key={c.id || c._id} className="mech-card" onClick={onOpenModal}>
                 <div className="mech-card-media">
                   <span className="mech-badge-popular">{c.badge}</span>
                   <img className="mech-card-img" alt={c.title} src={c.image} />

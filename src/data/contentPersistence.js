@@ -1,6 +1,7 @@
 import { mouList } from './mous.js';
 import { galleryItems } from './gallery.js';
 import { blogPosts, blogCategories } from './blogs.js';
+import { initialCourses } from './coursesData.js';
 import { syncToFirestore, subscribeToFirestore } from '../services/firebase.js';
 
 // Keys for localStorage
@@ -10,6 +11,7 @@ const PLACEMENT_KEY = 'gv_admin_placement';
 const BLOG_KEY = 'gv_admin_blogs';
 const CERT_KEY = 'gv_admin_certificates';
 const LEADERS_KEY = 'gv_admin_leaders';
+const COURSE_KEY = 'gv_admin_courses';
 
 // Default Leaders Data
 export const defaultLeaders = [
@@ -136,14 +138,15 @@ let mongoSyncTriggered = false;
 export async function syncWithMongo() {
   if (typeof window === 'undefined') return;
   try {
-    const [mousRes, galRes, placeRes, blogsRes, leadRes, certRes, leadsRes] = await Promise.allSettled([
+    const [mousRes, galRes, placeRes, blogsRes, leadRes, certRes, leadsRes, coursesRes] = await Promise.allSettled([
       fetch('/api/mous').then(r => r.ok ? r.json() : null),
       fetch('/api/gallery').then(r => r.ok ? r.json() : null),
       fetch('/api/placements').then(r => r.ok ? r.json() : null),
       fetch('/api/blogs').then(r => r.ok ? r.json() : null),
       fetch('/api/leaders').then(r => r.ok ? r.json() : null),
       fetch('/api/certificates').then(r => r.ok ? r.json() : null),
-      fetch('/api/leads').then(r => r.ok ? r.json() : null)
+      fetch('/api/leads').then(r => r.ok ? r.json() : null),
+      fetch('/api/courses').then(r => r.ok ? r.json() : null)
     ]);
 
     let changed = false;
@@ -174,6 +177,10 @@ export async function syncWithMongo() {
     }
     if (leadsRes.status === 'fulfilled' && Array.isArray(leadsRes.value) && leadsRes.value.length > 0) {
       localStorage.setItem('gv_admin_leads', JSON.stringify(leadsRes.value));
+      changed = true;
+    }
+    if (coursesRes.status === 'fulfilled' && Array.isArray(coursesRes.value) && coursesRes.value.length > 0) {
+      localStorage.setItem(COURSE_KEY, JSON.stringify(coursesRes.value));
       changed = true;
     }
 
@@ -513,6 +520,62 @@ export function saveStoredLeaders(leaders) {
   // Non-blocking background cloud sync
   try {
     syncToFirestore('leaders', leaders);
+  } catch {
+    // ignore
+  }
+}
+
+/* --- 7. Courses Catalog & Curriculum Persistence --- */
+export function getStoredCourses() {
+  try {
+    const raw = localStorage.getItem(COURSE_KEY);
+    if (!raw) {
+      localStorage.setItem(COURSE_KEY, JSON.stringify(initialCourses));
+      return initialCourses;
+    }
+    const list = JSON.parse(raw);
+    if (!Array.isArray(list) || list.length === 0) {
+      localStorage.setItem(COURSE_KEY, JSON.stringify(initialCourses));
+      return initialCourses;
+    }
+    return list;
+  } catch {
+    return initialCourses;
+  }
+}
+
+export function saveStoredCourses(courses) {
+  try {
+    localStorage.setItem(COURSE_KEY, JSON.stringify(courses));
+    notifyContentUpdate('courses');
+  } catch (err) {
+    console.error('Failed to save Courses to localStorage:', err);
+    if (err.name === 'QuotaExceededError' || err.code === 22) {
+      try {
+        const lightweight = courses.map(item => ({
+          ...item,
+          image: (item.image && item.image.length > 80000) ? '' : item.image
+        }));
+        localStorage.setItem(COURSE_KEY, JSON.stringify(lightweight));
+        notifyContentUpdate('courses');
+      } catch (innerErr) {
+        console.error('Fatal quota error on Courses:', innerErr);
+      }
+    }
+  }
+
+  // Persist directly to MongoDB
+  try {
+    fetch('/api/courses/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(courses)
+    }).catch(e => console.warn('MongoDB Courses sync:', e.message));
+  } catch (e) {}
+
+  // Non-blocking background cloud sync
+  try {
+    syncToFirestore('courses', courses);
   } catch {
     // ignore
   }
