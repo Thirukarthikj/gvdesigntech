@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getStoredPlacements, saveStoredPlacements } from '../../data/contentPersistence.js';
-import { uploadImageToCloudinary } from '../../services/cloudinaryService.js';
+import { uploadImageToCloudinary, compressImageFile } from '../../services/cloudinaryService.js';
 
 export default function AdminPlacementManager() {
   const [data, setData] = useState(() => getStoredPlacements());
@@ -45,15 +45,19 @@ export default function AdminPlacementManager() {
 
     setUploadingImage(true);
     try {
-      const result = await uploadImageToCloudinary(file, { folder: 'gv_designtech/placements' });
-      setStoryForm(prev => ({ ...prev, image: result.url }));
-      if (result.isCloudinary) {
+      const localData = await compressImageFile(file);
+      setStoryForm(prev => ({ ...prev, image: localData }));
+      showNotification('📷 Student photo attached! Processing cloud upload...');
+
+      const result = await uploadImageToCloudinary(file, { folder: 'gvdesigntech/placements' });
+      if (result && result.isCloudinary) {
+        setStoryForm(prev => ({ ...prev, image: result.url }));
         showNotification('☁️ Student photo uploaded to Cloudinary CDN successfully!');
       } else {
-        showNotification('Photo saved locally (Configure Cloudinary in Settings for cloud CDN)');
+        showNotification('✓ Student photo attached and ready to save!');
       }
     } catch (err) {
-      alert('Upload failed: ' + err.message);
+      console.warn('Upload fallback to local image:', err.message);
     } finally {
       setUploadingImage(false);
     }

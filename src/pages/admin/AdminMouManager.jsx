@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getStoredMous, saveStoredMous } from '../../data/contentPersistence.js';
-import { uploadImageToCloudinary } from '../../services/cloudinaryService.js';
+import { uploadImageToCloudinary, compressImageFile } from '../../services/cloudinaryService.js';
 
 export default function AdminMouManager() {
   const [mous, setMous] = useState(() => getStoredMous());
@@ -67,15 +67,21 @@ export default function AdminMouManager() {
 
     setUploadingImage(true);
     try {
-      const result = await uploadImageToCloudinary(file, { folder: 'gv_designtech/mous' });
-      setFormData(prev => ({ ...prev, image: result.url }));
-      if (result.isCloudinary) {
+      // 1. Immediately read, compress, and attach so user sees their actual photo instantly
+      const localData = await compressImageFile(file);
+      setFormData(prev => ({ ...prev, image: localData }));
+      showNotification('📷 Photo attached! Processing cloud upload...');
+
+      // 2. Attempt cloud CDN upload in background
+      const result = await uploadImageToCloudinary(file, { folder: 'gvdesigntech/mous' });
+      if (result && result.isCloudinary) {
+        setFormData(prev => ({ ...prev, image: result.url }));
         showNotification('☁️ Photo uploaded to Cloudinary CDN successfully!');
       } else {
-        showNotification('Photo saved locally (Configure Cloudinary in Settings for cloud CDN)');
+        showNotification('✓ Photo attached and ready to save!');
       }
     } catch (err) {
-      alert('Upload failed: ' + err.message);
+      console.warn('Upload fallback to local image:', err.message);
     } finally {
       setUploadingImage(false);
     }
@@ -221,7 +227,6 @@ export default function AdminMouManager() {
             </div>
           ) : (
             filtered.map((item, idx) => {
-              const displayImg = item.image || photoPresets[idx % photoPresets.length].path;
               return (
                 <div
                   key={item.id || idx}
@@ -235,12 +240,19 @@ export default function AdminMouManager() {
                   }}
                 >
                   <div style={{ height: '180px', position: 'relative', background: '#0a0618' }}>
-                    <img
-                      src={displayImg}
-                      alt={item.name}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      onError={(e) => { e.target.src = '/assets/gallery/gallery-02.jpg'; }}
-                    />
+                    {item.image ? (
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        onError={(e) => { e.target.style.display = 'none'; }}
+                      />
+                    ) : (
+                      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(88, 28, 135, 0.25), rgba(15, 23, 42, 0.7))', color: '#c084fc', gap: '8px' }}>
+                        <span style={{ fontSize: '38px' }}>🏛️</span>
+                        <span style={{ fontSize: '12px', fontWeight: '600', color: '#94a3b8' }}>MOU Partner</span>
+                      </div>
+                    )}
                     <span style={{
                       position: 'absolute',
                       top: '10px',

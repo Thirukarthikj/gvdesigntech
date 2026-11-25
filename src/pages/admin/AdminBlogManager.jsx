@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getStoredBlogs, saveStoredBlogs } from '../../data/contentPersistence.js';
 import { blogCategories } from '../../data/blogs.js';
-import { uploadImageToCloudinary } from '../../services/cloudinaryService.js';
+import { uploadImageToCloudinary, compressImageFile } from '../../services/cloudinaryService.js';
 
 export default function AdminBlogManager() {
   const [blogs, setBlogs] = useState(() => getStoredBlogs());
@@ -43,15 +43,19 @@ export default function AdminBlogManager() {
 
     setUploadingImage(true);
     try {
-      const result = await uploadImageToCloudinary(file, { folder: 'gv_designtech/blogs' });
-      setFormData(prev => ({ ...prev, image: result.url }));
-      if (result.isCloudinary) {
+      const localData = await compressImageFile(file);
+      setFormData(prev => ({ ...prev, image: localData }));
+      showNotification('📷 Blog cover attached! Processing cloud upload...');
+
+      const result = await uploadImageToCloudinary(file, { folder: 'gvdesigntech/blogs' });
+      if (result && result.isCloudinary) {
+        setFormData(prev => ({ ...prev, image: result.url }));
         showNotification('☁️ Blog cover uploaded to Cloudinary CDN successfully!');
       } else {
-        showNotification('Photo saved locally (Configure Cloudinary in Settings for cloud CDN)');
+        showNotification('✓ Blog cover attached and ready to save!');
       }
     } catch (err) {
-      alert('Upload failed: ' + err.message);
+      console.warn('Upload fallback to local image:', err.message);
     } finally {
       setUploadingImage(false);
     }

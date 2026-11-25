@@ -165,42 +165,6 @@ export function subscribeToContentUpdates(callback) {
     syncChannel.addEventListener('message', bcListener);
   }
 
-  // 5. Cloud Firestore Realtime Listeners (multi-device cloud sync)
-  const unsubMous = subscribeToFirestore('mous', (data) => {
-    if (Array.isArray(data) && data.length > 0) {
-      localStorage.setItem(MOU_KEY, JSON.stringify(data));
-      handleUpdate();
-    }
-  });
-
-  const unsubGallery = subscribeToFirestore('gallery', (data) => {
-    if (Array.isArray(data) && data.length > 0) {
-      localStorage.setItem(GALLERY_KEY, JSON.stringify(data));
-      handleUpdate();
-    }
-  });
-
-  const unsubPlacements = subscribeToFirestore('placements', (data) => {
-    if (data && (data.stats || data.stories)) {
-      localStorage.setItem(PLACEMENT_KEY, JSON.stringify(data));
-      handleUpdate();
-    }
-  });
-
-  const unsubBlogs = subscribeToFirestore('blogs', (data) => {
-    if (Array.isArray(data) && data.length > 0) {
-      localStorage.setItem(BLOG_KEY, JSON.stringify(data));
-      handleUpdate();
-    }
-  });
-
-  const unsubLeaders = subscribeToFirestore('leaders', (data) => {
-    if (Array.isArray(data) && data.length > 0) {
-      localStorage.setItem(LEADERS_KEY, JSON.stringify(data));
-      handleUpdate();
-    }
-  });
-
   return () => {
     window.removeEventListener('gv_content_updated', handleUpdate);
     window.removeEventListener('storage', handleUpdate);
@@ -209,11 +173,6 @@ export function subscribeToContentUpdates(callback) {
     if (syncChannel && bcListener) {
       syncChannel.removeEventListener('message', bcListener);
     }
-    if (unsubMous) unsubMous();
-    if (unsubGallery) unsubGallery();
-    if (unsubPlacements) unsubPlacements();
-    if (unsubBlogs) unsubBlogs();
-    if (unsubLeaders) unsubLeaders();
   };
 }
 
@@ -223,17 +182,26 @@ export function getStoredMous() {
     const raw = localStorage.getItem(MOU_KEY);
     if (!raw) {
       localStorage.setItem(MOU_KEY, JSON.stringify(mouList));
-      syncToFirestore('mous', mouList);
       return mouList;
     }
     const list = JSON.parse(raw);
-    // Ensure default flagship entries like 'kahe' are present if localStorage was initialized prior
-    const hasKahe = Array.isArray(list) && list.some(m => (m.name || '').toLowerCase() === 'kahe');
-    if (!hasKahe && Array.isArray(list)) {
-      const kaheEntry = mouList.find(m => (m.name || '').toLowerCase() === 'kahe');
-      if (kaheEntry) {
-        list.unshift(kaheEntry);
+    if (!Array.isArray(list)) return mouList;
+
+    // Ensure default flagship entries like 'kahe' and 'Government College of Engineering, Salem' are present
+    let modified = false;
+    for (let i = mouList.length - 1; i >= 0; i--) {
+      const def = mouList[i];
+      const exists = list.some(m => (m.name || '').toLowerCase().trim() === (def.name || '').toLowerCase().trim());
+      if (!exists && (def.name.toLowerCase() === 'kahe' || def.name.toLowerCase().includes('salem'))) {
+        list.unshift(def);
+        modified = true;
+      }
+    }
+    if (modified) {
+      try {
         localStorage.setItem(MOU_KEY, JSON.stringify(list));
+      } catch (e) {
+        console.warn('Could not persist merged defaults to localStorage', e);
       }
     }
     return list;
@@ -246,9 +214,27 @@ export function saveStoredMous(list) {
   try {
     localStorage.setItem(MOU_KEY, JSON.stringify(list));
     notifyContentUpdate('mou');
-    syncToFirestore('mous', list);
   } catch (err) {
-    console.error('Failed to save MOUs', err);
+    console.warn('Failed to save MOUs to localStorage (quota check):', err);
+    if (err.name === 'QuotaExceededError' || err.code === 22) {
+      try {
+        // Strip out any oversized base64 strings if quota exceeded
+        const lightweight = list.map(item => ({
+          ...item,
+          image: (item.image && item.image.length > 80000) ? '' : item.image
+        }));
+        localStorage.setItem(MOU_KEY, JSON.stringify(lightweight));
+        notifyContentUpdate('mou');
+      } catch (innerErr) {
+        console.error('Fatal quota error on MOUs:', innerErr);
+      }
+    }
+  }
+  // Non-blocking background cloud sync
+  try {
+    syncToFirestore('mous', list);
+  } catch {
+    // ignore
   }
 }
 
@@ -258,7 +244,6 @@ export function getStoredGallery() {
     const raw = localStorage.getItem(GALLERY_KEY);
     if (!raw) {
       localStorage.setItem(GALLERY_KEY, JSON.stringify(galleryItems));
-      syncToFirestore('gallery', galleryItems);
       return galleryItems;
     }
     return JSON.parse(raw);
@@ -271,9 +256,26 @@ export function saveStoredGallery(items) {
   try {
     localStorage.setItem(GALLERY_KEY, JSON.stringify(items));
     notifyContentUpdate('gallery');
-    syncToFirestore('gallery', items);
   } catch (err) {
-    console.error('Failed to save Gallery', err);
+    console.warn('Failed to save Gallery (quota check):', err);
+    if (err.name === 'QuotaExceededError' || err.code === 22) {
+      try {
+        const lightweight = items.map(item => ({
+          ...item,
+          image: (item.image && item.image.length > 80000) ? '' : item.image
+        }));
+        localStorage.setItem(GALLERY_KEY, JSON.stringify(lightweight));
+        notifyContentUpdate('gallery');
+      } catch (innerErr) {
+        console.error('Fatal quota error on Gallery:', innerErr);
+      }
+    }
+  }
+  // Non-blocking background cloud sync
+  try {
+    syncToFirestore('gallery', items);
+  } catch {
+    // ignore
   }
 }
 
@@ -283,7 +285,6 @@ export function getStoredPlacements() {
     const raw = localStorage.getItem(PLACEMENT_KEY);
     if (!raw) {
       localStorage.setItem(PLACEMENT_KEY, JSON.stringify(defaultPlacements));
-      syncToFirestore('placements', defaultPlacements);
       return defaultPlacements;
     }
     return JSON.parse(raw);
@@ -296,9 +297,14 @@ export function saveStoredPlacements(data) {
   try {
     localStorage.setItem(PLACEMENT_KEY, JSON.stringify(data));
     notifyContentUpdate('placement');
-    syncToFirestore('placements', data);
   } catch (err) {
     console.error('Failed to save Placements', err);
+  }
+  // Non-blocking background cloud sync
+  try {
+    syncToFirestore('placements', data);
+  } catch {
+    // ignore
   }
 }
 
@@ -308,7 +314,6 @@ export function getStoredBlogs() {
     const raw = localStorage.getItem(BLOG_KEY);
     if (!raw) {
       localStorage.setItem(BLOG_KEY, JSON.stringify(blogPosts));
-      syncToFirestore('blogs', blogPosts);
       return blogPosts;
     }
     return JSON.parse(raw);
@@ -321,9 +326,14 @@ export function saveStoredBlogs(posts) {
   try {
     localStorage.setItem(BLOG_KEY, JSON.stringify(posts));
     notifyContentUpdate('blogs');
-    syncToFirestore('blogs', posts);
   } catch (err) {
     console.error('Failed to save Blogs', err);
+  }
+  // Non-blocking background cloud sync
+  try {
+    syncToFirestore('blogs', posts);
+  } catch {
+    // ignore
   }
 }
 
@@ -333,7 +343,6 @@ export function getStoredCertificates() {
     const raw = localStorage.getItem(CERT_KEY);
     if (!raw) {
       localStorage.setItem(CERT_KEY, JSON.stringify(defaultCertificates));
-      syncToFirestore('certificates', defaultCertificates);
       return defaultCertificates;
     }
     return JSON.parse(raw);
@@ -346,9 +355,14 @@ export function saveStoredCertificates(registry) {
   try {
     localStorage.setItem(CERT_KEY, JSON.stringify(registry));
     notifyContentUpdate('certificates');
-    syncToFirestore('certificates', registry);
   } catch (err) {
     console.error('Failed to save Certificates', err);
+  }
+  // Non-blocking background cloud sync
+  try {
+    syncToFirestore('certificates', registry);
+  } catch {
+    // ignore
   }
 }
 
@@ -358,7 +372,6 @@ export function getStoredLeaders() {
     const raw = localStorage.getItem(LEADERS_KEY);
     if (!raw) {
       localStorage.setItem(LEADERS_KEY, JSON.stringify(defaultLeaders));
-      syncToFirestore('leaders', defaultLeaders);
       return defaultLeaders;
     }
     return JSON.parse(raw);
@@ -371,8 +384,13 @@ export function saveStoredLeaders(leaders) {
   try {
     localStorage.setItem(LEADERS_KEY, JSON.stringify(leaders));
     notifyContentUpdate('leaders');
-    syncToFirestore('leaders', leaders);
   } catch (err) {
     console.error('Failed to save Leaders', err);
+  }
+  // Non-blocking background cloud sync
+  try {
+    syncToFirestore('leaders', leaders);
+  } catch {
+    // ignore
   }
 }

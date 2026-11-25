@@ -9,6 +9,15 @@ export const mouList = [
     "image": "/assets/mou-kahe.jpg"
   },
   {
+    "id": 1795580574389,
+    "name": "Government College of Engineering, Salem",
+    "type": "MOU Signed",
+    "detail": "Mechanical CAD Lab Setup, Campus Placement Drives & Joint Summer Internships",
+    "date": "2024 - 2027",
+    "tag": "Placement",
+    "image": "/assets/gallery/gallery-02.jpg"
+  },
+  {
     "name": "Dr.Mahalingam Group of Institutions",
     "type": "MOU Signed",
     "detail": "Placement & Career Development Drive",

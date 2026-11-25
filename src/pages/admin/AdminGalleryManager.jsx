@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getStoredGallery, saveStoredGallery } from '../../data/contentPersistence.js';
-import { uploadImageToCloudinary } from '../../services/cloudinaryService.js';
+import { uploadImageToCloudinary, compressImageFile } from '../../services/cloudinaryService.js';
 
 export default function AdminGalleryManager() {
   const [gallery, setGallery] = useState(() => getStoredGallery());
@@ -69,15 +69,21 @@ export default function AdminGalleryManager() {
 
     setUploadingImage(true);
     try {
-      const result = await uploadImageToCloudinary(file, { folder: 'gv_designtech/gallery' });
-      setFormData(prev => ({ ...prev, image: result.url }));
-      if (result.isCloudinary) {
+      // 1. Immediately read, compress, and attach so preview is instant and never lost
+      const localData = await compressImageFile(file);
+      setFormData(prev => ({ ...prev, image: localData }));
+      showNotification('📷 Photo attached! Processing cloud upload...');
+
+      // 2. Attempt cloud CDN upload in background
+      const result = await uploadImageToCloudinary(file, { folder: 'gvdesigntech/gallery' });
+      if (result && result.isCloudinary) {
+        setFormData(prev => ({ ...prev, image: result.url }));
         showNotification('☁️ Photo uploaded to Cloudinary CDN successfully!');
       } else {
-        showNotification('Photo saved locally (Configure Cloudinary in Settings for cloud CDN)');
+        showNotification('✓ Photo attached and ready to save!');
       }
     } catch (err) {
-      alert('Upload failed: ' + err.message);
+      console.warn('Upload fallback to local image:', err.message);
     } finally {
       setUploadingImage(false);
     }

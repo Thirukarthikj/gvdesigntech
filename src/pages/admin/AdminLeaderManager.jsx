@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getStoredLeaders, saveStoredLeaders } from '../../data/contentPersistence.js';
-import { uploadImageToCloudinary } from '../../services/cloudinaryService.js';
+import { uploadImageToCloudinary, compressImageFile } from '../../services/cloudinaryService.js';
 
 export default function AdminLeaderManager() {
   const [leaders, setLeaders] = useState(() => getStoredLeaders());
@@ -77,15 +77,19 @@ export default function AdminLeaderManager() {
 
     setUploadingImage(true);
     try {
-      const result = await uploadImageToCloudinary(file, { folder: 'gv_designtech/leaders' });
-      setFormData(prev => ({ ...prev, image: result.url }));
-      if (result.isCloudinary) {
+      const localData = await compressImageFile(file);
+      setFormData(prev => ({ ...prev, image: localData }));
+      showNotification('📷 Leader photo attached! Processing cloud upload...');
+
+      const result = await uploadImageToCloudinary(file, { folder: 'gvdesigntech/leaders' });
+      if (result && result.isCloudinary) {
+        setFormData(prev => ({ ...prev, image: result.url }));
         showNotification('☁️ Leader photo uploaded to Cloudinary CDN successfully!');
       } else {
-        showNotification('Photo saved locally (Configure Cloudinary in Settings for cloud CDN)');
+        showNotification('✓ Leader photo attached and ready to save!');
       }
     } catch (err) {
-      alert('Upload failed: ' + err.message);
+      console.warn('Upload fallback to local image:', err.message);
     } finally {
       setUploadingImage(false);
     }
