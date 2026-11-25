@@ -150,66 +150,76 @@ export default function FlagshipGallery({ onOpenModal }) {
         </div>
 
         {/* Gallery Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '26px', marginBottom: '80px' }}>
-          {filtered.map((item, idx) => (
-            <div
-              key={item.id || idx}
-              onClick={() => setActiveItem(item)}
-              style={{
-                borderRadius: '18px',
-                overflow: 'hidden',
-                background: 'linear-gradient(160deg, rgba(25, 18, 55, 0.75), rgba(7, 7, 22, 0.85))',
-                border: '1px solid rgba(139, 92, 246, 0.25)',
-                cursor: 'pointer',
-                transition: 'transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease',
-                display: 'flex',
-                flexDirection: 'column'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-6px)';
-                e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.6)';
-                e.currentTarget.style.boxShadow = '0 16px 36px rgba(217, 70, 239, 0.2)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.25)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              <div style={{ width: '100%', height: '220px', overflow: 'hidden', position: 'relative' }}>
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.45s ease' }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'scale(1.06)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'scale(1)';
-                  }}
-                />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 60%, rgba(4, 2, 10, 0.85) 100%)', pointerEvents: 'none' }}></div>
-                <span style={{ position: 'absolute', top: '12px', right: '12px', padding: '5px 12px', background: 'rgba(4, 2, 12, 0.82)', border: '1px solid rgba(217, 70, 239, 0.55)', borderRadius: '999px', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', color: '#f472b6', backdropFilter: 'blur(6px)', letterSpacing: '0.5px' }}>
-                  {item.tag || item.category}
-                </span>
-              </div>
-              <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <div>
-                  <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#fff', margin: '0 0 8px', lineHeight: 1.35 }}>
-                    {item.title}
-                  </h3>
-                  <p style={{ fontSize: '14px', color: '#cbd5e1', margin: '0 0 16px', lineHeight: 1.55 }}>
-                    {item.description || item.caption}
-                  </p>
+        {filtered.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '60px 20px', background: 'rgba(255, 255, 255, 0.02)', borderRadius: '20px', border: '1px dashed rgba(217, 70, 239, 0.3)', margin: '20px auto 80px', maxWidth: '600px' }}>
+            <div style={{ fontSize: '42px', marginBottom: '14px' }}>📸</div>
+            <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#fff', margin: '0 0 8px' }}>No Gallery Photos Yet</h3>
+            <p style={{ color: '#94a3b8', fontSize: '14px', margin: 0, lineHeight: 1.5 }}>
+              Campus moments, engineering workshops, and CAD laboratory photos will appear here as they are published by the administration.
+            </p>
+          </div>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '26px', marginBottom: '80px' }}>
+            {filtered.map((item, idx) => (
+              <div
+                key={item.id || idx}
+                onClick={() => setActiveItem(item)}
+                style={{
+                  borderRadius: '18px',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(160deg, rgba(25, 18, 55, 0.75), rgba(7, 7, 22, 0.85))',
+                  border: '1px solid rgba(139, 92, 246, 0.25)',
+                  cursor: 'pointer',
+                  transition: 'transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-6px)';
+                  e.currentTarget.style.borderColor = 'rgba(217, 70, 239, 0.6)';
+                  e.currentTarget.style.boxShadow = '0 16px 36px rgba(217, 70, 239, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.25)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <div style={{ width: '100%', height: '220px', overflow: 'hidden', position: 'relative' }}>
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.45s ease' }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.06)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)';
+                    }}
+                  />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 60%, rgba(4, 2, 10, 0.85) 100%)', pointerEvents: 'none' }}></div>
+                  <span style={{ position: 'absolute', top: '12px', right: '12px', padding: '5px 12px', background: 'rgba(4, 2, 12, 0.82)', border: '1px solid rgba(217, 70, 239, 0.55)', borderRadius: '999px', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', color: '#f472b6', backdropFilter: 'blur(6px)', letterSpacing: '0.5px' }}>
+                    {item.tag || item.category}
+                  </span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: '600', color: '#c084fc' }}>
-                  <span>View Full Photo</span>
-                  <span>→</span>
+                <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div>
+                    <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#fff', margin: '0 0 8px', lineHeight: 1.35 }}>
+                      {item.title}
+                    </h3>
+                    <p style={{ fontSize: '14px', color: '#cbd5e1', margin: '0 0 16px', lineHeight: 1.55 }}>
+                      {item.description || item.caption}
+                    </p>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: '600', color: '#c084fc' }}>
+                    <span>View Full Photo</span>
+                    <span>→</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Lightbox Modal */}
         {activeItem && (

@@ -35,62 +35,22 @@ export async function connectMongo() {
 
 async function seedInitialData(database) {
   try {
-    // 1. MOUs Collection
-    const mousCol = database.collection('mous');
-    const mouCount = await mousCol.countDocuments();
-    if (mouCount === 0) {
-      // Remove any test names and seed genuine records
-      const cleanMous = mouList.filter(m => {
-        const name = (m.name || '').toLowerCase();
-        return !name.includes('test') && !name.includes('rtwertert');
-      }).map((m, idx) => ({
-        ...m,
-        id: m.id || (Date.now() - (idx * 100000)),
-        createdAt: new Date().toISOString()
-      }));
-      await mousCol.insertMany(cleanMous);
-      console.log(`✅ Seeded ${cleanMous.length} clean MOUs into MongoDB`);
-    }
-
-    // 2. Gallery Collection
-    const galCol = database.collection('galleries');
-    const galCount = await galCol.countDocuments();
-    if (galCount === 0) {
-      // Take the top 6 authentic real photo items
-      const cleanGallery = galleryItems.slice(0, 6).map((g, idx) => ({
-        ...g,
-        id: g.id || (idx + 1),
-        createdAt: new Date().toISOString()
-      }));
-      await galCol.insertMany(cleanGallery);
-      console.log(`✅ Seeded ${cleanGallery.length} clean gallery photos into MongoDB`);
-    }
-
-    // 3. Placements Collection
+    // 1. MOUs Collection - kept empty for admin to insert real MOUs
+    // 2. Gallery Collection - kept empty for admin to insert real photos
+    // 3. Placements Collection - baseline stats, empty stories
     const placeCol = database.collection('placements');
     const placeCount = await placeCol.countDocuments();
     if (placeCount === 0) {
       await placeCol.insertOne({
         _id: 'default_placements',
         stats: defaultPlacements.stats,
-        stories: defaultPlacements.stories,
+        stories: [],
         updatedAt: new Date().toISOString()
       });
-      console.log('✅ Seeded placements data into MongoDB');
+      console.log('✅ Seeded clean placements baseline into MongoDB');
     }
 
-    // 4. Blogs Collection
-    const blogCol = database.collection('blogs');
-    const blogCount = await blogCol.countDocuments();
-    if (blogCount === 0) {
-      const cleanBlogs = blogPosts.map(b => ({
-        ...b,
-        createdAt: new Date().toISOString()
-      }));
-      await blogCol.insertMany(cleanBlogs);
-      console.log(`✅ Seeded ${cleanBlogs.length} blogs into MongoDB`);
-    }
-
+    // 4. Blogs Collection - kept empty for admin to publish real articles
     // 5. Leaders Collection
     const leadCol = database.collection('leaders');
     const leadCount = await leadCol.countDocuments();

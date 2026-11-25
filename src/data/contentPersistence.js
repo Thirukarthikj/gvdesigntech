@@ -36,35 +36,13 @@ export const defaultLeaders = [
 // Default Placements Data
 export const defaultPlacements = {
   stats: [
-    { target: '500+', label: 'Students Placed' },
-    { target: '150+', label: 'Hiring Partners' },
-    { target: '98%', label: 'Placement Rate' },
-    { target: '₹7.5L', label: 'Highest Package' },
-    { target: '₹5.2L', label: 'Average Package' }
+    { target: '0+', label: 'Students Placed' },
+    { target: '0+', label: 'Hiring Partners' },
+    { target: '100%', label: 'Placement Rate' },
+    { target: '₹0L', label: 'Highest Package' },
+    { target: '₹0L', label: 'Average Package' }
   ],
-  stories: [
-    {
-      id: 'story-1',
-      name: 'Karthik Raja',
-      role: 'Mechanical Design Engineer @ Automotive Tier-1',
-      pkg: '7.2 LPA',
-      quote: 'The SolidWorks 3D modeling and GD&T production drafting at GV DesignTech gave me the exact skills needed to clear all technical interview rounds.'
-    },
-    {
-      id: 'story-2',
-      name: 'Praveen Kumar',
-      role: 'BIM Modeler & Coordinator @ Infrastructure Firm',
-      pkg: '6.8 LPA',
-      quote: 'From 2D AutoCAD drafting to advanced 3D Revit architectural modeling and BIM clash detection — the practical guidance was outstanding.'
-    },
-    {
-      id: 'story-3',
-      name: 'Suresh Babu',
-      role: 'CNC CAM Engineer @ Precision Aerospace Tools',
-      pkg: '6.5 LPA',
-      quote: 'The MasterCAM multi-axis toolpath simulation and G-Code optimization workshops gave me immediate on-the-job confidence.'
-    }
-  ]
+  stories: []
 };
 
 // Default Certificates Data
@@ -151,19 +129,19 @@ export async function syncWithMongo() {
 
     let changed = false;
 
-    if (mousRes.status === 'fulfilled' && Array.isArray(mousRes.value) && mousRes.value.length > 0) {
+    if (mousRes.status === 'fulfilled' && Array.isArray(mousRes.value)) {
       localStorage.setItem(MOU_KEY, JSON.stringify(mousRes.value));
       changed = true;
     }
-    if (galRes.status === 'fulfilled' && Array.isArray(galRes.value) && galRes.value.length > 0) {
+    if (galRes.status === 'fulfilled' && Array.isArray(galRes.value)) {
       localStorage.setItem(GALLERY_KEY, JSON.stringify(galRes.value));
       changed = true;
     }
-    if (placeRes.status === 'fulfilled' && placeRes.value && (placeRes.value.stats || placeRes.value.stories)) {
+    if (placeRes.status === 'fulfilled' && placeRes.value) {
       localStorage.setItem(PLACEMENT_KEY, JSON.stringify(placeRes.value));
       changed = true;
     }
-    if (blogsRes.status === 'fulfilled' && Array.isArray(blogsRes.value) && blogsRes.value.length > 0) {
+    if (blogsRes.status === 'fulfilled' && Array.isArray(blogsRes.value)) {
       localStorage.setItem(BLOG_KEY, JSON.stringify(blogsRes.value));
       changed = true;
     }
@@ -255,26 +233,7 @@ export function getStoredMous() {
       return mouList;
     }
     const list = JSON.parse(raw);
-    if (!Array.isArray(list)) return mouList;
-
-    // Ensure default flagship entries like 'kahe' and 'Government College of Engineering, Salem' are present
-    let modified = false;
-    for (let i = mouList.length - 1; i >= 0; i--) {
-      const def = mouList[i];
-      const exists = list.some(m => (m.name || '').toLowerCase().trim() === (def.name || '').toLowerCase().trim());
-      if (!exists && (def.name.toLowerCase() === 'kahe' || def.name.toLowerCase().includes('salem'))) {
-        list.unshift(def);
-        modified = true;
-      }
-    }
-    if (modified) {
-      try {
-        localStorage.setItem(MOU_KEY, JSON.stringify(list));
-      } catch (e) {
-        console.warn('Could not persist merged defaults to localStorage', e);
-      }
-    }
-    return list;
+    return Array.isArray(list) ? list : mouList;
   } catch {
     return mouList;
   }

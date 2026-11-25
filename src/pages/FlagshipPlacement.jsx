@@ -99,32 +99,34 @@ export default function FlagshipPlacement({ onOpenModal }) {
         </section>
 
         {/* Success Stories */}
-        <section style={{ marginBottom: '80px' }}>
-          <h2 style={{ fontSize: '30px', fontWeight: '800', textAlign: 'center', marginBottom: '36px' }}>
-            Student Success Stories
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
-            {stories.map((s, idx) => (
-              <div key={s.id || idx} style={{ padding: '28px', background: 'linear-gradient(160deg, rgba(30, 22, 68, 0.75), rgba(6, 6, 24, 0.85))', border: '1px solid rgba(217, 70, 239, 0.35)', borderRadius: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                {s.image && (
-                  <div style={{ width: '100%', height: '170px', borderRadius: '14px', overflow: 'hidden', marginBottom: '18px', border: '1px solid rgba(139, 92, 246, 0.3)' }}>
-                    <img src={s.image} alt={s.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.parentElement.style.display = 'none'; }} />
+        {stories.length > 0 ? (
+          <section style={{ marginBottom: '80px' }}>
+            <h2 style={{ fontSize: '30px', fontWeight: '800', textAlign: 'center', marginBottom: '36px' }}>
+              Student Success Stories
+            </h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+              {stories.map((s, idx) => (
+                <div key={s.id || idx} style={{ padding: '28px', background: 'linear-gradient(160deg, rgba(30, 22, 68, 0.75), rgba(6, 6, 24, 0.85))', border: '1px solid rgba(217, 70, 239, 0.35)', borderRadius: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  {s.image && (
+                    <div style={{ width: '100%', height: '170px', borderRadius: '14px', overflow: 'hidden', marginBottom: '18px', border: '1px solid rgba(139, 92, 246, 0.3)' }}>
+                      <img src={s.image} alt={s.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.parentElement.style.display = 'none'; }} />
+                    </div>
+                  )}
+                  <p style={{ fontSize: '14.5px', color: '#cbd5e1', lineHeight: 1.6, fontStyle: 'italic', marginBottom: '20px' }}>
+                    "{s.quote}"
+                  </p>
+                  <div>
+                    <h4 style={{ fontSize: '18px', fontWeight: '700', color: '#fff', margin: '0 0 4px' }}>{s.name}</h4>
+                    <div style={{ fontSize: '13.5px', color: '#22d3ee', marginBottom: '8px' }}>{s.role}</div>
+                    <span style={{ fontSize: '12px', fontWeight: '700', color: '#e879f9', padding: '4px 12px', background: 'rgba(217, 70, 239, 0.15)', borderRadius: '999px', border: '1px solid rgba(217, 70, 239, 0.35)' }}>
+                      Package: {s.pkg}
+                    </span>
                   </div>
-                )}
-                <p style={{ fontSize: '14.5px', color: '#cbd5e1', lineHeight: 1.6, fontStyle: 'italic', marginBottom: '20px' }}>
-                  "{s.quote}"
-                </p>
-                <div>
-                  <h4 style={{ fontSize: '18px', fontWeight: '700', color: '#fff', margin: '0 0 4px' }}>{s.name}</h4>
-                  <div style={{ fontSize: '13.5px', color: '#22d3ee', marginBottom: '8px' }}>{s.role}</div>
-                  <span style={{ fontSize: '12px', fontWeight: '700', color: '#e879f9', padding: '4px 12px', background: 'rgba(217, 70, 239, 0.15)', borderRadius: '999px', border: '1px solid rgba(217, 70, 239, 0.35)' }}>
-                    Package: {s.pkg}
-                  </span>
                 </div>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
+        ) : null}
       </div>
     </div>
   );

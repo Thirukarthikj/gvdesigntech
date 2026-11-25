@@ -131,45 +131,55 @@ export default function FlagshipBlog() {
         )}
 
         {/* Blog Cards Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
-          {filtered.map((b) => (
-            <article
-              key={b.id}
-              onClick={() => setActiveArticle(b)}
-              style={{
-                borderRadius: '16px',
-                overflow: 'hidden',
-                background: 'linear-gradient(160deg, rgba(26, 18, 66, 0.6), rgba(4, 5, 22, 0.7))',
-                border: '1px solid rgba(139, 92, 246, 0.28)',
-                cursor: 'pointer',
-                display: 'flex',
-                flexDirection: 'column',
-                transition: 'transform 0.2s ease, border-color 0.2s ease'
-              }}
-            >
-              <div style={{ height: '180px', overflow: 'hidden', position: 'relative' }}>
-                <img
-                  src={b.image || '/assets/recent-activity/ai-workshop-2.jpg'}
-                  alt={b.title}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  onError={(e) => { e.target.src = '/assets/recent-activity/ai-workshop-2.jpg'; }}
-                />
-                <span style={{ position: 'absolute', top: '10px', left: '10px', padding: '3px 10px', background: 'rgba(2, 4, 18, 0.8)', border: '1px solid rgba(139,92,246,0.4)', borderRadius: '999px', fontSize: '11px', fontWeight: '700', color: '#c084fc' }}>
-                  {b.category}
-                </span>
-              </div>
-              <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <h3 style={{ fontSize: '17px', fontWeight: '700', lineHeight: 1.4, color: '#fff', marginBottom: '12px' }}>
-                  {b.title}
-                </h3>
-                <div style={{ marginTop: 'auto', paddingTop: '14px', borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', color: 'rgba(255,255,255,0.55)' }}>
-                  <span>{b.date}</span>
-                  <span>{b.readTime}</span>
+        {filtered.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '60px 20px', background: 'rgba(255, 255, 255, 0.02)', borderRadius: '20px', border: '1px dashed rgba(139, 92, 246, 0.3)', margin: '20px auto 60px', maxWidth: '600px' }}>
+            <div style={{ fontSize: '42px', marginBottom: '14px' }}>📰</div>
+            <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#fff', margin: '0 0 8px' }}>No Articles Published Yet</h3>
+            <p style={{ color: '#94a3b8', fontSize: '14px', margin: 0, lineHeight: 1.5 }}>
+              Expert tutorials, industry trends, and technical articles will appear here as they are published by the administration.
+            </p>
+          </div>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
+            {filtered.map((b) => (
+              <article
+                key={b.id}
+                onClick={() => setActiveArticle(b)}
+                style={{
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(160deg, rgba(26, 18, 66, 0.6), rgba(4, 5, 22, 0.7))',
+                  border: '1px solid rgba(139, 92, 246, 0.28)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  transition: 'transform 0.2s ease, border-color 0.2s ease'
+                }}
+              >
+                <div style={{ height: '180px', overflow: 'hidden', position: 'relative' }}>
+                  <img
+                    src={b.image || '/assets/recent-activity/ai-workshop-2.jpg'}
+                    alt={b.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    onError={(e) => { e.target.src = '/assets/recent-activity/ai-workshop-2.jpg'; }}
+                  />
+                  <span style={{ position: 'absolute', top: '10px', left: '10px', padding: '3px 10px', background: 'rgba(2, 4, 18, 0.8)', border: '1px solid rgba(139,92,246,0.4)', borderRadius: '999px', fontSize: '11px', fontWeight: '700', color: '#c084fc' }}>
+                    {b.category}
+                  </span>
                 </div>
-              </div>
-            </article>
-          ))}
-        </div>
+                <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <h3 style={{ fontSize: '17px', fontWeight: '700', lineHeight: 1.4, color: '#fff', marginBottom: '12px' }}>
+                    {b.title}
+                  </h3>
+                  <div style={{ marginTop: 'auto', paddingTop: '14px', borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', color: 'rgba(255,255,255,0.55)' }}>
+                    <span>{b.date}</span>
+                    <span>{b.readTime}</span>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
 
         {/* Article Reading Modal */}
         {activeArticle && (

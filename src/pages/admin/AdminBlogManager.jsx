@@ -232,8 +232,10 @@ export default function AdminBlogManager() {
           padding: '24px'
         }}>
           {filtered.length === 0 ? (
-            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px', color: '#64748b' }}>
-              No blog posts found matching your search.
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '48px 20px', color: '#94a3b8' }}>
+              <div style={{ fontSize: '36px', marginBottom: '10px' }}>📰</div>
+              <div style={{ fontSize: '16px', fontWeight: '700', color: '#fff', marginBottom: '6px' }}>No Blog Articles in Database</div>
+              <p style={{ margin: 0, fontSize: '13px' }}>Click "+ Create New Article" above to publish your first technical article.</p>
             </div>
           ) : (
             filtered.map((post) => (

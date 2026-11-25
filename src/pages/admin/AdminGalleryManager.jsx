@@ -222,8 +222,10 @@ export default function AdminGalleryManager() {
           padding: '24px'
         }}>
           {filtered.length === 0 ? (
-            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px', color: '#64748b' }}>
-              No photos found in this gallery filter.
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '48px 20px', color: '#94a3b8' }}>
+              <div style={{ fontSize: '36px', marginBottom: '10px' }}>📸</div>
+              <div style={{ fontSize: '16px', fontWeight: '700', color: '#fff', marginBottom: '6px' }}>No Gallery Photos in Database</div>
+              <p style={{ margin: 0, fontSize: '13px' }}>Click "+ Add Photo to Gallery" above to upload your first campus picture.</p>
             </div>
           ) : (
             filtered.map((item) => (

@@ -121,73 +121,83 @@ export default function FlagshipMou({ onOpenModal }) {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '24px' }}>
-          {mous.map((item, idx) => (
-            <div
-              key={idx}
-              style={{
-                padding: '28px',
-                background: 'linear-gradient(160deg, rgba(26, 18, 66, 0.75), rgba(8, 6, 26, 0.85))',
-                border: '1px solid rgba(139, 92, 246, 0.25)',
-                borderRadius: '20px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '14px',
-                backdropFilter: 'blur(12px)',
-                transition: 'transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.borderColor = 'rgba(192, 132, 252, 0.55)';
-                e.currentTarget.style.boxShadow = '0 12px 28px rgba(139, 92, 246, 0.2)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.25)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              {item.image && (
-                <div style={{
-                  width: '100%',
-                  height: '160px',
-                  borderRadius: '14px',
-                  overflow: 'hidden',
-                  background: '#090518',
-                  border: '1px solid rgba(139, 92, 246, 0.3)',
-                  marginBottom: '2px'
-                }}>
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    onError={(e) => { e.currentTarget.parentElement.style.display = 'none'; }}
-                  />
+        {mous.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '60px 20px', background: 'rgba(255, 255, 255, 0.02)', borderRadius: '20px', border: '1px dashed rgba(139, 92, 246, 0.3)', margin: '20px auto', maxWidth: '600px' }}>
+            <div style={{ fontSize: '42px', marginBottom: '14px' }}>🏛️</div>
+            <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#fff', margin: '0 0 8px' }}>No MOUs Published Yet</h3>
+            <p style={{ color: '#94a3b8', fontSize: '14px', margin: 0, lineHeight: 1.5 }}>
+              Official institutional partnerships and college collaboration agreements are currently being updated by the administration.
+            </p>
+          </div>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '24px' }}>
+            {mous.map((item, idx) => (
+              <div
+                key={idx}
+                style={{
+                  padding: '28px',
+                  background: 'linear-gradient(160deg, rgba(26, 18, 66, 0.75), rgba(8, 6, 26, 0.85))',
+                  border: '1px solid rgba(139, 92, 246, 0.25)',
+                  borderRadius: '20px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '14px',
+                  backdropFilter: 'blur(12px)',
+                  transition: 'transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.borderColor = 'rgba(192, 132, 252, 0.55)';
+                  e.currentTarget.style.boxShadow = '0 12px 28px rgba(139, 92, 246, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.25)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                {item.image && (
+                  <div style={{
+                    width: '100%',
+                    height: '160px',
+                    borderRadius: '14px',
+                    overflow: 'hidden',
+                    background: '#090518',
+                    border: '1px solid rgba(139, 92, 246, 0.3)',
+                    marginBottom: '2px'
+                  }}>
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      onError={(e) => { e.currentTarget.parentElement.style.display = 'none'; }}
+                    />
+                  </div>
+                )}
+
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ padding: '5px 14px', background: 'rgba(217, 70, 239, 0.15)', border: '1px solid rgba(217, 70, 239, 0.4)', borderRadius: '999px', fontSize: '12px', fontWeight: '700', color: '#f472b6' }}>
+                    {item.tag || 'MOU Signed'}
+                  </span>
+                  <span style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.55)', fontWeight: '500' }}>{item.date}</span>
                 </div>
-              )}
 
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ padding: '5px 14px', background: 'rgba(217, 70, 239, 0.15)', border: '1px solid rgba(217, 70, 239, 0.4)', borderRadius: '999px', fontSize: '12px', fontWeight: '700', color: '#f472b6' }}>
-                  {item.tag || 'MOU Signed'}
-                </span>
-                <span style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.55)', fontWeight: '500' }}>{item.date}</span>
-              </div>
+                <div>
+                  <h3 style={{ fontSize: '19px', fontWeight: '700', color: '#f8fafc', margin: '4px 0 8px', lineHeight: 1.35 }}>
+                    {item.name}
+                  </h3>
+                  <p style={{ fontSize: '14px', color: '#94a3b8', margin: 0, lineHeight: 1.6 }}>
+                    {item.detail}
+                  </p>
+                </div>
 
-              <div>
-                <h3 style={{ fontSize: '19px', fontWeight: '700', color: '#f8fafc', margin: '4px 0 8px', lineHeight: 1.35 }}>
-                  {item.name}
-                </h3>
-                <p style={{ fontSize: '14px', color: '#94a3b8', margin: 0, lineHeight: 1.6 }}>
-                  {item.detail}
-                </p>
+                <div style={{ marginTop: 'auto', paddingTop: '10px', display: 'flex', alignItems: 'center', gap: '8px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', fontSize: '12px', color: '#c084fc', fontWeight: '600' }}>
+                  <span>🏛️ Official Academic MOU Partner</span>
+                </div>
               </div>
-
-              <div style={{ marginTop: 'auto', paddingTop: '10px', display: 'flex', alignItems: 'center', gap: '8px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', fontSize: '12px', color: '#c084fc', fontWeight: '600' }}>
-                <span>🏛️ Official Academic MOU Partner</span>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );
