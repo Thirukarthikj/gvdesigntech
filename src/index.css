@@ -1482,6 +1482,33 @@
   }
 }
 
+/* ========================================================
+   GLOBAL DROPDOWN & SELECT OPTION VISIBILITY FIX
+   Ensures dropdown text and background are always crisp & visible
+   ======================================================== */
+select,
+select option,
+select optgroup {
+  color-scheme: dark !important;
+}
+
+select option {
+  background-color: #0b0f24 !important;
+  color: #ffffff !important;
+}
+
+select option:hover,
+select option:focus,
+select option:checked {
+  background-color: #7c3aed !important;
+  color: #ffffff !important;
+}
+
+select option:disabled {
+  color: #64748b !important;
+  background-color: #070a18 !important;
+}
+
 
 
 

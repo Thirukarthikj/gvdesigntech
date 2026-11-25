@@ -178,17 +178,17 @@ export default function ContactUs() {
                   <select
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', background: '#0f172a', border: '1px solid rgba(139,92,246,0.3)', color: '#fff', fontSize: '14.5px', outline: 'none' }}
+                    style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', background: '#0f172a', border: '1px solid rgba(139,92,246,0.3)', color: '#fff', fontSize: '14.5px', outline: 'none', colorScheme: 'dark' }}
                   >
-                    <option value="">Select a Program</option>
-                    <option value="Mechanical & Automobile CAD">Mechanical &amp; Automobile CAD</option>
-                    <option value="Civil Engineering & BIM">Civil Engineering &amp; BIM</option>
-                    <option value="CNC Programming & CAM">CNC Programming &amp; CAM</option>
-                    <option value="Computer Science & IT">Computer Science &amp; IT</option>
-                    <option value="EEE / Instrumentation">EEE / Instrumentation</option>
-                    <option value="ECE Design">ECE Design</option>
-                    <option value="Piping (Oil & Gas)">Piping (Oil &amp; Gas)</option>
-                    <option value="Engineering Internship">Engineering Internship</option>
+                    <option value="" style={{ backgroundColor: '#0f1123', color: '#94a3b8' }}>Select a Program</option>
+                    <option value="Mechanical & Automobile CAD" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>Mechanical &amp; Automobile CAD</option>
+                    <option value="Civil Engineering & BIM" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>Civil Engineering &amp; BIM</option>
+                    <option value="CNC Programming & CAM" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>CNC Programming &amp; CAM</option>
+                    <option value="Computer Science & IT" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>Computer Science &amp; IT</option>
+                    <option value="EEE / Instrumentation" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>EEE / Instrumentation</option>
+                    <option value="ECE Design" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>ECE Design</option>
+                    <option value="Piping (Oil & Gas)" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>Piping (Oil &amp; Gas)</option>
+                    <option value="Engineering Internship" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>Engineering Internship</option>
                   </select>
                 </div>
 

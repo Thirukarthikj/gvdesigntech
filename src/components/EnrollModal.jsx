@@ -233,24 +233,29 @@ export default function EnrollModal({ isOpen, onClose }) {
                   required
                   value={formData.program}
                   onChange={handleChange}
+                  style={{
+                    colorScheme: 'dark',
+                    backgroundColor: 'rgba(15, 17, 35, 0.95)',
+                    color: '#ffffff'
+                  }}
                 >
-                  <option value="">Choose your program…</option>
+                  <option value="" style={{ backgroundColor: '#0f1123', color: '#94a3b8' }}>Choose your program…</option>
                   {courses && courses.length > 0 ? (
                     courses.map((c) => (
-                      <option key={c.id || c.title} value={c.title || c.department}>
+                      <option key={c.id || c.title} value={c.title || c.department} style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>
                         {c.title || c.department}
                       </option>
                     ))
                   ) : (
                     <>
-                      <option value="Mechanical & Automobile CAD">Mechanical &amp; Automobile CAD</option>
-                      <option value="Civil Engineering & BIM">Civil Engineering &amp; BIM</option>
-                      <option value="CNC Programming & CAM">CNC Programming &amp; CAM</option>
-                      <option value="Computer Science & IT">Computer Science &amp; IT</option>
-                      <option value="EEE / Instrumentation">EEE / Instrumentation</option>
-                      <option value="ECE Design">ECE Design</option>
-                      <option value="Piping (Oil & Gas)">Piping (Oil &amp; Gas)</option>
-                      <option value="Engineering Internship">Engineering Internship</option>
+                      <option value="Mechanical & Automobile CAD" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>Mechanical &amp; Automobile CAD</option>
+                      <option value="Civil Engineering & BIM" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>Civil Engineering &amp; BIM</option>
+                      <option value="CNC Programming & CAM" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>CNC Programming &amp; CAM</option>
+                      <option value="Computer Science & IT" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>Computer Science &amp; IT</option>
+                      <option value="EEE / Instrumentation" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>EEE / Instrumentation</option>
+                      <option value="ECE Design" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>ECE Design</option>
+                      <option value="Piping (Oil & Gas)" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>Piping (Oil &amp; Gas)</option>
+                      <option value="Engineering Internship" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>Engineering Internship</option>
                     </>
                   )}
                 </select>
