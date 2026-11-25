@@ -336,7 +336,7 @@ export default function PipingEngineering({ onOpenModal }) {
 
                   <button
                     type="button"
-                    onClick={onOpenModal}
+                    onClick={() => onOpenModal && onOpenModal(c.title || c.department)}
                     style={{
                       width: '100%',
                       padding: '12px 20px',

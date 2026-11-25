@@ -206,7 +206,7 @@ export default function Mechanical({ onOpenModal }) {
               </div>
             ) : (
               coursesList.map((c) => (
-                <div key={c.id || c._id} className="mech-card" onClick={onOpenModal}>
+                <div key={c.id || c._id} className="mech-card" onClick={() => onOpenModal && onOpenModal(c.title || c.department)}>
                   <div className="mech-card-media">
                     <span className="mech-badge-popular">{c.badge || 'POPULAR'}</span>
                     <img className="mech-card-img" alt={c.title} src={c.image || c.img || '/assets/mech-cad.jpg'} />
@@ -224,7 +224,7 @@ export default function Mechanical({ onOpenModal }) {
                       className="mech-btn-learn"
                       onClick={(e) => {
                         e.stopPropagation();
-                        onOpenModal();
+                        if (onOpenModal) onOpenModal(c.title || c.department);
                       }}
                     >
                       Learn More →
@@ -240,7 +240,7 @@ export default function Mechanical({ onOpenModal }) {
 
       {/* Main Container Continued: 6-Month Roadmap & FAQs */}
       <div style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '10px 24px 60px' }}>
-        
+
         {/* 6-Month Career Roadmap */}
         <section style={{ marginBottom: '50px', padding: '40px 32px', background: 'rgba(20, 14, 52, 0.6)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '24px', backdropFilter: 'blur(10px)' }}>
           <h2 style={{ fontSize: '28px', fontWeight: '800', textAlign: 'center', marginBottom: '36px', color: '#fff' }}>

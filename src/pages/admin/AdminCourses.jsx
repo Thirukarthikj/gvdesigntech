@@ -1,7 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { getStoredCourses, saveStoredCourses, subscribeToContentUpdates } from '../../data/contentPersistence.js';
 import { uploadImageToCloudinary, compressImageFile } from '../../services/cloudinaryService.js';
 import { fetchCoursesFromMongo, deleteCourseInMongo } from '../../services/mongoService.js';
+
+export const DEFAULT_DEPARTMENTS = [
+  'Mechanical & Automobile',
+  'Civil Engineering & BIM',
+  'CNC Programming & CAM',
+  'Computer Science & IT',
+  'EEE & Automation',
+  'ECE Embedded & IoT',
+  'Piping Engineering (Oil & Gas)',
+  'Robotics & Automation',
+  'AI & Data Science'
+];
 
 export default function AdminCourses() {
   // --- Courses State ---
@@ -11,6 +23,18 @@ export default function AdminCourses() {
   const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
   const [editingCourse, setEditingCourse] = useState(null);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [isCustomDept, setIsCustomDept] = useState(false);
+
+  // Dynamically compute all unique departments from default list + stored courses
+  const allDepartments = useMemo(() => {
+    const deptSet = new Set(DEFAULT_DEPARTMENTS);
+    courses.forEach(c => {
+      if (c.department && c.department.trim()) {
+        deptSet.add(c.department.trim());
+      }
+    });
+    return Array.from(deptSet);
+  }, [courses]);
 
   // --- Course Form Data ---
   const [courseForm, setCourseForm] = useState({
@@ -28,11 +52,11 @@ export default function AdminCourses() {
   });
 
   // --- Notification Toast ---
-  const [toast, setToast] = useState('');
   const showToast = (msg) => {
     setToast(msg);
     setTimeout(() => setToast(''), 3500);
   };
+  const [toast, setToast] = useState('');
 
   // Load from MongoDB and subscribe to live updates
   useEffect(() => {
@@ -55,18 +79,31 @@ export default function AdminCourses() {
   }, []);
 
   // --- Courses Handlers ---
-  const handleOpenAddCourse = () => {
+  const handleOpenAddCourse = (deptToSelect = null, isNewDept = false) => {
     setEditingCourse(null);
+    setIsCustomDept(isNewDept);
+    const chosenDept = deptToSelect || (filterCourseDept !== 'all' && filterCourseDept !== 'disciplines' ? filterCourseDept : 'Mechanical & Automobile');
+    let link = '/mechanical';
+    let cat = 'Mechanical';
+    if (chosenDept.includes('Civil')) { link = '/civil-engineering'; cat = 'Civil'; }
+    else if (chosenDept.includes('CNC')) { link = '/cnc-programming'; cat = 'CNC'; }
+    else if (chosenDept.includes('Computer') || chosenDept.includes('IT')) { link = '/computer-science'; cat = 'Computer Science'; }
+    else if (chosenDept.includes('EEE')) { link = '/eee-instrumentation'; cat = 'Electrical'; }
+    else if (chosenDept.includes('ECE')) { link = '/ece'; cat = 'Electronics'; }
+    else if (chosenDept.includes('Piping')) { link = '/piping-engineering'; cat = 'Piping'; }
+    else if (chosenDept.includes('Robotics')) { link = '/mechanical'; cat = 'Robotics'; }
+    else if (chosenDept.includes('AI') || chosenDept.includes('Data')) { link = '/computer-science'; cat = 'AI & Data Science'; }
+
     setCourseForm({
       title: '',
-      department: 'Mechanical & Automobile',
-      category: 'Mechanical',
+      department: isNewDept ? '' : chosenDept,
+      category: cat,
       duration: '3 Months',
       level: 'Beginner → Advanced',
       badge: 'NEW COURSE',
       modules: '',
       desc: '',
-      link: '/mechanical',
+      link: link,
       mode: 'Classroom Studio & Live Online',
       image: ''
     });
@@ -75,6 +112,7 @@ export default function AdminCourses() {
 
   const handleOpenEditCourse = (course) => {
     setEditingCourse(course);
+    setIsCustomDept(!!(course.department && !DEFAULT_DEPARTMENTS.includes(course.department)));
     setCourseForm({
       title: course.title || '',
       department: course.department || 'Mechanical & Automobile',
@@ -189,9 +227,10 @@ export default function AdminCourses() {
     if (filterCourseDept === 'disciplines') {
       matchesDept = !!(c.isDiscipline || (c.id && c.id.startsWith('course-')));
     } else if (filterCourseDept !== 'all') {
-      matchesDept =
-        (c.department && c.department.toLowerCase().includes(filterCourseDept.toLowerCase())) ||
-        (c.category && c.category.toLowerCase().includes(filterCourseDept.toLowerCase()));
+      const target = filterCourseDept.toLowerCase().trim();
+      const cDept = (c.department || '').toLowerCase().trim();
+      const cCat = (c.category || '').toLowerCase().trim();
+      matchesDept = cDept === target || cDept.includes(target) || target.includes(cDept) || cCat.includes(target);
     }
     const matchesSearch = !courseSearch.trim() ||
       (c.title && c.title.toLowerCase().includes(courseSearch.toLowerCase())) ||
@@ -211,12 +250,14 @@ export default function AdminCourses() {
     else if (dept.includes('EEE')) { link = '/eee-instrumentation'; cat = 'Electrical'; }
     else if (dept.includes('ECE')) { link = '/ece'; cat = 'Electronics'; }
     else if (dept.includes('Piping')) { link = '/piping-engineering'; cat = 'Piping'; }
+    else if (dept.includes('Robotics')) { link = '/mechanical'; cat = 'Robotics'; }
+    else if (dept.includes('AI') || dept.includes('Data')) { link = '/computer-science'; cat = 'AI & Data Science'; }
 
     setCourseForm(prev => ({
       ...prev,
       department: dept,
       category: cat,
-      link: prev.link === '/mechanical' ? link : prev.link
+      link: link
     }));
   };
 
@@ -345,23 +386,42 @@ export default function AdminCourses() {
                 style={{ maxWidth: '300px', height: '40px' }}
               />
 
-              {/* Department Filter */}
+              {/* Department Filter & Dropdown Action Menu */}
               <select
                 className="admin-select"
                 value={filterCourseDept}
-                onChange={(e) => setFilterCourseDept(e.target.value)}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === '__add_new__') {
+                    handleOpenAddCourse(filterCourseDept !== 'all' && filterCourseDept !== 'disciplines' ? filterCourseDept : null);
+                  } else if (val === '__add_dept__') {
+                    handleOpenAddCourse(null, true);
+                  } else {
+                    setFilterCourseDept(val);
+                  }
+                }}
                 style={{ height: '40px' }}
               >
                 <option value="all">All Courses ({courses.length})</option>
                 <option value="disciplines">Curated Disciplines ({courses.filter(c => c.isDiscipline || (c.id && c.id.startsWith('course-'))).length})</option>
-                <option value="Mechanical">Mechanical &amp; Automobile</option>
-                <option value="Civil">Civil Engineering &amp; BIM</option>
-                <option value="CNC">CNC Programming &amp; CAM</option>
-                <option value="Computer">Computer Science &amp; IT</option>
-                <option value="EEE">EEE &amp; Automation</option>
-                <option value="ECE">ECE Embedded &amp; IoT</option>
-                <option value="Piping">Piping Engineering (Oil &amp; Gas)</option>
-                <option value="Robotics">Robotics &amp; Automation</option>
+                <optgroup label="Select Department">
+                  {allDepartments.map((dept) => {
+                    const count = courses.filter(c => {
+                      const d = (c.department || '').toLowerCase().trim();
+                      const target = dept.toLowerCase().trim();
+                      return d === target || d.includes(target) || target.includes(d);
+                    }).length;
+                    return (
+                      <option key={dept} value={dept}>
+                        {dept} ({count})
+                      </option>
+                    );
+                  })}
+                </optgroup>
+                <optgroup label="⚡ Quick Dropdown Actions">
+                  <option value="__add_new__">➕ Add New Course to this Menu...</option>
+                  <option value="__add_dept__">➕ Add New Department / Discipline...</option>
+                </optgroup>
               </select>
 
               <span style={{ fontSize: '13px', color: '#94a3b8' }}>
@@ -372,7 +432,7 @@ export default function AdminCourses() {
             {/* Primary Action: + Add New Course */}
             <button
               type="button"
-              onClick={handleOpenAddCourse}
+              onClick={() => handleOpenAddCourse(filterCourseDept !== 'all' && filterCourseDept !== 'disciplines' ? filterCourseDept : null)}
               className="admin-btn-primary"
               style={{
                 display: 'flex',
@@ -384,7 +444,11 @@ export default function AdminCourses() {
                 boxShadow: '0 4px 15px rgba(217, 70, 239, 0.35)'
               }}
             >
-              <span>+ Add New Course</span>
+              <span>
+                {filterCourseDept !== 'all' && filterCourseDept !== 'disciplines'
+                  ? `+ Add Course to ${filterCourseDept}`
+                  : '+ Add New Course'}
+              </span>
             </button>
           </div>
 
@@ -706,14 +770,24 @@ export default function AdminCourses() {
               border: '1px dashed rgba(139, 92, 246, 0.3)'
             }}>
               <div style={{ fontSize: '42px', marginBottom: '12px' }}>🔍</div>
-              <h4 style={{ color: '#fff', fontSize: '18px', margin: '0 0 6px' }}>No courses match your criteria</h4>
-              <p style={{ color: '#94a3b8', fontSize: '14px', margin: '0 0 16px' }}>Try adjusting your search terms or department filter.</p>
+              <h4 style={{ color: '#fff', fontSize: '18px', margin: '0 0 6px' }}>
+                {filterCourseDept !== 'all' && filterCourseDept !== 'disciplines'
+                  ? `No courses found in "${filterCourseDept}"`
+                  : 'No courses match your criteria'}
+              </h4>
+              <p style={{ color: '#94a3b8', fontSize: '14px', margin: '0 0 16px' }}>
+                {filterCourseDept !== 'all' && filterCourseDept !== 'disciplines'
+                  ? `Click below to add a new course offering under ${filterCourseDept}.`
+                  : 'Try adjusting your search terms or department filter.'}
+              </p>
               <button
                 type="button"
-                onClick={handleOpenAddCourse}
+                onClick={() => handleOpenAddCourse(filterCourseDept !== 'all' && filterCourseDept !== 'disciplines' ? filterCourseDept : null)}
                 className="admin-btn-primary"
               >
-                + Add New Course Offering
+                {filterCourseDept !== 'all' && filterCourseDept !== 'disciplines'
+                  ? `+ Add Course to ${filterCourseDept}`
+                  : '+ Add New Course Offering'}
               </button>
             </div>
           )}
@@ -757,7 +831,7 @@ export default function AdminCourses() {
                 marginBottom: '18px'
               }}>
                 <div style={{ fontSize: '11px', color: '#c084fc', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>
-                  Preview: How this appears in Navbar &quot;CURATED DISCIPLINES&quot;
+                  Preview: How this department appears in Navbar &quot;CURATED DISCIPLINES&quot;
                 </div>
                 <div style={{
                   display: 'flex',
@@ -770,7 +844,7 @@ export default function AdminCourses() {
                 }}>
                   <div>
                     <div style={{ color: '#f1f5f9', fontWeight: '700', fontSize: '14px' }}>
-                      {courseForm.title || 'Course Title'}
+                      {courseForm.department || 'Select Department'}
                     </div>
                     <div style={{ color: '#94a3b8', fontSize: '12px', marginTop: '2px' }}>
                       {courseForm.modules ? courseForm.modules.split('(')[0].trim() : (courseForm.duration || 'Specialized Track')}
@@ -796,22 +870,55 @@ export default function AdminCourses() {
               {/* Department & Level */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                 <div className="admin-form-group">
-                  <label className="admin-label">Discipline / Department *</label>
-                  <select
-                    className="admin-input"
-                    value={courseForm.department}
-                    onChange={(e) => handleDepartmentChange(e.target.value)}
-                  >
-                    <option value="Mechanical & Automobile">Mechanical &amp; Automobile</option>
-                    <option value="Civil Engineering">Civil Engineering &amp; BIM</option>
-                    <option value="CNC Programming">CNC Programming &amp; CAM</option>
-                    <option value="Computer Science & IT">Computer Science &amp; IT</option>
-                    <option value="EEE/Instrumentation">EEE &amp; Automation</option>
-                    <option value="ECE">ECE Embedded &amp; IoT</option>
-                    <option value="Piping (Oil & Gas)">Piping Engineering (Oil &amp; Gas)</option>
-                    <option value="Robotics & Automation">Robotics &amp; Automation</option>
-                    <option value="AI & Data Science">AI &amp; Data Science</option>
-                  </select>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                    <label className="admin-label" style={{ margin: 0 }}>Discipline / Department *</label>
+                    <button
+                      type="button"
+                      onClick={() => setIsCustomDept(!isCustomDept)}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#c084fc',
+                        fontSize: '11.5px',
+                        fontWeight: '700',
+                        cursor: 'pointer',
+                        padding: '0',
+                        textDecoration: 'underline'
+                      }}
+                    >
+                      {isCustomDept ? '← Choose Existing' : '+ Type Custom Dept'}
+                    </button>
+                  </div>
+
+                  {isCustomDept ? (
+                    <input
+                      type="text"
+                      className="admin-input"
+                      placeholder="e.g. Artificial Intelligence, Aerospace..."
+                      value={courseForm.department}
+                      onChange={(e) => handleDepartmentChange(e.target.value)}
+                      required
+                      autoFocus
+                    />
+                  ) : (
+                    <select
+                      className="admin-input"
+                      value={courseForm.department}
+                      onChange={(e) => {
+                        if (e.target.value === '__custom__') {
+                          setIsCustomDept(true);
+                          setCourseForm(prev => ({ ...prev, department: '' }));
+                        } else {
+                          handleDepartmentChange(e.target.value);
+                        }
+                      }}
+                    >
+                      {allDepartments.map((dept) => (
+                        <option key={dept} value={dept}>{dept}</option>
+                      ))}
+                      <option value="__custom__">➕ Type Custom Department Name...</option>
+                    </select>
+                  )}
                 </div>
 
                 <div className="admin-form-group">

@@ -3,7 +3,7 @@ import { modalStyles } from '../data/styles.js';
 import { syncToFirestore } from '../services/firebase.js';
 import { getStoredSiteConfig, getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
-export default function EnrollModal({ isOpen, onClose }) {
+export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
   const [siteConfig, setSiteConfig] = useState(() => getStoredSiteConfig());
   const [courses, setCourses] = useState(() => getStoredCourses());
   const modalConfig = siteConfig.enrollModal || {};
@@ -13,7 +13,7 @@ export default function EnrollModal({ isOpen, onClose }) {
     lastName: '',
     email: '',
     phone: '',
-    program: '',
+    program: initialProgram || '',
     message: ''
   });
   const [submitted, setSubmitted] = useState(false);
@@ -27,6 +27,24 @@ export default function EnrollModal({ isOpen, onClose }) {
       setCourses(getStoredCourses());
     });
   }, []);
+
+  // Sync initialProgram whenever modal opens or program prop changes
+  useEffect(() => {
+    if (isOpen) {
+      if (initialProgram) {
+        const matched = (courses || []).find(c =>
+          (c.title && c.title.toLowerCase().trim() === initialProgram.toLowerCase().trim()) ||
+          (c.department && c.department.toLowerCase().trim() === initialProgram.toLowerCase().trim())
+        );
+        const resolvedProgram = matched ? (matched.title || matched.department) : initialProgram;
+        setFormData(prev => ({
+          ...prev,
+          program: resolvedProgram,
+          message: prev.message || `Interested in enrolling for ${resolvedProgram}`
+        }));
+      }
+    }
+  }, [isOpen, initialProgram, courses]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -240,6 +258,11 @@ export default function EnrollModal({ isOpen, onClose }) {
                   }}
                 >
                   <option value="" style={{ backgroundColor: '#0f1123', color: '#94a3b8' }}>Choose your program…</option>
+                  {initialProgram && !(courses || []).some(c => (c.title === initialProgram || c.department === initialProgram)) && (
+                    <option value={initialProgram} style={{ backgroundColor: '#0f1123', color: '#38bdf8', fontWeight: '700' }}>
+                      {initialProgram} (Selected)
+                    </option>
+                  )}
                   {courses && courses.length > 0 ? (
                     courses.map((c) => (
                       <option key={c.id || c.title} value={c.title || c.department} style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>

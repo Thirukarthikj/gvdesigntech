@@ -68,7 +68,15 @@ export default function App() {
     }
   }, [isAuthOrAdmin]);
 
-  const openModal = () => setIsEnrollModalOpen(true);
+  const [selectedCourseForEnroll, setSelectedCourseForEnroll] = useState('');
+
+  const openModal = (courseNameOrDetails = '') => {
+    const courseTitle = typeof courseNameOrDetails === 'string'
+      ? courseNameOrDetails
+      : (courseNameOrDetails?.title || courseNameOrDetails?.department || '');
+    setSelectedCourseForEnroll(courseTitle);
+    setIsEnrollModalOpen(true);
+  };
 
   return (
     <div className="App">
@@ -186,7 +194,11 @@ export default function App() {
       {!isAuthOrAdmin && (
         <EnrollModal
           isOpen={isEnrollModalOpen}
-          onClose={() => setIsEnrollModalOpen(false)}
+          onClose={() => {
+            setIsEnrollModalOpen(false);
+            setSelectedCourseForEnroll('');
+          }}
+          initialProgram={selectedCourseForEnroll}
         />
       )}
     </div>

@@ -187,7 +187,7 @@ export default function CivilEngineering({ onOpenModal }) {
               </div>
             ) : (
               coursesList.map((c) => (
-                <div key={c.id || c._id} className="mech-card" onClick={onOpenModal}>
+                <div key={c.id || c._id} className="mech-card" onClick={() => onOpenModal && onOpenModal(c.title || c.department)}>
                   <div className="mech-card-media">
                     <span className="mech-badge-popular">{c.badge || 'POPULAR'}</span>
                     <img className="mech-card-img" alt={c.title} src={c.image || c.img || '/assets/civil-structural-design.jpg'} />
@@ -205,7 +205,7 @@ export default function CivilEngineering({ onOpenModal }) {
                       className="mech-btn-learn"
                       onClick={(e) => {
                         e.stopPropagation();
-                        onOpenModal();
+                        if (onOpenModal) onOpenModal(c.title || c.department);
                       }}
                     >
                       Learn More →

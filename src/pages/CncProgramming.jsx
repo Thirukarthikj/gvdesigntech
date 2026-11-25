@@ -317,7 +317,7 @@ export default function CncProgramming({ onOpenModal }) {
 
                   <button
                     type="button"
-                    onClick={onOpenModal}
+                    onClick={() => onOpenModal && onOpenModal(c.title || c.department)}
                     style={{
                       width: '100%',
                       padding: '11px 0',
