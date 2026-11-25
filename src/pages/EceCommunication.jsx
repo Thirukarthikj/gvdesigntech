@@ -142,15 +142,6 @@ export default function EceCommunication({ onOpenModal }) {
     }
   ];
 
-  const softwarePrograms = [
-    { code: 'A', tag: 'PCB', title: 'Altium & KiCad', subtitle: 'Schematic Capture & PCB Layout', img: '/assets/eee-course-panel.jpg' },
-    { code: 'K', tag: 'IDE', title: 'Keil µVision', subtitle: 'ARM & 8051 Embedded C Compiler', img: '/assets/eee-course-embedded.jpg' },
-    { code: 'M', tag: 'SIM', title: 'MATLAB & Simulink', subtitle: 'DSP, Signals & System Modeling', img: '/assets/eee-sw-matlab.jpg' },
-    { code: 'V', tag: 'VLSI', title: 'ModelSim / Quartus', subtitle: 'Verilog / VHDL Simulation & FPGA', img: '/assets/computer-science-training-india-Dnsjya8L.webp' },
-    { code: 'P', tag: 'VSM', title: 'Proteus Design Suite', subtitle: 'Interactive Circuit & Microcontroller Sim', img: '/assets/eee-sw-proteus.jpg' },
-    { code: 'R', tag: 'SIM', title: 'NI Multisim', subtitle: 'Analog & Digital SPICE Circuit Analysis', img: '/assets/eee-sw-multisim.jpg' }
-  ];
-
   const faqs = [
     {
       q: 'Do I need prior coding knowledge before starting ECE courses?',
@@ -393,93 +384,6 @@ export default function EceCommunication({ onOpenModal }) {
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* SOFTWARE TRAINING PROGRAMS */}
-      <section style={{ position: 'relative', zIndex: 1, padding: '70px 24px', background: 'rgba(10, 15, 30, 0.65)', borderTop: '1px solid rgba(56, 189, 248, 0.15)', borderBottom: '1px solid rgba(56, 189, 248, 0.15)' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-            <div style={{ color: '#38bdf8', fontSize: '13px', fontWeight: '700', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
-              — TOOLS &amp; PLATFORMS —
-            </div>
-            <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 44px)', fontWeight: '800', margin: 0, textTransform: 'uppercase', letterSpacing: '1px' }}>
-              SOFTWARE <span style={{ color: '#38bdf8' }}>TRAINING PROGRAMS</span>
-            </h2>
-            <p style={{ color: '#94a3b8', fontSize: '16px', maxWidth: '640px', margin: '12px auto 0' }}>
-              Industry-standard EDA tools, simulation suites, and embedded development environments.
-            </p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '24px' }}>
-            {softwarePrograms.map((sw, idx) => (
-              <div
-                key={idx}
-                style={{
-                  background: 'rgba(15, 23, 42, 0.85)',
-                  border: '1px solid rgba(56, 189, 248, 0.2)',
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '16px',
-                  gap: '18px',
-                  backdropFilter: 'blur(10px)',
-                  transition: 'transform 0.25s ease, border-color 0.25s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.5)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.2)';
-                }}
-              >
-                <div style={{ width: '84px', height: '84px', borderRadius: '12px', overflow: 'hidden', flexShrink: 0, position: 'relative', background: '#0b1120' }}>
-                  <img
-                    src={sw.img}
-                    alt={sw.title}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    onError={(e) => {
-                      e.target.src = '/assets/eee-sw-proteus.jpg';
-                    }}
-                  />
-                  <span style={{ position: 'absolute', bottom: '4px', right: '4px', background: '#0284c7', color: '#fff', fontSize: '10px', fontWeight: '800', padding: '2px 5px', borderRadius: '4px' }}>
-                    {sw.code}
-                  </span>
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <span style={{ fontSize: '11px', color: '#38bdf8', fontWeight: '700', letterSpacing: '0.8px', textTransform: 'uppercase' }}>
-                    {sw.tag}
-                  </span>
-                  <h4 style={{ fontSize: '17px', fontWeight: '700', color: '#f8fafc', margin: '4px 0 2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {sw.title}
-                  </h4>
-                  <p style={{ fontSize: '13px', color: '#94a3b8', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {sw.subtitle}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={onOpenModal}
-                  style={{
-                    padding: '8px 14px',
-                    background: 'rgba(56, 189, 248, 0.12)',
-                    border: '1px solid rgba(56, 189, 248, 0.35)',
-                    borderRadius: '8px',
-                    color: '#38bdf8',
-                    fontSize: '12px',
-                    fontWeight: '700',
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  Inquire
-                </button>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 

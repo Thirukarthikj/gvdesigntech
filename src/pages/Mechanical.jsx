@@ -157,73 +157,6 @@ export default function Mechanical({ onOpenModal }) {
     return () => unsub();
   }, []);
 
-  const softwarePrograms = [
-    {
-      id: 'autocad',
-      title: 'AUTOCAD',
-      subtitle: '2D Drafting & 3D Modeling',
-      category: 'CAD',
-      letter: 'A',
-      image: '/assets/sw-autocad.jpg'
-    },
-    {
-      id: 'solidworks',
-      title: 'SOLIDWORKS',
-      subtitle: 'Parametric 3D Design',
-      category: 'CAD/CAE',
-      letter: 'S',
-      image: '/assets/sw-solidworks.jpg'
-    },
-    {
-      id: 'catia',
-      title: 'CATIA',
-      subtitle: 'Advanced Surface Modeling',
-      category: 'CAD',
-      letter: 'C',
-      image: '/assets/sw-catia.jpg'
-    },
-    {
-      id: 'ansys',
-      title: 'ANSYS',
-      subtitle: 'FEA & Simulation',
-      category: 'CAE',
-      letter: 'A',
-      image: '/assets/sw-ansys.jpg'
-    },
-    {
-      id: 'creo',
-      title: 'CREO',
-      subtitle: 'Product Design & PLM',
-      category: 'CAD',
-      letter: 'C',
-      image: '/assets/sw-creo.jpg'
-    },
-    {
-      id: 'nxcad',
-      title: 'NX CAD',
-      subtitle: 'Industrial Design & Mfg',
-      category: 'CAD/CAM',
-      letter: 'N',
-      image: '/assets/sw-nxcad.jpg'
-    },
-    {
-      id: 'hypermesh',
-      title: 'HYPERMESH',
-      subtitle: 'Pre/Post Processing',
-      category: 'CAE',
-      letter: 'H',
-      image: '/assets/sw-hypermesh.jpg'
-    },
-    {
-      id: 'mastercam',
-      title: 'MASTERCAM',
-      subtitle: 'CNC Programming & CAM',
-      category: 'CAM',
-      letter: 'M',
-      image: '/assets/sw-mastercam.jpg'
-    }
-  ];
-
   const faqs = [
     {
       q: 'Who is this Mechanical & Automobile Engineering program for?',
@@ -327,38 +260,6 @@ export default function Mechanical({ onOpenModal }) {
                   >
                     Learn More →
                   </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Section 2: Software Training Programs (Image 2) */}
-        <section className="sw-programs-section" id="software-programs">
-          <div className="sw-programs-header">
-            <span className="mech-eyebrow">
-              <span className="mech-eyebrow-dot"></span>
-              TOOLS &amp; PLATFORMS
-            </span>
-            <h2 className="mech-title">
-              SOFTWARE <span className="highlight-red">TRAINING PROGRAMS</span>
-            </h2>
-            <p className="mech-subtitle">
-              Industry standard mechanical design tools used by top engineering companies worldwide.
-            </p>
-          </div>
-
-          <div className="sw-grid">
-            {softwarePrograms.map((s) => (
-              <div key={s.id} className="sw-card" onClick={onOpenModal}>
-                <div className="sw-card-media">
-                  <span className="sw-badge-category">{s.category}</span>
-                  <img className="sw-card-img" alt={s.title} src={s.image} />
-                  <div className="sw-avatar">{s.letter}</div>
-                </div>
-                <div className="sw-card-body">
-                  <h4 className="sw-card-title">{s.title}</h4>
-                  <p className="sw-card-subtitle">{s.subtitle}</p>
                 </div>
               </div>
             ))}

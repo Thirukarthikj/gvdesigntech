@@ -36,7 +36,7 @@ export default function AdminLayout() {
       items: [
         { to: '/admin/dashboard', icon: '📊', label: 'Overview' },
         { to: '/admin/enrollments', icon: '📝', label: 'Inquiries & Leads' },
-        { to: '/admin/courses', icon: '🎓', label: 'Courses & Batches' },
+        { to: '/admin/courses', icon: '🎓', label: 'Courses & Disciplines' },
         { to: '/admin/internships', icon: '💼', label: 'Internship Applicants' }
       ]
     },
@@ -63,7 +63,7 @@ export default function AdminLayout() {
   const getPageTitle = () => {
     const path = location.pathname;
     if (path.includes('enrollments')) return 'Student Inquiries & Admissions';
-    if (path.includes('courses')) return 'Course Cohorts & Batch Management';
+    if (path.includes('courses')) return 'Curated Courses & Disciplines Management';
     if (path.includes('internships')) return 'Internship Applications';
     if (path.includes('content-leaders')) return 'Leadership & Executive Profiles';
     if (path.includes('content-mou') || path.includes('partners')) return 'MOU & Institutional Partnerships';

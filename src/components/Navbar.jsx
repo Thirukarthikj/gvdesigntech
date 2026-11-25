@@ -90,12 +90,6 @@ export default function Navbar() {
                   );
                 })}
               </div>
-
-              <div className="curated-footer">
-                <Link to="/mechanical" className="curated-browse-all" onClick={closeAll}>
-                  Browse All Courses →
-                </Link>
-              </div>
             </div>
           </div>
 

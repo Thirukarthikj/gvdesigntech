@@ -152,15 +152,6 @@ export default function PipingEngineering({ onOpenModal }) {
     }
   ];
 
-  const softwarePrograms = [
-    { code: 'P', tag: 'PLANT', title: 'AutoCAD Plant 3D', subtitle: 'Spec-Driven 3D Piping & P&ID', img: '/assets/sw-autocad.jpg' },
-    { code: 'E', tag: '3D CAD', title: 'AVEVA E3D', subtitle: 'Next-Gen Multi-Discipline Plant Design', img: '/assets/cad-card-mechanical.jpg' },
-    { code: 'S', tag: 'EPC', title: 'SmartPlant 3D (SP3D)', subtitle: 'Intergraph Enterprise Plant Modeling', img: '/assets/civil-structural-design.jpg' },
-    { code: 'D', tag: 'PLANT', title: 'AVEVA PDMS', subtitle: 'Global Standard Plant Modeling System', img: '/assets/civil-bim.jpg' },
-    { code: 'C', tag: 'CAE', title: 'CAESAR II', subtitle: 'Piping Flexibility & Stress Analysis', img: '/assets/civil-fea.jpg' },
-    { code: 'N', tag: 'REVIEW', title: 'Navisworks Manage', subtitle: '3D Clash Detection & Construction Review', img: '/assets/civil-site-planning.jpg' }
-  ];
-
   const faqs = [
     {
       q: 'Who is eligible to join the Piping Engineering (Oil & Gas) program?',
@@ -403,93 +394,6 @@ export default function PipingEngineering({ onOpenModal }) {
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* SOFTWARE TRAINING PROGRAMS */}
-      <section style={{ position: 'relative', zIndex: 1, padding: '70px 24px', background: 'rgba(10, 15, 30, 0.65)', borderTop: '1px solid rgba(20, 184, 166, 0.15)', borderBottom: '1px solid rgba(20, 184, 166, 0.15)' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-            <div style={{ color: '#14b8a6', fontSize: '13px', fontWeight: '700', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
-              — TOOLS &amp; PLATFORMS —
-            </div>
-            <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 44px)', fontWeight: '800', margin: 0, textTransform: 'uppercase', letterSpacing: '1px' }}>
-              SOFTWARE <span style={{ color: '#14b8a6' }}>TRAINING PROGRAMS</span>
-            </h2>
-            <p style={{ color: '#94a3b8', fontSize: '16px', maxWidth: '640px', margin: '12px auto 0' }}>
-              Industry-standard plant design suites and pipe stress analysis platforms used across global EPC projects.
-            </p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '24px' }}>
-            {softwarePrograms.map((sw, idx) => (
-              <div
-                key={idx}
-                style={{
-                  background: 'rgba(15, 23, 42, 0.85)',
-                  border: '1px solid rgba(20, 184, 166, 0.2)',
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '16px',
-                  gap: '18px',
-                  backdropFilter: 'blur(10px)',
-                  transition: 'transform 0.25s ease, border-color 0.25s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.borderColor = 'rgba(20, 184, 166, 0.5)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.borderColor = 'rgba(20, 184, 166, 0.2)';
-                }}
-              >
-                <div style={{ width: '84px', height: '84px', borderRadius: '12px', overflow: 'hidden', flexShrink: 0, position: 'relative', background: '#0b1120' }}>
-                  <img
-                    src={sw.img}
-                    alt={sw.title}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    onError={(e) => {
-                      e.target.src = '/assets/cad-card-mechanical.jpg';
-                    }}
-                  />
-                  <span style={{ position: 'absolute', bottom: '4px', right: '4px', background: '#0d9488', color: '#fff', fontSize: '10px', fontWeight: '800', padding: '2px 5px', borderRadius: '4px' }}>
-                    {sw.code}
-                  </span>
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <span style={{ fontSize: '11px', color: '#14b8a6', fontWeight: '700', letterSpacing: '0.8px', textTransform: 'uppercase' }}>
-                    {sw.tag}
-                  </span>
-                  <h4 style={{ fontSize: '17px', fontWeight: '700', color: '#f8fafc', margin: '4px 0 2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {sw.title}
-                  </h4>
-                  <p style={{ fontSize: '13px', color: '#94a3b8', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {sw.subtitle}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={onOpenModal}
-                  style={{
-                    padding: '8px 14px',
-                    background: 'rgba(20, 184, 166, 0.12)',
-                    border: '1px solid rgba(20, 184, 166, 0.35)',
-                    borderRadius: '8px',
-                    color: '#14b8a6',
-                    fontSize: '12px',
-                    fontWeight: '700',
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  Inquire
-                </button>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 

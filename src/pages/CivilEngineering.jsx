@@ -138,57 +138,6 @@ export default function CivilEngineering({ onOpenModal }) {
     return () => unsub();
   }, []);
 
-  const softwarePrograms = [
-    {
-      id: 'civilcad',
-      title: 'CivilCAD',
-      subtitle: 'Site Layout & Earthworks',
-      category: 'CAD',
-      scale: '1:100',
-      image: '/assets/civil-quantity-survey.jpg'
-    },
-    {
-      id: 'revit',
-      title: 'Revit',
-      subtitle: 'BIM & Structural Modeling',
-      category: 'BIM',
-      scale: '1:50',
-      image: '/assets/civil-bim.jpg'
-    },
-    {
-      id: 'staad-pro',
-      title: 'STAAD.Pro',
-      subtitle: 'Structural Analysis & Design',
-      category: 'CAE',
-      scale: '1:75',
-      image: '/assets/civil-structural-design.jpg'
-    },
-    {
-      id: 'sketchup',
-      title: 'SketchUp',
-      subtitle: '3D Conceptual Modeling',
-      category: 'CAD',
-      scale: '1:200',
-      image: '/assets/civil-3d-viz.jpg'
-    },
-    {
-      id: 'ansys-civil',
-      title: 'ANSYS Civil',
-      subtitle: 'FEA for Structures',
-      category: 'CAE',
-      scale: '1:25',
-      image: '/assets/civil-fea.jpg'
-    },
-    {
-      id: '3ds-max',
-      title: '3ds Max',
-      subtitle: 'Visualization & Rendering',
-      category: 'VIZ',
-      scale: '1:1',
-      image: '/assets/civil-sw-3dsmax.jpg'
-    }
-  ];
-
   const faqs = [
     {
       q: 'Who is this Civil Engineering & BIM track designed for?',
@@ -292,38 +241,6 @@ export default function CivilEngineering({ onOpenModal }) {
                   >
                     Learn More →
                   </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Section 2: Software Training Programs (Image 2) */}
-        <section className="sw-programs-section" id="software-programs">
-          <div className="sw-programs-header">
-            <span className="mech-eyebrow">
-              <span className="mech-eyebrow-dot"></span>
-              TOOLS &amp; PLATFORMS
-            </span>
-            <h2 className="mech-title">
-              SOFTWARE <span className="highlight-red">TRAINING PROGRAMS</span>
-            </h2>
-            <p className="mech-subtitle">
-              Industry standard civil engineering and structural design tools used on real construction projects.
-            </p>
-          </div>
-
-          <div className="civil-sw-grid">
-            {softwarePrograms.map((s) => (
-              <div key={s.id} className="sw-card" onClick={onOpenModal}>
-                <div className="sw-card-media">
-                  <span className="sw-badge-category">{s.category}</span>
-                  <img className="sw-card-img" alt={s.title} src={s.image} />
-                  <span className="civil-sw-scale-badge">{s.scale}</span>
-                </div>
-                <div className="sw-card-body" style={{ padding: '20px 18px' }}>
-                  <h4 className="sw-card-title">{s.title}</h4>
-                  <p className="sw-card-subtitle">{s.subtitle}</p>
                 </div>
               </div>
             ))}

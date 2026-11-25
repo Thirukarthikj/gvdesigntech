@@ -174,15 +174,6 @@ export default function ComputerScience({ onOpenModal }) {
     return () => unsub();
   }, []);
 
-  const softwarePrograms = [
-    { code: 'P', tag: 'LANG', title: 'Python 3', subtitle: 'Automation & Data Engineering', img: '/assets/python-data-science-WAA-mEXC.webp' },
-    { code: 'J', tag: 'LANG', title: 'Java & Spring', subtitle: 'Enterprise Backend Architectures', img: '/assets/java-springboot-api-DpH3i4I0.webp' },
-    { code: 'R', tag: 'WEB', title: 'React & Node.js', subtitle: 'Full Stack Web Applications', img: '/assets/react-components-hooks-tutorial-BpF5-2eD.webp' },
-    { code: 'S', tag: 'DB', title: 'MySQL & PostgreSQL', subtitle: 'Relational Database Systems', img: '/assets/mongodb-vs-sql-databases-DTATbxu_.webp' },
-    { code: 'A', tag: 'AI/ML', title: 'PyTorch & TensorFlow', subtitle: 'Deep Learning & Neural Networks', img: '/assets/machine-learning-projects-for-beginners-DMe7PBQY.webp' },
-    { code: 'D', tag: 'DEVOPS', title: 'Docker & Git', subtitle: 'Version Control & Cloud Deployment', img: '/assets/devops-cloud-deployment-Cqs1EKGP.webp' }
-  ];
-
   const faqs = [
     {
       q: 'Which programming track is recommended for beginners?',
@@ -393,84 +384,6 @@ export default function ComputerScience({ onOpenModal }) {
                 >
                   Learn More
                 </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* SOFTWARE TOOLS & PLATFORMS SECTION */}
-      <section style={{ position: 'relative', zIndex: 1, padding: '70px 24px 80px', maxWidth: '1240px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <div style={{ fontSize: '13px', fontWeight: '700', letterSpacing: '2px', color: '#38bdf8', textTransform: 'uppercase', marginBottom: '8px' }}>
-            — TOOLS &amp; PLATFORMS —
-          </div>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: '800', color: '#fff', margin: '0 0 12px' }}>
-            SOFTWARE <span style={{ color: '#38bdf8' }}>STACKS &amp; TOOLS</span>
-          </h2>
-          <p style={{ maxWidth: '640px', margin: '0 auto', fontSize: '15px', color: '#94a3b8', lineHeight: 1.6 }}>
-            Modern frameworks, programming languages, and developer platforms used by top technology companies worldwide.
-          </p>
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
-          {softwarePrograms.map((s, i) => (
-            <div
-              key={i}
-              style={{
-                background: 'rgba(15, 11, 33, 0.85)',
-                border: '1px solid rgba(56, 189, 248, 0.25)',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                boxShadow: '0 12px 30px rgba(0, 0, 0, 0.45)'
-              }}
-            >
-              <div style={{ position: 'relative', width: '100%', height: '140px', overflow: 'hidden' }}>
-                <img
-                  src={s.img}
-                  alt={s.title}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-                <span
-                  style={{
-                    position: 'absolute',
-                    top: '10px',
-                    right: '10px',
-                    background: '#0284c7',
-                    color: '#fff',
-                    fontSize: '10px',
-                    fontWeight: '800',
-                    padding: '3px 7px',
-                    borderRadius: '4px'
-                  }}
-                >
-                  {s.tag}
-                </span>
-              </div>
-
-              <div style={{ padding: '18px 20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
-                <div
-                  style={{
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: '8px',
-                    background: '#0f172a',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontWeight: '800',
-                    fontSize: '15px',
-                    color: '#38bdf8',
-                    flexShrink: 0
-                  }}
-                >
-                  {s.code}
-                </div>
-                <div>
-                  <h4 style={{ margin: '0 0 3px', fontSize: '16px', fontWeight: '700', color: '#fff' }}>{s.title}</h4>
-                  <p style={{ margin: 0, fontSize: '12.5px', color: '#94a3b8' }}>{s.subtitle}</p>
-                </div>
               </div>
             </div>
           ))}

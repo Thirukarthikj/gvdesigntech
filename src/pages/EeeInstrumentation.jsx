@@ -152,15 +152,6 @@ export default function EeeInstrumentation({ onOpenModal }) {
     }
   ];
 
-  const softwarePrograms = [
-    { code: 'A', tag: 'CAD', title: 'AutoCAD Electrical', subtitle: 'Schematic & Wiring Diagrams', img: '/assets/eee-sw-autocad-elec.jpg' },
-    { code: 'E', tag: 'CAE', title: 'EPLAN Electric P8', subtitle: 'Standardized Electrical CAE', img: '/assets/eee-sw-etap.jpg' },
-    { code: 'S', tag: 'PLC', title: 'Siemens TIA Portal', subtitle: 'S7-1200 / S7-1500 PLC & HMI', img: '/assets/eee-sw-plc-scada.jpg' },
-    { code: 'W', tag: 'SCADA', title: 'Wonderware InTouch', subtitle: 'Industrial Supervisory Control', img: '/assets/eee-sw-dcs.jpg' },
-    { code: 'M', tag: 'SIM', title: 'MATLAB & Simulink', subtitle: 'Power Systems & Control Theory', img: '/assets/eee-sw-matlab.jpg' },
-    { code: 'L', tag: 'INSTR', title: 'NI LabVIEW', subtitle: 'Data Acquisition & Test Automation', img: '/assets/eee-sw-labview.jpg' }
-  ];
-
   const faqs = [
     {
       q: 'Do I need prior electrical engineering experience for PLC & SCADA?',
@@ -371,84 +362,6 @@ export default function EeeInstrumentation({ onOpenModal }) {
                 >
                   Learn More
                 </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* SOFTWARE TOOLS & PLATFORMS SECTION */}
-      <section style={{ position: 'relative', zIndex: 1, padding: '70px 24px 80px', maxWidth: '1240px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <div style={{ fontSize: '13px', fontWeight: '700', letterSpacing: '2px', color: '#fbbf24', textTransform: 'uppercase', marginBottom: '8px' }}>
-            — TOOLS &amp; PLATFORMS —
-          </div>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: '800', color: '#fff', margin: '0 0 12px' }}>
-            SOFTWARE <span style={{ color: '#fbbf24' }}>TRAINING SUITES</span>
-          </h2>
-          <p style={{ maxWidth: '640px', margin: '0 auto', fontSize: '15px', color: '#94a3b8', lineHeight: 1.6 }}>
-            Industry-standard electrical CAD tools, PLC programming software, and SCADA monitoring platforms.
-          </p>
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
-          {softwarePrograms.map((s, i) => (
-            <div
-              key={i}
-              style={{
-                background: 'rgba(15, 11, 33, 0.85)',
-                border: '1px solid rgba(251, 191, 36, 0.25)',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                boxShadow: '0 12px 30px rgba(0, 0, 0, 0.45)'
-              }}
-            >
-              <div style={{ position: 'relative', width: '100%', height: '140px', overflow: 'hidden' }}>
-                <img
-                  src={s.img}
-                  alt={s.title}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-                <span
-                  style={{
-                    position: 'absolute',
-                    top: '10px',
-                    right: '10px',
-                    background: '#d97706',
-                    color: '#fff',
-                    fontSize: '10px',
-                    fontWeight: '800',
-                    padding: '3px 7px',
-                    borderRadius: '4px'
-                  }}
-                >
-                  {s.tag}
-                </span>
-              </div>
-
-              <div style={{ padding: '18px 20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
-                <div
-                  style={{
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: '8px',
-                    background: '#0f172a',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontWeight: '800',
-                    fontSize: '15px',
-                    color: '#fbbf24',
-                    flexShrink: 0
-                  }}
-                >
-                  {s.code}
-                </div>
-                <div>
-                  <h4 style={{ margin: '0 0 3px', fontSize: '16px', fontWeight: '700', color: '#fff' }}>{s.title}</h4>
-                  <p style={{ margin: 0, fontSize: '12.5px', color: '#94a3b8' }}>{s.subtitle}</p>
-                </div>
               </div>
             </div>
           ))}

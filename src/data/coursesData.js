@@ -113,5 +113,21 @@ export const initialCourses = [
     image: '/assets/mech-prod-design.jpg',
     order: 7,
     createdAt: new Date('2026-01-07T00:00:00Z').toISOString()
+  },
+  {
+    id: 'course-robotics',
+    title: 'Robotics & Mechatronics Automation',
+    department: 'Robotics & Automation',
+    category: 'Robotics',
+    duration: '3 Months',
+    level: 'Intermediate → Advanced',
+    badge: 'NEXT-GEN TECH',
+    modules: 'ROS 2, MATLAB Simulink, SolidWorks Motion, KUKA Robot',
+    desc: 'Robotics kinematics, motion control, sensor fusion, PLC integration, industrial robot programming, and automated manufacturing cells.',
+    link: '/mechanical',
+    mode: 'Robotics Lab & Simulation Studio',
+    image: '/assets/lab-workstation.jpg',
+    order: 8,
+    createdAt: new Date('2026-01-08T00:00:00Z').toISOString()
   }
 ];

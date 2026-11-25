@@ -153,6 +153,17 @@ export default function AdminCourses() {
     }
   };
 
+  const handleMoveCourse = (index, direction) => {
+    const newIdx = index + direction;
+    if (newIdx < 0 || newIdx >= courses.length) return;
+    const reordered = [...courses];
+    const [moved] = reordered.splice(index, 1);
+    reordered.splice(newIdx, 0, moved);
+    setCourses(reordered);
+    saveStoredCourses(reordered);
+    showToast(`Reordered "${moved.title}" in menu`);
+  };
+
   const handleCourseSubmit = (e) => {
     e.preventDefault();
     if (!courseForm.title.trim()) {
@@ -373,6 +384,54 @@ export default function AdminCourses() {
               {batches.length}
             </span>
           </button>
+        </div>
+      </div>
+
+      {/* Informative Guidance Banner for Navbar Dropdown */}
+      <div style={{
+        background: 'rgba(139, 92, 246, 0.08)',
+        border: '1px solid rgba(139, 92, 246, 0.3)',
+        borderRadius: '14px',
+        padding: '16px 20px',
+        marginBottom: '24px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '12px'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span style={{ fontSize: '24px' }}>🧭</span>
+          <div>
+            <div style={{ fontSize: '14.5px', fontWeight: '700', color: '#fff' }}>
+              Website Navbar &quot;CURATED DISCIPLINES&quot; Menu Integration
+            </div>
+            <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '2px' }}>
+              All courses added, edited, or reordered here directly power the <strong>Courses</strong> dropdown menu in the website navbar and curriculum pages.
+            </div>
+          </div>
+        </div>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <a
+            href="/"
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              padding: '7px 14px',
+              background: 'rgba(255, 255, 255, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              borderRadius: '8px',
+              color: '#e2e8f0',
+              textDecoration: 'none',
+              fontSize: '12.5px',
+              fontWeight: '600',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+          >
+            <span>Live Dropdown Preview ↗</span>
+          </a>
         </div>
       </div>
 
@@ -667,7 +726,42 @@ export default function AdminCourses() {
                         <span>View Page ↗</span>
                       </a>
 
-                      <div style={{ display: 'flex', gap: '8px' }}>
+                      <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                        <button
+                          type="button"
+                          disabled={idx === 0}
+                          onClick={() => handleMoveCourse(idx, -1)}
+                          title="Move up in dropdown menu"
+                          style={{
+                            padding: '6px 10px',
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            border: '1px solid rgba(255, 255, 255, 0.15)',
+                            color: idx === 0 ? '#475569' : '#e2e8f0',
+                            borderRadius: '8px',
+                            cursor: idx === 0 ? 'not-allowed' : 'pointer',
+                            fontSize: '12px'
+                          }}
+                        >
+                          ▲
+                        </button>
+                        <button
+                          type="button"
+                          disabled={idx === filteredCourses.length - 1}
+                          onClick={() => handleMoveCourse(idx, 1)}
+                          title="Move down in dropdown menu"
+                          style={{
+                            padding: '6px 10px',
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            border: '1px solid rgba(255, 255, 255, 0.15)',
+                            color: idx === filteredCourses.length - 1 ? '#475569' : '#e2e8f0',
+                            borderRadius: '8px',
+                            cursor: idx === filteredCourses.length - 1 ? 'not-allowed' : 'pointer',
+                            fontSize: '12px'
+                          }}
+                        >
+                          ▼
+                        </button>
+
                         <button
                           type="button"
                           onClick={() => handleOpenEditCourse(c)}
@@ -890,6 +984,38 @@ export default function AdminCourses() {
             </div>
 
             <form onSubmit={handleCourseSubmit}>
+              {/* Dropdown Menu Item Live Preview */}
+              <div style={{
+                background: 'rgba(15, 12, 34, 0.9)',
+                border: '1px solid rgba(139, 92, 246, 0.35)',
+                borderRadius: '12px',
+                padding: '14px 16px',
+                marginBottom: '18px'
+              }}>
+                <div style={{ fontSize: '11px', color: '#c084fc', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>
+                  Preview: How this appears in Navbar &quot;CURATED DISCIPLINES&quot;
+                </div>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '10px 14px',
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(255, 255, 255, 0.08)'
+                }}>
+                  <div>
+                    <div style={{ color: '#f1f5f9', fontWeight: '700', fontSize: '14px' }}>
+                      {courseForm.title || 'Course Title'}
+                    </div>
+                    <div style={{ color: '#94a3b8', fontSize: '12px', marginTop: '2px' }}>
+                      {courseForm.modules ? courseForm.modules.split('(')[0].trim() : (courseForm.duration || 'Specialized Track')}
+                    </div>
+                  </div>
+                  <span style={{ color: '#a855f7', fontSize: '16px', fontWeight: '700' }}>→</span>
+                </div>
+              </div>
+
               {/* Course Title */}
               <div className="admin-form-group">
                 <label className="admin-label">Course Title *</label>
