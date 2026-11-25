@@ -117,23 +117,22 @@ export default function CivilEngineering({ onOpenModal }) {
     }
   ];
 
-  const [coursesList, setCoursesList] = useState(() => {
+  const getCivilCourses = () => {
     const stored = getStoredCourses().filter(c =>
-      (c.department && c.department.toLowerCase().includes('civil')) ||
-      (c.category && c.category.toLowerCase().includes('civil'))
+      !c.isDiscipline && (
+        (c.department && c.department.toLowerCase().includes('civil')) ||
+        (c.category && c.category.toLowerCase().includes('civil')) ||
+        c.link === '/civil-engineering'
+      )
     );
-    const custom = stored.filter(s => !civilCourses.some(m => m.id === s.id || m.title === s.title));
-    return [...civilCourses, ...custom];
-  });
+    return stored.length > 0 ? stored : civilCourses;
+  };
+
+  const [coursesList, setCoursesList] = useState(getCivilCourses);
 
   useEffect(() => {
     const unsub = subscribeToContentUpdates(() => {
-      const stored = getStoredCourses().filter(c =>
-        (c.department && c.department.toLowerCase().includes('civil')) ||
-        (c.category && c.category.toLowerCase().includes('civil'))
-      );
-      const custom = stored.filter(s => !civilCourses.some(m => m.id === s.id || m.title === s.title));
-      setCoursesList([...civilCourses, ...custom]);
+      setCoursesList(getCivilCourses());
     });
     return () => unsub();
   }, []);
@@ -221,8 +220,8 @@ export default function CivilEngineering({ onOpenModal }) {
               <div key={c.id || c._id} className="mech-card" onClick={onOpenModal}>
                 <div className="mech-card-media">
                   <span className="mech-badge-popular">{c.badge}</span>
-                  <img className="mech-card-img" alt={c.title} src={c.image} />
-                  <span className="civil-scale-badge">{c.scale}</span>
+                  <img className="mech-card-img" alt={c.title} src={c.image || c.img} />
+                  <span className="civil-scale-badge">{c.scale || c.tag || '1:100'}</span>
                 </div>
                 <div className="mech-card-body">
                   <div className="mech-meta-row">

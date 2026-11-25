@@ -568,18 +568,24 @@ export function saveStoredLeaders(leaders) {
 
 /* --- 7. Courses Catalog & Curriculum Persistence --- */
 function dedupeCourseList(list) {
-  if (!Array.isArray(list)) return [];
-  const seen = new Set();
-  const deduped = [];
+  if (!Array.isArray(list)) list = [];
+  const map = new Map();
+  // 1. Seed with baseline initialCourses
+  for (const item of initialCourses) {
+    if (!item) continue;
+    const key = (item.id || item.title || '').toString().trim().toLowerCase();
+    if (key) map.set(key, { ...item });
+  }
+  // 2. Overlay existing list (preserves admin additions/edits)
   for (const item of list) {
     if (!item) continue;
     const key = (item.id || item.title || '').toString().trim().toLowerCase();
-    if (key && !seen.has(key)) {
-      seen.add(key);
-      deduped.push(item);
+    if (key) {
+      const existing = map.get(key) || {};
+      map.set(key, { ...existing, ...item });
     }
   }
-  return deduped;
+  return Array.from(map.values()).sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 }
 
 export function getStoredCourses() {
@@ -590,15 +596,9 @@ export function getStoredCourses() {
       return initialCourses;
     }
     const list = JSON.parse(raw);
-    if (!Array.isArray(list) || list.length === 0) {
-      localStorage.setItem(COURSE_KEY, JSON.stringify(initialCourses));
-      return initialCourses;
-    }
     const deduped = dedupeCourseList(list);
-    if (deduped.length !== list.length) {
-      localStorage.setItem(COURSE_KEY, JSON.stringify(deduped));
-    }
-    return deduped.length > 0 ? deduped : initialCourses;
+    localStorage.setItem(COURSE_KEY, JSON.stringify(deduped));
+    return deduped;
   } catch {
     return initialCourses;
   }

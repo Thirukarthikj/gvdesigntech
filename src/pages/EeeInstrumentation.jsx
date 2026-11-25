@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function EeeInstrumentation({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -152,6 +153,26 @@ export default function EeeInstrumentation({ onOpenModal }) {
     }
   ];
 
+  const getEeeCourses = () => {
+    const stored = getStoredCourses().filter(c =>
+      !c.isDiscipline && (
+        (c.department && c.department.toLowerCase().includes('eee')) ||
+        (c.category && c.category.toLowerCase().includes('electrical')) ||
+        c.link === '/eee-instrumentation'
+      )
+    );
+    return stored.length > 0 ? stored : eeeCourses;
+  };
+
+  const [coursesList, setCoursesList] = useState(getEeeCourses);
+
+  useEffect(() => {
+    const unsub = subscribeToContentUpdates(() => {
+      setCoursesList(getEeeCourses());
+    });
+    return () => unsub();
+  }, []);
+
   const faqs = [
     {
       q: 'Do I need prior electrical engineering experience for PLC & SCADA?',
@@ -274,9 +295,9 @@ export default function EeeInstrumentation({ onOpenModal }) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px' }}>
-          {eeeCourses.map((c, i) => (
+          {coursesList.map((c, i) => (
             <div
-              key={i}
+              key={c.id || c._id || i}
               style={{
                 background: 'rgba(15, 11, 33, 0.85)',
                 border: '1px solid rgba(251, 191, 36, 0.25)',
@@ -290,7 +311,7 @@ export default function EeeInstrumentation({ onOpenModal }) {
             >
               <div style={{ position: 'relative', width: '100%', height: '190px', overflow: 'hidden' }}>
                 <img
-                  src={c.img}
+                  src={c.img || c.image}
                   alt={c.title}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />

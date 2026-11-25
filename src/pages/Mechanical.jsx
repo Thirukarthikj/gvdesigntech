@@ -136,23 +136,22 @@ export default function Mechanical({ onOpenModal }) {
     }
   ];
 
-  const [coursesList, setCoursesList] = useState(() => {
+  const getMechCourses = () => {
     const stored = getStoredCourses().filter(c =>
-      (c.department && c.department.toLowerCase().includes('mechanical')) ||
-      (c.category && c.category.toLowerCase().includes('mechanical'))
+      !c.isDiscipline && (
+        (c.department && c.department.toLowerCase().includes('mech')) ||
+        (c.category && c.category.toLowerCase().includes('mech')) ||
+        c.link === '/mechanical'
+      )
     );
-    const custom = stored.filter(s => !mechanicalCourses.some(m => m.id === s.id || m.title === s.title));
-    return [...mechanicalCourses, ...custom];
-  });
+    return stored.length > 0 ? stored : mechanicalCourses;
+  };
+
+  const [coursesList, setCoursesList] = useState(getMechCourses);
 
   useEffect(() => {
     const unsub = subscribeToContentUpdates(() => {
-      const stored = getStoredCourses().filter(c =>
-        (c.department && c.department.toLowerCase().includes('mechanical')) ||
-        (c.category && c.category.toLowerCase().includes('mechanical'))
-      );
-      const custom = stored.filter(s => !mechanicalCourses.some(m => m.id === s.id || m.title === s.title));
-      setCoursesList([...mechanicalCourses, ...custom]);
+      setCoursesList(getMechCourses());
     });
     return () => unsub();
   }, []);
@@ -240,8 +239,8 @@ export default function Mechanical({ onOpenModal }) {
               <div key={c.id || c._id} className="mech-card" onClick={onOpenModal}>
                 <div className="mech-card-media">
                   <span className="mech-badge-popular">{c.badge}</span>
-                  <img className="mech-card-img" alt={c.title} src={c.image} />
-                  <span className="mech-badge-category">{c.category}</span>
+                  <img className="mech-card-img" alt={c.title} src={c.image || c.img} />
+                  <span className="mech-badge-category">{c.category || c.tag || 'Mechanical'}</span>
                 </div>
                 <div className="mech-card-body">
                   <div className="mech-meta-row">

@@ -63,7 +63,7 @@ export default function AdminDashboard() {
 
         <div className="admin-kpi-card">
           <div className="admin-kpi-top">
-            <span className="admin-kpi-label">Curated Course Tracks</span>
+            <span className="admin-kpi-label">Active Courses in Catalog</span>
             <div className="admin-kpi-icon" style={{ background: 'rgba(217, 70, 239, 0.15)', color: '#f472b6' }}>🎓</div>
           </div>
           <div className="admin-kpi-val">{totalCourses}</div>

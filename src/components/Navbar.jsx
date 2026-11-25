@@ -8,7 +8,9 @@ export default function Navbar() {
   const [courses, setCourses] = useState(() => getStoredCourses());
   const location = useLocation();
 
-  const uniqueCourses = courses.filter((c, idx, arr) =>
+  const curatedList = courses.filter(c => c.isDiscipline || (c.id && c.id.startsWith('course-')));
+  const displayList = curatedList.length > 0 ? curatedList : courses;
+  const uniqueCourses = displayList.filter((c, idx, arr) =>
     arr.findIndex(x => (x.id && x.id === c.id) || (x.title && x.title === c.title)) === idx
   );
 

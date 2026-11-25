@@ -86,7 +86,8 @@ export default function AdminCourses() {
       desc: course.desc || '',
       link: course.link || '/mechanical',
       mode: course.mode || 'Classroom Studio & Live Online',
-      image: course.image || ''
+      image: course.image || course.img || '',
+      isDiscipline: !!(course.isDiscipline || (course.id && course.id.startsWith('course-')))
     });
     setIsCourseModalOpen(true);
   };
@@ -184,13 +185,19 @@ export default function AdminCourses() {
 
   // Filtered courses
   const filteredCourses = courses.filter(c => {
-    const matchesDept = filterCourseDept === 'all' ||
-      (c.department && c.department.toLowerCase().includes(filterCourseDept.toLowerCase())) ||
-      (c.category && c.category.toLowerCase().includes(filterCourseDept.toLowerCase()));
+    let matchesDept = true;
+    if (filterCourseDept === 'disciplines') {
+      matchesDept = !!(c.isDiscipline || (c.id && c.id.startsWith('course-')));
+    } else if (filterCourseDept !== 'all') {
+      matchesDept =
+        (c.department && c.department.toLowerCase().includes(filterCourseDept.toLowerCase())) ||
+        (c.category && c.category.toLowerCase().includes(filterCourseDept.toLowerCase()));
+    }
     const matchesSearch = !courseSearch.trim() ||
       (c.title && c.title.toLowerCase().includes(courseSearch.toLowerCase())) ||
       (c.modules && c.modules.toLowerCase().includes(courseSearch.toLowerCase())) ||
-      (c.desc && c.desc.toLowerCase().includes(courseSearch.toLowerCase()));
+      (c.desc && c.desc.toLowerCase().includes(courseSearch.toLowerCase())) ||
+      (c.department && c.department.toLowerCase().includes(courseSearch.toLowerCase()));
     return matchesDept && matchesSearch;
   });
 
@@ -259,14 +266,17 @@ export default function AdminCourses() {
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
+          gap: '10px',
           background: 'rgba(255, 255, 255, 0.05)',
           border: '1px solid rgba(255, 255, 255, 0.1)',
           padding: '8px 18px',
           borderRadius: '10px'
         }}>
-          <span style={{ fontSize: '13.5px', fontWeight: '700', color: '#e2e8f0' }}>🎓 Curated Disciplines:</span>
-          <span style={{ fontSize: '15px', fontWeight: '800', color: '#c084fc' }}>{courses.length}</span>
+          <span style={{ fontSize: '13.5px', fontWeight: '700', color: '#e2e8f0' }}>🎓 Total Stored Courses:</span>
+          <span style={{ fontSize: '16px', fontWeight: '800', color: '#c084fc' }}>{courses.length}</span>
+          <span style={{ fontSize: '11px', color: '#94a3b8' }}>
+            ({courses.filter(c => c.isDiscipline || (c.id && c.id.startsWith('course-'))).length} Curated, {courses.filter(c => !c.isDiscipline && !(c.id && c.id.startsWith('course-'))).length} Department Tracks)
+          </span>
         </div>
       </div>
 
@@ -287,10 +297,10 @@ export default function AdminCourses() {
           <span style={{ fontSize: '24px' }}>🧭</span>
           <div>
             <div style={{ fontSize: '14.5px', fontWeight: '700', color: '#fff' }}>
-              Website Navbar &quot;CURATED DISCIPLINES&quot; Menu Integration
+              Universal MongoDB Courses &amp; Department Pages Sync
             </div>
             <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '2px' }}>
-              All courses added, edited, or reordered here directly power the <strong>Courses</strong> dropdown menu in the website navbar and curriculum pages.
+              All 57+ courses across Mechanical, Civil, CNC, Computer Science, EEE, ECE, Piping, and Robotics are stored in MongoDB. Any edits or additions instantly update both the admin panel and public department curriculum pages.
             </div>
           </div>
         </div>
@@ -313,7 +323,7 @@ export default function AdminCourses() {
               gap: '6px'
             }}
           >
-            <span>Live Dropdown Preview ↗</span>
+            <span>Live Website Preview ↗</span>
           </a>
         </div>
       </div>
@@ -342,7 +352,8 @@ export default function AdminCourses() {
                 onChange={(e) => setFilterCourseDept(e.target.value)}
                 style={{ height: '40px' }}
               >
-                <option value="all">All Disciplines &amp; Tracks</option>
+                <option value="all">All Courses ({courses.length})</option>
+                <option value="disciplines">Curated Disciplines ({courses.filter(c => c.isDiscipline || (c.id && c.id.startsWith('course-'))).length})</option>
                 <option value="Mechanical">Mechanical &amp; Automobile</option>
                 <option value="Civil">Civil Engineering &amp; BIM</option>
                 <option value="CNC">CNC Programming &amp; CAM</option>
@@ -350,6 +361,7 @@ export default function AdminCourses() {
                 <option value="EEE">EEE &amp; Automation</option>
                 <option value="ECE">ECE Embedded &amp; IoT</option>
                 <option value="Piping">Piping Engineering (Oil &amp; Gas)</option>
+                <option value="Robotics">Robotics &amp; Automation</option>
               </select>
 
               <span style={{ fontSize: '13px', color: '#94a3b8' }}>
@@ -846,15 +858,27 @@ export default function AdminCourses() {
 
               {/* Software Modules / Curriculum */}
               <div className="admin-form-group">
-                <label className="admin-label">Software Modules / Skills Covered *</label>
+                <label className="admin-label">Software Modules / Skills Covered (Optional)</label>
                 <input
                   type="text"
                   className="admin-input"
-                  required
                   placeholder="e.g. 8 Software modules (SolidWorks, CATIA, AutoCAD, ANSYS, GD&amp;T)"
                   value={courseForm.modules}
                   onChange={(e) => setCourseForm({ ...courseForm, modules: e.target.value })}
                 />
+              </div>
+
+              {/* Curated Discipline Checkbox */}
+              <div className="admin-form-group" style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '13.5px', color: '#e2e8f0' }}>
+                  <input
+                    type="checkbox"
+                    checked={courseForm.isDiscipline}
+                    onChange={(e) => setCourseForm({ ...courseForm, isDiscipline: e.target.checked })}
+                    style={{ width: '16px', height: '16px', accentColor: '#a855f7', cursor: 'pointer' }}
+                  />
+                  <span>Feature in Navbar <strong>CURATED DISCIPLINES</strong> Menu</span>
+                </label>
               </div>
 
               {/* Training Delivery Mode & Route Link */}

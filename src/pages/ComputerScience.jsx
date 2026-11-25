@@ -153,23 +153,22 @@ export default function ComputerScience({ onOpenModal }) {
     }
   ];
 
-  const [coursesList, setCoursesList] = useState(() => {
+  const getCsCourses = () => {
     const stored = getStoredCourses().filter(c =>
-      (c.department && c.department.toLowerCase().includes('computer')) ||
-      (c.category && c.category.toLowerCase().includes('computer'))
+      !c.isDiscipline && (
+        (c.department && c.department.toLowerCase().includes('computer')) ||
+        (c.category && c.category.toLowerCase().includes('computer')) ||
+        c.link === '/computer-science'
+      )
     );
-    const custom = stored.filter(s => !csCourses.some(m => m.id === s.id || m.title === s.title));
-    return [...csCourses, ...custom];
-  });
+    return stored.length > 0 ? stored : csCourses;
+  };
+
+  const [coursesList, setCoursesList] = useState(getCsCourses);
 
   useEffect(() => {
     const unsub = subscribeToContentUpdates(() => {
-      const stored = getStoredCourses().filter(c =>
-        (c.department && c.department.toLowerCase().includes('computer')) ||
-        (c.category && c.category.toLowerCase().includes('computer'))
-      );
-      const custom = stored.filter(s => !csCourses.some(m => m.id === s.id || m.title === s.title));
-      setCoursesList([...csCourses, ...custom]);
+      setCoursesList(getCsCourses());
     });
     return () => unsub();
   }, []);
@@ -312,7 +311,7 @@ export default function ComputerScience({ onOpenModal }) {
             >
               <div style={{ position: 'relative', width: '100%', height: '190px', overflow: 'hidden' }}>
                 <img
-                  src={c.img}
+                  src={c.img || c.image}
                   alt={c.title}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />

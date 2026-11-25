@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function EceCommunication({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -142,6 +143,26 @@ export default function EceCommunication({ onOpenModal }) {
     }
   ];
 
+  const getEceCourses = () => {
+    const stored = getStoredCourses().filter(c =>
+      !c.isDiscipline && (
+        (c.department && c.department.toLowerCase().includes('ece')) ||
+        (c.category && c.category.toLowerCase().includes('electronics')) ||
+        c.link === '/ece'
+      )
+    );
+    return stored.length > 0 ? stored : eceCourses;
+  };
+
+  const [coursesList, setCoursesList] = useState(getEceCourses);
+
+  useEffect(() => {
+    const unsub = subscribeToContentUpdates(() => {
+      setCoursesList(getEceCourses());
+    });
+    return () => unsub();
+  }, []);
+
   const faqs = [
     {
       q: 'Do I need prior coding knowledge before starting ECE courses?',
@@ -268,9 +289,9 @@ export default function EceCommunication({ onOpenModal }) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '28px' }}>
-          {eceCourses.map((c, idx) => (
+          {coursesList.map((c, idx) => (
             <div
-              key={idx}
+              key={c.id || c._id || idx}
               style={{
                 background: 'rgba(15, 23, 42, 0.85)',
                 border: '1px solid rgba(56, 189, 248, 0.2)',
@@ -295,7 +316,7 @@ export default function EceCommunication({ onOpenModal }) {
               {/* Card Image with badges */}
               <div style={{ position: 'relative', width: '100%', height: '210px', background: '#0b1120', overflow: 'hidden' }}>
                 <img
-                  src={c.img}
+                  src={c.img || c.image}
                   alt={c.title}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   onError={(e) => {

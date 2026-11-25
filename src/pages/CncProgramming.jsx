@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function CncProgramming({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -88,7 +89,7 @@ export default function CncProgramming({ onOpenModal }) {
       level: 'INTERMEDIATE',
       title: '3-Axis & 5-Axis CNC Milling',
       desc: 'Master multi-axis simultaneous milling, pocketing, surface contouring, high-speed machining (HSM), and adaptive clearing workflows.',
-      img: '/assets/mech-course-cam.jpg'
+      img: '/assets/mech-cam.jpg'
     },
     {
       badge: 'HIGH VALUE',
@@ -98,7 +99,7 @@ export default function CncProgramming({ onOpenModal }) {
       level: 'ADVANCED',
       title: 'G-Code & M-Code Programming',
       desc: 'Master ISO, Fanuc, Haas, and Siemens Sinumerik controller syntax, macro programming, sub-routines, canned cycles, and manual data input.',
-      img: '/assets/mech-course-cad.jpg'
+      img: '/assets/mech-cad.jpg'
     },
     {
       badge: 'COMPREHENSIVE',
@@ -108,7 +109,7 @@ export default function CncProgramming({ onOpenModal }) {
       level: 'INTERMEDIATE',
       title: 'CAM Toolpath Generation & Optimization',
       desc: 'Generate efficient multi-axis toolpaths using MasterCAM and NX CAM, stock model tracking, feed rate optimization, and cycle time reduction.',
-      img: '/assets/mech-course-product.jpg'
+      img: '/assets/mech-prod-design.jpg'
     },
     {
       badge: 'FAST TRACK',
@@ -118,7 +119,7 @@ export default function CncProgramming({ onOpenModal }) {
       level: 'ALL LEVELS',
       title: 'GD&T & Coordinate Metrology',
       desc: 'Industry standard geometric dimensioning and tolerancing, CMM coordinate measuring, datum reference frames, and quality control.',
-      img: '/assets/mech-course-gdt.jpg'
+      img: '/assets/mech-gdt.jpg'
     },
     {
       badge: 'SPECIALISED',
@@ -128,9 +129,29 @@ export default function CncProgramming({ onOpenModal }) {
       level: 'ADVANCED',
       title: 'Machine Tool Simulation & Vericut',
       desc: 'Virtual CNC machine kinematics simulation, gouge checking, multi-axis collision prevention, and post-processor development.',
-      img: '/assets/mech-course-cae.jpg'
+      img: '/assets/mech-cae.jpg'
     }
   ];
+
+  const getCncCourses = () => {
+    const stored = getStoredCourses().filter(c =>
+      !c.isDiscipline && (
+        (c.department && c.department.toLowerCase().includes('cnc')) ||
+        (c.category && c.category.toLowerCase().includes('cnc')) ||
+        c.link === '/cnc-programming'
+      )
+    );
+    return stored.length > 0 ? stored : cncCourses;
+  };
+
+  const [coursesList, setCoursesList] = useState(getCncCourses);
+
+  useEffect(() => {
+    const unsub = subscribeToContentUpdates(() => {
+      setCoursesList(getCncCourses());
+    });
+    return () => unsub();
+  }, []);
 
   const faqs = [
     {
@@ -254,9 +275,9 @@ export default function CncProgramming({ onOpenModal }) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px' }}>
-          {cncCourses.map((c, i) => (
+          {coursesList.map((c, i) => (
             <div
-              key={i}
+              key={c.id || c._id || i}
               style={{
                 background: 'rgba(15, 11, 33, 0.85)',
                 border: '1px solid rgba(139, 92, 246, 0.25)',
@@ -270,7 +291,7 @@ export default function CncProgramming({ onOpenModal }) {
             >
               <div style={{ position: 'relative', width: '100%', height: '190px', overflow: 'hidden' }}>
                 <img
-                  src={c.img}
+                  src={c.img || c.image}
                   alt={c.title}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
