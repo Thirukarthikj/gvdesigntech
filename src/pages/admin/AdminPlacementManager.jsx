@@ -16,12 +16,37 @@ export default function AdminPlacementManager() {
     name: '',
     role: '',
     pkg: '',
-    quote: ''
+    quote: '',
+    image: ''
   });
+
+  const storyPresets = [
+    { label: 'Automotive CAD', path: '/assets/cad-card-mechanical.jpg' },
+    { label: 'BIM Infrastructure', path: '/assets/cad-card-civil.jpg' },
+    { label: 'Precision Machining', path: '/assets/gallery/gallery-01.jpg' },
+    { label: 'AI & Full Stack', path: '/assets/recent-activity/ai-workshop-2.jpg' }
+  ];
 
   const showNotification = (msg) => {
     setToast(msg);
     setTimeout(() => setToast(''), 3000);
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file (JPG, PNG, WebP).');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (uploadEvent) => {
+      const base64Url = uploadEvent.target.result;
+      setStoryForm(prev => ({ ...prev, image: base64Url }));
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleStatChange = (index, field, value) => {
@@ -47,7 +72,8 @@ export default function AdminPlacementManager() {
       name: '',
       role: '',
       pkg: '6.5 LPA',
-      quote: ''
+      quote: '',
+      image: ''
     });
     setIsStoryModalOpen(true);
   };
@@ -58,7 +84,8 @@ export default function AdminPlacementManager() {
       name: story.name || '',
       role: story.role || '',
       pkg: story.pkg || '',
-      quote: story.quote || ''
+      quote: story.quote || '',
+      image: story.image || ''
     });
     setIsStoryModalOpen(true);
   };
@@ -253,51 +280,70 @@ export default function AdminPlacementManager() {
           </button>
         </div>
 
-        <div className="admin-table-wrap">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Student Name</th>
-                <th>Designation &amp; Company</th>
-                <th>Package</th>
-                <th>Testimonial Quote</th>
-                <th style={{ textAlign: 'right' }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {(data.stories || []).length === 0 ? (
-                <tr>
-                  <td colSpan="5" style={{ textAlign: 'center', padding: '40px', color: '#64748b' }}>
-                    No success stories created yet.
-                  </td>
-                </tr>
-              ) : (
-                (data.stories || []).map((story, idx) => (
-                  <tr key={story.id || idx}>
-                    <td style={{ fontWeight: '700', color: '#fff', minWidth: '160px' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+          gap: '20px',
+          padding: '24px'
+        }}>
+          {(data.stories || []).length === 0 ? (
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px', color: '#64748b' }}>
+              No success stories created yet.
+            </div>
+          ) : (
+            (data.stories || []).map((story, idx) => {
+              const displayImg = story.image || storyPresets[idx % storyPresets.length].path;
+              return (
+                <div
+                  key={story.id || idx}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(139, 92, 246, 0.25)',
+                    borderRadius: '16px',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}
+                >
+                  <div style={{ height: '180px', position: 'relative', background: '#0a0618' }}>
+                    <img
+                      src={displayImg}
+                      alt={story.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      onError={(e) => { e.target.src = '/assets/cad-card-mechanical.jpg'; }}
+                    />
+                    <span style={{
+                      position: 'absolute',
+                      top: '10px',
+                      right: '10px',
+                      background: 'rgba(0, 0, 0, 0.8)',
+                      border: '1px solid rgba(217, 70, 239, 0.6)',
+                      color: '#f472b6',
+                      fontSize: '11px',
+                      fontWeight: '800',
+                      padding: '3px 8px',
+                      borderRadius: '6px'
+                    }}>
+                      {story.pkg}
+                    </span>
+                  </div>
+
+                  <div style={{ padding: '16px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <h4 style={{ margin: '0 0 4px', fontSize: '16px', fontWeight: '700', color: '#fff' }}>
                       {story.name}
-                    </td>
-                    <td style={{ color: '#22d3ee', fontWeight: '500', minWidth: '220px' }}>
+                    </h4>
+                    <div style={{ fontSize: '12.5px', color: '#22d3ee', fontWeight: '600', marginBottom: '8px' }}>
                       {story.role}
-                    </td>
-                    <td>
-                      <span style={{
-                        padding: '4px 10px',
-                        borderRadius: '999px',
-                        background: 'rgba(217, 70, 239, 0.15)',
-                        border: '1px solid rgba(217, 70, 239, 0.4)',
-                        color: '#f472b6',
-                        fontSize: '12px',
-                        fontWeight: '700'
-                      }}>
-                        {story.pkg}
-                      </span>
-                    </td>
-                    <td style={{ color: '#cbd5e1', fontSize: '13px', maxWidth: '380px', fontStyle: 'italic' }}>
+                    </div>
+                    <p style={{ margin: '0 0 12px', fontSize: '13px', color: '#94a3b8', lineHeight: 1.5, flex: 1, fontStyle: 'italic' }}>
                       "{story.quote}"
-                    </td>
-                    <td style={{ textAlign: 'right' }}>
-                      <div style={{ display: 'inline-flex', gap: '8px' }}>
+                    </p>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '12px' }}>
+                      <span style={{ fontSize: '12px', color: '#38bdf8' }}>
+                        📍 Verified Placement
+                      </span>
+                      <div style={{ display: 'flex', gap: '8px' }}>
                         <button
                           type="button"
                           onClick={() => handleOpenEditStory(story)}
@@ -305,8 +351,8 @@ export default function AdminPlacementManager() {
                             background: 'rgba(139, 92, 246, 0.15)',
                             border: '1px solid rgba(139, 92, 246, 0.4)',
                             color: '#c084fc',
-                            padding: '6px 12px',
-                            borderRadius: '8px',
+                            padding: '4px 10px',
+                            borderRadius: '6px',
                             cursor: 'pointer',
                             fontSize: '12px',
                             fontWeight: '600'
@@ -321,8 +367,8 @@ export default function AdminPlacementManager() {
                             background: 'rgba(239, 68, 68, 0.15)',
                             border: '1px solid rgba(239, 68, 68, 0.4)',
                             color: '#f87171',
-                            padding: '6px 12px',
-                            borderRadius: '8px',
+                            padding: '4px 10px',
+                            borderRadius: '6px',
                             cursor: 'pointer',
                             fontSize: '12px',
                             fontWeight: '600'
@@ -331,12 +377,12 @@ export default function AdminPlacementManager() {
                           🗑️
                         </button>
                       </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
 
@@ -358,7 +404,9 @@ export default function AdminPlacementManager() {
             border: '1px solid rgba(139, 92, 246, 0.4)',
             borderRadius: '20px',
             width: '100%',
-            maxWidth: '560px',
+            maxWidth: '580px',
+            maxHeight: '90vh',
+            overflowY: 'auto',
             padding: '30px',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)'
           }}>
@@ -452,7 +500,7 @@ export default function AdminPlacementManager() {
                   Student Testimonial Quote *
                 </label>
                 <textarea
-                  rows="4"
+                  rows="3"
                   required
                   placeholder="Share the student's personal experience, the skills learned, and how they succeeded in interviews..."
                   value={storyForm.quote}
@@ -469,6 +517,131 @@ export default function AdminPlacementManager() {
                     resize: 'vertical'
                   }}
                 />
+              </div>
+
+              {/* Photo Upload & Presets */}
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(139, 92, 246, 0.25)',
+                borderRadius: '14px',
+                padding: '16px'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <label style={{ fontSize: '13px', fontWeight: '700', color: '#c084fc', margin: 0 }}>
+                    📷 Student Placement / Company Work Photo
+                  </label>
+                  {storyForm.image && (
+                    <button
+                      type="button"
+                      onClick={() => setStoryForm({ ...storyForm, image: '' })}
+                      style={{
+                        background: 'transparent',
+                        border: 'none',
+                        color: '#f87171',
+                        fontSize: '12px',
+                        cursor: 'pointer',
+                        fontWeight: '600'
+                      }}
+                    >
+                      ✕ Remove Photo
+                    </button>
+                  )}
+                </div>
+
+                <div style={{ marginBottom: '10px' }}>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>
+                    Upload Photo from Computer:
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileUpload}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      borderRadius: '8px',
+                      background: 'rgba(255, 255, 255, 0.04)',
+                      border: '1px dashed rgba(139, 92, 246, 0.4)',
+                      color: '#cbd5e1',
+                      fontSize: '12px',
+                      cursor: 'pointer'
+                    }}
+                  />
+                </div>
+
+                <div style={{ marginBottom: '10px' }}>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>
+                    Or Choose Engineering Preset:
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
+                    {storyPresets.map((preset, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setStoryForm({ ...storyForm, image: preset.path })}
+                        style={{
+                          padding: '7px 10px',
+                          borderRadius: '8px',
+                          border: '1px solid',
+                          borderColor: storyForm.image === preset.path ? '#d946ef' : 'rgba(255,255,255,0.1)',
+                          background: storyForm.image === preset.path ? 'rgba(217, 70, 239, 0.2)' : 'rgba(255,255,255,0.03)',
+                          color: storyForm.image === preset.path ? '#fff' : '#94a3b8',
+                          fontSize: '12px',
+                          cursor: 'pointer',
+                          textAlign: 'center'
+                        }}
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>
+                    Or enter image URL:
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. /assets/cad-card-mechanical.jpg or https://..."
+                    value={storyForm.image}
+                    onChange={(e) => setStoryForm({ ...storyForm, image: e.target.value })}
+                    style={{
+                      width: '100%',
+                      padding: '10px 14px',
+                      borderRadius: '8px',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(139, 92, 246, 0.3)',
+                      color: '#fff',
+                      fontSize: '13px',
+                      outline: 'none'
+                    }}
+                  />
+                </div>
+
+                {storyForm.image && (
+                  <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+                    <div style={{
+                      width: '90px',
+                      height: '60px',
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                      background: '#0a0618',
+                      border: '1px solid rgba(217, 70, 239, 0.4)',
+                      flexShrink: 0
+                    }}>
+                      <img
+                        src={storyForm.image}
+                        alt="Preview"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                      />
+                    </div>
+                    <span style={{ fontSize: '12px', color: '#4ade80' }}>
+                      ✓ Photo attached to alumni story!
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '10px' }}>

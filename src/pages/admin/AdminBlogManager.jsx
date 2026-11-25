@@ -23,6 +23,30 @@ export default function AdminBlogManager() {
     image: '/assets/recent-activity/ai-workshop-2.jpg'
   });
 
+  const blogPresets = [
+    { label: 'CAD & AI Workshop', path: '/assets/recent-activity/ai-workshop-2.jpg' },
+    { label: 'Campus Seminar', path: '/assets/gallery/gallery-02.jpg' },
+    { label: 'CAD Lab Practical', path: '/assets/gallery/gallery-01.jpg' },
+    { label: 'Workstation Modeling', path: '/assets/gallery/gallery-03.jpg' }
+  ];
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file (JPG, PNG, WebP).');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (uploadEvent) => {
+      const base64Url = uploadEvent.target.result;
+      setFormData(prev => ({ ...prev, image: base64Url }));
+    };
+    reader.readAsDataURL(file);
+  };
+
   const showNotification = (msg) => {
     setToast(msg);
     setTimeout(() => setToast(''), 3000);
@@ -187,105 +211,103 @@ export default function AdminBlogManager() {
           </span>
         </div>
 
-        <div className="admin-table-wrap">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Article Title</th>
-                <th>Category</th>
-                <th>Author</th>
-                <th>Read Time</th>
-                <th>Date Published</th>
-                <th>Views</th>
-                <th style={{ textAlign: 'right' }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.length === 0 ? (
-                <tr>
-                  <td colSpan="7" style={{ textAlign: 'center', padding: '40px', color: '#64748b' }}>
-                    No blog posts found matching your search.
-                  </td>
-                </tr>
-              ) : (
-                filtered.map((post) => (
-                  <tr key={post.id}>
-                    <td style={{ fontWeight: '700', color: '#fff', minWidth: '240px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <div style={{ width: '40px', height: '40px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0, background: '#130d2d' }}>
-                          <img
-                            src={post.image || '/assets/recent-activity/ai-workshop-2.jpg'}
-                            alt=""
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                            onError={(e) => { e.target.src = '/assets/recent-activity/ai-workshop-2.jpg'; }}
-                          />
-                        </div>
-                        <div>
-                          <div>{post.title}</div>
-                          <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: '400', maxWidth: '300px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                            {post.excerpt}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <span style={{
-                        padding: '4px 10px',
-                        borderRadius: '999px',
-                        background: 'rgba(139, 92, 246, 0.15)',
-                        border: '1px solid rgba(139, 92, 246, 0.4)',
-                        color: '#c084fc',
-                        fontSize: '12px',
-                        fontWeight: '700'
-                      }}>
-                        {post.category}
-                      </span>
-                    </td>
-                    <td style={{ color: '#cbd5e1' }}>{post.author || 'GV Editorial'}</td>
-                    <td style={{ color: '#94a3b8' }}>{post.readTime || '5 min'}</td>
-                    <td style={{ color: '#cbd5e1' }}>{post.date}</td>
-                    <td style={{ color: '#22d3ee', fontWeight: '600' }}>{post.views || '1.1k'}</td>
-                    <td style={{ textAlign: 'right' }}>
-                      <div style={{ display: 'inline-flex', gap: '8px' }}>
-                        <button
-                          type="button"
-                          onClick={() => handleOpenEdit(post)}
-                          style={{
-                            background: 'rgba(139, 92, 246, 0.15)',
-                            border: '1px solid rgba(139, 92, 246, 0.4)',
-                            color: '#c084fc',
-                            padding: '6px 12px',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontSize: '12px',
-                            fontWeight: '600'
-                          }}
-                        >
-                          ✏️ Edit
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleDelete(post.id, post.title)}
-                          style={{
-                            background: 'rgba(239, 68, 68, 0.15)',
-                            border: '1px solid rgba(239, 68, 68, 0.4)',
-                            color: '#f87171',
-                            padding: '6px 12px',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontSize: '12px',
-                            fontWeight: '600'
-                          }}
-                        >
-                          🗑️
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+          gap: '20px',
+          padding: '24px'
+        }}>
+          {filtered.length === 0 ? (
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px', color: '#64748b' }}>
+              No blog posts found matching your search.
+            </div>
+          ) : (
+            filtered.map((post) => (
+              <div
+                key={post.id}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  border: '1px solid rgba(139, 92, 246, 0.25)',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <div style={{ height: '180px', position: 'relative', background: '#0a0618' }}>
+                  <img
+                    src={post.image || '/assets/recent-activity/ai-workshop-2.jpg'}
+                    alt={post.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    onError={(e) => { e.target.src = '/assets/recent-activity/ai-workshop-2.jpg'; }}
+                  />
+                  <span style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    background: 'rgba(0, 0, 0, 0.75)',
+                    border: '1px solid rgba(139, 92, 246, 0.4)',
+                    color: '#c084fc',
+                    fontSize: '11px',
+                    fontWeight: '700',
+                    padding: '3px 8px',
+                    borderRadius: '6px'
+                  }}>
+                    {post.category}
+                  </span>
+                </div>
+
+                <div style={{ padding: '16px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <h4 style={{ margin: '0 0 6px', fontSize: '16px', fontWeight: '700', color: '#fff', lineHeight: 1.35 }}>
+                    {post.title}
+                  </h4>
+                  <p style={{ margin: '0 0 12px', fontSize: '13px', color: '#94a3b8', lineHeight: 1.5, flex: 1 }}>
+                    {post.excerpt}
+                  </p>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '12px' }}>
+                    <span style={{ fontSize: '12px', color: '#38bdf8' }}>
+                      📍 {post.date || 'Active'}
+                    </span>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <button
+                        type="button"
+                        onClick={() => handleOpenEdit(post)}
+                        style={{
+                          background: 'rgba(139, 92, 246, 0.15)',
+                          border: '1px solid rgba(139, 92, 246, 0.4)',
+                          color: '#c084fc',
+                          padding: '4px 10px',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                          fontSize: '12px',
+                          fontWeight: '600'
+                        }}
+                      >
+                        ✏️ Edit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(post.id, post.title)}
+                        style={{
+                          background: 'rgba(239, 68, 68, 0.15)',
+                          border: '1px solid rgba(239, 68, 68, 0.4)',
+                          color: '#f87171',
+                          padding: '4px 10px',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                          fontSize: '12px',
+                          fontWeight: '600'
+                        }}
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
 
@@ -420,10 +442,71 @@ export default function AdminBlogManager() {
                     }}
                   />
                 </div>
+              </div>
+
+              {/* Cover Image Section */}
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(139, 92, 246, 0.25)',
+                borderRadius: '14px',
+                padding: '16px'
+              }}>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: '700', color: '#c084fc', marginBottom: '8px' }}>
+                  📷 Article Cover Graphic / Image
+                </label>
+
+                <div style={{ marginBottom: '10px' }}>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>
+                    Upload Cover from Computer:
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileUpload}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      borderRadius: '8px',
+                      background: 'rgba(255, 255, 255, 0.04)',
+                      border: '1px dashed rgba(139, 92, 246, 0.4)',
+                      color: '#cbd5e1',
+                      fontSize: '12px',
+                      cursor: 'pointer'
+                    }}
+                  />
+                </div>
+
+                <div style={{ marginBottom: '10px' }}>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>
+                    Or Choose Preset Graphic:
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
+                    {blogPresets.map((preset, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, image: preset.path })}
+                        style={{
+                          padding: '7px 10px',
+                          borderRadius: '8px',
+                          border: '1px solid',
+                          borderColor: formData.image === preset.path ? '#d946ef' : 'rgba(255,255,255,0.1)',
+                          background: formData.image === preset.path ? 'rgba(217, 70, 239, 0.2)' : 'rgba(255,255,255,0.03)',
+                          color: formData.image === preset.path ? '#fff' : '#94a3b8',
+                          fontSize: '12px',
+                          cursor: 'pointer',
+                          textAlign: 'center'
+                        }}
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#cbd5e1', marginBottom: '6px' }}>
-                    Cover Image URL
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>
+                    Or enter image URL:
                   </label>
                   <input
                     type="text"
@@ -432,16 +515,40 @@ export default function AdminBlogManager() {
                     onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                     style={{
                       width: '100%',
-                      padding: '11px 14px',
-                      borderRadius: '10px',
+                      padding: '10px 14px',
+                      borderRadius: '8px',
                       background: 'rgba(255, 255, 255, 0.05)',
                       border: '1px solid rgba(139, 92, 246, 0.3)',
                       color: '#fff',
-                      fontSize: '14px',
+                      fontSize: '13px',
                       outline: 'none'
                     }}
                   />
                 </div>
+
+                {formData.image && (
+                  <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+                    <div style={{
+                      width: '90px',
+                      height: '60px',
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                      background: '#0a0618',
+                      border: '1px solid rgba(217, 70, 239, 0.4)',
+                      flexShrink: 0
+                    }}>
+                      <img
+                        src={formData.image}
+                        alt="Preview"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                      />
+                    </div>
+                    <span style={{ fontSize: '12px', color: '#4ade80' }}>
+                      ✓ Cover image attached!
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div>
