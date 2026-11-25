@@ -38,7 +38,7 @@ export default function AdminCourses() {
   useEffect(() => {
     async function loadMongoCourses() {
       const mongoList = await fetchCoursesFromMongo();
-      if (mongoList && Array.isArray(mongoList) && mongoList.length > 0) {
+      if (mongoList && Array.isArray(mongoList)) {
         setCourses(mongoList);
         saveStoredCourses(mongoList);
       } else {

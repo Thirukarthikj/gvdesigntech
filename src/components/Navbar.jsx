@@ -73,24 +73,30 @@ export default function Navbar() {
                 <span className="curated-dot"></span>
               </div>
               <div className="curated-list">
-                {uniqueCourses.map((course) => {
-                  const title = course.title || course.department;
-                  const mod = course.modules ? course.modules.split('(')[0].trim() : `${course.duration || 'Specialized'}`;
-                  return (
-                    <Link
-                      to={course.link || '/mechanical'}
-                      key={course.id || course._id || title}
-                      className="curated-item"
-                      onClick={closeAll}
-                    >
-                      <div className="curated-item-info">
-                        <span className="curated-item-title">{course.title || course.department}</span>
-                        <span className="curated-item-modules">{mod}</span>
-                      </div>
-                      <span className="curated-arrow">→</span>
-                    </Link>
-                  );
-                })}
+                {uniqueCourses.length === 0 ? (
+                  <div style={{ padding: '20px 24px', textAlign: 'center', color: '#94a3b8', fontSize: '13px' }}>
+                    No courses published yet
+                  </div>
+                ) : (
+                  uniqueCourses.map((course) => {
+                    const title = course.title || course.department;
+                    const mod = course.modules ? course.modules.split('(')[0].trim() : `${course.duration || 'Specialized'}`;
+                    return (
+                      <Link
+                        to={course.link || '/mechanical'}
+                        key={course.id || course._id || title}
+                        className="curated-item"
+                        onClick={closeAll}
+                      >
+                        <div className="curated-item-info">
+                          <span className="curated-item-title">{course.title || course.department}</span>
+                          <span className="curated-item-modules">{mod}</span>
+                        </div>
+                        <span className="curated-arrow">→</span>
+                      </Link>
+                    );
+                  })
+                )}
               </div>
             </div>
           </div>

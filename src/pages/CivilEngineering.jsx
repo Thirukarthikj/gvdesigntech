@@ -54,78 +54,14 @@ export default function CivilEngineering({ onOpenModal }) {
     };
   }, []);
 
-  const civilCourses = [
-    {
-      id: 'structural-design',
-      title: 'Structural Design & Detailing',
-      duration: '3 Months',
-      level: 'BEGINNER → ADVANCED',
-      badge: 'MOST POPULAR',
-      scale: '1:75',
-      desc: 'Learn RCC design, steel detailing, and reinforcement drawings using STAAD.Pro and AutoCAD.',
-      image: '/assets/civil-structural-design.jpg'
-    },
-    {
-      id: 'bim',
-      title: 'Building Information Modeling',
-      duration: '2 Months',
-      level: 'INTERMEDIATE',
-      badge: 'IN DEMAND',
-      scale: '1:50',
-      desc: 'Learn 3D BIM modeling, clash detection and coordinated drawing sets using Revit.',
-      image: '/assets/civil-bim.jpg'
-    },
-    {
-      id: 'quantity-surveying',
-      title: 'Quantity Surveying & Estimation',
-      duration: '2 Months',
-      level: 'ALL LEVELS',
-      badge: 'HIGH VALUE',
-      scale: '1:100',
-      desc: 'Master BOQ preparation, rate analysis, and cost estimation for real construction projects.',
-      image: '/assets/civil-quantity-survey.jpg'
-    },
-    {
-      id: 'site-planning',
-      title: 'Site Planning & Surveying',
-      duration: '1.5 Months',
-      level: 'INTERMEDIATE',
-      badge: 'FAST TRACK',
-      scale: '1:200',
-      desc: 'Complete site layout workflow from topographic survey to grading and earthworks planning.',
-      image: '/assets/civil-site-planning.jpg'
-    },
-    {
-      id: 'structural-analysis-fea',
-      title: 'Structural Analysis (FEA)',
-      duration: '3 Months',
-      level: 'ADVANCED',
-      badge: 'SPECIALISED',
-      scale: '1:25',
-      desc: 'Learn finite element analysis for structures using ANSYS, covering load cases and seismic checks.',
-      image: '/assets/civil-fea.jpg'
-    },
-    {
-      id: '3d-visualization',
-      title: '3D Visualization & Rendering',
-      duration: '1.5 Months',
-      level: 'INTERMEDIATE',
-      badge: 'COMPREHENSIVE',
-      scale: '1:1',
-      desc: 'Create photorealistic walkthroughs and renders for client presentations using 3ds Max and SketchUp.',
-      image: '/assets/civil-3d-viz.jpg'
-    }
-  ];
-
   const getCivilCourses = () => {
-    const stored = getStoredCourses().filter(c =>
+    return getStoredCourses().filter(c =>
       !c.isDiscipline && (
         (c.department && c.department.toLowerCase().includes('civil')) ||
         (c.category && c.category.toLowerCase().includes('civil')) ||
         c.link === '/civil-engineering'
       )
     );
-    return stored.length > 0 ? stored : civilCourses;
   };
 
   const [coursesList, setCoursesList] = useState(getCivilCourses);
@@ -216,33 +152,68 @@ export default function CivilEngineering({ onOpenModal }) {
           </div>
 
           <div className="mech-grid">
-            {coursesList.map((c) => (
-              <div key={c.id || c._id} className="mech-card" onClick={onOpenModal}>
-                <div className="mech-card-media">
-                  <span className="mech-badge-popular">{c.badge}</span>
-                  <img className="mech-card-img" alt={c.title} src={c.image || c.img} />
-                  <span className="civil-scale-badge">{c.scale || c.tag || '1:100'}</span>
-                </div>
-                <div className="mech-card-body">
-                  <div className="mech-meta-row">
-                    <span className="mech-duration">⏱ {c.duration}</span>
-                    <span className="mech-level">{c.level}</span>
-                  </div>
-                  <h3 className="mech-card-heading">{c.title}</h3>
-                  <p className="mech-card-desc">{c.desc}</p>
-                  <button
-                    type="button"
-                    className="mech-btn-learn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onOpenModal();
-                    }}
-                  >
-                    Learn More →
-                  </button>
-                </div>
+            {coursesList.length === 0 ? (
+              <div style={{
+                gridColumn: '1 / -1',
+                textAlign: 'center',
+                padding: '60px 24px',
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px dashed rgba(139, 92, 246, 0.3)',
+                borderRadius: '16px'
+              }}>
+                <div style={{ fontSize: '36px', marginBottom: '14px' }}>🏛️</div>
+                <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#fff', margin: '0 0 8px' }}>
+                  No Courses Published Yet
+                </h3>
+                <p style={{ color: '#94a3b8', fontSize: '15px', maxWidth: '460px', margin: '0 auto 20px', lineHeight: 1.6 }}>
+                  New training programs and modules added by the administrator in the Admin Portal will appear here live.
+                </p>
+                <button
+                  type="button"
+                  onClick={onOpenModal}
+                  style={{
+                    padding: '12px 28px',
+                    background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
+                    border: 'none',
+                    borderRadius: '10px',
+                    color: '#fff',
+                    fontWeight: '700',
+                    cursor: 'pointer',
+                    boxShadow: '0 6px 20px rgba(217, 70, 239, 0.35)'
+                  }}
+                >
+                  Inquire for Upcoming Batches →
+                </button>
               </div>
-            ))}
+            ) : (
+              coursesList.map((c) => (
+                <div key={c.id || c._id} className="mech-card" onClick={onOpenModal}>
+                  <div className="mech-card-media">
+                    <span className="mech-badge-popular">{c.badge || 'POPULAR'}</span>
+                    <img className="mech-card-img" alt={c.title} src={c.image || c.img || '/assets/civil-structural-design.jpg'} />
+                    <span className="civil-scale-badge">{c.scale || c.tag || '1:100'}</span>
+                  </div>
+                  <div className="mech-card-body">
+                    <div className="mech-meta-row">
+                      <span className="mech-duration">⏱ {c.duration || 'Flexible'}</span>
+                      <span className="mech-level">{c.level || 'All Levels'}</span>
+                    </div>
+                    <h3 className="mech-card-heading">{c.title}</h3>
+                    <p className="mech-card-desc">{c.desc}</p>
+                    <button
+                      type="button"
+                      className="mech-btn-learn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onOpenModal();
+                      }}
+                    >
+                      Learn More →
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </section>
 

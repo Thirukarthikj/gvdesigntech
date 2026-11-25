@@ -234,7 +234,7 @@ export async function syncWithMongo() {
       localStorage.setItem('gv_admin_leads', JSON.stringify(leadsRes.value));
       changed = true;
     }
-    if (coursesRes.status === 'fulfilled' && Array.isArray(coursesRes.value) && coursesRes.value.length > 0) {
+    if (coursesRes.status === 'fulfilled' && Array.isArray(coursesRes.value)) {
       const dedupedCourses = dedupeCourseList(coursesRes.value);
       localStorage.setItem(COURSE_KEY, JSON.stringify(dedupedCourses));
       changed = true;
@@ -568,39 +568,30 @@ export function saveStoredLeaders(leaders) {
 
 /* --- 7. Courses Catalog & Curriculum Persistence --- */
 function dedupeCourseList(list) {
-  if (!Array.isArray(list)) list = [];
-  const map = new Map();
-  // 1. Seed with baseline initialCourses
-  for (const item of initialCourses) {
-    if (!item) continue;
-    const key = (item.id || item.title || '').toString().trim().toLowerCase();
-    if (key) map.set(key, { ...item });
-  }
-  // 2. Overlay existing list (preserves admin additions/edits)
+  if (!Array.isArray(list)) return [];
+  const seen = new Set();
+  const deduped = [];
   for (const item of list) {
     if (!item) continue;
-    const key = (item.id || item.title || '').toString().trim().toLowerCase();
-    if (key) {
-      const existing = map.get(key) || {};
-      map.set(key, { ...existing, ...item });
+    const key = (item.id || item._id || item.title || '').toString().trim().toLowerCase();
+    if (key && !seen.has(key)) {
+      seen.add(key);
+      deduped.push(item);
     }
   }
-  return Array.from(map.values()).sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+  return deduped.sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 }
 
 export function getStoredCourses() {
   try {
     const raw = localStorage.getItem(COURSE_KEY);
     if (!raw) {
-      localStorage.setItem(COURSE_KEY, JSON.stringify(initialCourses));
-      return initialCourses;
+      return [];
     }
     const list = JSON.parse(raw);
-    const deduped = dedupeCourseList(list);
-    localStorage.setItem(COURSE_KEY, JSON.stringify(deduped));
-    return deduped;
+    return Array.isArray(list) ? dedupeCourseList(list) : [];
   } catch {
-    return initialCourses;
+    return [];
   }
 }
 

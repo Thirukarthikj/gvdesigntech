@@ -92,8 +92,10 @@ async function seedInitialData(database) {
           createdAt: rest.createdAt || new Date(Date.now() - (idx * 5000)).toISOString()
         };
       });
-      await courseCol.insertMany(cleanCourses);
-      console.log(`✅ Seeded ${cleanCourses.length} courses into MongoDB`);
+      if (cleanCourses.length > 0) {
+        await courseCol.insertMany(cleanCourses);
+        console.log(`✅ Seeded ${cleanCourses.length} courses into MongoDB`);
+      }
     }
 
     // 9. Site Config Collection (Demo Video, Recent Activities, Stats, Showcase Images)

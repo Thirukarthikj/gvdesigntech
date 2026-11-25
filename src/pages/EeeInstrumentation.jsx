@@ -70,98 +70,14 @@ export default function EeeInstrumentation({ onOpenModal }) {
     };
   }, []);
 
-  const eeeCourses = [
-    {
-      badge: 'ESSENTIAL',
-      badgeColor: '#10b981',
-      tag: 'CAD',
-      duration: '2 Months',
-      level: 'ALL LEVELS',
-      title: 'AutoCAD Electrical',
-      desc: 'Electrical schematic drafting, wiring diagrams, circuit design, component tagging, PLC I/O module drawings, and automated terminal strip generation.',
-      img: '/assets/eee-sw-autocad-elec.jpg'
-    },
-    {
-      badge: 'IN DEMAND',
-      badgeColor: '#f97316',
-      tag: 'CAE',
-      duration: '2.5 Months',
-      level: 'INTERMEDIATE',
-      title: 'EPLAN Electric P8',
-      desc: 'Standardized electrical CAE project engineering, macro management, cross-referencing, multi-line schematics, 3D panel layout, and BOM reporting.',
-      img: '/assets/eee-sw-etap.jpg'
-    },
-    {
-      badge: 'MOST POPULAR',
-      badgeColor: '#ef4444',
-      tag: 'PLC',
-      duration: '3 Months',
-      level: 'BEGINNER → ADVANCED',
-      title: 'PLC Programming',
-      desc: 'Ladder Logic (LD), Functional Block Diagrams (FBD), timers, counters, analog scaling on Siemens S7-1200, Allen-Bradley, and Delta PLCs.',
-      img: '/assets/eee-course-plc.jpg'
-    },
-    {
-      badge: 'HIGH VALUE',
-      badgeColor: '#eab308',
-      tag: 'SCADA',
-      duration: '2 Months',
-      level: 'INTERMEDIATE',
-      title: 'SCADA Systems',
-      desc: 'Industrial supervisory control and data acquisition, Wonderware InTouch, Siemens WinCC, real-time tag communication, alarm logging, and trend graphics.',
-      img: '/assets/eee-course-scada.jpg'
-    },
-    {
-      badge: 'SPECIALISED',
-      badgeColor: '#06b6d4',
-      tag: 'HMI',
-      duration: '1.5 Months',
-      level: 'ALL LEVELS',
-      title: 'HMI Programming',
-      desc: 'Interactive human-machine interface screen design, touch panel configuration, PLC tag linking, alarm banners, security levels, and recipe management.',
-      img: '/assets/eee-course-power.jpg'
-    },
-    {
-      badge: 'PRACTICAL',
-      badgeColor: '#3b82f6',
-      tag: 'PANEL',
-      duration: '2 Months',
-      level: 'INTERMEDIATE',
-      title: 'Electrical Panel Design',
-      desc: 'Control panel layout engineering, switchgear selection, busbar sizing, thermal calculations, GA drawings, wiring dress-up, and cable schedules.',
-      img: '/assets/eee-course-panel.jpg'
-    },
-    {
-      badge: 'CAREER TRACK',
-      badgeColor: '#ec4899',
-      tag: 'AUTOMATION',
-      duration: '4 Months',
-      level: 'ADVANCED',
-      title: 'Industrial Automation',
-      desc: 'Complete industrial automation integrating variable frequency drives (VFDs), servo drives, industrial sensors, Modbus/Profibus, and DCS networks.',
-      img: '/assets/eee-course-embedded.jpg'
-    },
-    {
-      badge: 'COMPREHENSIVE',
-      badgeColor: '#8b5cf6',
-      tag: 'INSTRUMENT',
-      duration: '3 Months',
-      level: 'INTERMEDIATE → ADVANCED',
-      title: 'Instrumentation Engineering',
-      desc: 'Process control instrumentation, P&ID diagram analysis, pressure/flow/level/temp transmitters, control valve sizing, calibration, and loop checking.',
-      img: '/assets/eee-course-instrumentation.jpg'
-    }
-  ];
-
   const getEeeCourses = () => {
-    const stored = getStoredCourses().filter(c =>
+    return getStoredCourses().filter(c =>
       !c.isDiscipline && (
         (c.department && c.department.toLowerCase().includes('eee')) ||
         (c.category && c.category.toLowerCase().includes('electrical')) ||
         c.link === '/eee-instrumentation'
       )
     );
-    return stored.length > 0 ? stored : eeeCourses;
   };
 
   const [coursesList, setCoursesList] = useState(getEeeCourses);
@@ -295,97 +211,135 @@ export default function EeeInstrumentation({ onOpenModal }) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px' }}>
-          {coursesList.map((c, i) => (
-            <div
-              key={c.id || c._id || i}
-              style={{
-                background: 'rgba(15, 11, 33, 0.85)',
-                border: '1px solid rgba(251, 191, 36, 0.25)',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                boxShadow: '0 12px 30px rgba(0, 0, 0, 0.45)',
-                transition: 'transform 0.3s ease, border-color 0.3s ease'
-              }}
-            >
-              <div style={{ position: 'relative', width: '100%', height: '190px', overflow: 'hidden' }}>
-                <img
-                  src={c.img || c.image}
-                  alt={c.title}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-                <span
-                  style={{
-                    position: 'absolute',
-                    top: '12px',
-                    left: '12px',
-                    background: c.badgeColor,
-                    color: '#fff',
-                    fontSize: '10.5px',
-                    fontWeight: '800',
-                    letterSpacing: '0.8px',
-                    padding: '4px 10px',
-                    borderRadius: '4px',
-                    textTransform: 'uppercase'
-                  }}
-                >
-                  {c.badge}
-                </span>
-                <span
-                  style={{
-                    position: 'absolute',
-                    bottom: '12px',
-                    right: '12px',
-                    background: 'rgba(0, 0, 0, 0.75)',
-                    color: '#e2e8f0',
-                    fontSize: '11px',
-                    fontWeight: '700',
-                    letterSpacing: '0.5px',
-                    padding: '3px 8px',
-                    borderRadius: '4px',
-                    border: '1px solid rgba(255, 255, 255, 0.2)'
-                  }}
-                >
-                  {c.tag}
-                </span>
-              </div>
-
-              <div style={{ padding: '22px 22px 24px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', fontSize: '12px' }}>
-                  <span style={{ color: '#94a3b8' }}>{c.duration}</span>
-                  <span style={{ color: '#fbbf24', fontWeight: '700', letterSpacing: '0.5px' }}>{c.level}</span>
+          {coursesList.length === 0 ? (
+            <div style={{
+              gridColumn: '1 / -1',
+              textAlign: 'center',
+              padding: '60px 24px',
+              background: 'rgba(255, 255, 255, 0.03)',
+              border: '1px dashed rgba(251, 191, 36, 0.3)',
+              borderRadius: '16px'
+            }}>
+              <div style={{ fontSize: '36px', marginBottom: '14px' }}>⚡</div>
+              <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#fff', margin: '0 0 8px' }}>
+                No Courses Published Yet
+              </h3>
+              <p style={{ color: '#94a3b8', fontSize: '15px', maxWidth: '460px', margin: '0 auto 20px', lineHeight: 1.6 }}>
+                New training programs and modules added by the administrator in the Admin Portal will appear here live.
+              </p>
+              <button
+                type="button"
+                onClick={onOpenModal}
+                style={{
+                  padding: '12px 28px',
+                  background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                  border: 'none',
+                  borderRadius: '10px',
+                  color: '#fff',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  boxShadow: '0 6px 20px rgba(245, 158, 11, 0.35)'
+                }}
+              >
+                Inquire for Upcoming Batches →
+              </button>
+            </div>
+          ) : (
+            coursesList.map((c, i) => (
+              <div
+                key={c.id || c._id || i}
+                style={{
+                  background: 'rgba(15, 11, 33, 0.85)',
+                  border: '1px solid rgba(251, 191, 36, 0.25)',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  boxShadow: '0 12px 30px rgba(0, 0, 0, 0.45)',
+                  transition: 'transform 0.3s ease, border-color 0.3s ease'
+                }}
+              >
+                <div style={{ position: 'relative', width: '100%', height: '190px', overflow: 'hidden' }}>
+                  <img
+                    src={c.img || c.image || '/assets/eee-course-plc.jpg'}
+                    alt={c.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    onError={(e) => {
+                      e.target.src = '/assets/eee-course-plc.jpg';
+                    }}
+                  />
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '12px',
+                      left: '12px',
+                      background: c.badgeColor || '#fbbf24',
+                      color: '#fff',
+                      fontSize: '10.5px',
+                      fontWeight: '800',
+                      letterSpacing: '0.8px',
+                      padding: '4px 10px',
+                      borderRadius: '4px',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    {c.badge || 'POPULAR'}
+                  </span>
+                  <span
+                    style={{
+                      position: 'absolute',
+                      bottom: '12px',
+                      right: '12px',
+                      background: 'rgba(0, 0, 0, 0.75)',
+                      color: '#e2e8f0',
+                      fontSize: '11px',
+                      fontWeight: '700',
+                      letterSpacing: '0.5px',
+                      padding: '3px 8px',
+                      borderRadius: '4px',
+                      border: '1px solid rgba(255, 255, 255, 0.2)'
+                    }}
+                  >
+                    {c.tag || c.category || 'Electrical'}
+                  </span>
                 </div>
 
-                <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#fff', margin: '0 0 10px', lineHeight: 1.35 }}>
-                  {c.title}
-                </h3>
+                <div style={{ padding: '22px 22px 24px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', fontSize: '12px' }}>
+                    <span style={{ color: '#94a3b8' }}>{c.duration || 'Flexible'}</span>
+                    <span style={{ color: '#fbbf24', fontWeight: '700', letterSpacing: '0.5px' }}>{c.level || 'All Levels'}</span>
+                  </div>
 
-                <p style={{ fontSize: '13.5px', color: '#94a3b8', lineHeight: 1.55, margin: '0 0 22px', flex: 1 }}>
-                  {c.desc}
-                </p>
+                  <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#fff', margin: '0 0 10px', lineHeight: 1.35 }}>
+                    {c.title}
+                  </h3>
 
-                <button
-                  type="button"
-                  onClick={onOpenModal}
-                  style={{
-                    width: '100%',
-                    padding: '11px 0',
-                    background: '#d97706',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '8px',
-                    fontSize: '14px',
-                    fontWeight: '700',
-                    cursor: 'pointer',
-                    transition: 'background 0.2s'
-                  }}
-                >
-                  Learn More
-                </button>
+                  <p style={{ fontSize: '13.5px', color: '#94a3b8', lineHeight: 1.55, margin: '0 0 22px', flex: 1 }}>
+                    {c.desc}
+                  </p>
+
+                  <button
+                    type="button"
+                    onClick={onOpenModal}
+                    style={{
+                      width: '100%',
+                      padding: '11px 0',
+                      background: '#d97706',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '14px',
+                      fontWeight: '700',
+                      cursor: 'pointer',
+                      transition: 'background 0.2s'
+                    }}
+                  >
+                    Enroll in Program →
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </section>
 

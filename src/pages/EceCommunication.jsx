@@ -70,88 +70,14 @@ export default function EceCommunication({ onOpenModal }) {
     };
   }, []);
 
-  const eceCourses = [
-    {
-      badge: 'HIGH VALUE',
-      badgeColor: '#0ea5e9',
-      tag: 'HARDWARE',
-      duration: '2 Months',
-      level: 'ALL LEVELS',
-      title: 'PCB Design',
-      desc: 'Multilayer PCB schematic capture, footprint creation, component placement, high-speed routing, design rule checks (DRC), and Gerber CAM file generation.',
-      img: '/assets/eee-course-panel.jpg'
-    },
-    {
-      badge: 'MOST POPULAR',
-      badgeColor: '#ef4444',
-      tag: 'SYSTEMS',
-      duration: '3 Months',
-      level: 'BEGINNER → ADVANCED',
-      title: 'Embedded Systems',
-      desc: 'Embedded C, real-time operating systems (RTOS), firmware development, device drivers, interrupt service routines, and communication protocols (I2C, SPI, UART, CAN).',
-      img: '/assets/eee-course-embedded.jpg'
-    },
-    {
-      badge: 'CORE COMPUTATION',
-      badgeColor: '#f97316',
-      tag: 'MATH / SIM',
-      duration: '2.5 Months',
-      level: 'INTERMEDIATE',
-      title: 'MATLAB',
-      desc: 'Signal processing, filter design, communication system simulation, mathematical modeling, matrix operations, control systems, and Simulink block diagram modeling.',
-      img: '/assets/eee-sw-matlab.jpg'
-    },
-    {
-      badge: 'SPECIALISED',
-      badgeColor: '#a855f7',
-      tag: 'SEMICONDUCTOR',
-      duration: '3.5 Months',
-      level: 'ADVANCED',
-      title: 'VLSI Design',
-      desc: 'Digital ASIC/FPGA design flow, Verilog HDL / VHDL modeling, CMOS circuit design, logic synthesis, RTL verification, static timing analysis (STA), and physical design basics.',
-      img: '/assets/computer-science-training-DbNu6b5m.webp'
-    },
-    {
-      badge: 'TRENDING',
-      badgeColor: '#10b981',
-      tag: 'SMART TECH',
-      duration: '2.5 Months',
-      level: 'ALL LEVELS',
-      title: 'Internet of Things (IoT)',
-      desc: 'ESP32 / ESP8266 Wi-Fi & Bluetooth integration, sensor interfacing, MQTT and HTTP protocols, cloud dashboard connectivity (AWS IoT, Adafruit IO), and edge automation.',
-      img: '/assets/eee-sw-labview.jpg'
-    },
-    {
-      badge: 'ESSENTIAL',
-      badgeColor: '#6366f1',
-      tag: 'FIRMWARE',
-      duration: '2 Months',
-      level: 'INTERMEDIATE',
-      title: 'Microcontroller Programming',
-      desc: 'Architecture and register-level programming for 8051, PIC, and ARM Cortex-M series, timers, ADC/DAC conversion, PWM generation, and hardware debugging.',
-      img: '/assets/eee-course-instrumentation.jpg'
-    },
-    {
-      badge: 'HANDS-ON LAB',
-      badgeColor: '#ec4899',
-      tag: 'PROTOTYPING',
-      duration: '1.5 Months',
-      level: 'BEGINNER',
-      title: 'Arduino',
-      desc: 'Rapid physical computing and embedded prototyping with Arduino Uno, Nano, sensor kits, motor driver shields, serial communication, and smart automation projects.',
-      img: '/assets/eee-sw-proteus.jpg'
-    }
-  ];
-
   const getEceCourses = () => {
-    const stored = getStoredCourses().filter(c =>
+    return getStoredCourses().filter(c =>
       !c.isDiscipline && (
         (c.department && c.department.toLowerCase().includes('ece')) ||
         (c.category && c.category.toLowerCase().includes('electronics')) ||
         c.link === '/ece'
       )
     );
-    return stored.length > 0 ? stored : eceCourses;
   };
 
   const [coursesList, setCoursesList] = useState(getEceCourses);
@@ -289,122 +215,157 @@ export default function EceCommunication({ onOpenModal }) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '28px' }}>
-          {coursesList.map((c, idx) => (
-            <div
-              key={c.id || c._id || idx}
-              style={{
-                background: 'rgba(15, 23, 42, 0.85)',
-                border: '1px solid rgba(56, 189, 248, 0.2)',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                transition: 'transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
-                backdropFilter: 'blur(12px)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-6px)';
-                e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.6)';
-                e.currentTarget.style.boxShadow = '0 16px 36px rgba(2, 132, 199, 0.25)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.2)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              {/* Card Image with badges */}
-              <div style={{ position: 'relative', width: '100%', height: '210px', background: '#0b1120', overflow: 'hidden' }}>
-                <img
-                  src={c.img || c.image}
-                  alt={c.title}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  onError={(e) => {
-                    e.target.src = '/assets/eee-sw-proteus.jpg';
-                  }}
-                />
-                <span
-                  style={{
-                    position: 'absolute',
-                    top: '14px',
-                    left: '14px',
-                    background: c.badgeColor,
-                    color: '#fff',
-                    padding: '4px 10px',
-                    borderRadius: '6px',
-                    fontSize: '11px',
-                    fontWeight: '800',
-                    letterSpacing: '0.8px',
-                    textTransform: 'uppercase'
-                  }}
-                >
-                  {c.badge}
-                </span>
-                <span
-                  style={{
-                    position: 'absolute',
-                    bottom: '14px',
-                    right: '14px',
-                    background: 'rgba(0, 0, 0, 0.75)',
-                    color: '#38bdf8',
-                    border: '1px solid rgba(56, 189, 248, 0.4)',
-                    padding: '4px 10px',
-                    borderRadius: '6px',
-                    fontSize: '11px',
-                    fontWeight: '700',
-                    letterSpacing: '1px'
-                  }}
-                >
-                  {c.tag}
-                </span>
-              </div>
-
-              {/* Card Body */}
-              <div style={{ padding: '24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', color: '#94a3b8', marginBottom: '12px', fontWeight: '600' }}>
-                  <span>⏱ {c.duration}</span>
-                  <span style={{ color: '#38bdf8', fontWeight: '700' }}>{c.level}</span>
+          {coursesList.length === 0 ? (
+            <div style={{
+              gridColumn: '1 / -1',
+              textAlign: 'center',
+              padding: '60px 24px',
+              background: 'rgba(255, 255, 255, 0.03)',
+              border: '1px dashed rgba(56, 189, 248, 0.3)',
+              borderRadius: '16px'
+            }}>
+              <div style={{ fontSize: '36px', marginBottom: '14px' }}>📡</div>
+              <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#fff', margin: '0 0 8px' }}>
+                No Courses Published Yet
+              </h3>
+              <p style={{ color: '#94a3b8', fontSize: '15px', maxWidth: '460px', margin: '0 auto 20px', lineHeight: 1.6 }}>
+                New training programs and modules added by the administrator in the Admin Portal will appear here live.
+              </p>
+              <button
+                type="button"
+                onClick={onOpenModal}
+                style={{
+                  padding: '12px 28px',
+                  background: 'linear-gradient(135deg, #0284c7, #0369a1)',
+                  border: 'none',
+                  borderRadius: '10px',
+                  color: '#fff',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  boxShadow: '0 6px 20px rgba(2, 132, 199, 0.35)'
+                }}
+              >
+                Inquire for Upcoming Batches →
+              </button>
+            </div>
+          ) : (
+            coursesList.map((c, idx) => (
+              <div
+                key={c.id || c._id || idx}
+                style={{
+                  background: 'rgba(15, 23, 42, 0.85)',
+                  border: '1px solid rgba(56, 189, 248, 0.2)',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  transition: 'transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
+                  backdropFilter: 'blur(12px)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-6px)';
+                  e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.6)';
+                  e.currentTarget.style.boxShadow = '0 16px 36px rgba(2, 132, 199, 0.25)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.2)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                {/* Card Image with badges */}
+                <div style={{ position: 'relative', width: '100%', height: '210px', background: '#0b1120', overflow: 'hidden' }}>
+                  <img
+                    src={c.img || c.image || '/assets/eee-sw-proteus.jpg'}
+                    alt={c.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    onError={(e) => {
+                      e.target.src = '/assets/eee-sw-proteus.jpg';
+                    }}
+                  />
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '14px',
+                      left: '14px',
+                      background: c.badgeColor || '#0ea5e9',
+                      color: '#fff',
+                      padding: '4px 10px',
+                      borderRadius: '6px',
+                      fontSize: '11px',
+                      fontWeight: '800',
+                      letterSpacing: '0.8px',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    {c.badge || 'POPULAR'}
+                  </span>
+                  <span
+                    style={{
+                      position: 'absolute',
+                      bottom: '14px',
+                      right: '14px',
+                      background: 'rgba(0, 0, 0, 0.75)',
+                      color: '#38bdf8',
+                      border: '1px solid rgba(56, 189, 248, 0.4)',
+                      padding: '4px 10px',
+                      borderRadius: '6px',
+                      fontSize: '11px',
+                      fontWeight: '700',
+                      letterSpacing: '1px'
+                    }}
+                  >
+                    {c.tag || c.category || 'ECE'}
+                  </span>
                 </div>
 
-                <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#f8fafc', margin: '0 0 12px', lineHeight: 1.3 }}>
-                  {c.title}
-                </h3>
+                {/* Card Body */}
+                <div style={{ padding: '24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', color: '#94a3b8', marginBottom: '12px', fontWeight: '600' }}>
+                    <span>⏱ {c.duration || 'Flexible'}</span>
+                    <span style={{ color: '#38bdf8', fontWeight: '700' }}>{c.level || 'All Levels'}</span>
+                  </div>
 
-                <p style={{ color: '#94a3b8', fontSize: '14px', lineHeight: 1.6, margin: '0 0 24px', flex: 1 }}>
-                  {c.desc}
-                </p>
+                  <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#f8fafc', margin: '0 0 12px', lineHeight: 1.3 }}>
+                    {c.title}
+                  </h3>
 
-                <button
-                  type="button"
-                  onClick={onOpenModal}
-                  style={{
-                    width: '100%',
-                    padding: '12px 20px',
-                    background: 'rgba(56, 189, 248, 0.1)',
-                    border: '1px solid rgba(56, 189, 248, 0.4)',
-                    borderRadius: '10px',
-                    color: '#38bdf8',
-                    fontSize: '14px',
-                    fontWeight: '700',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = '#0284c7';
-                    e.currentTarget.style.color = '#fff';
-                    e.currentTarget.style.borderColor = '#0284c7';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(56, 189, 248, 0.1)';
-                    e.currentTarget.style.color = '#38bdf8';
-                    e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.4)';
-                  }}
-                >
-                  Learn More &amp; Enroll →
-                </button>
+                  <p style={{ color: '#94a3b8', fontSize: '14px', lineHeight: 1.6, margin: '0 0 24px', flex: 1 }}>
+                    {c.desc}
+                  </p>
+
+                  <button
+                    type="button"
+                    onClick={onOpenModal}
+                    style={{
+                      width: '100%',
+                      padding: '12px 20px',
+                      background: 'rgba(56, 189, 248, 0.1)',
+                      border: '1px solid rgba(56, 189, 248, 0.4)',
+                      borderRadius: '10px',
+                      color: '#38bdf8',
+                      fontSize: '14px',
+                      fontWeight: '700',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#0284c7';
+                      e.currentTarget.style.color = '#fff';
+                      e.currentTarget.style.borderColor = '#0284c7';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(56, 189, 248, 0.1)';
+                      e.currentTarget.style.color = '#38bdf8';
+                      e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.4)';
+                    }}
+                  >
+                    Learn More &amp; Enroll →
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </section>
 

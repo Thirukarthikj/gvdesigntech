@@ -70,98 +70,14 @@ export default function ComputerScience({ onOpenModal }) {
     };
   }, []);
 
-  const csCourses = [
-    {
-      badge: 'MOST POPULAR',
-      badgeColor: '#ef4444',
-      tag: 'PYTHON',
-      duration: '2.5 Months',
-      level: 'ALL LEVELS',
-      title: 'Python Programming',
-      desc: 'Master core Python syntax, OOP concepts, data structures, file handling, automation scripting, and scientific computing with NumPy & Pandas.',
-      img: '/assets/python-programming-fundamentals-tutorial-BWzxYAlF.webp'
-    },
-    {
-      badge: 'IN DEMAND',
-      badgeColor: '#f97316',
-      tag: 'JAVA',
-      duration: '3 Months',
-      level: 'BEGINNER → ADVANCED',
-      title: 'Java Programming',
-      desc: 'Comprehensive Core & Advanced Java, JVM architecture, multithreading, Collections framework, JDBC, and Spring Boot enterprise development.',
-      img: '/assets/java-programming-guide-2026-v0YhQs6E.webp'
-    },
-    {
-      badge: 'CORE FOUNDATION',
-      badgeColor: '#38bdf8',
-      tag: 'C & C++',
-      duration: '2 Months',
-      level: 'BEGINNER',
-      title: 'C and C++',
-      desc: 'Build fundamental coding mastery with pointers, memory allocation, data structures, algorithm design, and modern C++ object-oriented principles.',
-      img: '/assets/computer-science-training-DbNu6b5m.webp'
-    },
-    {
-      badge: 'CAREER TRACK',
-      badgeColor: '#ec4899',
-      tag: 'FULL STACK',
-      duration: '4 Months',
-      level: 'INTERMEDIATE → ADVANCED',
-      title: 'Full Stack Development',
-      desc: 'End-to-end full stack software engineering using React, Node.js, Express, MongoDB, RESTful APIs, cloud containerization, and modern Git workflows.',
-      img: '/assets/mern-stack-development-Blgwje8-.webp'
-    },
-    {
-      badge: 'FAST TRACK',
-      badgeColor: '#a855f7',
-      tag: 'FRONTEND',
-      duration: '2.5 Months',
-      level: 'ALL LEVELS',
-      title: 'Web Development',
-      desc: 'Modern web engineering with HTML5, responsive CSS3/Tailwind, JavaScript ES6+, asynchronous DOM programming, and interactive UI component design.',
-      img: '/assets/javascript-es6-features-let-const-arrow-functions-destructuring-C_dDQ0UK.webp'
-    },
-    {
-      badge: 'HIGH VALUE',
-      badgeColor: '#eab308',
-      tag: 'ANALYTICS',
-      duration: '3.5 Months',
-      level: 'INTERMEDIATE',
-      title: 'Data Science',
-      desc: 'Exploratory data analysis, statistical methods, data wrangling with Pandas, Seaborn visual insights, hypothesis testing, and BI report generation.',
-      img: '/assets/Data-science-BIyx-gTh.webp'
-    },
-    {
-      badge: 'SPECIALISED',
-      badgeColor: '#06b6d4',
-      tag: 'AI / ML',
-      duration: '4 Months',
-      level: 'ADVANCED',
-      title: 'Artificial Intelligence & Machine Learning',
-      desc: 'Predictive regression, classification, clustering, deep neural networks with PyTorch, computer vision, NLP transformers, and production AI deployment.',
-      img: '/assets/machine-learning-ai-0RgAZyb4.webp'
-    },
-    {
-      badge: 'ESSENTIAL',
-      badgeColor: '#10b981',
-      tag: 'DATABASE',
-      duration: '1.5 Months',
-      level: 'ALL LEVELS',
-      title: 'SQL & Database Management',
-      desc: 'Relational database schema modeling, advanced SQL queries, joins, subqueries, indexing, stored procedures, normalization, and ACID transactions.',
-      img: '/assets/sql-database-design-keys-relationships-tutorial-CvfVvMeC.webp'
-    }
-  ];
-
   const getCsCourses = () => {
-    const stored = getStoredCourses().filter(c =>
+    return getStoredCourses().filter(c =>
       !c.isDiscipline && (
         (c.department && c.department.toLowerCase().includes('computer')) ||
         (c.category && c.category.toLowerCase().includes('computer')) ||
         c.link === '/computer-science'
       )
     );
-    return stored.length > 0 ? stored : csCourses;
   };
 
   const [coursesList, setCoursesList] = useState(getCsCourses);
@@ -295,97 +211,135 @@ export default function ComputerScience({ onOpenModal }) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px' }}>
-          {coursesList.map((c, i) => (
-            <div
-              key={c.id || c._id || i}
-              style={{
-                background: 'rgba(15, 11, 33, 0.85)',
-                border: '1px solid rgba(56, 189, 248, 0.25)',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                boxShadow: '0 12px 30px rgba(0, 0, 0, 0.45)',
-                transition: 'transform 0.3s ease, border-color 0.3s ease'
-              }}
-            >
-              <div style={{ position: 'relative', width: '100%', height: '190px', overflow: 'hidden' }}>
-                <img
-                  src={c.img || c.image}
-                  alt={c.title}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-                <span
-                  style={{
-                    position: 'absolute',
-                    top: '12px',
-                    left: '12px',
-                    background: c.badgeColor,
-                    color: '#fff',
-                    fontSize: '10.5px',
-                    fontWeight: '800',
-                    letterSpacing: '0.8px',
-                    padding: '4px 10px',
-                    borderRadius: '4px',
-                    textTransform: 'uppercase'
-                  }}
-                >
-                  {c.badge}
-                </span>
-                <span
-                  style={{
-                    position: 'absolute',
-                    bottom: '12px',
-                    right: '12px',
-                    background: 'rgba(0, 0, 0, 0.75)',
-                    color: '#e2e8f0',
-                    fontSize: '11px',
-                    fontWeight: '700',
-                    letterSpacing: '0.5px',
-                    padding: '3px 8px',
-                    borderRadius: '4px',
-                    border: '1px solid rgba(255, 255, 255, 0.2)'
-                  }}
-                >
-                  {c.tag}
-                </span>
-              </div>
-
-              <div style={{ padding: '22px 22px 24px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', fontSize: '12px' }}>
-                  <span style={{ color: '#94a3b8' }}>{c.duration}</span>
-                  <span style={{ color: '#38bdf8', fontWeight: '700', letterSpacing: '0.5px' }}>{c.level}</span>
+          {coursesList.length === 0 ? (
+            <div style={{
+              gridColumn: '1 / -1',
+              textAlign: 'center',
+              padding: '60px 24px',
+              background: 'rgba(255, 255, 255, 0.03)',
+              border: '1px dashed rgba(56, 189, 248, 0.3)',
+              borderRadius: '16px'
+            }}>
+              <div style={{ fontSize: '36px', marginBottom: '14px' }}>💻</div>
+              <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#fff', margin: '0 0 8px' }}>
+                No Courses Published Yet
+              </h3>
+              <p style={{ color: '#94a3b8', fontSize: '15px', maxWidth: '460px', margin: '0 auto 20px', lineHeight: 1.6 }}>
+                New training programs and modules added by the administrator in the Admin Portal will appear here live.
+              </p>
+              <button
+                type="button"
+                onClick={onOpenModal}
+                style={{
+                  padding: '12px 28px',
+                  background: 'linear-gradient(135deg, #38bdf8, #8b5cf6)',
+                  border: 'none',
+                  borderRadius: '10px',
+                  color: '#fff',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  boxShadow: '0 6px 20px rgba(56, 189, 248, 0.35)'
+                }}
+              >
+                Inquire for Upcoming Batches →
+              </button>
+            </div>
+          ) : (
+            coursesList.map((c, i) => (
+              <div
+                key={c.id || c._id || i}
+                style={{
+                  background: 'rgba(15, 11, 33, 0.85)',
+                  border: '1px solid rgba(56, 189, 248, 0.25)',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  boxShadow: '0 12px 30px rgba(0, 0, 0, 0.45)',
+                  transition: 'transform 0.3s ease, border-color 0.3s ease'
+                }}
+              >
+                <div style={{ position: 'relative', width: '100%', height: '190px', overflow: 'hidden' }}>
+                  <img
+                    src={c.img || c.image || '/assets/computer-science-training-DbNu6b5m.webp'}
+                    alt={c.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    onError={(e) => {
+                      e.target.src = '/assets/computer-science-training-DbNu6b5m.webp';
+                    }}
+                  />
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '12px',
+                      left: '12px',
+                      background: c.badgeColor || '#38bdf8',
+                      color: '#fff',
+                      fontSize: '10.5px',
+                      fontWeight: '800',
+                      letterSpacing: '0.8px',
+                      padding: '4px 10px',
+                      borderRadius: '4px',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    {c.badge || 'POPULAR'}
+                  </span>
+                  <span
+                    style={{
+                      position: 'absolute',
+                      bottom: '12px',
+                      right: '12px',
+                      background: 'rgba(0, 0, 0, 0.75)',
+                      color: '#e2e8f0',
+                      fontSize: '11px',
+                      fontWeight: '700',
+                      letterSpacing: '0.5px',
+                      padding: '3px 8px',
+                      borderRadius: '4px',
+                      border: '1px solid rgba(255, 255, 255, 0.2)'
+                    }}
+                  >
+                    {c.tag || c.category || 'Tech'}
+                  </span>
                 </div>
 
-                <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#fff', margin: '0 0 10px', lineHeight: 1.35 }}>
-                  {c.title}
-                </h3>
+                <div style={{ padding: '22px 22px 24px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', fontSize: '12px' }}>
+                    <span style={{ color: '#94a3b8' }}>{c.duration || 'Flexible'}</span>
+                    <span style={{ color: '#38bdf8', fontWeight: '700', letterSpacing: '0.5px' }}>{c.level || 'All Levels'}</span>
+                  </div>
 
-                <p style={{ fontSize: '13.5px', color: '#94a3b8', lineHeight: 1.55, margin: '0 0 22px', flex: 1 }}>
-                  {c.desc}
-                </p>
+                  <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#fff', margin: '0 0 10px', lineHeight: 1.35 }}>
+                    {c.title}
+                  </h3>
 
-                <button
-                  type="button"
-                  onClick={onOpenModal}
-                  style={{
-                    width: '100%',
-                    padding: '11px 0',
-                    background: 'linear-gradient(135deg, #0284c7, #2563eb)',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '8px',
-                    fontSize: '14px',
-                    fontWeight: '700',
-                    cursor: 'pointer',
-                    transition: 'background 0.2s'
-                  }}
-                >
-                  Learn More
-                </button>
+                  <p style={{ fontSize: '13.5px', color: '#94a3b8', lineHeight: 1.55, margin: '0 0 22px', flex: 1 }}>
+                    {c.desc}
+                  </p>
+
+                  <button
+                    type="button"
+                    onClick={onOpenModal}
+                    style={{
+                      width: '100%',
+                      padding: '11px 0',
+                      background: 'linear-gradient(135deg, #0284c7, #2563eb)',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '14px',
+                      fontWeight: '700',
+                      cursor: 'pointer',
+                      transition: 'background 0.2s'
+                    }}
+                  >
+                    Enroll in Program →
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </section>
 

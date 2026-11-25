@@ -73,78 +73,14 @@ export default function Mechanical({ onOpenModal }) {
     };
   }, []);
 
-  const mechanicalCourses = [
-    {
-      id: 'cad',
-      title: 'CAD – COMPUTER AIDED DESIGN',
-      duration: '3 Months',
-      level: 'BEGINNER → ADVANCED',
-      badge: 'MOST POPULAR',
-      category: 'CAD',
-      desc: 'Learn 2D Drafting, 3D Modeling, GD&T and Production Drawings using industry-standard tools.',
-      image: '/assets/mech-cad.jpg'
-    },
-    {
-      id: 'cam',
-      title: 'CAM – COMPUTER AIDED MANUFACTURING',
-      duration: '2 Months',
-      level: 'INTERMEDIATE',
-      badge: 'IN DEMAND',
-      category: 'CAM',
-      desc: 'Learn CNC Programming, Tool Paths and Manufacturing Process Design for real production environments.',
-      image: '/assets/mech-cam.jpg'
-    },
-    {
-      id: 'cae',
-      title: 'CAE – COMPUTER AIDED ENGINEERING',
-      duration: '3 Months',
-      level: 'ADVANCED',
-      badge: 'HIGH VALUE',
-      category: 'CAE',
-      desc: 'Learn Structural Analysis, Thermal Analysis and Simulation Techniques used in aerospace and automotive.',
-      image: '/assets/mech-cae.jpg'
-    },
-    {
-      id: 'prod-design',
-      title: 'PRODUCT DESIGN',
-      duration: '4 Months',
-      level: 'INTERMEDIATE',
-      badge: 'COMPREHENSIVE',
-      category: 'DESIGN',
-      desc: 'Complete Product Development Workflow from concept sketching to manufacturing-ready 3D models.',
-      image: '/assets/mech-prod-design.jpg'
-    },
-    {
-      id: 'gdt',
-      title: 'GD&T – GEOMETRIC DIMENSIONING',
-      duration: '1 Month',
-      level: 'ALL LEVELS',
-      badge: 'FAST TRACK',
-      category: 'GD&T',
-      desc: 'Industry standard dimensioning and tolerancing for precision manufacturing and quality control.',
-      image: '/assets/mech-gdt.jpg'
-    },
-    {
-      id: 'rev-eng',
-      title: 'REVERSE ENGINEERING',
-      duration: '2 Months',
-      level: 'ADVANCED',
-      badge: 'SPECIALISED',
-      category: 'RE',
-      desc: '3D scanning and product reconstruction for legacy part documentation and design improvement.',
-      image: '/assets/mech-rev-eng.jpg'
-    }
-  ];
-
   const getMechCourses = () => {
-    const stored = getStoredCourses().filter(c =>
+    return getStoredCourses().filter(c =>
       !c.isDiscipline && (
         (c.department && c.department.toLowerCase().includes('mech')) ||
         (c.category && c.category.toLowerCase().includes('mech')) ||
         c.link === '/mechanical'
       )
     );
-    return stored.length > 0 ? stored : mechanicalCourses;
   };
 
   const [coursesList, setCoursesList] = useState(getMechCourses);
@@ -235,33 +171,68 @@ export default function Mechanical({ onOpenModal }) {
           </div>
 
           <div className="mech-grid">
-            {coursesList.map((c) => (
-              <div key={c.id || c._id} className="mech-card" onClick={onOpenModal}>
-                <div className="mech-card-media">
-                  <span className="mech-badge-popular">{c.badge}</span>
-                  <img className="mech-card-img" alt={c.title} src={c.image || c.img} />
-                  <span className="mech-badge-category">{c.category || c.tag || 'Mechanical'}</span>
-                </div>
-                <div className="mech-card-body">
-                  <div className="mech-meta-row">
-                    <span className="mech-duration">⏱ {c.duration}</span>
-                    <span className="mech-level">{c.level}</span>
-                  </div>
-                  <h3 className="mech-card-heading">{c.title}</h3>
-                  <p className="mech-card-desc">{c.desc}</p>
-                  <button
-                    type="button"
-                    className="mech-btn-learn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onOpenModal();
-                    }}
-                  >
-                    Learn More →
-                  </button>
-                </div>
+            {coursesList.length === 0 ? (
+              <div style={{
+                gridColumn: '1 / -1',
+                textAlign: 'center',
+                padding: '60px 24px',
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px dashed rgba(139, 92, 246, 0.3)',
+                borderRadius: '16px'
+              }}>
+                <div style={{ fontSize: '36px', marginBottom: '14px' }}>⚙️</div>
+                <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#fff', margin: '0 0 8px' }}>
+                  No Courses Published Yet
+                </h3>
+                <p style={{ color: '#94a3b8', fontSize: '15px', maxWidth: '460px', margin: '0 auto 20px', lineHeight: 1.6 }}>
+                  New training programs and modules added by the administrator in the Admin Portal will appear here live.
+                </p>
+                <button
+                  type="button"
+                  onClick={onOpenModal}
+                  style={{
+                    padding: '12px 28px',
+                    background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
+                    border: 'none',
+                    borderRadius: '10px',
+                    color: '#fff',
+                    fontWeight: '700',
+                    cursor: 'pointer',
+                    boxShadow: '0 6px 20px rgba(217, 70, 239, 0.35)'
+                  }}
+                >
+                  Inquire for Upcoming Batches →
+                </button>
               </div>
-            ))}
+            ) : (
+              coursesList.map((c) => (
+                <div key={c.id || c._id} className="mech-card" onClick={onOpenModal}>
+                  <div className="mech-card-media">
+                    <span className="mech-badge-popular">{c.badge || 'POPULAR'}</span>
+                    <img className="mech-card-img" alt={c.title} src={c.image || c.img || '/assets/mech-cad.jpg'} />
+                    <span className="mech-badge-category">{c.category || c.tag || 'Mechanical'}</span>
+                  </div>
+                  <div className="mech-card-body">
+                    <div className="mech-meta-row">
+                      <span className="mech-duration">⏱ {c.duration || 'Flexible'}</span>
+                      <span className="mech-level">{c.level || 'All Levels'}</span>
+                    </div>
+                    <h3 className="mech-card-heading">{c.title}</h3>
+                    <p className="mech-card-desc">{c.desc}</p>
+                    <button
+                      type="button"
+                      className="mech-btn-learn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onOpenModal();
+                      }}
+                    >
+                      Learn More →
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </section>
 
