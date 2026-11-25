@@ -169,16 +169,6 @@ export default function AdminLayout() {
               <span className="admin-status-dot"></span>
               <span className="admin-status-text">System Live</span>
             </div>
-
-            <div className="admin-user-pill">
-              <div className="admin-avatar">
-                {adminUser.name.charAt(0)}
-              </div>
-              <div className="admin-user-info-desktop">
-                <div className="admin-user-name">{adminUser.name}</div>
-                <div className="admin-user-role">{adminUser.role}</div>
-              </div>
-            </div>
           </div>
         </header>
 
