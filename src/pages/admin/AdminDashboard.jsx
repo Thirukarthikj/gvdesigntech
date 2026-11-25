@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getStoredLeads, getStoredBatches, getStoredInternships } from '../../data/adminInitialData.js';
+import { getStoredLeads, getStoredInternships } from '../../data/adminInitialData.js';
+import { getStoredCourses } from '../../data/contentPersistence.js';
 import { mouList } from '../../data/mous.js';
 
 export default function AdminDashboard() {
   const [leads, setLeads] = useState([]);
-  const [batches, setBatches] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [internships, setInternships] = useState([]);
 
   useEffect(() => {
     setLeads(getStoredLeads());
-    setBatches(getStoredBatches());
+    setCourses(getStoredCourses());
     setInternships(getStoredInternships());
   }, []);
 
   const totalLeads = leads.length;
   const enrolledCount = leads.filter(l => l.status === 'Enrolled').length;
   const newLeadsCount = leads.filter(l => l.status === 'New').length;
-  const totalBatches = batches.length;
+  const totalCourses = courses.length;
   const totalPartners = mouList.length;
 
   const departmentCounts = {
@@ -62,12 +63,12 @@ export default function AdminDashboard() {
 
         <div className="admin-kpi-card">
           <div className="admin-kpi-top">
-            <span className="admin-kpi-label">Active Course Cohorts</span>
-            <div className="admin-kpi-icon" style={{ background: 'rgba(217, 70, 239, 0.15)', color: '#f472b6' }}>⚡</div>
+            <span className="admin-kpi-label">Curated Course Tracks</span>
+            <div className="admin-kpi-icon" style={{ background: 'rgba(217, 70, 239, 0.15)', color: '#f472b6' }}>🎓</div>
           </div>
-          <div className="admin-kpi-val">{totalBatches}</div>
+          <div className="admin-kpi-val">{totalCourses}</div>
           <div className="admin-kpi-sub">
-            <span>Across 7 core engineering domains</span>
+            <span>Across 8 engineering disciplines</span>
           </div>
         </div>
 

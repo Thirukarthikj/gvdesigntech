@@ -274,7 +274,7 @@ export default function AdminSettings() {
           <div style={{ marginTop: '20px', padding: '16px', background: 'rgba(255, 255, 255, 0.03)', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <div style={{ fontWeight: '700', color: '#fff', fontSize: '14.5px' }}>Admissions Status Banner</div>
-              <div style={{ fontSize: '12.5px', color: '#94a3b8' }}>Shows "Next Batch Admissions Open" indicator on website</div>
+              <div style={{ fontSize: '12.5px', color: '#94a3b8' }}>Shows &quot;Admissions Open&quot; indicator on website</div>
             </div>
             <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '8px' }}>
               <input
@@ -608,7 +608,7 @@ export default function AdminSettings() {
         </div>
 
         <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.6, marginBottom: '20px' }}>
-          Export the full database containing student inquiries, course batches, and candidate records as an offline JSON snapshot.
+          Export the full database containing student inquiries, courses, and candidate records as an offline JSON snapshot.
         </p>
 
         <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
