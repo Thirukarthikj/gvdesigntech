@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import BrainCanvas from '../components/BrainCanvas.jsx';
 import { homeStyles as P } from '../data/styles.js';
 import { testimonialsRow1, testimonialsRow2 } from '../data/testimonials.js';
-import { getStoredLeaders } from '../data/contentPersistence.js';
+import { getStoredLeaders, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function Home({ onOpenModal }) {
   const [leaders, setLeaders] = useState(() => getStoredLeaders());
@@ -15,11 +15,7 @@ export default function Home({ onOpenModal }) {
   });
 
   useEffect(() => {
-    const handleUpdate = () => {
-      setLeaders(getStoredLeaders());
-    };
-    window.addEventListener('gv_content_updated', handleUpdate);
-    return () => window.removeEventListener('gv_content_updated', handleUpdate);
+    return subscribeToContentUpdates(() => setLeaders(getStoredLeaders()));
   }, []);
   const [statsAnimated, setStatsAnimated] = useState(false);
   const statsRef = useRef(null);

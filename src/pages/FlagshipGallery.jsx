@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getStoredGallery } from '../data/contentPersistence.js';
+import { getStoredGallery, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function FlagshipGallery({ onOpenModal }) {
   const [galleryList, setGalleryList] = useState(() => getStoredGallery());
@@ -8,9 +8,7 @@ export default function FlagshipGallery({ onOpenModal }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    const handleUpdate = () => setGalleryList(getStoredGallery());
-    window.addEventListener('gv_content_updated', handleUpdate);
-    return () => window.removeEventListener('gv_content_updated', handleUpdate);
+    return subscribeToContentUpdates(() => setGalleryList(getStoredGallery()));
   }, []);
 
   // Background dynamic star & grid canvas

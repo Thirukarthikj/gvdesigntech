@@ -1,5 +1,14 @@
 export const mouList = [
   {
+    "id": 1795580574388,
+    "name": "kahe",
+    "type": "MOU Signed",
+    "detail": "Academic Curriculum Collaboration & Placement Drives",
+    "date": "2026",
+    "tag": "Training",
+    "image": "/assets/mou-kahe.jpg"
+  },
+  {
     "name": "Dr.Mahalingam Group of Institutions",
     "type": "MOU Signed",
     "detail": "Placement & Career Development Drive",

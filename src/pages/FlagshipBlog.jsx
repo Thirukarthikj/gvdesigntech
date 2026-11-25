@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { blogStyles as gC } from '../data/styles.js';
 import { blogCategories } from '../data/blogs.js';
-import { getStoredBlogs } from '../data/contentPersistence.js';
+import { getStoredBlogs, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function FlagshipBlog() {
   const [blogList, setBlogList] = useState(() => getStoredBlogs());
@@ -10,11 +10,7 @@ export default function FlagshipBlog() {
   const [activeArticle, setActiveArticle] = useState(null);
 
   useEffect(() => {
-    const handleUpdate = () => {
-      setBlogList(getStoredBlogs());
-    };
-    window.addEventListener('gv_content_updated', handleUpdate);
-    return () => window.removeEventListener('gv_content_updated', handleUpdate);
+    return subscribeToContentUpdates(() => setBlogList(getStoredBlogs()));
   }, []);
 
   const filtered = blogList.filter((b) => {

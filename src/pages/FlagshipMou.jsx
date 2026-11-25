@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { mouStyles as yb } from '../data/styles.js';
-import { getStoredMous } from '../data/contentPersistence.js';
+import { getStoredMous, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function FlagshipMou({ onOpenModal }) {
   const [mous, setMous] = useState(() => getStoredMous());
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    const handleUpdate = () => setMous(getStoredMous());
-    window.addEventListener('gv_content_updated', handleUpdate);
-    return () => window.removeEventListener('gv_content_updated', handleUpdate);
+    return subscribeToContentUpdates(() => setMous(getStoredMous()));
   }, []);
 
   // High-tech partnership node canvas

@@ -122,6 +122,59 @@ export const defaultCertificates = {
   }
 };
 
+// Cross-tab and cross-window sync channel
+const syncChannel = typeof window !== 'undefined' && 'BroadcastChannel' in window
+  ? new BroadcastChannel('gv_admin_sync')
+  : null;
+
+export function notifyContentUpdate(topic = 'all') {
+  if (typeof window === 'undefined') return;
+  // Local window event
+  window.dispatchEvent(new CustomEvent('gv_content_updated', { detail: { topic } }));
+  // Cross-tab broadcast
+  try {
+    syncChannel?.postMessage({ type: 'GV_SYNC', topic, timestamp: Date.now() });
+  } catch (err) {
+    // broadcast channel fallback
+  }
+}
+
+export function subscribeToContentUpdates(callback) {
+  if (typeof window === 'undefined') return () => {};
+
+  const handleUpdate = () => callback();
+
+  // 1. Same-window custom event
+  window.addEventListener('gv_content_updated', handleUpdate);
+
+  // 2. Cross-tab storage event
+  window.addEventListener('storage', handleUpdate);
+
+  // 3. Tab focus & visibility change (when user returns to tab)
+  window.addEventListener('focus', handleUpdate);
+  const handleVisibility = () => {
+    if (document.visibilityState === 'visible') handleUpdate();
+  };
+  document.addEventListener('visibilitychange', handleVisibility);
+
+  // 4. Cross-tab BroadcastChannel
+  let bcListener = null;
+  if (syncChannel) {
+    bcListener = () => handleUpdate();
+    syncChannel.addEventListener('message', bcListener);
+  }
+
+  return () => {
+    window.removeEventListener('gv_content_updated', handleUpdate);
+    window.removeEventListener('storage', handleUpdate);
+    window.removeEventListener('focus', handleUpdate);
+    document.removeEventListener('visibilitychange', handleVisibility);
+    if (syncChannel && bcListener) {
+      syncChannel.removeEventListener('message', bcListener);
+    }
+  };
+}
+
 /* --- 1. MOUs Persistence --- */
 export function getStoredMous() {
   try {
@@ -130,7 +183,17 @@ export function getStoredMous() {
       localStorage.setItem(MOU_KEY, JSON.stringify(mouList));
       return mouList;
     }
-    return JSON.parse(raw);
+    const list = JSON.parse(raw);
+    // Ensure default flagship entries like 'kahe' are present if localStorage was initialized prior
+    const hasKahe = Array.isArray(list) && list.some(m => (m.name || '').toLowerCase() === 'kahe');
+    if (!hasKahe && Array.isArray(list)) {
+      const kaheEntry = mouList.find(m => (m.name || '').toLowerCase() === 'kahe');
+      if (kaheEntry) {
+        list.unshift(kaheEntry);
+        localStorage.setItem(MOU_KEY, JSON.stringify(list));
+      }
+    }
+    return list;
   } catch {
     return mouList;
   }
@@ -139,7 +202,7 @@ export function getStoredMous() {
 export function saveStoredMous(list) {
   try {
     localStorage.setItem(MOU_KEY, JSON.stringify(list));
-    window.dispatchEvent(new Event('gv_content_updated'));
+    notifyContentUpdate('mou');
   } catch (err) {
     console.error('Failed to save MOUs', err);
   }
@@ -162,7 +225,7 @@ export function getStoredGallery() {
 export function saveStoredGallery(items) {
   try {
     localStorage.setItem(GALLERY_KEY, JSON.stringify(items));
-    window.dispatchEvent(new Event('gv_content_updated'));
+    notifyContentUpdate('gallery');
   } catch (err) {
     console.error('Failed to save Gallery', err);
   }
@@ -185,7 +248,7 @@ export function getStoredPlacements() {
 export function saveStoredPlacements(data) {
   try {
     localStorage.setItem(PLACEMENT_KEY, JSON.stringify(data));
-    window.dispatchEvent(new Event('gv_content_updated'));
+    notifyContentUpdate('placement');
   } catch (err) {
     console.error('Failed to save Placements', err);
   }
@@ -208,7 +271,7 @@ export function getStoredBlogs() {
 export function saveStoredBlogs(posts) {
   try {
     localStorage.setItem(BLOG_KEY, JSON.stringify(posts));
-    window.dispatchEvent(new Event('gv_content_updated'));
+    notifyContentUpdate('blogs');
   } catch (err) {
     console.error('Failed to save Blogs', err);
   }
@@ -231,7 +294,7 @@ export function getStoredCertificates() {
 export function saveStoredCertificates(registry) {
   try {
     localStorage.setItem(CERT_KEY, JSON.stringify(registry));
-    window.dispatchEvent(new Event('gv_content_updated'));
+    notifyContentUpdate('certificates');
   } catch (err) {
     console.error('Failed to save Certificates', err);
   }
@@ -254,7 +317,7 @@ export function getStoredLeaders() {
 export function saveStoredLeaders(leaders) {
   try {
     localStorage.setItem(LEADERS_KEY, JSON.stringify(leaders));
-    window.dispatchEvent(new Event('gv_content_updated'));
+    notifyContentUpdate('leaders');
   } catch (err) {
     console.error('Failed to save Leaders', err);
   }

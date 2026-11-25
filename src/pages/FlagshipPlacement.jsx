@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { placementStyles as G } from '../data/styles.js';
-import { getStoredPlacements } from '../data/contentPersistence.js';
+import { getStoredPlacements, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function FlagshipPlacement({ onOpenModal }) {
   const [activeTab, setActiveTab] = useState(0);
   const [placementData, setPlacementData] = useState(() => getStoredPlacements());
 
   useEffect(() => {
-    const handleUpdate = () => {
-      setPlacementData(getStoredPlacements());
-    };
-    window.addEventListener('gv_content_updated', handleUpdate);
-    return () => window.removeEventListener('gv_content_updated', handleUpdate);
+    return subscribeToContentUpdates(() => setPlacementData(getStoredPlacements()));
   }, []);
 
   const stats = placementData.stats || [];
