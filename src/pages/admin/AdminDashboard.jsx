@@ -84,7 +84,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Two Column Grid: Department Demand & Quick Action shortcuts */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '24px', marginBottom: '32px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '28px' }}>
 
         {/* Department Distribution Progress */}
         <div className="admin-card" style={{ marginBottom: 0 }}>
@@ -123,7 +123,7 @@ export default function AdminDashboard() {
             </h3>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '10px' }}>
             <Link to="/admin/enrollments" style={{ textDecoration: 'none' }}>
               <div style={{ padding: '14px 10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '14px', textAlign: 'center', transition: 'all 0.2s', cursor: 'pointer' }}>
                 <div style={{ fontSize: '22px', marginBottom: '6px' }}>📋</div>

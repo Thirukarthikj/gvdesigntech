@@ -141,7 +141,7 @@ export default function AdminEnrollments() {
           </select>
         </div>
 
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           <button type="button" onClick={handleExportCSV} className="admin-btn-secondary">
             📥 Export CSV
           </button>

@@ -298,9 +298,9 @@ export default function AdminCourses() {
       )}
 
       {/* Top Header & MongoDB Connection Indicator */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px', marginBottom: '22px' }}>
+      <div className="admin-page-header-row">
         <div>
-          <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#fff', margin: '0 0 6px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#fff', margin: '0 0 6px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
             <span>Courses &amp; Curriculum Management</span>
             <span style={{ fontSize: '11px', fontWeight: '700', padding: '3px 10px', background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.4)', borderRadius: '999px', color: '#34d399' }}>
               🍃 MongoDB Active
@@ -315,13 +315,7 @@ export default function AdminCourses() {
         </div>
 
         {/* Tab Navigation Pill */}
-        <div style={{
-          display: 'flex',
-          background: 'rgba(15, 13, 36, 0.8)',
-          padding: '4px',
-          borderRadius: '12px',
-          border: '1px solid rgba(139, 92, 246, 0.3)'
-        }}>
+        <div className="admin-tabs-pill">
           <button
             type="button"
             onClick={() => setActiveTab('courses')}

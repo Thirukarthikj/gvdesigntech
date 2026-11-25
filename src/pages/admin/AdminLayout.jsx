@@ -76,16 +76,33 @@ export default function AdminLayout() {
 
   return (
     <div className="admin-shell">
+      {/* Mobile Backdrop */}
+      {sidebarOpen && (
+        <div
+          className="admin-sidebar-backdrop"
+          onClick={() => setSidebarOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Sidebar */}
       <aside className={`admin-sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="admin-sidebar-header">
-          <Link to="/admin/dashboard" className="admin-brand">
+          <Link to="/admin/dashboard" className="admin-brand" onClick={() => setSidebarOpen(false)}>
             <div className="admin-brand-icon">⚡</div>
             <div>
               <div className="admin-brand-title">GV DesignTech</div>
               <span className="admin-brand-badge">ADMIN PORTAL</span>
             </div>
           </Link>
+          <button
+            type="button"
+            className="admin-sidebar-close"
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Close menu"
+          >
+            ✕
+          </button>
         </div>
 
         <nav className="admin-nav">
@@ -141,23 +158,23 @@ export default function AdminLayout() {
             >
               ☰
             </button>
-            <div>
-              <h2 className="admin-header-title">{getPageTitle()}</h2>
+            <div className="admin-header-text">
+              <h2 className="admin-header-title" title={getPageTitle()}>{getPageTitle()}</h2>
               <div className="admin-header-sub">GV DesignTech CAD / CAM / CAE Management Center</div>
             </div>
           </div>
 
           <div className="admin-header-actions">
-            <div className="admin-status-indicator">
+            <div className="admin-status-indicator" title="System Live">
               <span className="admin-status-dot"></span>
-              <span>System Live</span>
+              <span className="admin-status-text">System Live</span>
             </div>
 
             <div className="admin-user-pill">
               <div className="admin-avatar">
                 {adminUser.name.charAt(0)}
               </div>
-              <div style={{ display: 'none', md: 'block' }}>
+              <div className="admin-user-info-desktop">
                 <div className="admin-user-name">{adminUser.name}</div>
                 <div className="admin-user-role">{adminUser.role}</div>
               </div>
