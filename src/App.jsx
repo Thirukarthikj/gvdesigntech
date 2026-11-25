@@ -71,7 +71,7 @@ export default function App() {
 
   return (
     <div className="App">
-      {showIntro && <IntroSplash onFinish={() => setShowIntro(false)} />}
+      {!isAuthOrAdmin && showIntro && <IntroSplash onFinish={() => setShowIntro(false)} />}
       {!isAuthOrAdmin && <Navbar />}
       {!isAuthOrAdmin && <FloatingElements />}
 
@@ -139,12 +139,21 @@ export default function App() {
           <Route path="courses" element={<AdminCourses />} />
           <Route path="internships" element={<AdminInternships />} />
           <Route path="partners" element={<AdminMouManager />} />
+          <Route path="mou" element={<AdminMouManager />} />
+          <Route path="mous" element={<AdminMouManager />} />
           <Route path="content-leaders" element={<AdminLeaderManager />} />
+          <Route path="leaders" element={<AdminLeaderManager />} />
           <Route path="content-mou" element={<AdminMouManager />} />
           <Route path="content-gallery" element={<AdminGalleryManager />} />
+          <Route path="gallery" element={<AdminGalleryManager />} />
           <Route path="content-placement" element={<AdminPlacementManager />} />
+          <Route path="placement" element={<AdminPlacementManager />} />
+          <Route path="placements" element={<AdminPlacementManager />} />
           <Route path="content-blog" element={<AdminBlogManager />} />
+          <Route path="blog" element={<AdminBlogManager />} />
+          <Route path="blogs" element={<AdminBlogManager />} />
           <Route path="content-certificates" element={<AdminCertificateManager />} />
+          <Route path="certificates" element={<AdminCertificateManager />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
 
