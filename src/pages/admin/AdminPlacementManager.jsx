@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getStoredPlacements, saveStoredPlacements } from '../../data/contentPersistence.js';
+import { uploadImageToCloudinary } from '../../services/cloudinaryService.js';
 
 export default function AdminPlacementManager() {
   const [data, setData] = useState(() => getStoredPlacements());
   const [toast, setToast] = useState('');
   const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
   const [editingStory, setEditingStory] = useState(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   // Form state for editing headline stats
   const [stats, setStats] = useState(() => (data.stats || []).map(s => ({ ...s })));
@@ -32,7 +34,7 @@ export default function AdminPlacementManager() {
     setTimeout(() => setToast(''), 3000);
   };
 
-  const handleFileUpload = (e) => {
+  const handleFileUpload = async (e) => {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
 
@@ -41,12 +43,20 @@ export default function AdminPlacementManager() {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (uploadEvent) => {
-      const base64Url = uploadEvent.target.result;
-      setStoryForm(prev => ({ ...prev, image: base64Url }));
-    };
-    reader.readAsDataURL(file);
+    setUploadingImage(true);
+    try {
+      const result = await uploadImageToCloudinary(file, { folder: 'gv_designtech/placements' });
+      setStoryForm(prev => ({ ...prev, image: result.url }));
+      if (result.isCloudinary) {
+        showNotification('☁️ Student photo uploaded to Cloudinary CDN successfully!');
+      } else {
+        showNotification('Photo saved locally (Configure Cloudinary in Settings for cloud CDN)');
+      }
+    } catch (err) {
+      alert('Upload failed: ' + err.message);
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   const handleStatChange = (index, field, value) => {
@@ -549,13 +559,15 @@ export default function AdminPlacementManager() {
                 </div>
 
                 <div style={{ marginBottom: '10px' }}>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>
-                    Upload Photo from Computer:
+                  <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>
+                    <span>Upload Student Photo to Cloudinary:</span>
+                    {uploadingImage && <span style={{ color: '#22d3ee', fontWeight: '700' }}>⏳ Uploading to Cloudinary...</span>}
                   </label>
                   <input
                     type="file"
                     accept="image/*"
                     onChange={handleFileUpload}
+                    disabled={uploadingImage}
                     style={{
                       width: '100%',
                       padding: '8px 12px',
@@ -564,7 +576,7 @@ export default function AdminPlacementManager() {
                       border: '1px dashed rgba(139, 92, 246, 0.4)',
                       color: '#cbd5e1',
                       fontSize: '12px',
-                      cursor: 'pointer'
+                      cursor: uploadingImage ? 'wait' : 'pointer'
                     }}
                   />
                 </div>

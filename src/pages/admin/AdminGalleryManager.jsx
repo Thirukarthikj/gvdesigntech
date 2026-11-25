@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getStoredGallery, saveStoredGallery } from '../../data/contentPersistence.js';
+import { uploadImageToCloudinary } from '../../services/cloudinaryService.js';
 
 export default function AdminGalleryManager() {
   const [gallery, setGallery] = useState(() => getStoredGallery());
@@ -9,6 +10,7 @@ export default function AdminGalleryManager() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [toast, setToast] = useState('');
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const presetImages = [
     { label: 'Lab Design Session 1', path: '/assets/gallery/gallery-01.jpg' },
@@ -56,7 +58,7 @@ export default function AdminGalleryManager() {
     setIsModalOpen(true);
   };
 
-  const handleFileUpload = (e) => {
+  const handleFileUpload = async (e) => {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
 
@@ -65,12 +67,20 @@ export default function AdminGalleryManager() {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (uploadEvent) => {
-      const base64Url = uploadEvent.target.result;
-      setFormData(prev => ({ ...prev, image: base64Url }));
-    };
-    reader.readAsDataURL(file);
+    setUploadingImage(true);
+    try {
+      const result = await uploadImageToCloudinary(file, { folder: 'gv_designtech/gallery' });
+      setFormData(prev => ({ ...prev, image: result.url }));
+      if (result.isCloudinary) {
+        showNotification('☁️ Photo uploaded to Cloudinary CDN successfully!');
+      } else {
+        showNotification('Photo saved locally (Configure Cloudinary in Settings for cloud CDN)');
+      }
+    } catch (err) {
+      alert('Upload failed: ' + err.message);
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   const handleDelete = (id, title) => {
@@ -415,14 +425,16 @@ export default function AdminGalleryManager() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#cbd5e1', marginBottom: '6px' }}>
-                  Upload Custom Photo or Choose Preset:
+                <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '13px', fontWeight: '600', color: '#cbd5e1', marginBottom: '6px' }}>
+                  <span>Upload Custom Photo to Cloudinary or Choose Preset:</span>
+                  {uploadingImage && <span style={{ color: '#22d3ee', fontWeight: '700', fontSize: '12px' }}>⏳ Uploading to Cloudinary...</span>}
                 </label>
                 <div style={{ marginBottom: '12px' }}>
                   <input
                     type="file"
                     accept="image/*"
                     onChange={handleFileUpload}
+                    disabled={uploadingImage}
                     style={{
                       width: '100%',
                       padding: '8px 12px',
@@ -431,7 +443,7 @@ export default function AdminGalleryManager() {
                       borderRadius: '8px',
                       color: '#cbd5e1',
                       fontSize: '12px',
-                      cursor: 'pointer'
+                      cursor: uploadingImage ? 'wait' : 'pointer'
                     }}
                   />
                 </div>

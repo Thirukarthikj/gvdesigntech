@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { initialAdminLeads, initialAdminBatches, initialAdminInternships, saveStoredLeads, saveStoredBatches, saveStoredInternships } from '../../data/adminInitialData.js';
+import { getCloudinaryConfig, saveCloudinaryConfig, testCloudinaryConnection } from '../../services/cloudinaryService.js';
 
 export default function AdminSettings() {
   const [notificationSaved, setNotificationSaved] = useState(false);
   const [centerPhone, setCenterPhone] = useState('+91 96553 64707');
   const [centerEmail, setCenterEmail] = useState('info@gvdesigntech.com');
   const [admissionOpen, setAdmissionOpen] = useState(true);
+
+  // Cloudinary settings state
+  const [cloudinaryConfig, setCloudinaryConfig] = useState(() => getCloudinaryConfig());
+  const [cloudinaryStatus, setCloudinaryStatus] = useState({ testing: false, msg: '', success: null });
+  const [cloudinarySaved, setCloudinarySaved] = useState(false);
 
   const handleExportBackup = () => {
     const backup = {
@@ -35,6 +41,19 @@ export default function AdminSettings() {
     e.preventDefault();
     setNotificationSaved(true);
     setTimeout(() => setNotificationSaved(false), 3000);
+  };
+
+  const handleSaveCloudinary = (e) => {
+    e.preventDefault();
+    saveCloudinaryConfig(cloudinaryConfig);
+    setCloudinarySaved(true);
+    setTimeout(() => setCloudinarySaved(false), 3000);
+  };
+
+  const handleTestCloudinary = async () => {
+    setCloudinaryStatus({ testing: true, msg: 'Testing upload to Cloudinary...', success: null });
+    const res = await testCloudinaryConnection(cloudinaryConfig.cloudName, cloudinaryConfig.uploadPreset);
+    setCloudinaryStatus({ testing: false, msg: res.message, success: res.success });
   };
 
   return (
@@ -110,6 +129,119 @@ export default function AdminSettings() {
             </button>
           </div>
         </form>
+      </div>
+
+      {/* Cloudinary Cloud Storage Configuration */}
+      <div className="admin-card">
+        <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h3 className="admin-card-title">
+            <span>☁️</span>
+            <span>Cloudinary Image Cloud Storage</span>
+          </h3>
+          <span style={{
+            fontSize: '12px',
+            padding: '4px 10px',
+            borderRadius: '999px',
+            background: cloudinaryConfig.cloudName && cloudinaryConfig.uploadPreset ? 'rgba(16, 185, 129, 0.15)' : 'rgba(234, 179, 8, 0.15)',
+            color: cloudinaryConfig.cloudName && cloudinaryConfig.uploadPreset ? '#34d399' : '#facc15',
+            border: '1px solid',
+            borderColor: cloudinaryConfig.cloudName && cloudinaryConfig.uploadPreset ? 'rgba(16, 185, 129, 0.3)' : 'rgba(234, 179, 8, 0.3)',
+            fontWeight: '600'
+          }}>
+            {cloudinaryConfig.cloudName && cloudinaryConfig.uploadPreset ? '● Cloudinary Active' : '○ Standby / Local Mode'}
+          </span>
+        </div>
+
+        {cloudinarySaved && (
+          <div style={{ padding: '12px 16px', background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.4)', borderRadius: '10px', color: '#34d399', fontSize: '14px', marginBottom: '18px' }}>
+            ✓ Cloudinary credentials saved successfully! All newly uploaded photos will sync to Cloudinary.
+          </div>
+        )}
+
+        {cloudinaryStatus.msg && (
+          <div style={{
+            padding: '12px 16px',
+            background: cloudinaryStatus.success ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)',
+            border: '1px solid',
+            borderColor: cloudinaryStatus.success ? 'rgba(16, 185, 129, 0.4)' : 'rgba(239, 68, 68, 0.4)',
+            borderRadius: '10px',
+            color: cloudinaryStatus.success ? '#34d399' : '#f87171',
+            fontSize: '13.5px',
+            marginBottom: '18px'
+          }}>
+            {cloudinaryStatus.success ? '✅ ' : '⚠️ '}
+            {cloudinaryStatus.msg}
+          </div>
+        )}
+
+        <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.6, marginBottom: '20px' }}>
+          Connect your Cloudinary account for high-resolution cloud storage, automatic WebP compression, and global CDN delivery for all MOU photos, student placement profiles, and campus gallery pictures.
+        </p>
+
+        <form onSubmit={handleSaveCloudinary}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+            <div className="admin-form-group">
+              <label className="admin-label">Cloudinary Cloud Name *</label>
+              <input
+                type="text"
+                className="admin-input"
+                placeholder="e.g. dxyz123abc or mycloud"
+                value={cloudinaryConfig.cloudName}
+                onChange={(e) => setCloudinaryConfig({ ...cloudinaryConfig, cloudName: e.target.value })}
+              />
+              <span style={{ fontSize: '11px', color: '#64748b' }}>Found on your Cloudinary Dashboard under Cloud Name</span>
+            </div>
+
+            <div className="admin-form-group">
+              <label className="admin-label">Upload Preset Name (Unsigned) *</label>
+              <input
+                type="text"
+                className="admin-input"
+                placeholder="e.g. gv_preset or ml_default"
+                value={cloudinaryConfig.uploadPreset}
+                onChange={(e) => setCloudinaryConfig({ ...cloudinaryConfig, uploadPreset: e.target.value })}
+              />
+              <span style={{ fontSize: '11px', color: '#64748b' }}>Settings &gt; Upload &gt; Add Upload Preset &gt; Signing Mode: Unsigned</span>
+            </div>
+          </div>
+
+          <div className="admin-form-group" style={{ marginBottom: '20px' }}>
+            <label className="admin-label">Cloudinary Folder (Optional)</label>
+            <input
+              type="text"
+              className="admin-input"
+              placeholder="gv_designtech"
+              value={cloudinaryConfig.folder}
+              onChange={(e) => setCloudinaryConfig({ ...cloudinaryConfig, folder: e.target.value })}
+            />
+          </div>
+
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <button type="submit" className="admin-btn-primary">
+              💾 Save Cloudinary Settings
+            </button>
+            <button
+              type="button"
+              onClick={handleTestCloudinary}
+              disabled={cloudinaryStatus.testing || !cloudinaryConfig.cloudName || !cloudinaryConfig.uploadPreset}
+              className="admin-btn-secondary"
+              style={{ cursor: cloudinaryStatus.testing ? 'wait' : 'pointer' }}
+            >
+              {cloudinaryStatus.testing ? '⏳ Testing Connection...' : '⚡ Test Connection'}
+            </button>
+          </div>
+        </form>
+
+        <div style={{ marginTop: '20px', padding: '14px', background: 'rgba(139, 92, 246, 0.08)', border: '1px solid rgba(139, 92, 246, 0.25)', borderRadius: '10px', fontSize: '12.5px', color: '#cbd5e1', lineHeight: 1.6 }}>
+          <strong style={{ color: '#c084fc' }}>💡 Quick Cloudinary Setup (1 Minute):</strong>
+          <ol style={{ margin: '6px 0 0 16px', padding: 0 }}>
+            <li>Sign in or create a free account at <strong>cloudinary.com</strong>.</li>
+            <li>Go to <strong>Settings</strong> ⚙️ &gt; <strong>Upload</strong>.</li>
+            <li>Scroll to <strong>Upload presets</strong> and click <strong>Add upload preset</strong>.</li>
+            <li>Set <strong>Signing Mode</strong> to <strong>Unsigned</strong> and save.</li>
+            <li>Copy your <strong>Cloud Name</strong> and <strong>Preset Name</strong> into the inputs above and click Save.</li>
+          </ol>
+        </div>
       </div>
 
       {/* Database Maintenance & Backups */}
