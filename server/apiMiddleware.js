@@ -463,7 +463,16 @@ apiRouter.get('/courses', async (req, res) => {
       .find({})
       .sort({ order: 1, createdAt: -1, _id: -1 })
       .toArray();
-    res.json(list);
+    const seen = new Set();
+    const deduped = [];
+    for (const item of list) {
+      const key = (item.id || item.title || '').toString().trim().toLowerCase();
+      if (key && !seen.has(key)) {
+        seen.add(key);
+        deduped.push(item);
+      }
+    }
+    res.json(deduped);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -475,8 +484,17 @@ apiRouter.post('/courses/sync', async (req, res) => {
     if (Array.isArray(list)) {
       await req.db.collection('courses').deleteMany({});
       if (list.length > 0) {
+        const seen = new Set();
+        const deduped = [];
+        for (const item of list) {
+          const key = (item.id || item.title || '').toString().trim().toLowerCase();
+          if (key && !seen.has(key)) {
+            seen.add(key);
+            deduped.push(item);
+          }
+        }
         const now = Date.now();
-        const cleanList = list.map((item, idx) => {
+        const cleanList = deduped.map((item, idx) => {
           const { _id, ...clean } = item;
           return {
             ...clean,

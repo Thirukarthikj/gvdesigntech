@@ -158,7 +158,8 @@ export async function syncWithMongo() {
       changed = true;
     }
     if (coursesRes.status === 'fulfilled' && Array.isArray(coursesRes.value) && coursesRes.value.length > 0) {
-      localStorage.setItem(COURSE_KEY, JSON.stringify(coursesRes.value));
+      const dedupedCourses = dedupeCourseList(coursesRes.value);
+      localStorage.setItem(COURSE_KEY, JSON.stringify(dedupedCourses));
       changed = true;
     }
 
@@ -485,6 +486,21 @@ export function saveStoredLeaders(leaders) {
 }
 
 /* --- 7. Courses Catalog & Curriculum Persistence --- */
+function dedupeCourseList(list) {
+  if (!Array.isArray(list)) return [];
+  const seen = new Set();
+  const deduped = [];
+  for (const item of list) {
+    if (!item) continue;
+    const key = (item.id || item.title || '').toString().trim().toLowerCase();
+    if (key && !seen.has(key)) {
+      seen.add(key);
+      deduped.push(item);
+    }
+  }
+  return deduped;
+}
+
 export function getStoredCourses() {
   try {
     const raw = localStorage.getItem(COURSE_KEY);
@@ -497,21 +513,26 @@ export function getStoredCourses() {
       localStorage.setItem(COURSE_KEY, JSON.stringify(initialCourses));
       return initialCourses;
     }
-    return list;
+    const deduped = dedupeCourseList(list);
+    if (deduped.length !== list.length) {
+      localStorage.setItem(COURSE_KEY, JSON.stringify(deduped));
+    }
+    return deduped.length > 0 ? deduped : initialCourses;
   } catch {
     return initialCourses;
   }
 }
 
 export function saveStoredCourses(courses) {
+  const cleanCourses = dedupeCourseList(courses);
   try {
-    localStorage.setItem(COURSE_KEY, JSON.stringify(courses));
+    localStorage.setItem(COURSE_KEY, JSON.stringify(cleanCourses));
     notifyContentUpdate('courses');
   } catch (err) {
     console.error('Failed to save Courses to localStorage:', err);
     if (err.name === 'QuotaExceededError' || err.code === 22) {
       try {
-        const lightweight = courses.map(item => ({
+        const lightweight = cleanCourses.map(item => ({
           ...item,
           image: (item.image && item.image.length > 80000) ? '' : item.image
         }));
@@ -528,13 +549,13 @@ export function saveStoredCourses(courses) {
     fetch('/api/courses/sync', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(courses)
+      body: JSON.stringify(cleanCourses)
     }).catch(e => console.warn('MongoDB Courses sync:', e.message));
   } catch (e) {}
 
   // Non-blocking background cloud sync
   try {
-    syncToFirestore('courses', courses);
+    syncToFirestore('courses', cleanCourses);
   } catch {
     // ignore
   }

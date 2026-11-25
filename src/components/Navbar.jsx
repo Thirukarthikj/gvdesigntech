@@ -8,6 +8,10 @@ export default function Navbar() {
   const [courses, setCourses] = useState(() => getStoredCourses());
   const location = useLocation();
 
+  const uniqueCourses = courses.filter((c, idx, arr) =>
+    arr.findIndex(x => (x.id && x.id === c.id) || (x.title && x.title === c.title)) === idx
+  );
+
   useEffect(() => {
     setCourses(getStoredCourses());
     const unsub = subscribeToContentUpdates(() => {
@@ -63,11 +67,11 @@ export default function Navbar() {
             </span>
             <div className="dropdown-menu courses-curated-dropdown">
               <div className="curated-header">
-                <span>CURATED DISCIPLINES ({courses.length})</span>
+                <span>CURATED DISCIPLINES ({uniqueCourses.length})</span>
                 <span className="curated-dot"></span>
               </div>
               <div className="curated-list">
-                {courses.map((course) => {
+                {uniqueCourses.map((course) => {
                   const title = course.title || course.department;
                   const mod = course.modules ? course.modules.split('(')[0].trim() : `${course.duration || 'Specialized'}`;
                   return (
