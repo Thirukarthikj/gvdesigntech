@@ -236,6 +236,13 @@ export function saveStoredLeads(leads) {
   } catch (err) {
     console.error('Failed to save leads', err);
   }
+  try {
+    fetch('/api/leads/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(leads)
+    }).catch(e => console.warn('MongoDB Leads sync:', e.message));
+  } catch (e) {}
 }
 
 export function getStoredBatches() {

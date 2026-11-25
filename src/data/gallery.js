@@ -46,53 +46,5 @@ export const galleryItems = [
     tag: "Industry Review",
     title: "Blueprint Review & Structural Collaboration",
     description: "Student engineering team evaluating architectural CAD plans and mechanical assembly tolerances."
-  },
-  {
-    id: 7,
-    image: "/assets/gallery/gallery-02.jpg",
-    category: "workshops",
-    tag: "Guest Lecture",
-    title: "Engineering College Auditorium Workshop",
-    description: "Inspiring future engineers with practical live demonstrations of modern BIM and CNC machining technologies."
-  },
-  {
-    id: 8,
-    image: "/assets/gallery/gallery-04.jpg",
-    category: "labs",
-    tag: "Advanced Drafting",
-    title: "Interactive Studio Drafting Sessions",
-    description: "Full-batch intensive training covering GD&T compliance, tolerance analysis, and manufacturing workflows."
-  },
-  {
-    id: 9,
-    image: "/assets/gallery/gallery-01.jpg",
-    category: "internships",
-    tag: "Milestone",
-    title: "Internship Certificate Completion",
-    description: "Celebrating verified internship milestone achievements and successful capstone project submissions."
-  },
-  {
-    id: 10,
-    image: "/assets/gallery/gallery-06.jpg",
-    category: "projects",
-    tag: "Capstone",
-    title: "Technical Design Team Consultation",
-    description: "Collaborative CAD layout evaluation preparing students for real-world corporate engineering placement drives."
-  },
-  {
-    id: 11,
-    image: "/assets/gallery/gallery-03.jpg",
-    category: "labs",
-    tag: "Peer Learning",
-    title: "Dual Workstation Collaboration",
-    description: "Pair modeling and cross-checking 2D/3D models against international drafting standards."
-  },
-  {
-    id: 12,
-    image: "/assets/gallery/gallery-05.jpg",
-    category: "workshops",
-    tag: "Innovation",
-    title: "Self-Paced Design & Detailing Lab",
-    description: "Continuous practice hours enabling learners to build extensive professional drawing portfolios."
   }
 ];

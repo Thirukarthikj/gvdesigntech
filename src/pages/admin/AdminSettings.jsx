@@ -18,6 +18,101 @@ export default function AdminSettings() {
   // Firebase status state
   const [firebaseStatus, setFirebaseStatus] = useState({ syncing: false, msg: '', success: null });
 
+  // MongoDB status state
+  const [mongoStatus, setMongoStatus] = useState({ testing: false, syncing: false, msg: '', success: null, data: null });
+
+  useEffect(() => {
+    // Check MongoDB on mount
+    fetch('/api/health')
+      .then(r => r.json())
+      .then(d => {
+        if (d.status === 'connected') {
+          setMongoStatus(prev => ({
+            ...prev,
+            success: true,
+            msg: `MongoDB connected on ${d.host} (Database: ${d.database})`,
+            data: d
+          }));
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const handleTestMongo = async () => {
+    setMongoStatus(prev => ({ ...prev, testing: true, msg: 'Checking MongoDB connection...', success: null }));
+    try {
+      const res = await fetch('/api/health');
+      const data = await res.json();
+      if (data.status === 'connected') {
+        setMongoStatus({
+          testing: false,
+          syncing: false,
+          msg: `Connected to MongoDB database "${data.database}" at ${data.host}!`,
+          success: true,
+          data
+        });
+      } else {
+        setMongoStatus({
+          testing: false,
+          syncing: false,
+          msg: data.message || 'MongoDB connection returned unexpected response',
+          success: false,
+          data: null
+        });
+      }
+    } catch (err) {
+      setMongoStatus({
+        testing: false,
+        syncing: false,
+        msg: 'Connection error: ' + err.message,
+        success: false,
+        data: null
+      });
+    }
+  };
+
+  const handleSyncAllToMongo = async () => {
+    setMongoStatus(prev => ({ ...prev, syncing: true, msg: 'Syncing all records to MongoDB...', success: null }));
+    try {
+      const mous = getStoredMous();
+      const gallery = getStoredGallery();
+      const placements = getStoredPlacements();
+      const blogs = getStoredBlogs();
+      const leaders = getStoredLeaders();
+      const certs = getStoredCertificates();
+      const leads = JSON.parse(localStorage.getItem('gv_admin_leads') || '[]');
+
+      await Promise.all([
+        fetch('/api/mous/sync', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(mous) }),
+        fetch('/api/gallery/sync', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(gallery) }),
+        fetch('/api/placements', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(placements) }),
+        fetch('/api/blogs/sync', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(blogs) }),
+        fetch('/api/leaders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(leaders) }),
+        fetch('/api/certificates/sync', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(certs) }),
+        fetch('/api/leads/sync', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(leads) })
+      ]);
+
+      const healthRes = await fetch('/api/health');
+      const healthData = await healthRes.json();
+
+      setMongoStatus({
+        testing: false,
+        syncing: false,
+        msg: 'All MOUs, Gallery photos, Placements, Blogs, Leaders, and Student Leads synced to MongoDB successfully!',
+        success: true,
+        data: healthData
+      });
+    } catch (err) {
+      setMongoStatus({
+        testing: false,
+        syncing: false,
+        msg: 'MongoDB sync error: ' + err.message,
+        success: false,
+        data: null
+      });
+    }
+  };
+
   const handleExportBackup = () => {
     const backup = {
       timestamp: new Date().toISOString(),
@@ -346,6 +441,79 @@ export default function AdminSettings() {
           <div style={{ padding: '8px 12px', background: 'rgba(34, 197, 94, 0.12)', border: '1px solid rgba(34, 197, 94, 0.25)', borderRadius: '8px', fontSize: '12px', color: '#4ade80' }}>
             ✓ Once saved, click <strong>"⚡ Test Connection"</strong> above to verify green status. All images added or edited in the Admin panel will instantly upload to Cloudinary CDN and appear on the live website!
           </div>
+        </div>
+      </div>
+
+      {/* MongoDB Database Center */}
+      <div className="admin-card">
+        <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h3 className="admin-card-title">
+            <span>🍃</span>
+            <span>MongoDB Database Center</span>
+          </h3>
+          <span style={{
+            fontSize: '12px',
+            padding: '4px 10px',
+            borderRadius: '999px',
+            background: mongoStatus.success ? 'rgba(34, 197, 94, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+            color: mongoStatus.success ? '#4ade80' : '#fbbf24',
+            border: `1px solid ${mongoStatus.success ? 'rgba(34, 197, 94, 0.35)' : 'rgba(245, 158, 11, 0.35)'}`,
+            fontWeight: '600'
+          }}>
+            {mongoStatus.success ? '● MongoDB Connected (127.0.0.1:27017)' : '● Checking MongoDB...'}
+          </span>
+        </div>
+
+        {mongoStatus.msg && (
+          <div style={{
+            padding: '12px 16px',
+            background: mongoStatus.success ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)',
+            border: '1px solid',
+            borderColor: mongoStatus.success ? 'rgba(16, 185, 129, 0.4)' : 'rgba(239, 68, 68, 0.4)',
+            borderRadius: '10px',
+            color: mongoStatus.success ? '#34d399' : '#f87171',
+            fontSize: '13.5px',
+            marginBottom: '18px'
+          }}>
+            {mongoStatus.success ? '✅ ' : '⚠️ '}
+            {mongoStatus.msg}
+          </div>
+        )}
+
+        <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.6, marginBottom: '20px' }}>
+          All data in the admin panel (MOUs, Gallery photos, Placements, Blogs, Leadership, Certificates, Student Leads) is connected directly to your local MongoDB database (<strong style={{ color: '#4ade80' }}>gvdesigntech</strong>). Any new content added or updated in the admin panel persists to MongoDB and immediately updates the public website.
+        </p>
+
+        {mongoStatus.data && mongoStatus.data.counts && (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '10px', marginBottom: '20px' }}>
+            {Object.entries(mongoStatus.data.counts).map(([col, count]) => (
+              <div key={col} style={{ padding: '10px 12px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.25)', borderRadius: '10px', textAlign: 'center' }}>
+                <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'capitalize' }}>{col}</div>
+                <div style={{ fontSize: '18px', fontWeight: '800', color: '#38bdf8', marginTop: '2px' }}>{count}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+          <button
+            type="button"
+            onClick={handleSyncAllToMongo}
+            disabled={mongoStatus.syncing}
+            className="admin-btn-primary"
+            style={{ cursor: mongoStatus.syncing ? 'wait' : 'pointer' }}
+          >
+            {mongoStatus.syncing ? '⏳ Syncing to MongoDB...' : '🍃 Sync All Content to MongoDB'}
+          </button>
+          <button
+            type="button"
+            onClick={handleTestMongo}
+            disabled={mongoStatus.testing}
+            className="admin-btn-secondary"
+            style={{ cursor: mongoStatus.testing ? 'wait' : 'pointer' }}
+          >
+            {mongoStatus.testing ? '⏳ Checking...' : '⚡ Test MongoDB Connection'}
+          </button>
         </div>
       </div>
 

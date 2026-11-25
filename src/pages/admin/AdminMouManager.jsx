@@ -20,12 +20,6 @@ export default function AdminMouManager() {
     image: ''
   });
 
-  const photoPresets = [
-    { label: 'Campus Seminar', path: '/assets/gallery/gallery-02.jpg' },
-    { label: 'CAD Lab Training', path: '/assets/gallery/gallery-01.jpg' },
-    { label: 'Classroom Batch', path: '/assets/gallery/gallery-04.jpg' },
-    { label: 'Industry Review', path: '/assets/gallery/gallery-06.jpg' }
-  ];
 
   const showNotification = (msg) => {
     setToast(msg);
@@ -512,34 +506,6 @@ export default function AdminMouManager() {
                   />
                 </div>
 
-                {/* Presets */}
-                <div style={{ marginBottom: '12px' }}>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>
-                    Or Choose Campus Preset:
-                  </label>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
-                    {photoPresets.map((preset, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        onClick={() => setFormData({ ...formData, image: preset.path })}
-                        style={{
-                          padding: '7px 10px',
-                          borderRadius: '8px',
-                          border: '1px solid',
-                          borderColor: formData.image === preset.path ? '#d946ef' : 'rgba(255,255,255,0.1)',
-                          background: formData.image === preset.path ? 'rgba(217, 70, 239, 0.2)' : 'rgba(255,255,255,0.03)',
-                          color: formData.image === preset.path ? '#fff' : '#94a3b8',
-                          fontSize: '12px',
-                          cursor: 'pointer',
-                          textAlign: 'center'
-                        }}
-                      >
-                        {preset.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
 
                 {/* Direct URL input */}
                 <div>

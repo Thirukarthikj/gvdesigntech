@@ -128,6 +128,69 @@ const syncChannel = typeof window !== 'undefined' && 'BroadcastChannel' in windo
   ? new BroadcastChannel('gv_admin_sync')
   : null;
 
+let mongoSyncTriggered = false;
+
+/**
+ * Synchronizes all content collections from MongoDB on startup or manual refresh
+ */
+export async function syncWithMongo() {
+  if (typeof window === 'undefined') return;
+  try {
+    const [mousRes, galRes, placeRes, blogsRes, leadRes, certRes, leadsRes] = await Promise.allSettled([
+      fetch('/api/mous').then(r => r.ok ? r.json() : null),
+      fetch('/api/gallery').then(r => r.ok ? r.json() : null),
+      fetch('/api/placements').then(r => r.ok ? r.json() : null),
+      fetch('/api/blogs').then(r => r.ok ? r.json() : null),
+      fetch('/api/leaders').then(r => r.ok ? r.json() : null),
+      fetch('/api/certificates').then(r => r.ok ? r.json() : null),
+      fetch('/api/leads').then(r => r.ok ? r.json() : null)
+    ]);
+
+    let changed = false;
+
+    if (mousRes.status === 'fulfilled' && Array.isArray(mousRes.value) && mousRes.value.length > 0) {
+      localStorage.setItem(MOU_KEY, JSON.stringify(mousRes.value));
+      changed = true;
+    }
+    if (galRes.status === 'fulfilled' && Array.isArray(galRes.value) && galRes.value.length > 0) {
+      localStorage.setItem(GALLERY_KEY, JSON.stringify(galRes.value));
+      changed = true;
+    }
+    if (placeRes.status === 'fulfilled' && placeRes.value && (placeRes.value.stats || placeRes.value.stories)) {
+      localStorage.setItem(PLACEMENT_KEY, JSON.stringify(placeRes.value));
+      changed = true;
+    }
+    if (blogsRes.status === 'fulfilled' && Array.isArray(blogsRes.value) && blogsRes.value.length > 0) {
+      localStorage.setItem(BLOG_KEY, JSON.stringify(blogsRes.value));
+      changed = true;
+    }
+    if (leadRes.status === 'fulfilled' && Array.isArray(leadRes.value) && leadRes.value.length > 0) {
+      localStorage.setItem(LEADERS_KEY, JSON.stringify(leadRes.value));
+      changed = true;
+    }
+    if (certRes.status === 'fulfilled' && certRes.value && Object.keys(certRes.value).length > 0) {
+      localStorage.setItem(CERT_KEY, JSON.stringify(certRes.value));
+      changed = true;
+    }
+    if (leadsRes.status === 'fulfilled' && Array.isArray(leadsRes.value) && leadsRes.value.length > 0) {
+      localStorage.setItem('gv_admin_leads', JSON.stringify(leadsRes.value));
+      changed = true;
+    }
+
+    if (changed) {
+      notifyContentUpdate('all');
+    }
+  } catch (err) {
+    console.warn('MongoDB background fetch notice:', err.message);
+  }
+}
+
+// Background sync on client initialization
+if (typeof window !== 'undefined' && !mongoSyncTriggered) {
+  mongoSyncTriggered = true;
+  setTimeout(syncWithMongo, 80);
+}
+
 export function notifyContentUpdate(topic = 'all') {
   if (typeof window === 'undefined') return;
   // Local window event
@@ -230,6 +293,16 @@ export function saveStoredMous(list) {
       }
     }
   }
+
+  // Persist directly to MongoDB
+  try {
+    fetch('/api/mous/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(list)
+    }).catch(e => console.warn('MongoDB MOU sync:', e.message));
+  } catch (e) {}
+
   // Non-blocking background cloud sync
   try {
     syncToFirestore('mous', list);
@@ -271,6 +344,16 @@ export function saveStoredGallery(items) {
       }
     }
   }
+
+  // Persist directly to MongoDB
+  try {
+    fetch('/api/gallery/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(items)
+    }).catch(e => console.warn('MongoDB Gallery sync:', e.message));
+  } catch (e) {}
+
   // Non-blocking background cloud sync
   try {
     syncToFirestore('gallery', items);
@@ -300,6 +383,16 @@ export function saveStoredPlacements(data) {
   } catch (err) {
     console.error('Failed to save Placements', err);
   }
+
+  // Persist directly to MongoDB
+  try {
+    fetch('/api/placements', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).catch(e => console.warn('MongoDB Placements sync:', e.message));
+  } catch (e) {}
+
   // Non-blocking background cloud sync
   try {
     syncToFirestore('placements', data);
@@ -329,6 +422,16 @@ export function saveStoredBlogs(posts) {
   } catch (err) {
     console.error('Failed to save Blogs', err);
   }
+
+  // Persist directly to MongoDB
+  try {
+    fetch('/api/blogs/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(posts)
+    }).catch(e => console.warn('MongoDB Blogs sync:', e.message));
+  } catch (e) {}
+
   // Non-blocking background cloud sync
   try {
     syncToFirestore('blogs', posts);
@@ -358,6 +461,16 @@ export function saveStoredCertificates(registry) {
   } catch (err) {
     console.error('Failed to save Certificates', err);
   }
+
+  // Persist directly to MongoDB
+  try {
+    fetch('/api/certificates/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(registry)
+    }).catch(e => console.warn('MongoDB Certificates sync:', e.message));
+  } catch (e) {}
+
   // Non-blocking background cloud sync
   try {
     syncToFirestore('certificates', registry);
@@ -387,6 +500,16 @@ export function saveStoredLeaders(leaders) {
   } catch (err) {
     console.error('Failed to save Leaders', err);
   }
+
+  // Persist directly to MongoDB
+  try {
+    fetch('/api/leaders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(leaders)
+    }).catch(e => console.warn('MongoDB Leaders sync:', e.message));
+  } catch (e) {}
+
   // Non-blocking background cloud sync
   try {
     syncToFirestore('leaders', leaders);

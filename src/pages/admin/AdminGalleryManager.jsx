@@ -12,14 +12,6 @@ export default function AdminGalleryManager() {
   const [toast, setToast] = useState('');
   const [uploadingImage, setUploadingImage] = useState(false);
 
-  const presetImages = [
-    { label: 'Lab Design Session 1', path: '/assets/gallery/gallery-01.jpg' },
-    { label: 'Campus Auditorium Seminar', path: '/assets/gallery/gallery-02.jpg' },
-    { label: 'Workstation Modeling', path: '/assets/gallery/gallery-03.jpg' },
-    { label: 'Lab Training Classroom', path: '/assets/gallery/gallery-04.jpg' },
-    { label: 'CAD Drafting Lab 2', path: '/assets/gallery/gallery-05.jpg' },
-    { label: 'Group Project Review', path: '/assets/gallery/gallery-06.jpg' }
-  ];
 
   const [formData, setFormData] = useState({
     title: '',
@@ -452,28 +444,6 @@ export default function AdminGalleryManager() {
                       cursor: uploadingImage ? 'wait' : 'pointer'
                     }}
                   />
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '10px' }}>
-                  {presetImages.map((preset, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => setFormData({ ...formData, image: preset.path })}
-                      style={{
-                        padding: '6px 8px',
-                        borderRadius: '8px',
-                        border: '1px solid',
-                        borderColor: formData.image === preset.path ? '#d946ef' : 'rgba(255,255,255,0.1)',
-                        background: formData.image === preset.path ? 'rgba(217, 70, 239, 0.2)' : 'rgba(255,255,255,0.03)',
-                        color: formData.image === preset.path ? '#fff' : '#94a3b8',
-                        fontSize: '11px',
-                        cursor: 'pointer',
-                        textAlign: 'center'
-                      }}
-                    >
-                      Preset {idx + 1}
-                    </button>
-                  ))}
                 </div>
 
                 <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>
