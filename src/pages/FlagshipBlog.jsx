@@ -13,6 +13,8 @@ export default function FlagshipBlog() {
     return subscribeToContentUpdates(() => setBlogList(getStoredBlogs()));
   }, []);
 
+  const availableCategories = ['All', ...new Set(blogList.map(b => b.category).filter(Boolean))];
+
   const filtered = blogList.filter((b) => {
     const matchesCategory = selectedCategory === 'All' || b.category === selectedCategory;
     const matchesSearch = !searchQuery || b.title.toLowerCase().includes(searchQuery.toLowerCase()) || (b.category || '').toLowerCase().includes(searchQuery.toLowerCase());
@@ -58,7 +60,7 @@ export default function FlagshipBlog() {
 
           {/* Category Tabs */}
           <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            {blogCategories.map((cat) => (
+            {availableCategories.map((cat) => (
               <button
                 key={cat}
                 type="button"

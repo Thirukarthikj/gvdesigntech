@@ -3,10 +3,22 @@ import { Link } from 'react-router-dom';
 import BrainCanvas from '../components/BrainCanvas.jsx';
 import { homeStyles as P } from '../data/styles.js';
 import { testimonialsRow1, testimonialsRow2 } from '../data/testimonials.js';
-import { getStoredLeaders, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import {
+  getStoredLeaders,
+  getStoredMous,
+  getStoredPlacements,
+  getStoredBlogs,
+  getStoredGallery,
+  subscribeToContentUpdates
+} from '../data/contentPersistence.js';
 
 export default function Home({ onOpenModal }) {
   const [leaders, setLeaders] = useState(() => getStoredLeaders());
+  const [mous, setMous] = useState(() => getStoredMous());
+  const [placementData, setPlacementData] = useState(() => getStoredPlacements());
+  const [blogs, setBlogs] = useState(() => getStoredBlogs());
+  const [galleryList, setGalleryList] = useState(() => getStoredGallery());
+
   const [counts, setCounts] = useState({
     professionals: 0,
     years: 0,
@@ -15,7 +27,13 @@ export default function Home({ onOpenModal }) {
   });
 
   useEffect(() => {
-    return subscribeToContentUpdates(() => setLeaders(getStoredLeaders()));
+    return subscribeToContentUpdates(() => {
+      setLeaders(getStoredLeaders());
+      setMous(getStoredMous());
+      setPlacementData(getStoredPlacements());
+      setBlogs(getStoredBlogs());
+      setGalleryList(getStoredGallery());
+    });
   }, []);
   const [statsAnimated, setStatsAnimated] = useState(false);
   const statsRef = useRef(null);
@@ -356,6 +374,52 @@ export default function Home({ onOpenModal }) {
         {/* Section 3: Divider */}
         <div className={P['section-divider']}></div>
 
+        {/* Dynamic Section: Signed Institutional MOUs */}
+        <section style={{ padding: '60px 24px', background: 'rgba(10, 6, 30, 0.65)', borderTop: '1px solid rgba(139, 92, 246, 0.15)', borderBottom: '1px solid rgba(139, 92, 246, 0.15)', position: 'relative', zIndex: 2 }}>
+          <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px', marginBottom: '32px' }}>
+              <div>
+                <div style={{ display: 'inline-block', padding: '4px 14px', background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.35)', borderRadius: '999px', color: '#c084fc', fontSize: '12px', fontWeight: '700', letterSpacing: '1px', marginBottom: '10px' }}>
+                  OFFICIAL PARTNERSHIPS
+                </div>
+                <h2 style={{ fontSize: 'clamp(26px, 4vw, 40px)', fontWeight: '800', color: '#fff', margin: 0 }}>
+                  Signed Institutional <span style={{ background: 'linear-gradient(135deg, #a78bfa, #d946ef)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>MOUs</span>
+                </h2>
+              </div>
+              <Link to="/flagship/mou" style={{ color: '#c084fc', fontSize: '14px', fontWeight: '700', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span>View All {mous.length} Signed MOUs</span>
+                <span>→</span>
+              </Link>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+              {mous.slice(0, 4).map((m, idx) => (
+                <div key={m.id || idx} style={{ padding: '20px', background: 'linear-gradient(160deg, rgba(26, 18, 66, 0.7), rgba(8, 6, 26, 0.85))', border: '1px solid rgba(139, 92, 246, 0.25)', borderRadius: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {m.image && (
+                    <div style={{ width: '100%', height: '140px', borderRadius: '10px', overflow: 'hidden', background: '#090518', border: '1px solid rgba(139, 92, 246, 0.25)' }}>
+                      <img src={m.image} alt={m.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.parentElement.style.display = 'none'; }} />
+                    </div>
+                  )}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ padding: '3px 10px', background: 'rgba(217, 70, 239, 0.15)', border: '1px solid rgba(217, 70, 239, 0.35)', borderRadius: '999px', fontSize: '11px', fontWeight: '700', color: '#f472b6' }}>
+                      {m.tag || 'MOU'}
+                    </span>
+                    <span style={{ fontSize: '11px', color: 'rgba(255, 255, 255, 0.5)' }}>{m.date}</span>
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#fff', margin: '2px 0 6px', lineHeight: 1.3 }}>
+                      {m.name}
+                    </h3>
+                    <p style={{ fontSize: '13px', color: '#94a3b8', margin: 0, lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      {m.detail}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Section 4: Stats */}
         <section className={P['stats-section']} id="stats" ref={statsRef}>
           <div className={P['stats-grid']}>
@@ -460,14 +524,20 @@ export default function Home({ onOpenModal }) {
                 </div>
                 <div className={P['ai-left']}>
                   <div className={P['training-gallery']}>
-                    <img
-                      alt="CAD Design Classroom and Workshop at GV DesignTech"
-                      src="/assets/cad-lab-classroom.jpg"
-                    />
-                    <img
-                      alt="Students Practicing 2D and 3D CAD Modeling at GV DesignTech"
-                      src="/assets/cad-lab-students.jpg"
-                    />
+                    <Link to="/flagship/galleryPage" style={{ display: 'block', borderRadius: '12px', overflow: 'hidden' }}>
+                      <img
+                        alt={galleryList[0]?.title || "CAD Design Classroom and Workshop at GV DesignTech"}
+                        src={galleryList[0]?.image || "/assets/cad-lab-classroom.jpg"}
+                        onError={(e) => { e.currentTarget.src = "/assets/cad-lab-classroom.jpg"; }}
+                      />
+                    </Link>
+                    <Link to="/flagship/galleryPage" style={{ display: 'block', borderRadius: '12px', overflow: 'hidden' }}>
+                      <img
+                        alt={galleryList[1]?.title || "Students Practicing 2D and 3D CAD Modeling at GV DesignTech"}
+                        src={galleryList[1]?.image || "/assets/cad-lab-students.jpg"}
+                        onError={(e) => { e.currentTarget.src = "/assets/cad-lab-students.jpg"; }}
+                      />
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -633,9 +703,84 @@ export default function Home({ onOpenModal }) {
             <div className={`${P['success-image']} ${P['reveal-right']} ${P.visible} ${P.show}`}>
               <img alt="GV DesignTech 3D CAD Engineering Design Model" src="/assets/cad-success-model.jpg" />
               <div className={P['floating-card']}>
-                <h3>5,200+</h3>
-                <span>Trained CAD Engineers</span>
+                <h3>{placementData.stats?.[0]?.target || '5,200+'}</h3>
+                <span>{placementData.stats?.[0]?.label || 'Trained CAD Engineers'}</span>
               </div>
+            </div>
+          </div>
+
+          {/* Dynamic Placement Success Stories Grid */}
+          {(placementData.stories || []).length > 0 && (
+            <div style={{ maxWidth: '1240px', margin: '40px auto 0', padding: '0 24px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <span style={{ fontSize: '13px', fontWeight: '700', color: '#c084fc', letterSpacing: '1px' }}>RECENT PLACEMENT HIGHLIGHTS</span>
+                <Link to="/flagship/Placement" style={{ color: '#22d3ee', fontSize: '13px', fontWeight: '700', textDecoration: 'none' }}>
+                  Explore All Success Stories →
+                </Link>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+                {(placementData.stories || []).slice(0, 3).map((st, i) => (
+                  <div key={st.id || i} style={{ padding: '20px', background: 'linear-gradient(160deg, rgba(30, 22, 68, 0.75), rgba(6, 6, 24, 0.85))', border: '1px solid rgba(217, 70, 239, 0.3)', borderRadius: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    {st.image && (
+                      <div style={{ width: '100%', height: '140px', borderRadius: '10px', overflow: 'hidden', marginBottom: '14px', border: '1px solid rgba(139, 92, 246, 0.3)' }}>
+                        <img src={st.image} alt={st.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.parentElement.style.display = 'none'; }} />
+                      </div>
+                    )}
+                    <p style={{ fontSize: '13.5px', color: '#cbd5e1', fontStyle: 'italic', lineHeight: 1.5, marginBottom: '14px' }}>
+                      "{st.quote}"
+                    </p>
+                    <div>
+                      <h4 style={{ fontSize: '16px', fontWeight: '700', color: '#fff', margin: '0 0 2px' }}>{st.name}</h4>
+                      <div style={{ fontSize: '12.5px', color: '#22d3ee', marginBottom: '6px' }}>{st.role}</div>
+                      <span style={{ fontSize: '11.5px', fontWeight: '700', color: '#e879f9', padding: '3px 8px', background: 'rgba(217, 70, 239, 0.15)', borderRadius: '6px' }}>
+                        Package: {st.pkg}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
+
+        {/* Dynamic Section: Technical Articles & Blogs */}
+        <section style={{ padding: '70px 24px', background: 'rgba(8, 4, 24, 0.6)', borderTop: '1px solid rgba(139, 92, 246, 0.15)', position: 'relative', zIndex: 2 }}>
+          <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px', marginBottom: '32px' }}>
+              <div>
+                <div style={{ display: 'inline-block', padding: '4px 14px', background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.35)', borderRadius: '999px', color: '#c084fc', fontSize: '12px', fontWeight: '700', letterSpacing: '1px', marginBottom: '10px' }}>
+                  KNOWLEDGE HUB
+                </div>
+                <h2 style={{ fontSize: 'clamp(26px, 4vw, 40px)', fontWeight: '800', color: '#fff', margin: 0 }}>
+                  Recent Technical <span style={{ background: 'linear-gradient(135deg, #a78bfa, #d946ef)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Articles &amp; Insights</span>
+                </h2>
+              </div>
+              <Link to="/flagship/Blog-page" style={{ color: '#c084fc', fontSize: '14px', fontWeight: '700', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span>Read All {blogs.length} Articles</span>
+                <span>→</span>
+              </Link>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
+              {blogs.slice(0, 3).map((b, idx) => (
+                <Link to="/flagship/Blog-page" key={b.id || idx} style={{ textDecoration: 'none', borderRadius: '16px', overflow: 'hidden', background: 'linear-gradient(160deg, rgba(26, 18, 66, 0.65), rgba(4, 5, 22, 0.8))', border: '1px solid rgba(139, 92, 246, 0.28)', display: 'flex', flexDirection: 'column', transition: 'transform 0.2s ease, border-color 0.2s ease' }}>
+                  <div style={{ height: '170px', overflow: 'hidden', position: 'relative' }}>
+                    <img src={b.image || '/assets/recent-activity/ai-workshop-2.jpg'} alt={b.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.src = '/assets/recent-activity/ai-workshop-2.jpg'; }} />
+                    <span style={{ position: 'absolute', top: '10px', left: '10px', padding: '3px 10px', background: 'rgba(2, 4, 18, 0.8)', border: '1px solid rgba(139,92,246,0.4)', borderRadius: '999px', fontSize: '11px', fontWeight: '700', color: '#c084fc' }}>
+                      {b.category}
+                    </span>
+                  </div>
+                  <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <h3 style={{ fontSize: '17px', fontWeight: '700', lineHeight: 1.4, color: '#fff', marginBottom: '10px' }}>
+                      {b.title}
+                    </h3>
+                    <div style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', color: 'rgba(255,255,255,0.55)' }}>
+                      <span>{b.date}</span>
+                      <span>{b.readTime}</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </section>

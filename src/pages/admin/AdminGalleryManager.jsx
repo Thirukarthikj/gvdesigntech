@@ -56,6 +56,23 @@ export default function AdminGalleryManager() {
     setIsModalOpen(true);
   };
 
+  const handleFileUpload = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file (JPG, PNG, WebP).');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (uploadEvent) => {
+      const base64Url = uploadEvent.target.result;
+      setFormData(prev => ({ ...prev, image: base64Url }));
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleDelete = (id, title) => {
     if (window.confirm(`Are you sure you want to remove photo "${title}" from the gallery?`)) {
       const updated = gallery.filter(item => item.id !== id);
@@ -72,7 +89,12 @@ export default function AdminGalleryManager() {
     if (editingItem) {
       const updated = gallery.map(item => {
         if (item.id === editingItem.id) {
-          return { ...item, ...formData };
+          return {
+            ...item,
+            ...formData,
+            description: formData.caption || formData.description || '',
+            caption: formData.caption || formData.description || ''
+          };
         }
         return item;
       });
@@ -82,7 +104,9 @@ export default function AdminGalleryManager() {
     } else {
       const newItem = {
         id: Date.now(),
-        ...formData
+        ...formData,
+        description: formData.caption || formData.description || '',
+        caption: formData.caption || formData.description || ''
       };
       const updated = [newItem, ...gallery];
       setGallery(updated);
@@ -392,8 +416,25 @@ export default function AdminGalleryManager() {
 
               <div>
                 <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#cbd5e1', marginBottom: '6px' }}>
-                  Choose Photo / Image Preset:
+                  Upload Custom Photo or Choose Preset:
                 </label>
+                <div style={{ marginBottom: '12px' }}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileUpload}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px dashed rgba(139, 92, 246, 0.4)',
+                      borderRadius: '8px',
+                      color: '#cbd5e1',
+                      fontSize: '12px',
+                      cursor: 'pointer'
+                    }}
+                  />
+                </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '10px' }}>
                   {presetImages.map((preset, idx) => (
                     <button

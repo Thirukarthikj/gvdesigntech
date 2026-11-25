@@ -59,13 +59,13 @@ export default function App() {
 
   // Automatically prompt EnrollModal on initial visit after intro completes smoothly
   useEffect(() => {
-    if (!sessionStorage.getItem('gv_enrolled')) {
+    if (!isAuthOrAdmin && !sessionStorage.getItem('gv_enrolled')) {
       const timer = setTimeout(() => {
         setIsEnrollModalOpen(true);
       }, 5500);
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [isAuthOrAdmin]);
 
   const openModal = () => setIsEnrollModalOpen(true);
 
@@ -148,6 +148,17 @@ export default function App() {
           <Route path="settings" element={<AdminSettings />} />
         </Route>
 
+        {/* Route aliases for flagship pages */}
+        <Route path="/mou" element={<Navigate to="/flagship/mou" replace />} />
+        <Route path="/gallery" element={<Navigate to="/flagship/galleryPage" replace />} />
+        <Route path="/flagship/gallery" element={<Navigate to="/flagship/galleryPage" replace />} />
+        <Route path="/placement" element={<Navigate to="/flagship/Placement" replace />} />
+        <Route path="/placements" element={<Navigate to="/flagship/Placement" replace />} />
+        <Route path="/blog" element={<Navigate to="/flagship/Blog-page" replace />} />
+        <Route path="/blogs" element={<Navigate to="/flagship/Blog-page" replace />} />
+        <Route path="/flagship/blog" element={<Navigate to="/flagship/Blog-page" replace />} />
+        <Route path="/flagship/blogs" element={<Navigate to="/flagship/Blog-page" replace />} />
+
         {/* Redirect removed auth routes to Home */}
         <Route path="/Login" element={<Navigate to="/" replace />} />
         <Route path="/login" element={<Navigate to="/" replace />} />
@@ -160,10 +171,12 @@ export default function App() {
 
       {!isAuthOrAdmin && <Footer />}
 
-      <EnrollModal
-        isOpen={isEnrollModalOpen}
-        onClose={() => setIsEnrollModalOpen(false)}
-      />
+      {!isAuthOrAdmin && (
+        <EnrollModal
+          isOpen={isEnrollModalOpen}
+          onClose={() => setIsEnrollModalOpen(false)}
+        />
+      )}
     </div>
   );
 }

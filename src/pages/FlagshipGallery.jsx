@@ -80,13 +80,20 @@ export default function FlagshipGallery({ onOpenModal }) {
     { key: 'all', label: 'All Moments' },
     { key: 'workshops', label: 'Workshops & Seminars' },
     { key: 'internships', label: 'Internships' },
-    { key: 'labs', label: 'CAD Labs' },
+    { key: 'labs', label: 'CAD Labs & Training' },
     { key: 'projects', label: 'Project Reviews' }
   ];
 
   const filtered = selectedCategory === 'all'
     ? galleryList
-    : galleryList.filter((item) => (item.category || '').toLowerCase() === selectedCategory);
+    : galleryList.filter((item) => {
+        const cat = (item.category || '').toLowerCase();
+        if (selectedCategory === 'workshops') return cat.includes('workshop') || cat.includes('seminar');
+        if (selectedCategory === 'internships') return cat.includes('intern') || cat.includes('cohort');
+        if (selectedCategory === 'labs') return cat.includes('lab') || cat.includes('train') || cat.includes('cad') || cat.includes('model');
+        if (selectedCategory === 'projects') return cat.includes('project') || cat.includes('review') || cat.includes('campus');
+        return cat === selectedCategory;
+      });
 
   return (
     <div className="gallery-page" style={{ position: 'relative', minHeight: '100vh', background: '#04020a', color: '#fff', padding: '140px 24px 80px', overflowX: 'hidden' }}>
@@ -192,7 +199,7 @@ export default function FlagshipGallery({ onOpenModal }) {
                     {item.title}
                   </h3>
                   <p style={{ fontSize: '14px', color: '#cbd5e1', margin: '0 0 16px', lineHeight: 1.55 }}>
-                    {item.description}
+                    {item.description || item.caption}
                   </p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: '600', color: '#c084fc' }}>
