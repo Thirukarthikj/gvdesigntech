@@ -52,7 +52,12 @@ export default function AdminSettings() {
 
   const handleTestCloudinary = async () => {
     setCloudinaryStatus({ testing: true, msg: 'Testing upload to Cloudinary...', success: null });
-    const res = await testCloudinaryConnection(cloudinaryConfig.cloudName, cloudinaryConfig.uploadPreset);
+    const res = await testCloudinaryConnection(
+      cloudinaryConfig.cloudName,
+      cloudinaryConfig.uploadPreset,
+      cloudinaryConfig.apiKey,
+      cloudinaryConfig.apiSecret
+    );
     setCloudinaryStatus({ testing: false, msg: res.message, success: res.success });
   };
 
@@ -185,11 +190,11 @@ export default function AdminSettings() {
               <input
                 type="text"
                 className="admin-input"
-                placeholder="e.g. dxyz123abc or mycloud"
+                placeholder="e.g. tci2igsn"
                 value={cloudinaryConfig.cloudName}
                 onChange={(e) => setCloudinaryConfig({ ...cloudinaryConfig, cloudName: e.target.value })}
               />
-              <span style={{ fontSize: '11px', color: '#64748b' }}>Found on your Cloudinary Dashboard under Cloud Name</span>
+              <span style={{ fontSize: '11px', color: '#64748b' }}>Cloud Name on your Cloudinary Dashboard</span>
             </div>
 
             <div className="admin-form-group">
@@ -197,20 +202,44 @@ export default function AdminSettings() {
               <input
                 type="text"
                 className="admin-input"
-                placeholder="e.g. gv_preset or ml_default"
+                placeholder="e.g. gvdesigntech"
                 value={cloudinaryConfig.uploadPreset}
                 onChange={(e) => setCloudinaryConfig({ ...cloudinaryConfig, uploadPreset: e.target.value })}
               />
-              <span style={{ fontSize: '11px', color: '#64748b' }}>Settings &gt; Upload &gt; Add Upload Preset &gt; Signing Mode: Unsigned</span>
+              <span style={{ fontSize: '11px', color: '#64748b' }}>Settings &gt; Upload &gt; Add Upload Preset (Mode: Unsigned)</span>
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+            <div className="admin-form-group">
+              <label className="admin-label">Cloudinary API Key (Optional / Signed)</label>
+              <input
+                type="text"
+                className="admin-input"
+                placeholder="e.g. 474526512345773"
+                value={cloudinaryConfig.apiKey || ''}
+                onChange={(e) => setCloudinaryConfig({ ...cloudinaryConfig, apiKey: e.target.value })}
+              />
+            </div>
+
+            <div className="admin-form-group">
+              <label className="admin-label">Cloudinary API Secret (Optional / Signed)</label>
+              <input
+                type="password"
+                className="admin-input"
+                placeholder="••••••••••••••••••••••••••••••"
+                value={cloudinaryConfig.apiSecret || ''}
+                onChange={(e) => setCloudinaryConfig({ ...cloudinaryConfig, apiSecret: e.target.value })}
+              />
             </div>
           </div>
 
           <div className="admin-form-group" style={{ marginBottom: '20px' }}>
-            <label className="admin-label">Cloudinary Folder (Optional)</label>
+            <label className="admin-label">Cloudinary Folder</label>
             <input
               type="text"
               className="admin-input"
-              placeholder="gv_designtech"
+              placeholder="gvdesigntech"
               value={cloudinaryConfig.folder}
               onChange={(e) => setCloudinaryConfig({ ...cloudinaryConfig, folder: e.target.value })}
             />
