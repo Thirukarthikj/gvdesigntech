@@ -1,12 +1,68 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { getStoredSiteConfig, saveStoredSiteConfig, initialSiteConfig } from '../../data/contentPersistence.js';
 import { uploadImageToCloudinary, compressImageFile } from '../../services/cloudinaryService.js';
 
-export default function AdminHomeCustomizer() {
+export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
+  const location = useLocation();
   const [config, setConfig] = useState(() => getStoredSiteConfig());
-  const [activeTab, setActiveTab] = useState('demoVideo'); // 'demoVideo' | 'recentActivity' | 'stats' | 'showcaseImages'
   const [toast, setToast] = useState('');
   const [uploading, setUploading] = useState(false);
+
+  // Determine active tab directly from URL route or prop
+  const getTabFromRoute = () => {
+    const p = location.pathname;
+    if (p.includes('demo-video')) return 'demoVideo';
+    if (p.includes('recent-activities')) return 'recentActivity';
+    if (p.includes('impact-stats')) return 'stats';
+    if (p.includes('lab-photos')) return 'showcaseImages';
+    if (p.includes('enroll-form')) return 'enrollModal';
+    if (p.includes('specializations')) return 'specializations';
+    return initialTab || 'demoVideo';
+  };
+  const activeTab = getTabFromRoute();
+
+  const getHeaderInfo = () => {
+    switch (activeTab) {
+      case 'demoVideo':
+        return {
+          icon: '🎬',
+          title: 'Watch Demo Video Manager',
+          desc: 'Configure the Watch Demo video link, title, and description displayed in the hero banner and video showcase modal.'
+        };
+      case 'recentActivity':
+        return {
+          icon: '⚡',
+          title: 'Recent Activities & Floating Widget Manager',
+          desc: 'Manage the live activities slideshow photos, heading, and subtitle for the floating Recent Activities card.'
+        };
+      case 'stats':
+        return {
+          icon: '📈',
+          title: 'Impact Numbers & Statistics',
+          desc: 'Customize the key performance numbers (Learners, Benchmark, Success Rate, 24/7 Labs) shown across the website.'
+        };
+      case 'showcaseImages':
+        return {
+          icon: '🏫',
+          title: 'Classroom & Lab Photos Manager',
+          desc: 'Upload and manage physical classroom, computer lab workstation, and CNC workshop training pictures.'
+        };
+      case 'enrollModal':
+        return {
+          icon: '📝',
+          title: 'Enroll Form & Offer Banner Manager',
+          desc: 'Customize the Instant Enroll modal offer heading, countdown timer minutes, and form configuration in real time.'
+        };
+      default:
+        return {
+          icon: '🎯',
+          title: 'Core Specialization Cards',
+          desc: 'Configure the primary discipline tracks displayed across the home page.'
+        };
+    }
+  };
+  const headerInfo = getHeaderInfo();
 
   // New activity slide temporary form
   const [newSlide, setNewSlide] = useState({ src: '', alt: '' });
@@ -80,156 +136,14 @@ export default function AdminHomeCustomizer() {
       {/* Header Banner */}
       <div style={{ marginBottom: '28px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-          <span style={{ fontSize: '24px' }}>✨</span>
+          <span style={{ fontSize: '26px' }}>{headerInfo.icon}</span>
           <h1 style={{ fontSize: '26px', fontWeight: '800', color: '#fff', margin: 0 }}>
-            Home Page &amp; Showcase Customizer
+            {headerInfo.title}
           </h1>
         </div>
         <p style={{ margin: 0, color: '#94a3b8', fontSize: '14px' }}>
-          Configure the Watch Demo video, floating Recent Activities widget, Key Impact statistics, and Training Environment showcase photos in real time.
+          {headerInfo.desc}
         </p>
-      </div>
-
-      {/* Navigation Tabs */}
-      <div style={{
-        display: 'flex',
-        gap: '8px',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-        paddingBottom: '12px',
-        marginBottom: '28px',
-        overflowX: 'auto'
-      }}>
-        <button
-          type="button"
-          onClick={() => setActiveTab('demoVideo')}
-          style={{
-            padding: '10px 20px',
-            background: activeTab === 'demoVideo' ? 'linear-gradient(135deg, #8b5cf6, #d946ef)' : 'rgba(255, 255, 255, 0.05)',
-            color: activeTab === 'demoVideo' ? '#fff' : '#94a3b8',
-            border: activeTab === 'demoVideo' ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '10px',
-            fontWeight: '700',
-            fontSize: '13.5px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            whiteSpace: 'nowrap'
-          }}
-        >
-          <span>🎬</span>
-          <span>Watch Demo Video</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab('recentActivity')}
-          style={{
-            padding: '10px 20px',
-            background: activeTab === 'recentActivity' ? 'linear-gradient(135deg, #8b5cf6, #d946ef)' : 'rgba(255, 255, 255, 0.05)',
-            color: activeTab === 'recentActivity' ? '#fff' : '#94a3b8',
-            border: activeTab === 'recentActivity' ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '10px',
-            fontWeight: '700',
-            fontSize: '13.5px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            whiteSpace: 'nowrap'
-          }}
-        >
-          <span>⚡</span>
-          <span>Recent Activities</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab('stats')}
-          style={{
-            padding: '10px 20px',
-            background: activeTab === 'stats' ? 'linear-gradient(135deg, #8b5cf6, #d946ef)' : 'rgba(255, 255, 255, 0.05)',
-            color: activeTab === 'stats' ? '#fff' : '#94a3b8',
-            border: activeTab === 'stats' ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '10px',
-            fontWeight: '700',
-            fontSize: '13.5px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            whiteSpace: 'nowrap'
-          }}
-        >
-          <span>📈</span>
-          <span>Impact Numbers &amp; Stats</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab('showcaseImages')}
-          style={{
-            padding: '10px 20px',
-            background: activeTab === 'showcaseImages' ? 'linear-gradient(135deg, #8b5cf6, #d946ef)' : 'rgba(255, 255, 255, 0.05)',
-            color: activeTab === 'showcaseImages' ? '#fff' : '#94a3b8',
-            border: activeTab === 'showcaseImages' ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '10px',
-            fontWeight: '700',
-            fontSize: '13.5px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            whiteSpace: 'nowrap'
-          }}
-        >
-          <span>🏫</span>
-          <span>Classroom &amp; Lab Photos</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab('enrollModal')}
-          style={{
-            padding: '10px 20px',
-            background: activeTab === 'enrollModal' ? 'linear-gradient(135deg, #8b5cf6, #d946ef)' : 'rgba(255, 255, 255, 0.05)',
-            color: activeTab === 'enrollModal' ? '#fff' : '#94a3b8',
-            border: activeTab === 'enrollModal' ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '10px',
-            fontWeight: '700',
-            fontSize: '13.5px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            whiteSpace: 'nowrap'
-          }}
-        >
-          <span>📝</span>
-          <span>Enroll Form &amp; Offer Banner</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab('specializations')}
-          style={{
-            padding: '10px 20px',
-            background: activeTab === 'specializations' ? 'linear-gradient(135deg, #8b5cf6, #d946ef)' : 'rgba(255, 255, 255, 0.05)',
-            color: activeTab === 'specializations' ? '#fff' : '#94a3b8',
-            border: activeTab === 'specializations' ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '10px',
-            fontWeight: '700',
-            fontSize: '13.5px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            whiteSpace: 'nowrap'
-          }}
-        >
-          <span>🎯</span>
-          <span>Core Specialization Cards</span>
-        </button>
       </div>
 
       {/* ========================================================

@@ -163,6 +163,11 @@ export default function App() {
           <Route path="blogs" element={<AdminBlogManager />} />
           <Route path="content-certificates" element={<AdminCertificateManager />} />
           <Route path="certificates" element={<AdminCertificateManager />} />
+          <Route path="demo-video" element={<AdminHomeCustomizer initialTab="demoVideo" />} />
+          <Route path="recent-activities" element={<AdminHomeCustomizer initialTab="recentActivity" />} />
+          <Route path="impact-stats" element={<AdminHomeCustomizer initialTab="stats" />} />
+          <Route path="lab-photos" element={<AdminHomeCustomizer initialTab="showcaseImages" />} />
+          <Route path="enroll-form" element={<AdminHomeCustomizer initialTab="enrollModal" />} />
           <Route path="home-customizer" element={<AdminHomeCustomizer />} />
           <Route path="showcase-customizer" element={<AdminHomeCustomizer />} />
           <Route path="settings" element={<AdminSettings />} />

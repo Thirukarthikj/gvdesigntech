@@ -43,13 +43,17 @@ export default function AdminLayout() {
     {
       title: 'CONTENT & PAGES',
       items: [
-        { to: '/admin/home-customizer', icon: '✨', label: 'Home Page & Showcase' },
         { to: '/admin/content-leaders', icon: '👑', label: 'Leadership & Founders' },
         { to: '/admin/content-mou', icon: '🏛️', label: 'Manage MOUs' },
         { to: '/admin/content-gallery', icon: '📸', label: 'Manage Gallery' },
         { to: '/admin/content-placement', icon: '🎯', label: 'Manage Placements' },
         { to: '/admin/content-blog', icon: '📰', label: 'Manage Blogs' },
-        { to: '/admin/content-certificates', icon: '📜', label: 'Certificate Registry' }
+        { to: '/admin/content-certificates', icon: '📜', label: 'Certificate Registry' },
+        { to: '/admin/demo-video', icon: '🎬', label: 'Watch Demo Video' },
+        { to: '/admin/recent-activities', icon: '⚡', label: 'Recent Activities' },
+        { to: '/admin/impact-stats', icon: '📈', label: 'Impact Numbers & Stats' },
+        { to: '/admin/lab-photos', icon: '🏫', label: 'Classroom & Lab Photos' },
+        { to: '/admin/enroll-form', icon: '📝', label: 'Enroll Form & Offer Banner' }
       ]
     },
     {
@@ -71,6 +75,11 @@ export default function AdminLayout() {
     if (path.includes('content-placement')) return 'Placements, Hiring Partners & Student Stories';
     if (path.includes('content-blog')) return 'Technical Articles & Knowledge Insights';
     if (path.includes('content-certificates')) return 'Official Certificate Registry & Validation';
+    if (path.includes('demo-video')) return 'Watch Demo Video Showcase';
+    if (path.includes('recent-activities')) return 'Recent Activities & Floating Widget';
+    if (path.includes('impact-stats')) return 'Key Impact Metrics & Statistics';
+    if (path.includes('lab-photos')) return 'Classroom & CAD Lab Environment Photos';
+    if (path.includes('enroll-form')) return 'Enroll Form, Offer Timer & Hero Video';
     if (path.includes('home-customizer')) return 'Home Page & Showcase Customizer';
     if (path.includes('settings')) return 'Portal Administration & Settings';
     return 'Executive CAD Operations Dashboard';
