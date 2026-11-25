@@ -552,6 +552,33 @@ apiRouter.delete('/courses/:id', async (req, res) => {
 });
 
 /* ==========================================
+   9. Site Configuration (Demo Video, Recent Activities, Stats, Showcase Images)
+   ========================================== */
+apiRouter.get('/site-config', async (req, res) => {
+  try {
+    const config = await req.db.collection('site_config').findOne({ _id: 'main' });
+    res.json(config || null);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.post('/site-config', async (req, res) => {
+  try {
+    const { _id, ...clean } = req.body;
+    clean.updatedAt = new Date().toISOString();
+    await req.db.collection('site_config').updateOne(
+      { _id: 'main' },
+      { $set: clean },
+      { upsert: true }
+    );
+    res.json({ success: true, ...clean });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/* ==========================================
    9. MongoDB Health & Stats
    ========================================== */
 apiRouter.get('/health', async (req, res) => {

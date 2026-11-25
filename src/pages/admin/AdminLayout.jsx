@@ -43,6 +43,7 @@ export default function AdminLayout() {
     {
       title: 'CONTENT & PAGES',
       items: [
+        { to: '/admin/home-customizer', icon: '✨', label: 'Home Page & Showcase' },
         { to: '/admin/content-leaders', icon: '👑', label: 'Leadership & Founders' },
         { to: '/admin/content-mou', icon: '🏛️', label: 'Manage MOUs' },
         { to: '/admin/content-gallery', icon: '📸', label: 'Manage Gallery' },
@@ -70,6 +71,7 @@ export default function AdminLayout() {
     if (path.includes('content-placement')) return 'Placements, Hiring Partners & Student Stories';
     if (path.includes('content-blog')) return 'Technical Articles & Knowledge Insights';
     if (path.includes('content-certificates')) return 'Official Certificate Registry & Validation';
+    if (path.includes('home-customizer')) return 'Home Page & Showcase Customizer';
     if (path.includes('settings')) return 'Portal Administration & Settings';
     return 'Executive CAD Operations Dashboard';
   };

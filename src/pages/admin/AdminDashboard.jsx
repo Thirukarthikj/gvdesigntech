@@ -132,6 +132,14 @@ export default function AdminDashboard() {
               </div>
             </Link>
 
+            <Link to="/admin/home-customizer" style={{ textDecoration: 'none' }}>
+              <div style={{ padding: '14px 10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '14px', textAlign: 'center', transition: 'all 0.2s', cursor: 'pointer' }}>
+                <div style={{ fontSize: '22px', marginBottom: '6px' }}>✨</div>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>Home &amp; Showcase</div>
+                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>Video, stats, slides</div>
+              </div>
+            </Link>
+
             <Link to="/admin/content-mou" style={{ textDecoration: 'none' }}>
               <div style={{ padding: '14px 10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '14px', textAlign: 'center', transition: 'all 0.2s', cursor: 'pointer' }}>
                 <div style={{ fontSize: '22px', marginBottom: '6px' }}>🏛️</div>

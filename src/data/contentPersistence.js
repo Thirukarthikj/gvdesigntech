@@ -12,6 +12,37 @@ const BLOG_KEY = 'gv_admin_blogs';
 const CERT_KEY = 'gv_admin_certificates';
 const LEADERS_KEY = 'gv_admin_leaders';
 const COURSE_KEY = 'gv_admin_courses';
+const SITE_CONFIG_KEY = 'gv_site_config';
+
+export const initialSiteConfig = {
+  demoVideo: {
+    videoUrl: 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A',
+    title: 'Watch How We Shape the Future of CAD & Engineering Design Education',
+    description: 'Take a guided virtual tour through our state-of-the-art CAD workstations, hands-on 3D printing & prototyping labs, BIM coordination studios, and placement training sessions at GV DesignTech.'
+  },
+  recentActivity: {
+    badge: 'NEW',
+    title: 'Recent Activities',
+    desc: "See what's happening at GV DesignTech.",
+    thumb: '/assets/recent-activity/ai-workshop-2.jpg',
+    items: [
+      { id: 2, src: '/assets/recent-activity/ai-workshop-2.jpg', alt: 'CAD Training Classroom' },
+      { id: 3, src: '/assets/recent-activity/ai-workshop-3.jpg', alt: 'CAD Workshop Mentorship' }
+    ]
+  },
+  stats: [
+    { id: 'stat-1', count: 8500, suffix: '+', title: 'Professionals Worldwide Choose Us' },
+    { id: 'stat-2', count: 3, suffix: '+', title: 'Years of Training Excellence' },
+    { id: 'stat-3', count: 250, suffix: '+', title: 'Alumni Placed Globally' },
+    { id: 'stat-4', count: 25, suffix: '+', title: 'Industry Awards & Accreditations' }
+  ],
+  showcaseImages: {
+    image1: '/assets/cad-lab-classroom.jpg',
+    alt1: 'CAD Design Classroom and Workshop at GV DesignTech',
+    image2: '/assets/cad-lab-students.jpg',
+    alt2: 'Students Practicing 2D and 3D CAD Modeling at GV DesignTech'
+  }
+};
 
 // Default Leaders Data
 export const defaultLeaders = [
@@ -116,7 +147,7 @@ let mongoSyncTriggered = false;
 export async function syncWithMongo() {
   if (typeof window === 'undefined') return;
   try {
-    const [mousRes, galRes, placeRes, blogsRes, leadRes, certRes, leadsRes, coursesRes] = await Promise.allSettled([
+    const [mousRes, galRes, placeRes, blogsRes, leadRes, certRes, leadsRes, coursesRes, siteConfigRes] = await Promise.allSettled([
       fetch('/api/mous').then(r => r.ok ? r.json() : null),
       fetch('/api/gallery').then(r => r.ok ? r.json() : null),
       fetch('/api/placements').then(r => r.ok ? r.json() : null),
@@ -124,7 +155,8 @@ export async function syncWithMongo() {
       fetch('/api/leaders').then(r => r.ok ? r.json() : null),
       fetch('/api/certificates').then(r => r.ok ? r.json() : null),
       fetch('/api/leads').then(r => r.ok ? r.json() : null),
-      fetch('/api/courses').then(r => r.ok ? r.json() : null)
+      fetch('/api/courses').then(r => r.ok ? r.json() : null),
+      fetch('/api/site-config').then(r => r.ok ? r.json() : null)
     ]);
 
     let changed = false;
@@ -160,6 +192,10 @@ export async function syncWithMongo() {
     if (coursesRes.status === 'fulfilled' && Array.isArray(coursesRes.value) && coursesRes.value.length > 0) {
       const dedupedCourses = dedupeCourseList(coursesRes.value);
       localStorage.setItem(COURSE_KEY, JSON.stringify(dedupedCourses));
+      changed = true;
+    }
+    if (siteConfigRes.status === 'fulfilled' && siteConfigRes.value && typeof siteConfigRes.value === 'object') {
+      localStorage.setItem(SITE_CONFIG_KEY, JSON.stringify(siteConfigRes.value));
       changed = true;
     }
 
@@ -559,4 +595,57 @@ export function saveStoredCourses(courses) {
   } catch {
     // ignore
   }
+}
+
+/* --- 8. Site Config Persistence (Demo Video, Recent Activities, Stats, Showcase Images) --- */
+export function getStoredSiteConfig() {
+  try {
+    const raw = localStorage.getItem(SITE_CONFIG_KEY);
+    if (!raw) {
+      localStorage.setItem(SITE_CONFIG_KEY, JSON.stringify(initialSiteConfig));
+      return initialSiteConfig;
+    }
+    const parsed = JSON.parse(raw);
+    return {
+      ...initialSiteConfig,
+      ...parsed,
+      demoVideo: { ...initialSiteConfig.demoVideo, ...(parsed.demoVideo || {}) },
+      recentActivity: {
+        ...initialSiteConfig.recentActivity,
+        ...(parsed.recentActivity || {}),
+        items: (Array.isArray(parsed.recentActivity?.items) && parsed.recentActivity.items.length > 0)
+          ? parsed.recentActivity.items
+          : initialSiteConfig.recentActivity.items
+      },
+      stats: (Array.isArray(parsed.stats) && parsed.stats.length === 4)
+        ? parsed.stats
+        : initialSiteConfig.stats,
+      showcaseImages: { ...initialSiteConfig.showcaseImages, ...(parsed.showcaseImages || {}) }
+    };
+  } catch {
+    return initialSiteConfig;
+  }
+}
+
+export function saveStoredSiteConfig(config) {
+  try {
+    localStorage.setItem(SITE_CONFIG_KEY, JSON.stringify(config));
+    notifyContentUpdate('site_config');
+  } catch (err) {
+    console.error('Failed to save Site Config to localStorage:', err);
+  }
+
+  // Persist directly to MongoDB
+  try {
+    fetch('/api/site-config', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(config)
+    }).catch(e => console.warn('MongoDB Site Config sync:', e.message));
+  } catch (e) {}
+
+  // Cloud firestore sync
+  try {
+    syncToFirestore('site_config', config);
+  } catch {}
 }

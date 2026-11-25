@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { sidebarStyles } from '../data/styles.js';
+import { getStoredSiteConfig, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function FloatingElements() {
+  const [siteConfig, setSiteConfig] = useState(() => getStoredSiteConfig());
   const [isActivityOpen, setIsActivityOpen] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
 
-  const activities = [
-    { id: 2, src: '/assets/recent-activity/ai-workshop-2.jpg', alt: 'CAD Training Classroom' },
-    { id: 3, src: '/assets/recent-activity/ai-workshop-3.jpg', alt: 'CAD Workshop Mentorship' }
-  ];
+  useEffect(() => {
+    return subscribeToContentUpdates(() => {
+      setSiteConfig(getStoredSiteConfig());
+    });
+  }, []);
+
+  const recent = siteConfig.recentActivity || {};
+  const activities = (Array.isArray(recent.items) && recent.items.length > 0)
+    ? recent.items
+    : [
+        { id: 2, src: '/assets/recent-activity/ai-workshop-2.jpg', alt: 'CAD Training Classroom' },
+        { id: 3, src: '/assets/recent-activity/ai-workshop-3.jpg', alt: 'CAD Workshop Mentorship' }
+      ];
 
   const total = activities.length;
 
@@ -110,12 +121,17 @@ export default function FloatingElements() {
         onClick={() => setIsActivityOpen(true)}
       >
         <span className="pb-recent-activity-card-thumb">
-          <img alt="CAD Training Classroom" loading="lazy" src="/assets/recent-activity/ai-workshop-2.jpg" />
-          <span className="pb-recent-activity-card-badge">NEW</span>
+          <img
+            alt={recent.title || "CAD Training Classroom"}
+            loading="lazy"
+            src={recent.thumb || activities[0]?.src || "/assets/recent-activity/ai-workshop-2.jpg"}
+            onError={(e) => { e.currentTarget.src = "/assets/recent-activity/ai-workshop-2.jpg"; }}
+          />
+          <span className="pb-recent-activity-card-badge">{recent.badge || 'NEW'}</span>
         </span>
         <span className="pb-recent-activity-card-body">
-          <span className="pb-recent-activity-card-title">Recent Activities</span>
-          <span className="pb-recent-activity-card-desc">See what's happening at GV DesignTech.</span>
+          <span className="pb-recent-activity-card-title">{recent.title || 'Recent Activities'}</span>
+          <span className="pb-recent-activity-card-desc">{recent.desc || "See what's happening at GV DesignTech."}</span>
           <span className="pb-recent-activity-card-cta">
             View latest <span aria-hidden="true">→</span>
           </span>

@@ -95,6 +95,44 @@ async function seedInitialData(database) {
       await courseCol.insertMany(cleanCourses);
       console.log(`✅ Seeded ${cleanCourses.length} courses into MongoDB`);
     }
+
+    // 9. Site Config Collection (Demo Video, Recent Activities, Stats, Showcase Images)
+    const siteConfigCol = database.collection('site_config');
+    const configExists = await siteConfigCol.findOne({ _id: 'main' });
+    if (!configExists) {
+      await siteConfigCol.insertOne({
+        _id: 'main',
+        demoVideo: {
+          videoUrl: 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A',
+          title: 'Watch How We Shape the Future of CAD & Engineering Design Education',
+          description: 'Take a guided virtual tour through our state-of-the-art CAD workstations, hands-on 3D printing & prototyping labs, BIM coordination studios, and placement training sessions at GV DesignTech.'
+        },
+        recentActivity: {
+          badge: 'NEW',
+          title: 'Recent Activities',
+          desc: "See what's happening at GV DesignTech.",
+          thumb: '/assets/recent-activity/ai-workshop-2.jpg',
+          items: [
+            { id: 2, src: '/assets/recent-activity/ai-workshop-2.jpg', alt: 'CAD Training Classroom' },
+            { id: 3, src: '/assets/recent-activity/ai-workshop-3.jpg', alt: 'CAD Workshop Mentorship' }
+          ]
+        },
+        stats: [
+          { id: 'stat-1', count: 8500, suffix: '+', title: 'Professionals Worldwide Choose Us' },
+          { id: 'stat-2', count: 3, suffix: '+', title: 'Years of Training Excellence' },
+          { id: 'stat-3', count: 250, suffix: '+', title: 'Alumni Placed Globally' },
+          { id: 'stat-4', count: 25, suffix: '+', title: 'Industry Awards & Accreditations' }
+        ],
+        showcaseImages: {
+          image1: '/assets/cad-lab-classroom.jpg',
+          alt1: 'CAD Design Classroom and Workshop at GV DesignTech',
+          image2: '/assets/cad-lab-students.jpg',
+          alt2: 'Students Practicing 2D and 3D CAD Modeling at GV DesignTech'
+        },
+        updatedAt: new Date().toISOString()
+      });
+      console.log('✅ Seeded initial site_config into MongoDB');
+    }
   } catch (seedErr) {
     console.error('Error during MongoDB initial data seeding:', seedErr);
   }

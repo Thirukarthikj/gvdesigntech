@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getStoredSiteConfig, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
 export default function ShowcaseVideo() {
+  const [siteConfig, setSiteConfig] = useState(() => getStoredSiteConfig());
+
+  useEffect(() => {
+    return subscribeToContentUpdates(() => {
+      setSiteConfig(getStoredSiteConfig());
+    });
+  }, []);
+
+  const video = siteConfig.demoVideo || {};
+
   return (
     <div style={{ minHeight: '100vh', background: '#04020a', color: '#fff', padding: '140px 24px 80px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
       <div style={{ maxWidth: '960px', width: '100%', textAlign: 'center' }}>
@@ -9,10 +20,10 @@ export default function ShowcaseVideo() {
           GV DESIGNTECH SHOWCASE
         </div>
         <h1 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: '800', lineHeight: 1.2, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 40%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-          Watch How We Shape the Future of CAD &amp; Engineering Design Education
+          {video.title || 'Watch How We Shape the Future of CAD & Engineering Design Education'}
         </h1>
         <p style={{ maxWidth: '680px', margin: '0 auto 40px', fontSize: '16px', color: '#94a3b8', lineHeight: 1.6 }}>
-          Take a guided virtual tour through our state-of-the-art CAD workstations, hands-on 3D printing &amp; prototyping labs, BIM coordination studios, and placement training sessions at GV DesignTech.
+          {video.description || 'Take a guided virtual tour through our state-of-the-art CAD workstations, hands-on 3D printing & prototyping labs, BIM coordination studios, and placement training sessions at GV DesignTech.'}
         </p>
 
         {/* Video Player Box */}
@@ -20,8 +31,8 @@ export default function ShowcaseVideo() {
           <iframe
             width="100%"
             height="100%"
-            src="https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A"
-            title="GV DesignTech Showcase Video"
+            src={video.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A'}
+            title={video.title || 'GV DesignTech Showcase Video'}
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen

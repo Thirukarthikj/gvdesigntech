@@ -46,6 +46,7 @@ import AdminPlacementManager from './pages/admin/AdminPlacementManager.jsx';
 import AdminBlogManager from './pages/admin/AdminBlogManager.jsx';
 import AdminCertificateManager from './pages/admin/AdminCertificateManager.jsx';
 import AdminLeaderManager from './pages/admin/AdminLeaderManager.jsx';
+import AdminHomeCustomizer from './pages/admin/AdminHomeCustomizer.jsx';
 
 export default function App() {
   const [showIntro, setShowIntro] = useState(true);
@@ -154,6 +155,8 @@ export default function App() {
           <Route path="blogs" element={<AdminBlogManager />} />
           <Route path="content-certificates" element={<AdminCertificateManager />} />
           <Route path="certificates" element={<AdminCertificateManager />} />
+          <Route path="home-customizer" element={<AdminHomeCustomizer />} />
+          <Route path="showcase-customizer" element={<AdminHomeCustomizer />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
 
