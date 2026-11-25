@@ -88,11 +88,6 @@ export default function CertificateVerification() {
               Verify Now
             </button>
           </form>
-
-          {/* Sample IDs tip */}
-          <div style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.5)' }}>
-            Try sample IDs: <code style={{ color: '#22d3ee', cursor: 'pointer' }} onClick={() => setCertId('GV-AI-2024-001')}>GV-AI-2024-001</code> or <code style={{ color: '#22d3ee', cursor: 'pointer' }} onClick={() => setCertId('GV-DS-2024-042')}>GV-DS-2024-042</code>
-          </div>
         </div>
 
         {/* Verification Result Card */}
