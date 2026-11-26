@@ -665,6 +665,147 @@ apiRouter.post('/site-config', async (req, res) => {
 });
 
 /* ==========================================
+   11. Skill Test Questions Collection
+   ========================================== */
+apiRouter.get('/skill-test-questions', async (req, res) => {
+  try {
+    const list = await req.db.collection('skill_test_questions')
+      .find({})
+      .sort({ order: 1, createdAt: 1 })
+      .toArray();
+
+    const normalized = list.map(item => ({
+      ...item,
+      id: item.id || item._id.toString(),
+      _id: item._id.toString()
+    }));
+    res.json(normalized);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.post('/skill-test-questions/sync', async (req, res) => {
+  try {
+    const list = Array.isArray(req.body) ? req.body : [];
+    if (list.length > 0) {
+      await req.db.collection('skill_test_questions').deleteMany({});
+      const cleanList = list.map((item, idx) => {
+        const { _id, ...cleanItem } = item;
+        let validMongoId = undefined;
+        if (_id && typeof _id === 'string' && /^[0-9a-fA-F]{24}$/.test(_id)) {
+          validMongoId = new ObjectId(_id);
+        }
+        return {
+          ...(validMongoId ? { _id: validMongoId } : {}),
+          ...cleanItem,
+          id: cleanItem.id || `stq-${Date.now()}-${idx}`,
+          order: cleanItem.order ?? (idx + 1),
+          updatedAt: new Date().toISOString()
+        };
+      });
+      await req.db.collection('skill_test_questions').insertMany(cleanList);
+    }
+    res.json({ success: true, count: list.length });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.post('/skill-test-questions', async (req, res) => {
+  try {
+    const item = {
+      ...req.body,
+      id: req.body.id || `stq-${Date.now()}`,
+      order: req.body.order ?? 99,
+      createdAt: req.body.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    const result = await req.db.collection('skill_test_questions').insertOne(item);
+    res.status(201).json({ ...item, _id: result.insertedId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.put('/skill-test-questions/:id', async (req, res) => {
+  try {
+    const query = buildIdQuery(req.params.id);
+    const { _id, ...updateData } = req.body;
+    updateData.updatedAt = new Date().toISOString();
+    const result = await req.db.collection('skill_test_questions').updateOne(query, { $set: updateData });
+    res.json({ success: result.modifiedCount > 0, ...updateData });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.delete('/skill-test-questions/:id', async (req, res) => {
+  try {
+    const query = buildIdQuery(req.params.id);
+    const result = await req.db.collection('skill_test_questions').deleteOne(query);
+    res.json({ success: result.deletedCount > 0 });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/* ==========================================
+   12. Skill Test Student Results Collection
+   ========================================== */
+apiRouter.get('/skill-test-results', async (req, res) => {
+  try {
+    const list = await req.db.collection('skill_test_results')
+      .find({})
+      .sort({ submittedAt: -1, _id: -1 })
+      .toArray();
+
+    const normalized = list.map(item => ({
+      ...item,
+      id: item.id || item._id.toString(),
+      _id: item._id.toString()
+    }));
+    res.json(normalized);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.post('/skill-test-results', async (req, res) => {
+  try {
+    const item = {
+      ...req.body,
+      id: req.body.id || `str-${Date.now()}`,
+      submittedAt: req.body.submittedAt || new Date().toISOString(),
+      createdAt: new Date().toISOString()
+    };
+    const result = await req.db.collection('skill_test_results').insertOne(item);
+    res.status(201).json({ ...item, _id: result.insertedId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.delete('/skill-test-results/:id', async (req, res) => {
+  try {
+    const query = buildIdQuery(req.params.id);
+    const result = await req.db.collection('skill_test_results').deleteOne(query);
+    res.json({ success: result.deletedCount > 0 });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.delete('/skill-test-results', async (req, res) => {
+  try {
+    await req.db.collection('skill_test_results').deleteMany({});
+    res.json({ success: true, message: 'All student test records cleared' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/* ==========================================
    9. MongoDB Health & Stats
    ========================================== */
 apiRouter.get('/health', async (req, res) => {

@@ -3,6 +3,7 @@ import { galleryItems } from './gallery.js';
 import { blogPosts, blogCategories } from './blogs.js';
 import { initialCourses } from './coursesData.js';
 import { initialInternshipPrograms } from './internshipsData.js';
+import { initialSkillQuestions } from './skillTestData.js';
 import { syncToFirestore, subscribeToFirestore } from '../services/firebase.js';
 
 // Keys for localStorage
@@ -14,6 +15,8 @@ const CERT_KEY = 'gv_admin_certificates';
 const LEADERS_KEY = 'gv_admin_leaders';
 const COURSE_KEY = 'gv_admin_courses';
 const INTERNSHIP_PROGRAMS_KEY = 'gv_admin_internship_programs';
+const SKILL_TEST_QUESTIONS_KEY = 'gv_skill_test_questions';
+const SKILL_TEST_RESULTS_KEY = 'gv_skill_test_results';
 const SITE_CONFIG_KEY = 'gv_site_config';
 
 export const initialSiteConfig = {
@@ -746,4 +749,152 @@ export function saveStoredSiteConfig(config) {
   try {
     syncToFirestore('site_config', config);
   } catch {}
+}
+
+/* ==========================================================================
+   11. Skill Test Questions Persistence (Dynamic Admin Question Bank)
+   ========================================================================== */
+export function getStoredSkillTestQuestions() {
+  try {
+    const raw = localStorage.getItem(SKILL_TEST_QUESTIONS_KEY);
+    if (!raw) {
+      localStorage.setItem(SKILL_TEST_QUESTIONS_KEY, JSON.stringify(initialSkillQuestions));
+      return initialSkillQuestions;
+    }
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : initialSkillQuestions;
+  } catch {
+    return initialSkillQuestions;
+  }
+}
+
+export function saveStoredSkillTestQuestions(questions) {
+  try {
+    localStorage.setItem(SKILL_TEST_QUESTIONS_KEY, JSON.stringify(questions));
+    notifyContentUpdate('skill_test_questions');
+  } catch (err) {
+    console.error('Failed to save skill test questions to localStorage:', err);
+  }
+
+  // Persist directly to MongoDB
+  try {
+    fetch('/api/skill-test-questions/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(questions)
+    }).catch(e => console.warn('MongoDB Skill Test Questions sync error:', e.message));
+  } catch (e) {}
+
+  // Cloud Firestore sync
+  try {
+    syncToFirestore('skill_test_questions', questions);
+  } catch {}
+}
+
+/* ==========================================================================
+   12. Skill Test Student Results Persistence (Admin Score Registry)
+   ========================================================================== */
+export function getStoredSkillTestResults() {
+  try {
+    const raw = localStorage.getItem(SKILL_TEST_RESULTS_KEY);
+    if (!raw) {
+      return [];
+    }
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveStoredSkillTestResult(result) {
+  try {
+    const existing = getStoredSkillTestResults();
+    const cleanResult = {
+      ...result,
+      id: result.id || `str-${Date.now()}`,
+      submittedAt: result.submittedAt || new Date().toISOString()
+    };
+    const updated = [cleanResult, ...existing.filter(r => r.id !== cleanResult.id)];
+    localStorage.setItem(SKILL_TEST_RESULTS_KEY, JSON.stringify(updated));
+    notifyContentUpdate('skill_test_results');
+
+    // Also persist student lead if phone/email provided
+    try {
+      const leads = JSON.parse(localStorage.getItem('gv_admin_leads') || '[]');
+      const newLead = {
+        id: 'lead-test-' + Date.now(),
+        name: cleanResult.studentName,
+        email: cleanResult.email,
+        phone: cleanResult.phone,
+        college: cleanResult.college || 'Skill Test Assessment',
+        program: `${cleanResult.domainLabel || cleanResult.domain} Skill Test (Score: ${cleanResult.score}/${cleanResult.totalQuestions})`,
+        message: `Attended Skill Test on ${cleanResult.domainLabel || cleanResult.domain}. Scored ${cleanResult.score}/${cleanResult.totalQuestions} (${cleanResult.percentage}% - ${cleanResult.status}).`,
+        date: new Date().toISOString().split('T')[0],
+        status: cleanResult.percentage >= 60 ? 'Qualified' : 'New'
+      };
+      const updatedLeads = [newLead, ...leads];
+      localStorage.setItem('gv_admin_leads', JSON.stringify(updatedLeads));
+      fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newLead)
+      }).catch(() => {});
+    } catch {}
+
+    // Persist test result directly to MongoDB
+    try {
+      fetch('/api/skill-test-results', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cleanResult)
+      }).catch(e => console.warn('MongoDB Skill Test Result sync error:', e.message));
+    } catch (e) {}
+
+    // Cloud Firestore sync
+    try {
+      syncToFirestore('skill_test_results', updated);
+    } catch {}
+
+    return cleanResult;
+  } catch (err) {
+    console.error('Failed to save skill test result:', err);
+    return result;
+  }
+}
+
+export function deleteStoredSkillTestResult(id) {
+  try {
+    const existing = getStoredSkillTestResults();
+    const updated = existing.filter(r => r.id !== id);
+    localStorage.setItem(SKILL_TEST_RESULTS_KEY, JSON.stringify(updated));
+    notifyContentUpdate('skill_test_results');
+
+    try {
+      fetch(`/api/skill-test-results/${id}`, { method: 'DELETE' }).catch(() => {});
+    } catch {}
+
+    try {
+      syncToFirestore('skill_test_results', updated);
+    } catch {}
+  } catch (err) {
+    console.error('Failed to delete skill test result:', err);
+  }
+}
+
+export function clearStoredSkillTestResults() {
+  try {
+    localStorage.setItem(SKILL_TEST_RESULTS_KEY, JSON.stringify([]));
+    notifyContentUpdate('skill_test_results');
+
+    try {
+      fetch('/api/skill-test-results', { method: 'DELETE' }).catch(() => {});
+    } catch {}
+
+    try {
+      syncToFirestore('skill_test_results', []);
+    } catch {}
+  } catch (err) {
+    console.error('Failed to clear skill test results:', err);
+  }
 }

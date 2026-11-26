@@ -58,7 +58,8 @@ export default function AdminLayout() {
         { to: '/admin/dashboard', icon: '📊', label: 'Overview' },
         { to: '/admin/enrollments', icon: '📝', label: 'Inquiries & Leads' },
         { to: '/admin/courses', icon: '🎓', label: 'Courses & Disciplines' },
-        { to: '/admin/internships', icon: '💼', label: 'Internship Programs' }
+        { to: '/admin/internships', icon: '💼', label: 'Internship Programs' },
+        { to: '/admin/skill-test', icon: '🎯', label: 'Skill Test & Scores' }
       ]
     },
     {
@@ -87,6 +88,7 @@ export default function AdminLayout() {
 
   const getPageTitle = () => {
     const path = location.pathname;
+    if (path.includes('skill-test') || path.includes('pest-exam')) return 'Skill Test Question Bank & Candidate Scores';
     if (path.includes('enrollments')) return 'Student Inquiries & Admissions';
     if (path.includes('courses')) return 'Curated Courses & Disciplines Management';
     if (path.includes('internships')) return 'Internship Applications';

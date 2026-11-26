@@ -47,6 +47,7 @@ import AdminBlogManager from './pages/admin/AdminBlogManager.jsx';
 import AdminCertificateManager from './pages/admin/AdminCertificateManager.jsx';
 import AdminLeaderManager from './pages/admin/AdminLeaderManager.jsx';
 import AdminHomeCustomizer from './pages/admin/AdminHomeCustomizer.jsx';
+import AdminSkillTest from './pages/admin/AdminSkillTest.jsx';
 
 export default function App() {
   const [showIntro, setShowIntro] = useState(true);
@@ -159,6 +160,8 @@ export default function App() {
         <Route path="/certificate-verification" element={<CertificateVerification />} />
         <Route path="/Contactus" element={<ContactUs />} />
         <Route path="/pest-exam" element={<SkillTest />} />
+        <Route path="/skill-test" element={<SkillTest />} />
+        <Route path="/skill-assessment" element={<SkillTest />} />
         <Route path="/showcase-video" element={<ShowcaseVideo />} />
 
         {/* Admin Portal Protected Routing */}
@@ -169,6 +172,9 @@ export default function App() {
           <Route path="enrollments" element={<AdminEnrollments />} />
           <Route path="courses" element={<AdminCourses />} />
           <Route path="internships" element={<AdminInternships />} />
+          <Route path="skill-test" element={<AdminSkillTest />} />
+          <Route path="pest-exam" element={<AdminSkillTest />} />
+          <Route path="skill-tests" element={<AdminSkillTest />} />
           <Route path="partners" element={<AdminMouManager />} />
           <Route path="mou" element={<AdminMouManager />} />
           <Route path="mous" element={<AdminMouManager />} />
