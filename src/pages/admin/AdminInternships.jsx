@@ -67,7 +67,7 @@ export default function AdminInternships() {
     setTimeout(() => setToast(''), 3500);
   };
 
-  // Load programs from MongoDB & applicants on mount
+  // Load programs & applicants from MongoDB on mount
   useEffect(() => {
     async function loadPrograms() {
       const mongoList = await fetchInternshipProgramsFromMongo();
@@ -79,10 +79,43 @@ export default function AdminInternships() {
       }
     }
     loadPrograms();
-    setApplicants(getStoredInternships());
 
-    const unsub = subscribeToContentUpdates(() => {
-      setPrograms(getStoredInternshipPrograms());
+    // 2. Fetch applicants from MongoDB
+    fetch('/api/internship-applicants')
+      .then(res => res.json())
+      .then(data => {
+        const localList = getStoredInternships();
+        if (Array.isArray(data) && data.length > 0) {
+          const combined = [
+            ...data,
+            ...localList.filter(l => !data.some(d => String(d.id) === String(l.id) || (d.email && d.email.toLowerCase() === l.email.toLowerCase())))
+          ];
+          setApplicants(combined);
+          localStorage.setItem('gv_admin_internships', JSON.stringify(combined));
+        } else {
+          setApplicants(localList);
+          // Initial seed sync to MongoDB
+          if (localList.length > 0) {
+            fetch('/api/internship-applicants/sync', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(localList)
+            }).catch(() => {});
+          }
+        }
+      })
+      .catch(() => {
+        setApplicants(getStoredInternships());
+      });
+
+    // 3. Realtime event listener
+    const unsub = subscribeToContentUpdates((topic) => {
+      if (!topic || topic === 'all' || topic === 'internship_programs') {
+        setPrograms(getStoredInternshipPrograms());
+      }
+      if (!topic || topic === 'all' || topic === 'internship_applicants') {
+        setApplicants(getStoredInternships());
+      }
     });
     return () => unsub();
   }, []);
@@ -194,6 +227,15 @@ export default function AdminInternships() {
     const updated = applicants.map(i => i.id === id ? { ...i, status: newStatus } : i);
     setApplicants(updated);
     saveStoredInternships(updated);
+
+    try {
+      fetch(`/api/internship-applicants/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
+      }).catch(() => {});
+    } catch {}
+
     showToast('Applicant review status updated');
   };
 
@@ -202,6 +244,11 @@ export default function AdminInternships() {
       const updated = applicants.filter(i => i.id !== id);
       setApplicants(updated);
       saveStoredInternships(updated);
+
+      try {
+        fetch(`/api/internship-applicants/${id}`, { method: 'DELETE' }).catch(() => {});
+      } catch {}
+
       showToast('Applicant removed');
     }
   };

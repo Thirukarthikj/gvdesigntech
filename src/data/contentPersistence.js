@@ -204,7 +204,7 @@ let mongoSyncTriggered = false;
 export async function syncWithMongo() {
   if (typeof window === 'undefined') return;
   try {
-    const [mousRes, galRes, placeRes, blogsRes, leadRes, certRes, leadsRes, coursesRes, internRes, siteConfigRes] = await Promise.allSettled([
+    const [mousRes, galRes, placeRes, blogsRes, leadRes, certRes, leadsRes, coursesRes, internRes, siteConfigRes, internApplicantsRes] = await Promise.allSettled([
       fetch('/api/mous').then(r => r.ok ? r.json() : null),
       fetch('/api/gallery').then(r => r.ok ? r.json() : null),
       fetch('/api/placements').then(r => r.ok ? r.json() : null),
@@ -214,7 +214,8 @@ export async function syncWithMongo() {
       fetch('/api/leads').then(r => r.ok ? r.json() : null),
       fetch('/api/courses').then(r => r.ok ? r.json() : null),
       fetch('/api/internship-programs').then(r => r.ok ? r.json() : null),
-      fetch('/api/site-config').then(r => r.ok ? r.json() : null)
+      fetch('/api/site-config').then(r => r.ok ? r.json() : null),
+      fetch('/api/internship-applicants').then(r => r.ok ? r.json() : null)
     ]);
 
     let changed = false;
@@ -258,6 +259,10 @@ export async function syncWithMongo() {
     }
     if (siteConfigRes.status === 'fulfilled' && siteConfigRes.value && typeof siteConfigRes.value === 'object') {
       localStorage.setItem(SITE_CONFIG_KEY, JSON.stringify(siteConfigRes.value));
+      changed = true;
+    }
+    if (internApplicantsRes && internApplicantsRes.status === 'fulfilled' && Array.isArray(internApplicantsRes.value) && internApplicantsRes.value.length > 0) {
+      localStorage.setItem('gv_admin_internships', JSON.stringify(internApplicantsRes.value));
       changed = true;
     }
 
@@ -898,3 +903,10 @@ export function clearStoredSkillTestResults() {
     console.error('Failed to clear skill test results:', err);
   }
 }
+
+// Re-export internship applicants pipeline utilities
+export {
+  getStoredInternships,
+  saveStoredInternships,
+  saveStoredInternshipApplicant
+} from './adminInitialData.js';

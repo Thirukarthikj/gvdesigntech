@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { contactStyles as L } from '../data/styles.js';
 import { syncToFirestore } from '../services/firebase.js';
+import { saveStoredInternshipApplicant } from '../data/contentPersistence.js';
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
@@ -32,6 +33,22 @@ export default function ContactUs() {
       const updated = [newLead, ...existing];
       localStorage.setItem('gv_admin_leads', JSON.stringify(updated));
       syncToFirestore('leads', updated);
+
+      // If applying for an internship, also store in the Internship Applicants Pipeline
+      if ((formData.subject || '').toLowerCase().includes('internship')) {
+        saveStoredInternshipApplicant({
+          id: 'intern-' + Date.now(),
+          candidateName: formData.name || 'Website Inquirer',
+          email: formData.email || '',
+          phone: formData.phone || '',
+          college: 'Engineering College',
+          department: 'Engineering Student',
+          cgpa: '8.5',
+          internshipProgram: formData.subject || 'Engineering Internship',
+          appliedDate: new Date().toISOString().split('T')[0],
+          status: 'Under Review'
+        });
+      }
     } catch {
       // ignore
     }

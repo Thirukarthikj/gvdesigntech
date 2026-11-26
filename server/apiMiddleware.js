@@ -806,6 +806,92 @@ apiRouter.delete('/skill-test-results', async (req, res) => {
 });
 
 /* ==========================================
+   13. Student Internship Applicants Pipeline
+   ========================================== */
+apiRouter.get('/internship-applicants', async (req, res) => {
+  try {
+    const list = await req.db.collection('internship_applicants')
+      .find({})
+      .sort({ appliedDate: -1, _id: -1 })
+      .toArray();
+
+    const normalized = list.map(item => ({
+      ...item,
+      id: item.id || item._id.toString(),
+      _id: item._id.toString()
+    }));
+    res.json(normalized);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.post('/internship-applicants/sync', async (req, res) => {
+  try {
+    const list = Array.isArray(req.body) ? req.body : [];
+    if (list.length > 0) {
+      await req.db.collection('internship_applicants').deleteMany({});
+      const cleanList = list.map((item, idx) => {
+        const { _id, ...cleanItem } = item;
+        let validMongoId = undefined;
+        if (_id && typeof _id === 'string' && /^[0-9a-fA-F]{24}$/.test(_id)) {
+          validMongoId = new ObjectId(_id);
+        }
+        return {
+          ...(validMongoId ? { _id: validMongoId } : {}),
+          ...cleanItem,
+          id: cleanItem.id || `intern-${Date.now()}-${idx}`,
+          appliedDate: cleanItem.appliedDate || new Date().toISOString().split('T')[0],
+          updatedAt: new Date().toISOString()
+        };
+      });
+      await req.db.collection('internship_applicants').insertMany(cleanList);
+    }
+    res.json({ success: true, count: list.length });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.post('/internship-applicants', async (req, res) => {
+  try {
+    const item = {
+      ...req.body,
+      id: req.body.id || `intern-${Date.now()}`,
+      appliedDate: req.body.appliedDate || new Date().toISOString().split('T')[0],
+      status: req.body.status || 'Under Review',
+      createdAt: new Date().toISOString()
+    };
+    const result = await req.db.collection('internship_applicants').insertOne(item);
+    res.status(201).json({ ...item, _id: result.insertedId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.put('/internship-applicants/:id', async (req, res) => {
+  try {
+    const query = buildIdQuery(req.params.id);
+    const { _id, ...updateData } = req.body;
+    updateData.updatedAt = new Date().toISOString();
+    const result = await req.db.collection('internship_applicants').updateOne(query, { $set: updateData });
+    res.json({ success: result.modifiedCount > 0, ...updateData });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.delete('/internship-applicants/:id', async (req, res) => {
+  try {
+    const query = buildIdQuery(req.params.id);
+    const result = await req.db.collection('internship_applicants').deleteOne(query);
+    res.json({ success: result.deletedCount > 0 });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/* ==========================================
    9. MongoDB Health & Stats
    ========================================== */
 apiRouter.get('/health', async (req, res) => {

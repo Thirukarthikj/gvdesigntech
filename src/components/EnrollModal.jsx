@@ -5,6 +5,7 @@ import {
   getStoredSiteConfig,
   getStoredCourses,
   getStoredInternshipPrograms,
+  saveStoredInternshipApplicant,
   subscribeToContentUpdates
 } from '../data/contentPersistence.js';
 
@@ -35,6 +36,19 @@ export const INTERNSHIP_PROGRAMS = [
 
 export const STANDARD_COURSES = STANDARD_DISCIPLINES;
 
+function inferDepartment(program = '') {
+  const p = (program || '').toLowerCase();
+  if (p.includes('ai') || p.includes('artificial')) return 'AI & Data Science';
+  if (p.includes('data')) return 'Data Science & Analytics';
+  if (p.includes('machine learning')) return 'AI & Machine Learning';
+  if (p.includes('mechanical') || p.includes('cad') || p.includes('cae')) return 'Mechanical Engineering';
+  if (p.includes('civil') || p.includes('bim')) return 'Civil Engineering';
+  if (p.includes('iot') || p.includes('embedded') || p.includes('ece')) return 'ECE / Embedded Systems';
+  if (p.includes('cnc')) return 'Manufacturing / CNC';
+  if (p.includes('cloud') || p.includes('software') || p.includes('full stack')) return 'Computer Science & IT';
+  return 'Engineering Department';
+}
+
 export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
   const [siteConfig, setSiteConfig] = useState(() => getStoredSiteConfig());
   const [courses, setCourses] = useState(() => getStoredCourses());
@@ -51,6 +65,9 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
     email: '',
     phone: '',
     program: initialProgram || '',
+    college: '',
+    department: '',
+    cgpa: '',
     message: ''
   });
   const [submitted, setSubmitted] = useState(false);
@@ -143,22 +160,54 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
     e.preventDefault();
     setSubmitted(true);
 
-    // Save lead to localStorage for Admin Portal in real time
+    const fullName = `${formData.firstName} ${formData.lastName}`.trim() || 'Website Inquirer';
+    const prog = (formData.program || '').toLowerCase();
+    const isInternship =
+      prog.includes('internship') ||
+      (typeof window !== 'undefined' && window.location.pathname.toLowerCase().includes('internship'));
+
+    // 1. If applying for Internship, save directly into Student Applicants Pipeline
+    if (isInternship) {
+      try {
+        const applicantRecord = {
+          id: 'intern-' + Date.now(),
+          candidateName: fullName,
+          email: formData.email || '',
+          phone: formData.phone || '',
+          college: formData.college?.trim() || 'Engineering College / University',
+          department: formData.department?.trim() || inferDepartment(formData.program),
+          cgpa: formData.cgpa?.trim() || '8.5',
+          internshipProgram: formData.program || 'Industrial Internship Program',
+          appliedDate: new Date().toISOString().split('T')[0],
+          status: 'Under Review'
+        };
+        saveStoredInternshipApplicant(applicantRecord);
+      } catch (err) {
+        console.warn('Error persisting internship applicant:', err);
+      }
+    }
+
+    // 2. Also save lead to inquiries registry
     try {
       const existing = JSON.parse(localStorage.getItem('gv_admin_leads') || '[]');
       const newLead = {
         id: 'lead-' + Date.now(),
-        name: `${formData.firstName} ${formData.lastName}`.trim() || 'Website Inquirer',
+        name: fullName,
         email: formData.email || 'N/A',
         phone: formData.phone || 'N/A',
-        college: 'Website Direct Inquirer',
+        college: formData.college?.trim() || 'Website Direct Inquirer',
         program: formData.program || 'Mechanical & Automobile CAD',
-        message: formData.message || 'Submitted via Instant Enroll Modal',
+        message: formData.message || (isInternship ? `Applied for ${formData.program}` : 'Submitted via Instant Enroll Modal'),
         date: new Date().toISOString().split('T')[0],
         status: 'New'
       };
       const updated = [newLead, ...existing];
       localStorage.setItem('gv_admin_leads', JSON.stringify(updated));
+      fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newLead)
+      }).catch(() => {});
       syncToFirestore('leads', updated);
     } catch {
       // ignore
@@ -172,6 +221,10 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
   };
 
   const s = modalStyles;
+  const isInternshipSelected = Boolean(
+    (formData.program && formData.program.toLowerCase().includes('internship')) ||
+    (typeof window !== 'undefined' && window.location.pathname.toLowerCase().includes('internship'))
+  );
 
   return (
     <div className={`${s['em-backdrop']} ${s['em-backdrop-in']}`} onClick={onClose}>
@@ -369,6 +422,56 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
                 <div className={s['em-input-line']}></div>
               </div>
             </div>
+
+            {isInternshipSelected && (
+              <>
+                <div className={s['em-row']}>
+                  <div className={`${s['em-field']} ${s['em-field-1']}`}>
+                    <label className={s['em-label']}>College / University</label>
+                    <div className={s['em-input-wrap']}>
+                      <input
+                        className={s['em-input']}
+                        placeholder="e.g. MCET Pollachi / PSG Tech"
+                        type="text"
+                        name="college"
+                        value={formData.college}
+                        onChange={handleChange}
+                      />
+                      <div className={s['em-input-line']}></div>
+                    </div>
+                  </div>
+                  <div className={`${s['em-field']} ${s['em-field-2']}`}>
+                    <label className={s['em-label']}>Department / Branch</label>
+                    <div className={s['em-input-wrap']}>
+                      <input
+                        className={s['em-input']}
+                        placeholder="e.g. Mechanical / CSE / EEE"
+                        type="text"
+                        name="department"
+                        value={formData.department}
+                        onChange={handleChange}
+                      />
+                      <div className={s['em-input-line']}></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={s['em-field']}>
+                  <label className={s['em-label']}>Academic CGPA / Percentage (Optional)</label>
+                  <div className={s['em-input-wrap']}>
+                    <input
+                      className={s['em-input']}
+                      placeholder="e.g. 8.5"
+                      type="text"
+                      name="cgpa"
+                      value={formData.cgpa}
+                      onChange={handleChange}
+                    />
+                    <div className={s['em-input-line']}></div>
+                  </div>
+                </div>
+              </>
+            )}
 
             <div className={`${s['em-field']} ${s['em-field-6']}`}>
               <label className={s['em-label']}>Additional Message</label>

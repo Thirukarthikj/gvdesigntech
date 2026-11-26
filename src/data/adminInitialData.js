@@ -1,4 +1,6 @@
 // Initial seed data and local persistence helpers for GV DesignTech Admin Portal
+import { notifyContentUpdate } from './contentPersistence.js';
+import { syncToFirestore } from '../services/firebase.js';
 
 export const initialAdminLeads = [
   {
@@ -287,7 +289,64 @@ export function getStoredInternships() {
 export function saveStoredInternships(interns) {
   try {
     localStorage.setItem(INTERNS_KEY, JSON.stringify(interns));
+    notifyContentUpdate('internship_applicants');
   } catch (err) {
     console.error('Failed to save internships', err);
+  }
+
+  // Persist directly to MongoDB
+  try {
+    fetch('/api/internship-applicants/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(interns)
+    }).catch(e => console.warn('MongoDB Internship Applicants sync error:', e.message));
+  } catch (e) {}
+
+  // Cloud Firestore sync
+  try {
+    syncToFirestore('internship_applicants', interns);
+  } catch {}
+}
+
+export function saveStoredInternshipApplicant(applicant) {
+  try {
+    const existing = getStoredInternships();
+    const cleanApplicant = {
+      ...applicant,
+      id: applicant.id || `intern-${Date.now()}`,
+      candidateName: applicant.candidateName || applicant.name || 'Internship Applicant',
+      email: applicant.email || '',
+      phone: applicant.phone || '',
+      college: applicant.college || 'Engineering College / University',
+      department: applicant.department || 'Engineering Department',
+      cgpa: applicant.cgpa || '8.5',
+      internshipProgram: applicant.internshipProgram || applicant.program || 'Industrial Internship Program',
+      appliedDate: applicant.appliedDate || new Date().toISOString().split('T')[0],
+      status: applicant.status || 'Under Review',
+      createdAt: new Date().toISOString()
+    };
+    const updated = [cleanApplicant, ...existing.filter(i => i.id !== cleanApplicant.id)];
+    localStorage.setItem(INTERNS_KEY, JSON.stringify(updated));
+    notifyContentUpdate('internship_applicants');
+
+    // Persist single applicant to MongoDB
+    try {
+      fetch('/api/internship-applicants', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cleanApplicant)
+      }).catch(e => console.warn('MongoDB single applicant sync error:', e.message));
+    } catch {}
+
+    // Cloud Firestore sync
+    try {
+      syncToFirestore('internship_applicants', updated);
+    } catch {}
+
+    return cleanApplicant;
+  } catch (err) {
+    console.error('Failed to save single internship applicant:', err);
+    return applicant;
   }
 }
