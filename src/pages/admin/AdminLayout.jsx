@@ -37,7 +37,7 @@ export default function AdminLayout() {
         { to: '/admin/dashboard', icon: '📊', label: 'Overview' },
         { to: '/admin/enrollments', icon: '📝', label: 'Inquiries & Leads' },
         { to: '/admin/courses', icon: '🎓', label: 'Courses & Disciplines' },
-        { to: '/admin/internships', icon: '💼', label: 'Internship Applicants' }
+        { to: '/admin/internships', icon: '💼', label: 'Internship Programs' }
       ]
     },
     {

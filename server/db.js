@@ -6,6 +6,7 @@ import { defaultPlacements, defaultLeaders, defaultCertificates } from '../src/d
 import { blogPosts } from '../src/data/blogs.js';
 import { initialAdminLeads } from '../src/data/adminInitialData.js';
 import { initialCourses } from '../src/data/coursesData.js';
+import { initialInternshipPrograms } from '../src/data/internshipsData.js';
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/gvdesigntech';
 const DB_NAME = 'gvdesigntech';
@@ -98,7 +99,25 @@ async function seedInitialData(database) {
       }
     }
 
-    // 9. Site Config Collection (Demo Video, Recent Activities, Stats, Showcase Images)
+    // 9. Master Internship Programs Collection
+    const internCol = database.collection('internship_programs');
+    const internCount = await internCol.countDocuments();
+    if (internCount === 0) {
+      const cleanInternships = initialInternshipPrograms.map((p, idx) => {
+        const { _id, ...rest } = p;
+        return {
+          ...rest,
+          order: rest.order ?? (idx + 1),
+          createdAt: rest.createdAt || new Date(Date.now() - (idx * 5000)).toISOString()
+        };
+      });
+      if (cleanInternships.length > 0) {
+        await internCol.insertMany(cleanInternships);
+        console.log(`✅ Seeded ${cleanInternships.length} internship programs into MongoDB`);
+      }
+    }
+
+    // 10. Site Config Collection (Demo Video, Recent Activities, Stats, Showcase Images)
     const siteConfigCol = database.collection('site_config');
     const configExists = await siteConfigCol.findOne({ _id: 'main' });
     if (!configExists) {

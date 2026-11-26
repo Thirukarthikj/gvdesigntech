@@ -552,7 +552,93 @@ apiRouter.delete('/courses/:id', async (req, res) => {
 });
 
 /* ==========================================
-   9. Site Configuration (Demo Video, Recent Activities, Stats, Showcase Images)
+   9. Master Internship Programs Collection
+   ========================================== */
+apiRouter.get('/internship-programs', async (req, res) => {
+  try {
+    const list = await req.db.collection('internship_programs')
+      .find({})
+      .sort({ order: 1, createdAt: 1 })
+      .toArray();
+
+    const normalized = list.map(item => ({
+      ...item,
+      id: item._id.toString(),
+      _id: item._id.toString()
+    }));
+    res.json(normalized);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.post('/internship-programs/sync', async (req, res) => {
+  try {
+    const list = Array.isArray(req.body) ? req.body : [];
+    if (list.length > 0) {
+      await req.db.collection('internship_programs').deleteMany({});
+      const cleanList = list.map((item, idx) => {
+        const { _id, ...cleanItem } = item;
+        let validMongoId = undefined;
+        if (_id && typeof _id === 'string' && /^[0-9a-fA-F]{24}$/.test(_id)) {
+          validMongoId = new ObjectId(_id);
+        }
+        return {
+          ...(validMongoId ? { _id: validMongoId } : {}),
+          ...cleanItem,
+          id: cleanItem.id || `internship-${Date.now()}-${idx}`,
+          order: cleanItem.order ?? (idx + 1),
+          updatedAt: new Date().toISOString()
+        };
+      });
+      await req.db.collection('internship_programs').insertMany(cleanList);
+    }
+    res.json({ success: true, count: list.length });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.post('/internship-programs', async (req, res) => {
+  try {
+    const item = {
+      ...req.body,
+      id: req.body.id || `internship-${Date.now()}`,
+      order: req.body.order ?? 99,
+      createdAt: req.body.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    const result = await req.db.collection('internship_programs').insertOne(item);
+    res.status(201).json({ ...item, _id: result.insertedId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.put('/internship-programs/:id', async (req, res) => {
+  try {
+    const query = buildIdQuery(req.params.id);
+    const { _id, ...updateData } = req.body;
+    updateData.updatedAt = new Date().toISOString();
+    const result = await req.db.collection('internship_programs').updateOne(query, { $set: updateData });
+    res.json({ success: result.modifiedCount > 0, ...updateData });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.delete('/internship-programs/:id', async (req, res) => {
+  try {
+    const query = buildIdQuery(req.params.id);
+    const result = await req.db.collection('internship_programs').deleteOne(query);
+    res.json({ success: result.deletedCount > 0 });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/* ==========================================
+   10. Site Configuration (Demo Video, Recent Activities, Stats, Showcase Images)
    ========================================== */
 apiRouter.get('/site-config', async (req, res) => {
   try {

@@ -1,8 +1,29 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { getStoredInternshipPrograms, saveStoredInternshipPrograms, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import { fetchInternshipProgramsFromMongo } from '../services/mongoService.js';
 
 export default function InternshipPrograms({ onOpenModal }) {
   const canvasRef = useRef(null);
+  const [programs, setPrograms] = useState(() => getStoredInternshipPrograms());
+
+  useEffect(() => {
+    async function loadPrograms() {
+      const mongoList = await fetchInternshipProgramsFromMongo();
+      if (mongoList && Array.isArray(mongoList) && mongoList.length > 0) {
+        setPrograms(mongoList);
+        saveStoredInternshipPrograms(mongoList);
+      } else {
+        setPrograms(getStoredInternshipPrograms());
+      }
+    }
+    loadPrograms();
+
+    const unsub = subscribeToContentUpdates(() => {
+      setPrograms(getStoredInternshipPrograms());
+    });
+    return () => unsub();
+  }, []);
 
   // Dynamic cosmic node canvas
   useEffect(() => {
@@ -68,116 +89,6 @@ export default function InternshipPrograms({ onOpenModal }) {
       cancelAnimationFrame(animId);
     };
   }, []);
-
-  const programs = [
-    {
-      id: 'ai',
-      badge: 'POPULAR & TRENDING',
-      badgeColor: '#ec4899',
-      number: '01',
-      title: 'AI Internship',
-      subtitle: 'Artificial Intelligence Internship',
-      desc: 'Explore the world of Artificial Intelligence and learn how intelligent systems are developed and implemented.',
-      modules: [
-        'Introduction to Artificial Intelligence',
-        'Generative AI and AI Tools',
-        'Prompt Engineering',
-        'AI Application Development',
-        'Real-Time AI Projects',
-        'Practical Implementation'
-      ],
-      outcome: 'Gain hands-on experience in AI technologies and develop intelligent applications.',
-      link: '/internship/aiInternship',
-      accent: '#c084fc',
-      tag: 'AI / LLM'
-    },
-    {
-      id: 'summer',
-      badge: 'SEASONAL ACCELERATOR',
-      badgeColor: '#f59e0b',
-      number: '02',
-      title: 'Summer Internship',
-      subtitle: 'Summer Internship Program',
-      desc: 'Make your summer productive by gaining practical industry experience and developing in-demand technical skills.',
-      modules: [
-        'Industry-Oriented Training',
-        'Hands-On Coding Sessions',
-        'Practical Assignments',
-        'Real-Time Mini Projects',
-        'Technical Mentorship',
-        'Project Development Experience'
-      ],
-      outcome: 'Strengthen your technical knowledge and build projects for your portfolio.',
-      link: '/internship/summerinternship',
-      accent: '#f97316',
-      tag: 'FAST-TRACK'
-    },
-    {
-      id: 'college',
-      badge: 'ACADEMIC ACCREDITED',
-      badgeColor: '#0ea5e9',
-      number: '03',
-      title: 'College Internship',
-      subtitle: 'College Internship Program',
-      desc: 'Bridge the gap between academic learning and industry requirements through practical training and project-based learning.',
-      modules: [
-        'Technical Skill Development',
-        'Mini & Final-Year Projects',
-        'Full Stack Development',
-        'Programming Fundamentals',
-        'Team-Based Projects',
-        'Project Documentation and Guidance'
-      ],
-      outcome: 'Develop industry-ready skills and gain confidence in practical project development.',
-      link: '/internship/college',
-      accent: '#38bdf8',
-      tag: 'UNIVERSITY'
-    },
-    {
-      id: 'datascience',
-      badge: 'HIGH VALUE TRACK',
-      badgeColor: '#10b981',
-      number: '04',
-      title: 'Data Science Internship',
-      subtitle: 'Data Science Internship',
-      desc: 'Learn how to collect, process, analyze, and visualize data to discover meaningful insights and support business decisions.',
-      modules: [
-        'Python for Data Science',
-        'Data Cleaning and Processing',
-        'NumPy and Pandas',
-        'Data Visualization',
-        'Statistical Analysis',
-        'Machine Learning Fundamentals',
-        'Real-Time Data Projects'
-      ],
-      outcome: 'Develop practical data analysis skills and work with real-world datasets.',
-      link: '/internship/datascience',
-      accent: '#34d399',
-      tag: 'ANALYTICS'
-    },
-    {
-      id: 'ml',
-      badge: 'ADVANCED ENGINEERING',
-      badgeColor: '#8b5cf6',
-      number: '05',
-      title: 'Machine Learning Internship',
-      subtitle: 'Machine Learning Internship',
-      desc: 'Discover how machines learn from data and develop predictive models using modern machine learning techniques.',
-      modules: [
-        'Python Programming',
-        'Machine Learning Fundamentals',
-        'Supervised and Unsupervised Learning',
-        'Regression and Classification',
-        'Model Training and Evaluation',
-        'Scikit-learn',
-        'Real-Time ML Projects'
-      ],
-      outcome: 'Build machine learning models and gain practical experience in predictive analytics.',
-      link: '/internship/Machinelearning',
-      accent: '#a855f7',
-      tag: 'PREDICTIVE'
-    }
-  ];
 
   const benefits = [
     {
@@ -313,133 +224,203 @@ export default function InternshipPrograms({ onOpenModal }) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '30px' }}>
-          {programs.map((p) => (
-            <div
-              key={p.id}
-              style={{
-                background: 'rgba(15, 11, 33, 0.85)',
-                border: '1px solid rgba(139, 92, 246, 0.25)',
-                borderRadius: '20px',
-                padding: '30px',
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'relative',
-                backdropFilter: 'blur(14px)',
-                transition: 'transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-6px)';
-                e.currentTarget.style.borderColor = 'rgba(192, 132, 252, 0.6)';
-                e.currentTarget.style.boxShadow = '0 16px 36px rgba(139, 92, 246, 0.25)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.25)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              {/* Header Badges */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
-                <span
-                  style={{
-                    background: p.badgeColor,
-                    color: '#fff',
-                    padding: '4px 10px',
-                    borderRadius: '6px',
-                    fontSize: '11px',
-                    fontWeight: '800',
-                    letterSpacing: '0.8px',
-                    textTransform: 'uppercase'
-                  }}
-                >
-                  {p.badge}
-                </span>
-                <span style={{ fontSize: '20px', fontWeight: '800', color: 'rgba(255, 255, 255, 0.2)' }}>
-                  {p.number}
-                </span>
-              </div>
-
-              {/* Title & Subtitle */}
-              <h3 style={{ fontSize: '24px', fontWeight: '800', color: '#f8fafc', margin: '0 0 4px', lineHeight: 1.25 }}>
-                {p.title}
+          {programs.length === 0 ? (
+            <div style={{
+              gridColumn: '1 / -1',
+              textAlign: 'center',
+              padding: '60px 24px',
+              background: 'rgba(255, 255, 255, 0.03)',
+              border: '1px dashed rgba(192, 132, 252, 0.3)',
+              borderRadius: '20px'
+            }}>
+              <div style={{ fontSize: '42px', marginBottom: '14px' }}>💼</div>
+              <h3 style={{ fontSize: '22px', fontWeight: '700', color: '#fff', margin: '0 0 10px' }}>
+                No Internship Cohorts Published Yet
               </h3>
-              <div style={{ fontSize: '14px', fontWeight: '600', color: p.accent, marginBottom: '14px' }}>
-                {p.subtitle}
-              </div>
-
-              <p style={{ color: '#94a3b8', fontSize: '14px', lineHeight: 1.6, margin: '0 0 22px' }}>
-                {p.desc}
+              <p style={{ color: '#94a3b8', fontSize: '15px', maxWidth: '480px', margin: '0 auto 24px', lineHeight: 1.6 }}>
+                New industrial internship programs and training tracks added by the administrator in the Admin Portal will appear here live.
               </p>
-
-              {/* Curriculum Bullet Points */}
-              <div style={{ marginBottom: '24px', flex: 1 }}>
-                <div style={{ fontSize: '12px', fontWeight: '700', color: '#e2e8f0', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '12px' }}>
-                  What You Will Learn:
-                </div>
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {p.modules.map((m, idx) => (
-                    <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '13.5px', color: '#cbd5e1' }}>
-                      <span style={{ color: p.accent, fontWeight: '700', fontSize: '14px', lineHeight: 1 }}>✓</span>
-                      <span>{m}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Outcome Box */}
-              <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: `1px solid ${p.accent}33`, borderRadius: '12px', padding: '14px 16px', marginBottom: '24px' }}>
-                <div style={{ fontSize: '11px', fontWeight: '800', color: p.accent, letterSpacing: '0.8px', textTransform: 'uppercase', marginBottom: '4px' }}>
-                  Target Outcome
-                </div>
-                <div style={{ fontSize: '13px', color: '#f1f5f9', lineHeight: 1.5, fontWeight: '500' }}>
-                  {p.outcome}
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: '12px' }}>
-                <button
-                  type="button"
-                  onClick={() => onOpenModal && onOpenModal(p.subtitle || p.title || 'Industrial Internship Program')}
-                  style={{
-                    flex: 1,
-                    padding: '12px 18px',
-                    background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
-                    border: 'none',
-                    borderRadius: '10px',
-                    color: '#fff',
-                    fontSize: '14px',
-                    fontWeight: '700',
-                    cursor: 'pointer',
-                    transition: 'opacity 0.2s'
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.9'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
-                >
-                  Apply Now
-                </button>
-                <Link
-                  to={p.link}
-                  style={{
-                    padding: '12px 16px',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid rgba(139, 92, 246, 0.3)',
-                    borderRadius: '10px',
-                    color: '#cbd5e1',
-                    fontSize: '13px',
-                    fontWeight: '600',
-                    textDecoration: 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  View Details →
-                </Link>
-              </div>
+              <button
+                type="button"
+                onClick={() => onOpenModal && onOpenModal('Industrial Internship Program')}
+                style={{
+                  padding: '14px 32px',
+                  background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
+                  border: 'none',
+                  borderRadius: '12px',
+                  color: '#fff',
+                  fontWeight: '700',
+                  fontSize: '15px',
+                  cursor: 'pointer',
+                  boxShadow: '0 6px 22px rgba(217, 70, 239, 0.35)'
+                }}
+              >
+                Inquire for Upcoming Batches →
+              </button>
             </div>
-          ))}
+          ) : (
+            programs.map((p, pIdx) => {
+              const moduleList = Array.isArray(p.modules)
+                ? p.modules
+                : (typeof p.modules === 'string'
+                  ? p.modules.split('\n').map(s => s.trim().replace(/^[-*•✓]\s*/, '')).filter(Boolean)
+                  : []);
+              const badgeColor = p.badgeColor || '#ec4899';
+              const accent = p.accent || '#c084fc';
+              const displayNumber = p.number || (pIdx + 1 < 10 ? `0${pIdx + 1}` : `${pIdx + 1}`);
+
+              return (
+                <div
+                  key={p.id || p._id || pIdx}
+                  style={{
+                    background: 'rgba(15, 11, 33, 0.85)',
+                    border: '1px solid rgba(139, 92, 246, 0.25)',
+                    borderRadius: '20px',
+                    padding: '30px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    position: 'relative',
+                    backdropFilter: 'blur(14px)',
+                    transition: 'transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-6px)';
+                    e.currentTarget.style.borderColor = 'rgba(192, 132, 252, 0.6)';
+                    e.currentTarget.style.boxShadow = '0 16px 36px rgba(139, 92, 246, 0.25)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.25)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  {/* Header Badges */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+                    <span
+                      style={{
+                        background: badgeColor,
+                        color: '#fff',
+                        padding: '4px 10px',
+                        borderRadius: '6px',
+                        fontSize: '11px',
+                        fontWeight: '800',
+                        letterSpacing: '0.8px',
+                        textTransform: 'uppercase'
+                      }}
+                    >
+                      {p.badge || 'INTERNSHIP'}
+                    </span>
+                    <span style={{ fontSize: '20px', fontWeight: '800', color: 'rgba(255, 255, 255, 0.2)' }}>
+                      {displayNumber}
+                    </span>
+                  </div>
+
+                  {/* Title & Subtitle */}
+                  <h3 style={{ fontSize: '24px', fontWeight: '800', color: '#f8fafc', margin: '0 0 4px', lineHeight: 1.25 }}>
+                    {p.title}
+                  </h3>
+                  <div style={{ fontSize: '14px', fontWeight: '600', color: accent, marginBottom: '14px' }}>
+                    {p.subtitle || p.title}
+                  </div>
+
+                  <p style={{ color: '#94a3b8', fontSize: '14px', lineHeight: 1.6, margin: '0 0 22px' }}>
+                    {p.desc}
+                  </p>
+
+                  {/* Curriculum Bullet Points */}
+                  <div style={{ marginBottom: '24px', flex: 1 }}>
+                    <div style={{ fontSize: '12px', fontWeight: '700', color: '#e2e8f0', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '12px' }}>
+                      What You Will Learn:
+                    </div>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {moduleList.map((m, idx) => (
+                        <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '13.5px', color: '#cbd5e1' }}>
+                          <span style={{ color: accent, fontWeight: '700', fontSize: '14px', lineHeight: 1 }}>✓</span>
+                          <span>{m}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Outcome Box */}
+                  <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: `1px solid ${accent}33`, borderRadius: '12px', padding: '14px 16px', marginBottom: '24px' }}>
+                    <div style={{ fontSize: '11px', fontWeight: '800', color: accent, letterSpacing: '0.8px', textTransform: 'uppercase', marginBottom: '4px' }}>
+                      Target Outcome
+                    </div>
+                    <div style={{ fontSize: '13px', color: '#f1f5f9', lineHeight: 1.5, fontWeight: '500' }}>
+                      {p.outcome || 'Gain hands-on industry experience and project portfolio credentials.'}
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    <button
+                      type="button"
+                      onClick={() => onOpenModal && onOpenModal(p.subtitle || p.title || 'Industrial Internship Program')}
+                      style={{
+                        flex: 1,
+                        padding: '12px 18px',
+                        background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
+                        border: 'none',
+                        borderRadius: '10px',
+                        color: '#fff',
+                        fontSize: '14px',
+                        fontWeight: '700',
+                        cursor: 'pointer',
+                        transition: 'opacity 0.2s'
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.9'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
+                    >
+                      Apply Now
+                    </button>
+                    {p.link ? (
+                      <Link
+                        to={p.link}
+                        style={{
+                          padding: '12px 16px',
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(139, 92, 246, 0.3)',
+                          borderRadius: '10px',
+                          color: '#cbd5e1',
+                          fontSize: '13px',
+                          fontWeight: '600',
+                          textDecoration: 'none',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        View Details →
+                      </Link>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => onOpenModal && onOpenModal(p.subtitle || p.title || 'Industrial Internship Program')}
+                        style={{
+                          padding: '12px 16px',
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(139, 92, 246, 0.3)',
+                          borderRadius: '10px',
+                          color: '#cbd5e1',
+                          fontSize: '13px',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        Inquire →
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
       </section>
 

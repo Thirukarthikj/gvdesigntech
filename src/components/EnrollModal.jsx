@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { modalStyles } from '../data/styles.js';
 import { syncToFirestore } from '../services/firebase.js';
-import { getStoredSiteConfig, getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import {
+  getStoredSiteConfig,
+  getStoredCourses,
+  getStoredInternshipPrograms,
+  subscribeToContentUpdates
+} from '../data/contentPersistence.js';
 
 export const STANDARD_DISCIPLINES = [
   'Mechanical & Automobile',
@@ -33,8 +38,12 @@ export const STANDARD_COURSES = STANDARD_DISCIPLINES;
 export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
   const [siteConfig, setSiteConfig] = useState(() => getStoredSiteConfig());
   const [courses, setCourses] = useState(() => getStoredCourses());
+  const [internshipPrograms, setInternshipPrograms] = useState(() => getStoredInternshipPrograms());
   const modalConfig = siteConfig.enrollModal || {};
   const publishedCourses = (courses || []).filter(c => c && (c.title || c.department));
+
+  const dynamicInternships = (internshipPrograms || []).map(p => p.subtitle || p.title).filter(Boolean);
+  const allInternshipOptions = Array.from(new Set([...dynamicInternships, ...INTERNSHIP_PROGRAMS]));
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -53,6 +62,7 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
     return subscribeToContentUpdates(() => {
       setSiteConfig(getStoredSiteConfig());
       setCourses(getStoredCourses());
+      setInternshipPrograms(getStoredInternshipPrograms());
     });
   }, []);
 
@@ -79,8 +89,8 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
           (trimmed.length >= 3 && trimmed.includes(d.toLowerCase()))
         );
 
-        // 3. Try match in internships
-        const matchedInternship = INTERNSHIP_PROGRAMS.find(p =>
+        // 3. Try match in internships (both dynamic and static)
+        const matchedInternship = allInternshipOptions.find(p =>
           p.toLowerCase().trim() === trimmed ||
           (trimmed.length >= 3 && p.toLowerCase().includes(trimmed)) ||
           (trimmed.length >= 3 && trimmed.includes(p.toLowerCase()))
@@ -97,7 +107,7 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
         }));
       }
     }
-  }, [isOpen, initialProgram, courses]);
+  }, [isOpen, initialProgram, courses, internshipPrograms]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -316,7 +326,7 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
                   {formData.program &&
                     !publishedCourses.some(c => (c.title === formData.program || c.department === formData.program)) &&
                     !STANDARD_DISCIPLINES.includes(formData.program) &&
-                    !INTERNSHIP_PROGRAMS.includes(formData.program) && (
+                    !allInternshipOptions.includes(formData.program) && (
                       <option value={formData.program} style={{ backgroundColor: '#0f1123', color: '#38bdf8', fontWeight: '700' }}>
                         {formData.program} (Selected)
                       </option>
@@ -342,9 +352,9 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
                     ))}
                   </optgroup>
 
-                  {/* 3. Industry Internship Programs */}
+                  {/* 3. Industry Internship Programs (Dynamic from Admin & Catalog) */}
                   <optgroup label="💼 Industry Internship Programs">
-                    {INTERNSHIP_PROGRAMS.map((title) => (
+                    {allInternshipOptions.map((title) => (
                       <option key={title} value={title} style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>
                         {title}
                       </option>

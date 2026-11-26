@@ -2,6 +2,7 @@ import { mouList } from './mous.js';
 import { galleryItems } from './gallery.js';
 import { blogPosts, blogCategories } from './blogs.js';
 import { initialCourses } from './coursesData.js';
+import { initialInternshipPrograms } from './internshipsData.js';
 import { syncToFirestore, subscribeToFirestore } from '../services/firebase.js';
 
 // Keys for localStorage
@@ -12,6 +13,7 @@ const BLOG_KEY = 'gv_admin_blogs';
 const CERT_KEY = 'gv_admin_certificates';
 const LEADERS_KEY = 'gv_admin_leaders';
 const COURSE_KEY = 'gv_admin_courses';
+const INTERNSHIP_PROGRAMS_KEY = 'gv_admin_internship_programs';
 const SITE_CONFIG_KEY = 'gv_site_config';
 
 export const initialSiteConfig = {
@@ -192,7 +194,7 @@ let mongoSyncTriggered = false;
 export async function syncWithMongo() {
   if (typeof window === 'undefined') return;
   try {
-    const [mousRes, galRes, placeRes, blogsRes, leadRes, certRes, leadsRes, coursesRes, siteConfigRes] = await Promise.allSettled([
+    const [mousRes, galRes, placeRes, blogsRes, leadRes, certRes, leadsRes, coursesRes, internRes, siteConfigRes] = await Promise.allSettled([
       fetch('/api/mous').then(r => r.ok ? r.json() : null),
       fetch('/api/gallery').then(r => r.ok ? r.json() : null),
       fetch('/api/placements').then(r => r.ok ? r.json() : null),
@@ -201,6 +203,7 @@ export async function syncWithMongo() {
       fetch('/api/certificates').then(r => r.ok ? r.json() : null),
       fetch('/api/leads').then(r => r.ok ? r.json() : null),
       fetch('/api/courses').then(r => r.ok ? r.json() : null),
+      fetch('/api/internship-programs').then(r => r.ok ? r.json() : null),
       fetch('/api/site-config').then(r => r.ok ? r.json() : null)
     ]);
 
@@ -237,6 +240,10 @@ export async function syncWithMongo() {
     if (coursesRes.status === 'fulfilled' && Array.isArray(coursesRes.value)) {
       const dedupedCourses = dedupeCourseList(coursesRes.value);
       localStorage.setItem(COURSE_KEY, JSON.stringify(dedupedCourses));
+      changed = true;
+    }
+    if (internRes.status === 'fulfilled' && Array.isArray(internRes.value) && internRes.value.length > 0) {
+      localStorage.setItem(INTERNSHIP_PROGRAMS_KEY, JSON.stringify(internRes.value));
       changed = true;
     }
     if (siteConfigRes.status === 'fulfilled' && siteConfigRes.value && typeof siteConfigRes.value === 'object') {
@@ -633,7 +640,46 @@ export function saveStoredCourses(courses) {
   }
 }
 
-/* --- 8. Site Config Persistence (Demo Video, Recent Activities, Stats, Showcase Images) --- */
+/* --- 8. Internship Programs Catalog Persistence --- */
+export function getStoredInternshipPrograms() {
+  try {
+    const raw = localStorage.getItem(INTERNSHIP_PROGRAMS_KEY);
+    if (!raw) {
+      localStorage.setItem(INTERNSHIP_PROGRAMS_KEY, JSON.stringify(initialInternshipPrograms));
+      return initialInternshipPrograms;
+    }
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) && parsed.length > 0 ? parsed : initialInternshipPrograms;
+  } catch {
+    return initialInternshipPrograms;
+  }
+}
+
+export function saveStoredInternshipPrograms(programs) {
+  const cleanPrograms = Array.isArray(programs) ? programs : [];
+  try {
+    localStorage.setItem(INTERNSHIP_PROGRAMS_KEY, JSON.stringify(cleanPrograms));
+    notifyContentUpdate('internships');
+  } catch (err) {
+    console.error('Failed to save Internship Programs to localStorage:', err);
+  }
+
+  // Persist directly to MongoDB
+  try {
+    fetch('/api/internship-programs/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cleanPrograms)
+    }).catch(e => console.warn('MongoDB Internship Programs sync:', e.message));
+  } catch (e) {}
+
+  // Cloud firestore sync
+  try {
+    syncToFirestore('internship_programs', cleanPrograms);
+  } catch {}
+}
+
+/* --- 9. Site Config Persistence (Demo Video, Recent Activities, Stats, Showcase Images) --- */
 export function getStoredSiteConfig() {
   try {
     const raw = localStorage.getItem(SITE_CONFIG_KEY);

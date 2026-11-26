@@ -404,3 +404,73 @@ export async function syncCoursesToMongo(courses) {
     return null;
   }
 }
+
+/* ==================================================
+   9. Master Internship Programs Catalog
+   ================================================== */
+export async function fetchInternshipProgramsFromMongo() {
+  try {
+    const res = await fetch(`${API_BASE}/internship-programs`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    console.warn('Could not fetch internship programs from MongoDB:', err.message);
+    return null;
+  }
+}
+
+export async function createInternshipProgramInMongo(program) {
+  try {
+    const res = await fetch(`${API_BASE}/internship-programs`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(program)
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    console.warn('Could not create internship program in MongoDB:', err.message);
+    return null;
+  }
+}
+
+export async function updateInternshipProgramInMongo(id, program) {
+  try {
+    const res = await fetch(`${API_BASE}/internship-programs/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(program)
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    console.warn('Could not update internship program in MongoDB:', err.message);
+    return null;
+  }
+}
+
+export async function deleteInternshipProgramInMongo(id) {
+  try {
+    const res = await fetch(`${API_BASE}/internship-programs/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    console.warn('Could not delete internship program in MongoDB:', err.message);
+    return null;
+  }
+}
+
+export async function syncInternshipProgramsToMongo(programs) {
+  try {
+    const res = await fetch(`${API_BASE}/internship-programs/sync`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(programs)
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    console.warn('Could not sync internship programs to MongoDB:', err.message);
+    return null;
+  }
+}
