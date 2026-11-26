@@ -1,9 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { getStoredInternshipPrograms, saveStoredInternshipPrograms, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import { fetchInternshipProgramsFromMongo } from '../services/mongoService.js';
 
 export default function SummerInternship({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
   const canvasRef = useRef(null);
+
+  const [programData, setProgramData] = useState(() => {
+    const list = getStoredInternshipPrograms();
+    return list.find(p => p.id === 'summer' || p.link?.toLowerCase().includes('summer') || p.title?.toLowerCase().includes('summer')) || null;
+  });
+
+  useEffect(() => {
+    async function loadData() {
+      const mongoList = await fetchInternshipProgramsFromMongo();
+      if (mongoList && Array.isArray(mongoList) && mongoList.length > 0) {
+        saveStoredInternshipPrograms(mongoList);
+        const match = mongoList.find(p => p.id === 'summer' || p.link?.toLowerCase().includes('summer') || p.title?.toLowerCase().includes('summer'));
+        if (match) setProgramData(match);
+      }
+    }
+    loadData();
+
+    const unsub = subscribeToContentUpdates(() => {
+      const list = getStoredInternshipPrograms();
+      const match = list.find(p => p.id === 'summer' || p.link?.toLowerCase().includes('summer') || p.title?.toLowerCase().includes('summer'));
+      if (match) setProgramData(match);
+    });
+    return () => unsub();
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -69,7 +95,7 @@ export default function SummerInternship({ onOpenModal }) {
     };
   }, []);
 
-  const modules = [
+  const defaultModules = [
     { title: 'Industry-Oriented Training', desc: 'Direct immersion into current corporate software engineering, agile methodologies, git branching, and professional development standards.' },
     { title: 'Hands-On Coding Sessions', desc: 'Live pair programming, algorithmic problem-solving labs, interactive debugging, and code refactoring workshops with senior architects.' },
     { title: 'Practical Assignments', desc: 'Milestone-driven problem sets designed around real software engineering challenges to solidify concepts learned each week.' },
@@ -77,6 +103,24 @@ export default function SummerInternship({ onOpenModal }) {
     { title: 'Technical Mentorship', desc: 'Dedicated 1-on-1 feedback, weekly code reviews, resume structuring, and personalized guidance from seasoned industry practitioners.' },
     { title: 'Project Development Experience', desc: 'End-to-end capstone deployment, portfolio README creation, GitHub release management, and formal project presentation.' }
   ];
+
+  const rawModules = programData?.modules;
+  const parsedModuleList = Array.isArray(rawModules)
+    ? rawModules
+    : (typeof rawModules === 'string'
+      ? rawModules.split('\n').map(s => s.trim().replace(/^[-*•✓]\s*/, '')).filter(Boolean)
+      : []);
+
+  const displayModules = parsedModuleList.length > 0
+    ? parsedModuleList.map((m) => {
+        if (typeof m === 'object' && m !== null) return m;
+        const matched = defaultModules.find(dm => dm.title.toLowerCase() === String(m).toLowerCase());
+        return {
+          title: String(m),
+          desc: matched ? matched.desc : 'Practical hands-on training, live problem sets, and architecture mentorship.'
+        };
+      })
+    : defaultModules;
 
   const benefits = [
     { icon: '💻', title: 'Practical Training', desc: 'Hands-on technical learning.' },
@@ -87,7 +131,7 @@ export default function SummerInternship({ onOpenModal }) {
 
   const faqs = [
     { q: 'Who is eligible to enroll in the Summer Internship Program?', a: 'Engineering, Computer Science, IT, and Polytechnic diploma students seeking to utilize their vacation productively to build core technical credentials.' },
-    { q: 'What is the primary outcome of the program?', a: 'Strengthen your technical knowledge and build projects for your portfolio that make your resume stand out in campus and off-campus placements.' },
+    { q: 'What is the primary outcome of the program?', a: programData?.outcome || 'Strengthen your technical knowledge and build projects for your portfolio that make your resume stand out in campus and off-campus placements.' },
     { q: 'Can I combine this with college internship requirements?', a: 'Yes! Our summer internship meets formal academic internship guidelines and includes project sign-offs and verifiable completion documentation.' }
   ];
 
@@ -100,25 +144,25 @@ export default function SummerInternship({ onOpenModal }) {
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 20px', background: 'rgba(245, 158, 11, 0.12)', border: '1px solid rgba(245, 158, 11, 0.35)', borderRadius: '999px', fontSize: '13px', fontWeight: '700', color: '#fbbf24', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '24px' }}>
             <span>☀️</span>
-            <span>PROGRAM 02 • SUMMER ACCELERATOR</span>
+            <span>{programData?.badge ? `${programData.number ? `PROGRAM ${programData.number} • ` : ''}${programData.badge}` : 'PROGRAM 02 • SUMMER ACCELERATOR'}</span>
           </div>
 
           <h1 style={{ fontSize: 'clamp(36px, 6vw, 68px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 30%, #fbbf24 70%, #f97316 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            Summer Internship
+            {programData?.title || 'Summer Internship'}
           </h1>
 
           <div style={{ fontSize: 'clamp(20px, 3vw, 26px)', fontWeight: '700', color: '#f8fafc', marginBottom: '20px' }}>
-            Summer Internship Program
+            {programData?.subtitle || 'Summer Internship Program'}
           </div>
 
           <p style={{ maxWidth: '820px', margin: '0 auto 40px', fontSize: '18px', lineHeight: 1.65, color: '#94a3b8' }}>
-            Make your summer productive by gaining practical industry experience and developing in-demand technical skills.
+            {programData?.desc || 'Make your summer productive by gaining practical industry experience and developing in-demand technical skills.'}
           </p>
 
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
-              onClick={() => onOpenModal && onOpenModal('Summer Internship for Engineering Students')}
+              onClick={() => onOpenModal && onOpenModal(programData?.subtitle || programData?.title || 'Summer Internship for Engineering Students')}
               style={{
                 padding: '16px 36px',
                 background: 'linear-gradient(135deg, #f59e0b, #d97706)',
@@ -132,7 +176,7 @@ export default function SummerInternship({ onOpenModal }) {
                 transition: 'transform 0.2s'
               }}
             >
-              Apply for Summer Cohort
+              Apply for {programData?.title || 'Summer Cohort'}
             </button>
             <Link
               to="/internship"
@@ -159,7 +203,7 @@ export default function SummerInternship({ onOpenModal }) {
               <span style={{ fontSize: '13px', fontWeight: '800', color: '#fbbf24', letterSpacing: '1px', textTransform: 'uppercase' }}>Program Outcome</span>
             </div>
             <p style={{ margin: 0, fontSize: '16px', color: '#f8fafc', fontWeight: '600', lineHeight: 1.6 }}>
-              Outcome: Strengthen your technical knowledge and build projects for your portfolio.
+              Outcome: {programData?.outcome || 'Strengthen your technical knowledge and build projects for your portfolio.'}
             </p>
           </div>
         </div>
@@ -180,7 +224,7 @@ export default function SummerInternship({ onOpenModal }) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '24px' }}>
-          {modules.map((m, idx) => (
+          {displayModules.map((m, idx) => (
             <div
               key={idx}
               style={{
@@ -284,14 +328,14 @@ export default function SummerInternship({ onOpenModal }) {
             Learn. Practice. Build. Grow.
           </div>
           <p style={{ color: '#94a3b8', fontSize: '17px', maxWidth: '640px', margin: '0 auto 32px', lineHeight: 1.6 }}>
-            Gain practical industry experience, develop in-demand technical skills, and build projects that make your portfolio shine.
+            {programData?.desc || 'Gain practical industry experience, develop in-demand technical skills, and build projects that make your portfolio shine.'}
           </p>
           <button
             type="button"
-            onClick={() => onOpenModal && onOpenModal('Summer Internship for Engineering Students')}
+            onClick={() => onOpenModal && onOpenModal(programData?.subtitle || programData?.title || 'Summer Internship for Engineering Students')}
             style={{ padding: '16px 40px', background: 'linear-gradient(135deg, #f59e0b, #d97706)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 30px rgba(245, 158, 11, 0.4)', transition: 'transform 0.2s' }}
           >
-            Apply for Summer Internship →
+            Apply for {programData?.title || 'Summer Internship'} →
           </button>
         </div>
       </section>

@@ -1,9 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { getStoredInternshipPrograms, saveStoredInternshipPrograms, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import { fetchInternshipProgramsFromMongo } from '../services/mongoService.js';
 
 export default function MachineLearningInternship({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
   const canvasRef = useRef(null);
+
+  const [programData, setProgramData] = useState(() => {
+    const list = getStoredInternshipPrograms();
+    return list.find(p => p.id === 'ml' || p.id === 'machinelearning' || p.link?.toLowerCase().includes('machinelearning') || p.title?.toLowerCase().includes('machine learning')) || null;
+  });
+
+  useEffect(() => {
+    async function loadData() {
+      const mongoList = await fetchInternshipProgramsFromMongo();
+      if (mongoList && Array.isArray(mongoList) && mongoList.length > 0) {
+        saveStoredInternshipPrograms(mongoList);
+        const match = mongoList.find(p => p.id === 'ml' || p.id === 'machinelearning' || p.link?.toLowerCase().includes('machinelearning') || p.title?.toLowerCase().includes('machine learning'));
+        if (match) setProgramData(match);
+      }
+    }
+    loadData();
+
+    const unsub = subscribeToContentUpdates(() => {
+      const list = getStoredInternshipPrograms();
+      const match = list.find(p => p.id === 'ml' || p.id === 'machinelearning' || p.link?.toLowerCase().includes('machinelearning') || p.title?.toLowerCase().includes('machine learning'));
+      if (match) setProgramData(match);
+    });
+    return () => unsub();
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -69,7 +95,7 @@ export default function MachineLearningInternship({ onOpenModal }) {
     };
   }, []);
 
-  const modules = [
+  const defaultModules = [
     { title: 'Python Programming', desc: 'Object-oriented programming, data structures, list and dictionary comprehension, exception handling, and standard libraries.' },
     { title: 'Machine Learning Fundamentals', desc: 'Core machine learning terminology, bias-variance tradeoff, cross-validation, feature engineering, and loss function optimization.' },
     { title: 'Supervised and Unsupervised Learning', desc: 'Comparing labeled regression/classification versus unlabeled clustering (K-Means, DBSCAN) and dimensionality reduction (PCA).' },
@@ -78,6 +104,24 @@ export default function MachineLearningInternship({ onOpenModal }) {
     { title: 'Scikit-learn', desc: 'Industrial scikit-learn pipelines, custom transformers, column transformers, model persistence with Joblib, and REST API deployment.' },
     { title: 'Real-Time ML Projects', desc: 'Building practical predictive pipelines on live sensor data, fraud detection, predictive maintenance, and sentiment classification.' }
   ];
+
+  const rawModules = programData?.modules;
+  const parsedModuleList = Array.isArray(rawModules)
+    ? rawModules
+    : (typeof rawModules === 'string'
+      ? rawModules.split('\n').map(s => s.trim().replace(/^[-*•✓]\s*/, '')).filter(Boolean)
+      : []);
+
+  const displayModules = parsedModuleList.length > 0
+    ? parsedModuleList.map((m) => {
+        if (typeof m === 'object' && m !== null) return m;
+        const matched = defaultModules.find(dm => dm.title.toLowerCase() === String(m).toLowerCase());
+        return {
+          title: String(m),
+          desc: matched ? matched.desc : 'Practical hands-on training, live problem sets, and architecture mentorship.'
+        };
+      })
+    : defaultModules;
 
   const benefits = [
     { icon: '💻', title: 'Practical Training', desc: 'Hands-on technical learning.' },
@@ -88,7 +132,7 @@ export default function MachineLearningInternship({ onOpenModal }) {
 
   const faqs = [
     { q: 'Who should enroll in the Machine Learning Internship?', a: 'Students, graduates, and professionals aiming to master applied machine learning, build predictive models, and transition into AI/ML engineering roles.' },
-    { q: 'What is the primary target outcome?', a: 'Build machine learning models and gain practical experience in predictive analytics that can be showcased on your GitHub portfolio.' },
+    { q: 'What is the primary target outcome?', a: programData?.outcome || 'Build machine learning models and gain practical experience in predictive analytics that can be showcased on your GitHub portfolio.' },
     { q: 'Do you provide mentor support during project development?', a: 'Yes! Senior ML engineers conduct regular code reviews, debugging sessions, and architectural guidance to ensure your models reach production readiness.' }
   ];
 
@@ -101,25 +145,25 @@ export default function MachineLearningInternship({ onOpenModal }) {
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 20px', background: 'rgba(139, 92, 246, 0.12)', border: '1px solid rgba(139, 92, 246, 0.35)', borderRadius: '999px', fontSize: '13px', fontWeight: '700', color: '#c084fc', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '24px' }}>
             <span>🤖</span>
-            <span>PROGRAM 05 • MACHINE LEARNING INTERNSHIP</span>
+            <span>{programData?.badge ? `${programData.number ? `PROGRAM ${programData.number} • ` : ''}${programData.badge}` : 'PROGRAM 05 • MACHINE LEARNING INTERNSHIP'}</span>
           </div>
 
           <h1 style={{ fontSize: 'clamp(36px, 6vw, 68px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 30%, #c084fc 70%, #8b5cf6 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            Machine Learning Internship
+            {programData?.title || 'Machine Learning Internship'}
           </h1>
 
           <div style={{ fontSize: 'clamp(20px, 3vw, 26px)', fontWeight: '700', color: '#f8fafc', marginBottom: '20px' }}>
-            Machine Learning Internship
+            {programData?.subtitle || 'Machine Learning & Deep Learning Internship'}
           </div>
 
           <p style={{ maxWidth: '820px', margin: '0 auto 40px', fontSize: '18px', lineHeight: 1.65, color: '#94a3b8' }}>
-            Discover how machines learn from data and develop predictive models using modern machine learning techniques.
+            {programData?.desc || 'Discover how machines learn from data and develop predictive models using modern machine learning techniques.'}
           </p>
 
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
-              onClick={() => onOpenModal && onOpenModal('Machine Learning & Deep Learning Internship')}
+              onClick={() => onOpenModal && onOpenModal(programData?.subtitle || programData?.title || 'Machine Learning & Deep Learning Internship')}
               style={{
                 padding: '16px 36px',
                 background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
@@ -133,7 +177,7 @@ export default function MachineLearningInternship({ onOpenModal }) {
                 transition: 'transform 0.2s'
               }}
             >
-              Apply for ML Internship
+              Apply for {programData?.title || 'ML Internship'}
             </button>
             <Link
               to="/internship"
@@ -160,7 +204,7 @@ export default function MachineLearningInternship({ onOpenModal }) {
               <span style={{ fontSize: '13px', fontWeight: '800', color: '#c084fc', letterSpacing: '1px', textTransform: 'uppercase' }}>Program Outcome</span>
             </div>
             <p style={{ margin: 0, fontSize: '16px', color: '#f8fafc', fontWeight: '600', lineHeight: 1.6 }}>
-              Outcome: Build machine learning models and gain practical experience in predictive analytics.
+              Outcome: {programData?.outcome || 'Build machine learning models and gain practical experience in predictive analytics.'}
             </p>
           </div>
         </div>
@@ -181,7 +225,7 @@ export default function MachineLearningInternship({ onOpenModal }) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '24px' }}>
-          {modules.map((m, idx) => (
+          {displayModules.map((m, idx) => (
             <div
               key={idx}
               style={{
@@ -285,14 +329,14 @@ export default function MachineLearningInternship({ onOpenModal }) {
             Learn. Practice. Build. Grow.
           </div>
           <p style={{ color: '#94a3b8', fontSize: '17px', maxWidth: '640px', margin: '0 auto 32px', lineHeight: 1.6 }}>
-            Discover how machines learn from data and develop predictive models using modern machine learning techniques under senior practitioners.
+            {programData?.desc || 'Discover how machines learn from data and develop predictive models using modern machine learning techniques under senior practitioners.'}
           </p>
           <button
             type="button"
-            onClick={() => onOpenModal && onOpenModal('Machine Learning & Deep Learning Internship')}
+            onClick={() => onOpenModal && onOpenModal(programData?.subtitle || programData?.title || 'Machine Learning & Deep Learning Internship')}
             style={{ padding: '16px 40px', background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 30px rgba(139, 92, 246, 0.4)', transition: 'transform 0.2s' }}
           >
-            Apply for ML Internship →
+            Apply for {programData?.title || 'ML Internship'} →
           </button>
         </div>
       </section>

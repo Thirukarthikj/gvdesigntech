@@ -1,9 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { getStoredInternshipPrograms, saveStoredInternshipPrograms, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import { fetchInternshipProgramsFromMongo } from '../services/mongoService.js';
 
 export default function AiInternship({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
   const canvasRef = useRef(null);
+
+  const [programData, setProgramData] = useState(() => {
+    const list = getStoredInternshipPrograms();
+    return list.find(p => p.id === 'ai' || p.link?.toLowerCase().includes('ai') || p.title?.toLowerCase().includes('ai')) || null;
+  });
+
+  useEffect(() => {
+    async function loadData() {
+      const mongoList = await fetchInternshipProgramsFromMongo();
+      if (mongoList && Array.isArray(mongoList) && mongoList.length > 0) {
+        saveStoredInternshipPrograms(mongoList);
+        const match = mongoList.find(p => p.id === 'ai' || p.link?.toLowerCase().includes('ai') || p.title?.toLowerCase().includes('ai'));
+        if (match) setProgramData(match);
+      }
+    }
+    loadData();
+
+    const unsub = subscribeToContentUpdates(() => {
+      const list = getStoredInternshipPrograms();
+      const match = list.find(p => p.id === 'ai' || p.link?.toLowerCase().includes('ai') || p.title?.toLowerCase().includes('ai'));
+      if (match) setProgramData(match);
+    });
+    return () => unsub();
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -69,7 +95,7 @@ export default function AiInternship({ onOpenModal }) {
     };
   }, []);
 
-  const modules = [
+  const defaultModules = [
     { title: 'Introduction to Artificial Intelligence', desc: 'Core AI concepts, state space representations, heuristics, search algorithms, and the evolution of modern neural computation.' },
     { title: 'Generative AI and AI Tools', desc: 'Understanding Large Language Models (LLMs), diffusion models, multimodal architectures, and hands-on integration with state-of-the-art AI toolkits.' },
     { title: 'Prompt Engineering', desc: 'Advanced prompting paradigms: zero-shot, few-shot, chain-of-thought, contextual grounding, system prompt optimization, and deterministic AI output formatting.' },
@@ -77,6 +103,24 @@ export default function AiInternship({ onOpenModal }) {
     { title: 'Real-Time AI Projects', desc: 'Developing real-world industry AI assistants, document summarization copilots, autonomous research agents, and intelligent chatbots.' },
     { title: 'Practical Implementation', desc: 'Containerization with Docker, deploying AI endpoints to cloud platforms, latency optimization, and continuous monitoring.' }
   ];
+
+  const rawModules = programData?.modules;
+  const parsedModuleList = Array.isArray(rawModules)
+    ? rawModules
+    : (typeof rawModules === 'string'
+      ? rawModules.split('\n').map(s => s.trim().replace(/^[-*•✓]\s*/, '')).filter(Boolean)
+      : []);
+
+  const displayModules = parsedModuleList.length > 0
+    ? parsedModuleList.map((m) => {
+        if (typeof m === 'object' && m !== null) return m;
+        const matched = defaultModules.find(dm => dm.title.toLowerCase() === String(m).toLowerCase());
+        return {
+          title: String(m),
+          desc: matched ? matched.desc : 'Practical hands-on training, live problem sets, and architecture mentorship.'
+        };
+      })
+    : defaultModules;
 
   const benefits = [
     { icon: '💻', title: 'Practical Training', desc: 'Hands-on technical learning.' },
@@ -87,7 +131,7 @@ export default function AiInternship({ onOpenModal }) {
 
   const faqs = [
     { q: 'Who can apply for this AI Internship?', a: 'Undergraduate and postgraduate students, fresh engineering graduates, and early-career software developers looking for intensive practical experience in artificial intelligence.' },
-    { q: 'What is the target outcome of the program?', a: 'Gain hands-on experience in AI technologies and develop intelligent applications ready for portfolio deployment and corporate interviews.' },
+    { q: 'What is the target outcome of the program?', a: programData?.outcome || 'Gain hands-on experience in AI technologies and develop intelligent applications ready for portfolio deployment and corporate interviews.' },
     { q: 'Will I receive a verifiable certificate?', a: 'Yes! Upon successful completion and project submission, you receive an industry-recognized certificate with a QR code verifiable on our portal.' }
   ];
 
@@ -100,25 +144,25 @@ export default function AiInternship({ onOpenModal }) {
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 20px', background: 'rgba(236, 72, 153, 0.12)', border: '1px solid rgba(236, 72, 153, 0.35)', borderRadius: '999px', fontSize: '13px', fontWeight: '700', color: '#f472b6', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '24px' }}>
             <span>🧠</span>
-            <span>PROGRAM 01 • ARTIFICIAL INTELLIGENCE INTERNSHIP</span>
+            <span>{programData?.badge ? `${programData.number ? `PROGRAM ${programData.number} • ` : ''}${programData.badge}` : 'PROGRAM 01 • ARTIFICIAL INTELLIGENCE INTERNSHIP'}</span>
           </div>
 
           <h1 style={{ fontSize: 'clamp(36px, 6vw, 68px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 30%, #ec4899 70%, #d946ef 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            AI Internship
+            {programData?.title || 'AI Internship'}
           </h1>
 
           <div style={{ fontSize: 'clamp(20px, 3vw, 26px)', fontWeight: '700', color: '#f8fafc', marginBottom: '20px' }}>
-            Artificial Intelligence Internship
+            {programData?.subtitle || 'Artificial Intelligence Internship'}
           </div>
 
           <p style={{ maxWidth: '820px', margin: '0 auto 40px', fontSize: '18px', lineHeight: 1.65, color: '#94a3b8' }}>
-            Explore the world of Artificial Intelligence and learn how intelligent systems are developed and implemented.
+            {programData?.desc || 'Explore the world of Artificial Intelligence and learn how intelligent systems are developed and implemented.'}
           </p>
 
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
-              onClick={() => onOpenModal && onOpenModal('AI & Artificial Intelligence Internship')}
+              onClick={() => onOpenModal && onOpenModal(programData?.subtitle || programData?.title || 'AI & Artificial Intelligence Internship')}
               style={{
                 padding: '16px 36px',
                 background: 'linear-gradient(135deg, #ec4899, #d946ef)',
@@ -132,7 +176,7 @@ export default function AiInternship({ onOpenModal }) {
                 transition: 'transform 0.2s'
               }}
             >
-              Apply for AI Internship
+              Apply for {programData?.title || 'AI Internship'}
             </button>
             <Link
               to="/internship"
@@ -159,7 +203,7 @@ export default function AiInternship({ onOpenModal }) {
               <span style={{ fontSize: '13px', fontWeight: '800', color: '#f472b6', letterSpacing: '1px', textTransform: 'uppercase' }}>Program Outcome</span>
             </div>
             <p style={{ margin: 0, fontSize: '16px', color: '#f8fafc', fontWeight: '600', lineHeight: 1.6 }}>
-              Outcome: Gain hands-on experience in AI technologies and develop intelligent applications.
+              Outcome: {programData?.outcome || 'Gain hands-on experience in AI technologies and develop intelligent applications.'}
             </p>
           </div>
         </div>
@@ -180,7 +224,7 @@ export default function AiInternship({ onOpenModal }) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '24px' }}>
-          {modules.map((m, idx) => (
+          {displayModules.map((m, idx) => (
             <div
               key={idx}
               style={{
@@ -284,14 +328,14 @@ export default function AiInternship({ onOpenModal }) {
             Learn. Practice. Build. Grow.
           </div>
           <p style={{ color: '#94a3b8', fontSize: '17px', maxWidth: '640px', margin: '0 auto 32px', lineHeight: 1.6 }}>
-            Gain hands-on experience in cutting-edge AI technologies and develop intelligent applications under seasoned engineering mentors.
+            {programData?.desc || 'Gain hands-on experience in cutting-edge AI technologies and develop intelligent applications under seasoned engineering mentors.'}
           </p>
           <button
             type="button"
-            onClick={() => onOpenModal && onOpenModal('AI & Artificial Intelligence Internship')}
+            onClick={() => onOpenModal && onOpenModal(programData?.subtitle || programData?.title || 'AI & Artificial Intelligence Internship')}
             style={{ padding: '16px 40px', background: 'linear-gradient(135deg, #ec4899, #d946ef)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 30px rgba(236, 72, 153, 0.4)', transition: 'transform 0.2s' }}
           >
-            Apply for AI Internship →
+            Apply for {programData?.title || 'AI Internship'} →
           </button>
         </div>
       </section>

@@ -1,9 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { getStoredInternshipPrograms, saveStoredInternshipPrograms, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import { fetchInternshipProgramsFromMongo } from '../services/mongoService.js';
 
 export default function CollegeInternship({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
   const canvasRef = useRef(null);
+
+  const [programData, setProgramData] = useState(() => {
+    const list = getStoredInternshipPrograms();
+    return list.find(p => p.id === 'college' || p.link?.toLowerCase().includes('college') || p.title?.toLowerCase().includes('college')) || null;
+  });
+
+  useEffect(() => {
+    async function loadData() {
+      const mongoList = await fetchInternshipProgramsFromMongo();
+      if (mongoList && Array.isArray(mongoList) && mongoList.length > 0) {
+        saveStoredInternshipPrograms(mongoList);
+        const match = mongoList.find(p => p.id === 'college' || p.link?.toLowerCase().includes('college') || p.title?.toLowerCase().includes('college'));
+        if (match) setProgramData(match);
+      }
+    }
+    loadData();
+
+    const unsub = subscribeToContentUpdates(() => {
+      const list = getStoredInternshipPrograms();
+      const match = list.find(p => p.id === 'college' || p.link?.toLowerCase().includes('college') || p.title?.toLowerCase().includes('college'));
+      if (match) setProgramData(match);
+    });
+    return () => unsub();
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -69,7 +95,7 @@ export default function CollegeInternship({ onOpenModal }) {
     };
   }, []);
 
-  const modules = [
+  const defaultModules = [
     { title: 'Technical Skill Development', desc: 'Accelerated foundation in core computer science, software engineering principles, algorithms, and modular design patterns.' },
     { title: 'Mini & Final-Year Projects', desc: 'Guidance and mentorship for university academic project deliverables, problem definition, architecture blueprints, and code reviews.' },
     { title: 'Full Stack Development', desc: 'End-to-end web engineering covering modern frontends, robust backend microservices, SQL/NoSQL databases, and cloud hosting.' },
@@ -77,6 +103,24 @@ export default function CollegeInternship({ onOpenModal }) {
     { title: 'Team-Based Projects', desc: 'Collaborating in agile teams with Git workflows, pull requests, issue tracking, and peer code reviews simulating tech company environments.' },
     { title: 'Project Documentation and Guidance', desc: 'Comprehensive IEEE-format project documentation, synopsis preparation, viva-voce presentation coaching, and mentor evaluation reports.' }
   ];
+
+  const rawModules = programData?.modules;
+  const parsedModuleList = Array.isArray(rawModules)
+    ? rawModules
+    : (typeof rawModules === 'string'
+      ? rawModules.split('\n').map(s => s.trim().replace(/^[-*•✓]\s*/, '')).filter(Boolean)
+      : []);
+
+  const displayModules = parsedModuleList.length > 0
+    ? parsedModuleList.map((m) => {
+        if (typeof m === 'object' && m !== null) return m;
+        const matched = defaultModules.find(dm => dm.title.toLowerCase() === String(m).toLowerCase());
+        return {
+          title: String(m),
+          desc: matched ? matched.desc : 'Practical hands-on training, live problem sets, and architecture mentorship.'
+        };
+      })
+    : defaultModules;
 
   const benefits = [
     { icon: '💻', title: 'Practical Training', desc: 'Hands-on technical learning.' },
@@ -87,7 +131,7 @@ export default function CollegeInternship({ onOpenModal }) {
 
   const faqs = [
     { q: 'Is this College Internship approved for university academic credit?', a: 'Yes! Our syllabus adheres to AICTE and Anna University guidelines, complete with attendance logs, project reports, and verifiable internship completion letters.' },
-    { q: 'What is the primary target outcome?', a: 'Develop industry-ready skills and gain confidence in practical project development, giving you a competitive edge in campus recruitment.' },
+    { q: 'What is the primary target outcome?', a: programData?.outcome || 'Develop industry-ready skills and gain confidence in practical project development, giving you a competitive edge in campus recruitment.' },
     { q: 'Can my team work together on our final-year project?', a: 'Absolutely! We offer team slots where 2 to 4 students can work together under a dedicated technical mentor to build an impressive final-year project.' }
   ];
 
@@ -100,25 +144,25 @@ export default function CollegeInternship({ onOpenModal }) {
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 20px', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', borderRadius: '999px', fontSize: '13px', fontWeight: '700', color: '#38bdf8', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '24px' }}>
             <span>🎓</span>
-            <span>PROGRAM 03 • ACADEMIC ACCREDITED</span>
+            <span>{programData?.badge ? `${programData.number ? `PROGRAM ${programData.number} • ` : ''}${programData.badge}` : 'PROGRAM 03 • ACADEMIC ACCREDITED'}</span>
           </div>
 
           <h1 style={{ fontSize: 'clamp(36px, 6vw, 68px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 16px', background: 'linear-gradient(135deg, #ffffff 30%, #38bdf8 70%, #0284c7 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            College Internship
+            {programData?.title || 'College Internship'}
           </h1>
 
           <div style={{ fontSize: 'clamp(20px, 3vw, 26px)', fontWeight: '700', color: '#f8fafc', marginBottom: '20px' }}>
-            College Internship Program
+            {programData?.subtitle || 'College Internship Program'}
           </div>
 
           <p style={{ maxWidth: '820px', margin: '0 auto 40px', fontSize: '18px', lineHeight: 1.65, color: '#94a3b8' }}>
-            Bridge the gap between academic learning and industry requirements through practical training and project-based learning.
+            {programData?.desc || 'Bridge the gap between academic learning and industry requirements through practical training and project-based learning.'}
           </p>
 
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
-              onClick={() => onOpenModal && onOpenModal('College In-Plant Internship Training')}
+              onClick={() => onOpenModal && onOpenModal(programData?.subtitle || programData?.title || 'College In-Plant Internship Training')}
               style={{
                 padding: '16px 36px',
                 background: 'linear-gradient(135deg, #0284c7, #0369a1)',
@@ -132,7 +176,7 @@ export default function CollegeInternship({ onOpenModal }) {
                 transition: 'transform 0.2s'
               }}
             >
-              Apply for College Batch
+              Apply for {programData?.title || 'College Batch'}
             </button>
             <Link
               to="/internship"
@@ -159,7 +203,7 @@ export default function CollegeInternship({ onOpenModal }) {
               <span style={{ fontSize: '13px', fontWeight: '800', color: '#38bdf8', letterSpacing: '1px', textTransform: 'uppercase' }}>Program Outcome</span>
             </div>
             <p style={{ margin: 0, fontSize: '16px', color: '#f8fafc', fontWeight: '600', lineHeight: 1.6 }}>
-              Outcome: Develop industry-ready skills and gain confidence in practical project development.
+              Outcome: {programData?.outcome || 'Develop industry-ready skills and gain confidence in practical project development.'}
             </p>
           </div>
         </div>
@@ -180,7 +224,7 @@ export default function CollegeInternship({ onOpenModal }) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '24px' }}>
-          {modules.map((m, idx) => (
+          {displayModules.map((m, idx) => (
             <div
               key={idx}
               style={{
@@ -284,14 +328,14 @@ export default function CollegeInternship({ onOpenModal }) {
             Learn. Practice. Build. Grow.
           </div>
           <p style={{ color: '#94a3b8', fontSize: '17px', maxWidth: '640px', margin: '0 auto 32px', lineHeight: 1.6 }}>
-            Develop industry-ready skills, complete verified academic project work, and gain confidence in practical engineering execution.
+            {programData?.desc || 'Develop industry-ready skills, complete verified academic project work, and gain confidence in practical engineering execution.'}
           </p>
           <button
             type="button"
-            onClick={() => onOpenModal && onOpenModal('College In-Plant Internship Training')}
+            onClick={() => onOpenModal && onOpenModal(programData?.subtitle || programData?.title || 'College In-Plant Internship Training')}
             style={{ padding: '16px 40px', background: 'linear-gradient(135deg, #0284c7, #0369a1)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 30px rgba(2, 132, 199, 0.4)', transition: 'transform 0.2s' }}
           >
-            Apply for College Internship →
+            Apply for {programData?.title || 'College Internship'} →
           </button>
         </div>
       </section>
