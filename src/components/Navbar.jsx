@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   getStoredCourses,
+  getStoredCustomDepartments,
   subscribeToContentUpdates,
   isCustomDepartment,
   slugifyDepartment
@@ -11,6 +12,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [courses, setCourses] = useState(() => getStoredCourses());
+  const [customDepts, setCustomDepts] = useState(() => getStoredCustomDepartments());
   const location = useLocation();
   const closeTimerRef = useRef(null);
 
@@ -18,135 +20,86 @@ export default function Navbar() {
   const activeDisciplines = useMemo(() => {
     const deptMap = new Map();
 
+    // 1. Process all departments that have courses assigned by the admin
     courses.forEach((course) => {
+      // If admin explicitly disabled this course from navbar, skip
+      if (course.isDiscipline === false) return;
+
       const rawDept = (course.department || '').trim();
-
-      // If marked as explicit discipline, respect it directly
-      if (course.isDiscipline) {
-        const id = course.id || course.title;
-        if (!deptMap.has(id)) {
-          const isCustom = isCustomDepartment(rawDept);
-          const defaultLink = isCustom
-            ? `/department/${slugifyDepartment(rawDept || course.title)}`
-            : (course.link || '/mechanical');
-
-          deptMap.set(id, {
-            id,
-            title: course.title,
-            department: course.department,
-            link: (course.link && course.link.startsWith('/department/')) ? course.link : defaultLink,
-            modules: course.modules ? course.modules.split('(')[0].trim() : `${course.duration || 'Specialized'}`
-          });
-        }
-        return;
-      }
-
       if (!rawDept) return;
 
-      // FIRST: Check if this is a custom department section created by admin (e.g. "CS", "Aerospace")
-      // It must get its OWN SEPARATE PAGE route: /department/:slug
-      if (isCustomDepartment(rawDept)) {
-        const key = `custom-${slugifyDepartment(rawDept)}`;
-        const targetLink = `/department/${slugifyDepartment(rawDept)}`;
-        const defaultModules = course.modules ? course.modules.split('(')[0].trim() : `${course.duration || 'Specialized Track'}`;
+      const key = rawDept.toLowerCase();
 
-        if (!deptMap.has(key)) {
-          deptMap.set(key, {
-            id: `dept-${key}`,
-            title: rawDept,
-            department: rawDept,
-            link: (course.link && course.link.startsWith('/department/')) ? course.link : targetLink,
-            modules: defaultModules,
-            coursesCount: 1,
-            isCustom: true
-          });
-        } else {
-          deptMap.get(key).coursesCount += 1;
-        }
-        return;
-      }
-
-      // Default Standard Departments:
-      const dept = rawDept.toLowerCase();
-      let key = '';
-      let title = '';
+      // Determine proper link
       let link = '/mechanical';
-      let defaultModules = '8 Software modules';
-
-      if (dept.includes('mech')) {
-        key = 'mech';
-        title = course.department || 'Mechanical & Automobile';
-        link = '/mechanical';
-        defaultModules = course.modules ? course.modules.split('(')[0].trim() : '8 Software modules';
-      } else if (dept.includes('civil')) {
-        key = 'civil';
-        title = course.department || 'Civil Engineering & BIM';
-        link = '/civil-engineering';
-        defaultModules = course.modules ? course.modules.split('(')[0].trim() : '6 Software modules';
-      } else if (dept.includes('cnc')) {
-        key = 'cnc';
-        title = course.department || 'CNC Programming & CAM';
-        link = '/cnc-programming';
-        defaultModules = course.modules ? course.modules.split('(')[0].trim() : '6 Software modules';
-      } else if (dept.includes('computer') || dept.includes('software') || dept.includes('information')) {
-        key = 'cs';
-        title = course.department || 'Computer Science & IT';
-        link = '/computer-science';
-        defaultModules = course.modules ? course.modules.split('(')[0].trim() : '8 Software modules';
-      } else if (dept.includes('eee') || dept.includes('instrument') || dept.includes('electr')) {
-        key = 'eee';
-        title = course.department || 'EEE & Automation';
-        link = '/eee-instrumentation';
-        defaultModules = course.modules ? course.modules.split('(')[0].trim() : '8 Software modules';
-      } else if (dept.includes('ece')) {
-        key = 'ece';
-        title = course.department || 'ECE Embedded & IoT';
-        link = '/ece';
-        defaultModules = course.modules ? course.modules.split('(')[0].trim() : '7 Software modules';
-      } else if (dept.includes('piping') || dept.includes('oil') || dept.includes('gas')) {
-        key = 'piping';
-        title = course.department || 'Piping Engineering (Oil & Gas)';
-        link = '/piping-engineering';
-        defaultModules = course.modules ? course.modules.split('(')[0].trim() : '8 Software modules';
-      } else if (dept.includes('robot')) {
-        key = 'robotics';
-        title = course.department || 'Robotics & Automation';
-        link = '/mechanical';
-        defaultModules = course.modules ? course.modules.split('(')[0].trim() : 'ROS 2, MATLAB Simulink, SolidWorks';
-      } else if (dept.includes('ai') || dept.includes('data')) {
-        key = 'ai';
-        title = course.department || 'AI & Data Science';
-        link = '/computer-science';
-        defaultModules = course.modules ? course.modules.split('(')[0].trim() : 'Python, PyTorch, Deep Learning';
+      if (isCustomDepartment(rawDept)) {
+        link = (course.link && course.link.startsWith('/department/'))
+          ? course.link
+          : `/department/${slugifyDepartment(rawDept)}`;
       } else {
-        key = slugifyDepartment(rawDept);
-        title = rawDept;
-        link = `/department/${slugifyDepartment(rawDept)}`;
-        defaultModules = course.modules ? course.modules.split('(')[0].trim() : `${course.duration || 'Specialized'}`;
+        const d = rawDept.toLowerCase();
+        if (d.includes('mech') || d.includes('auto')) link = '/mechanical';
+        else if (d.includes('civil') || d.includes('bim')) link = '/civil-engineering';
+        else if (d.includes('cnc') || d.includes('cam')) link = '/cnc-programming';
+        else if (d.includes('computer') || d.includes('software') || d === 'it') link = '/computer-science';
+        else if (d.includes('eee') || d.includes('electr')) link = '/eee-instrumentation';
+        else if (d.includes('ece') || d.includes('embed') || d.includes('iot')) link = '/ece';
+        else if (d.includes('piping') || d.includes('oil') || d.includes('gas')) link = '/piping-engineering';
+        else if (d.includes('robot')) link = '/mechanical';
+        else if (d.includes('ai') || d.includes('data')) link = '/computer-science';
       }
+
+      const subtext = course.modules
+        ? course.modules.split('(')[0].trim()
+        : (course.title || course.duration || 'Specialized Track');
 
       if (!deptMap.has(key)) {
         deptMap.set(key, {
-          id: `dept-${key}`,
-          title,
-          department: course.department,
+          id: `dept-${slugifyDepartment(rawDept)}`,
+          title: rawDept, // EXACT DEPARTMENT NAME CHOSEN BY ADMIN
+          department: rawDept,
           link,
-          modules: defaultModules,
-          coursesCount: 1
+          modules: subtext,
+          coursesCount: 1,
+          isCustom: isCustomDepartment(rawDept)
         });
       } else {
-        const item = deptMap.get(key);
-        item.coursesCount += 1;
+        const entry = deptMap.get(key);
+        entry.coursesCount += 1;
+        // Update subtext if previous was generic
+        if ((!entry.modules || entry.modules === 'Specialized Track') && subtext) {
+          entry.modules = subtext;
+        }
+      }
+    });
+
+    // 2. Also ensure any custom department created by the admin is listed
+    customDepts.forEach((customDept) => {
+      const rawDept = (customDept || '').trim();
+      if (!rawDept) return;
+      const key = rawDept.toLowerCase();
+      if (!deptMap.has(key)) {
+        deptMap.set(key, {
+          id: `dept-${slugifyDepartment(rawDept)}`,
+          title: rawDept, // EXACT DEPARTMENT NAME CHOSEN BY ADMIN
+          department: rawDept,
+          link: `/department/${slugifyDepartment(rawDept)}`,
+          modules: 'Specialized Track',
+          coursesCount: 0,
+          isCustom: true
+        });
       }
     });
 
     return Array.from(deptMap.values());
-  }, [courses]);
+  }, [courses, customDepts]);
 
   useEffect(() => {
     setCourses(getStoredCourses());
+    setCustomDepts(getStoredCustomDepartments());
     const unsub = subscribeToContentUpdates(() => {
       setCourses(getStoredCourses());
+      setCustomDepts(getStoredCustomDepartments());
     });
     return () => unsub();
   }, []);

@@ -196,7 +196,8 @@ export default function AdminCourses() {
       desc: '',
       link: link,
       mode: 'Classroom Studio & Live Online',
-      image: ''
+      image: '',
+      isDiscipline: true
     });
     setIsCourseModalOpen(true);
   };
@@ -218,7 +219,7 @@ export default function AdminCourses() {
       link: (course.link && course.link !== '/courses' && course.link !== '/mechanical') ? course.link : defaultCustomLink,
       mode: course.mode || 'Classroom Studio & Live Online',
       image: course.image || course.img || '',
-      isDiscipline: !!(course.isDiscipline || (course.id && course.id.startsWith('course-')))
+      isDiscipline: course.isDiscipline !== false
     });
     setIsCourseModalOpen(true);
   };
@@ -1533,7 +1534,7 @@ export default function AdminCourses() {
                     onChange={(e) => setCourseForm({ ...courseForm, isDiscipline: e.target.checked })}
                     style={{ width: '16px', height: '16px', accentColor: '#a855f7', cursor: 'pointer' }}
                   />
-                  <span>Feature in Navbar <strong>CURATED DISCIPLINES</strong> Menu</span>
+                  <span>Feature this Department in Navbar <strong>CURATED DISCIPLINES</strong> Menu</span>
                 </label>
               </div>
 
