@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import {
+  getStoredCourses,
+  subscribeToContentUpdates,
+  isCustomDepartment,
+  slugifyDepartment
+} from '../data/contentPersistence.js';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,24 +19,55 @@ export default function Navbar() {
     const deptMap = new Map();
 
     courses.forEach((course) => {
+      const rawDept = (course.department || '').trim();
+
       // If marked as explicit discipline, respect it directly
       if (course.isDiscipline) {
         const id = course.id || course.title;
         if (!deptMap.has(id)) {
+          const isCustom = isCustomDepartment(rawDept);
+          const defaultLink = isCustom
+            ? `/department/${slugifyDepartment(rawDept || course.title)}`
+            : (course.link || '/mechanical');
+
           deptMap.set(id, {
             id,
             title: course.title,
             department: course.department,
-            link: course.link || '/mechanical',
+            link: (course.link && course.link.startsWith('/department/')) ? course.link : defaultLink,
             modules: course.modules ? course.modules.split('(')[0].trim() : `${course.duration || 'Specialized'}`
           });
         }
         return;
       }
 
-      const dept = (course.department || course.category || '').toLowerCase().trim();
-      if (!dept) return;
+      if (!rawDept) return;
 
+      // FIRST: Check if this is a custom department section created by admin (e.g. "CS", "Aerospace")
+      // It must get its OWN SEPARATE PAGE route: /department/:slug
+      if (isCustomDepartment(rawDept)) {
+        const key = `custom-${slugifyDepartment(rawDept)}`;
+        const targetLink = `/department/${slugifyDepartment(rawDept)}`;
+        const defaultModules = course.modules ? course.modules.split('(')[0].trim() : `${course.duration || 'Specialized Track'}`;
+
+        if (!deptMap.has(key)) {
+          deptMap.set(key, {
+            id: `dept-${key}`,
+            title: rawDept,
+            department: rawDept,
+            link: (course.link && course.link.startsWith('/department/')) ? course.link : targetLink,
+            modules: defaultModules,
+            coursesCount: 1,
+            isCustom: true
+          });
+        } else {
+          deptMap.get(key).coursesCount += 1;
+        }
+        return;
+      }
+
+      // Default Standard Departments:
+      const dept = rawDept.toLowerCase();
       let key = '';
       let title = '';
       let link = '/mechanical';
@@ -52,7 +88,7 @@ export default function Navbar() {
         title = course.department || 'CNC Programming & CAM';
         link = '/cnc-programming';
         defaultModules = course.modules ? course.modules.split('(')[0].trim() : '6 Software modules';
-      } else if (dept.includes('computer') || dept.includes('cs') || dept.includes('software') || dept.includes('it')) {
+      } else if (dept.includes('computer') || dept.includes('software') || dept.includes('information')) {
         key = 'cs';
         title = course.department || 'Computer Science & IT';
         link = '/computer-science';
@@ -83,9 +119,9 @@ export default function Navbar() {
         link = '/computer-science';
         defaultModules = course.modules ? course.modules.split('(')[0].trim() : 'Python, PyTorch, Deep Learning';
       } else {
-        key = dept.replace(/\s+/g, '-');
-        title = course.department || 'Engineering Program';
-        link = course.link || '/mechanical';
+        key = slugifyDepartment(rawDept);
+        title = rawDept;
+        link = `/department/${slugifyDepartment(rawDept)}`;
         defaultModules = course.modules ? course.modules.split('(')[0].trim() : `${course.duration || 'Specialized'}`;
       }
 

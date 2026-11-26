@@ -943,6 +943,105 @@ export {
   saveStoredInternshipApplicant
 } from './adminInitialData.js';
 
+// Default Departments Definition
+export const DEFAULT_DEPARTMENTS = [
+  'Mechanical & Automobile',
+  'Civil Engineering & BIM',
+  'CNC Programming & CAM',
+  'Computer Science & IT',
+  'EEE & Automation',
+  'ECE Embedded & IoT',
+  'Piping Engineering (Oil & Gas)',
+  'Robotics & Automation',
+  'AI & Data Science'
+];
+
+export function isCustomDepartment(deptName) {
+  if (!deptName) return false;
+  return !DEFAULT_DEPARTMENTS.some(d => d.toLowerCase().trim() === deptName.toLowerCase().trim());
+}
+
+export function slugifyDepartment(deptName = '') {
+  return (deptName || '')
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, 'and')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+export function getDepartmentIcon(deptName = '') {
+  const d = (deptName || '').toLowerCase().trim();
+  if (d.includes('aero') || d.includes('space') || d.includes('aviation')) return '🚀';
+  if (d.includes('mech') || d.includes('auto')) return '⚙️';
+  if (d.includes('civil') || d.includes('bim') || d.includes('arch')) return '🏛️';
+  if (d.includes('cnc') || d.includes('cam') || d.includes('machin')) return '⚡';
+  if (d.includes('computer') || d.includes('software') || d.includes('web') || d === 'cs' || d.startsWith('cs ')) return '💻';
+  if (d.includes('robot') || d.includes('auto')) return '🤖';
+  if (d.includes('eee') || d.includes('electr')) return '💡';
+  if (d.includes('ece') || d.includes('embed') || d.includes('iot')) return '📡';
+  if (d.includes('piping') || d.includes('oil') || d.includes('gas')) return '🛢️';
+  if (d.includes('ai') || d.includes('data') || d.includes('learn')) return '🧠';
+  if (d.includes('marine') || d.includes('ocean')) return '⚓';
+  if (d.includes('bio') || d.includes('medic') || d.includes('health')) return '🧬';
+  if (d.includes('chem') || d.includes('material')) return '🧪';
+  return '🎓';
+}
+
+export function courseMatchesDept(course, deptName) {
+  if (!course || !deptName) return false;
+  const target = deptName.toLowerCase().trim();
+  const cDept = (course.department || '').toLowerCase().trim();
+
+  // Exact match always matches
+  if (cDept === target) return true;
+
+  // Check if target is a custom department (i.e. not in DEFAULT_DEPARTMENTS)
+  const isTargetDefault = DEFAULT_DEPARTMENTS.some(d => d.toLowerCase().trim() === target);
+  if (!isTargetDefault) {
+    // For ANY CUSTOM department: STRICT EXACT MATCH ONLY!
+    return cDept === target;
+  }
+
+  // Check if the course itself has a custom department
+  const isCourseCustom = !DEFAULT_DEPARTMENTS.some(d => d.toLowerCase().trim() === cDept);
+  if (isCourseCustom) {
+    // A course assigned to a custom department MUST NEVER leak into any default department section!
+    return false;
+  }
+
+  // Canonical aliases for DEFAULT_DEPARTMENTS ONLY:
+  if (target === 'mechanical & automobile') {
+    return cDept.includes('mech') || cDept.includes('automobile');
+  }
+  if (target === 'civil engineering & bim') {
+    return cDept.includes('civil') || cDept.includes('bim');
+  }
+  if (target === 'cnc programming & cam') {
+    return cDept.includes('cnc') || cDept.includes('cam');
+  }
+  if (target === 'computer science & it') {
+    return cDept.includes('computer') || cDept.includes('software') || cDept === 'it';
+  }
+  if (target === 'eee & automation') {
+    return cDept.includes('eee') || cDept.includes('electrical');
+  }
+  if (target === 'ece embedded & iot') {
+    return cDept.includes('ece') || cDept.includes('embedded') || cDept.includes('iot');
+  }
+  if (target === 'piping engineering (oil & gas)') {
+    return cDept.includes('piping') || cDept.includes('oil');
+  }
+  if (target === 'robotics & automation') {
+    return cDept.includes('robotics');
+  }
+  if (target === 'ai & data science') {
+    return cDept.includes('ai') || cDept.includes('data science') || cDept.includes('analytics');
+  }
+
+  return false;
+}
+
 // Custom Departments Management
 export function getStoredCustomDepartments() {
   try {

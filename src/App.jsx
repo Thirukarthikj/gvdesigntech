@@ -30,6 +30,7 @@ import CertificateVerification from './pages/CertificateVerification.jsx';
 import ContactUs from './pages/ContactUs.jsx';
 import SkillTest from './pages/SkillTest.jsx';
 import ShowcaseVideo from './pages/ShowcaseVideo.jsx';
+import DepartmentPage from './pages/DepartmentPage.jsx';
 
 // Admin Portal Pages
 import AdminLogin from './pages/admin/AdminLogin.jsx';
@@ -99,6 +100,10 @@ export default function App() {
       else if (p.includes('/eee') || p.includes('/instrumentation')) courseTitle = 'EEE & Automation';
       else if (p.includes('/ece') || p.includes('/electronics')) courseTitle = 'ECE Embedded & IoT';
       else if (p.includes('/piping')) courseTitle = 'Piping Engineering (Oil & Gas)';
+      else if (p.startsWith('/department/') || p.startsWith('/discipline/') || p.startsWith('/curriculum/')) {
+        const rawSlug = p.split('/')[2] || 'Specialized Track';
+        courseTitle = decodeURIComponent(rawSlug).toUpperCase();
+      }
       coursePayload = courseTitle;
     }
 
@@ -168,6 +173,11 @@ export default function App() {
         <Route path="/skill-test" element={<SkillTest />} />
         <Route path="/skill-assessment" element={<SkillTest />} />
         <Route path="/showcase-video" element={<ShowcaseVideo />} />
+
+        {/* Dynamic Dedicated Department & Custom Section Pages */}
+        <Route path="/department/:deptSlug" element={<DepartmentPage onOpenModal={openModal} />} />
+        <Route path="/discipline/:deptSlug" element={<DepartmentPage onOpenModal={openModal} />} />
+        <Route path="/curriculum/:deptSlug" element={<DepartmentPage onOpenModal={openModal} />} />
 
         {/* Admin Portal Protected Routing */}
         <Route path="/admin/login" element={<AdminLogin />} />

@@ -4,95 +4,15 @@ import {
   saveStoredCourses,
   getStoredCustomDepartments,
   saveStoredCustomDepartments,
-  subscribeToContentUpdates
+  subscribeToContentUpdates,
+  DEFAULT_DEPARTMENTS,
+  getDepartmentIcon,
+  courseMatchesDept,
+  isCustomDepartment,
+  slugifyDepartment
 } from '../../data/contentPersistence.js';
 import { uploadImageToCloudinary, compressImageFile } from '../../services/cloudinaryService.js';
 import { fetchCoursesFromMongo, deleteCourseInMongo } from '../../services/mongoService.js';
-
-const DEFAULT_DEPARTMENTS = [
-  'Mechanical & Automobile',
-  'Civil Engineering & BIM',
-  'CNC Programming & CAM',
-  'Computer Science & IT',
-  'EEE & Automation',
-  'ECE Embedded & IoT',
-  'Piping Engineering (Oil & Gas)',
-  'Robotics & Automation',
-  'AI & Data Science'
-];
-
-function getDepartmentIcon(deptName = '') {
-  const d = (deptName || '').toLowerCase();
-  if (d.includes('aero') || d.includes('space') || d.includes('aviation')) return '🚀';
-  if (d.includes('mech') || d.includes('auto')) return '⚙️';
-  if (d.includes('civil') || d.includes('bim') || d.includes('arch')) return '🏛️';
-  if (d.includes('cnc') || d.includes('cam') || d.includes('machin')) return '⚡';
-  if (d.includes('computer') || d.includes('it') || d.includes('software') || d.includes('web')) return '💻';
-  if (d.includes('robot') || d.includes('auto')) return '🤖';
-  if (d.includes('eee') || d.includes('electr')) return '💡';
-  if (d.includes('ece') || d.includes('embed') || d.includes('iot')) return '📡';
-  if (d.includes('piping') || d.includes('oil') || d.includes('gas')) return '🛢️';
-  if (d.includes('ai') || d.includes('data') || d.includes('learn')) return '🧠';
-  if (d.includes('marine') || d.includes('ocean')) return '⚓';
-  if (d.includes('bio') || d.includes('medic') || d.includes('health')) return '🧬';
-  if (d.includes('chem') || d.includes('material')) return '🧪';
-  return '🎓';
-}
-
-function courseMatchesDept(course, deptName) {
-  if (!course || !deptName) return false;
-  const target = deptName.toLowerCase().trim();
-  const cDept = (course.department || '').toLowerCase().trim();
-
-  // Exact match takes precedence
-  if (cDept === target) return true;
-
-  // Check if target is a custom department (i.e. not in DEFAULT_DEPARTMENTS)
-  const isTargetDefault = DEFAULT_DEPARTMENTS.some(d => d.toLowerCase().trim() === target);
-  if (!isTargetDefault) {
-    // For ANY CUSTOM department: STRICT EXACT MATCH ONLY!
-    // A course ONLY belongs to this section if its department exactly matches this custom department name.
-    return cDept === target;
-  }
-
-  // Check if the course itself has a custom department
-  const isCourseCustom = !DEFAULT_DEPARTMENTS.some(d => d.toLowerCase().trim() === cDept);
-  if (isCourseCustom) {
-    // A course assigned to a custom department MUST NEVER leak into any default department section!
-    return false;
-  }
-
-  // Canonical aliases for DEFAULT_DEPARTMENTS ONLY:
-  if (target === 'mechanical & automobile') {
-    return cDept.includes('mech') || cDept.includes('automobile');
-  }
-  if (target === 'civil engineering & bim') {
-    return cDept.includes('civil') || cDept.includes('bim');
-  }
-  if (target === 'cnc programming & cam') {
-    return cDept.includes('cnc') || cDept.includes('cam');
-  }
-  if (target === 'computer science & it') {
-    return cDept.includes('computer') || cDept.includes('it') || cDept.includes('software');
-  }
-  if (target === 'eee & automation') {
-    return cDept.includes('eee') || cDept.includes('electrical');
-  }
-  if (target === 'ece embedded & iot') {
-    return cDept.includes('ece') || cDept.includes('embedded') || cDept.includes('iot');
-  }
-  if (target === 'piping engineering (oil & gas)') {
-    return cDept.includes('piping') || cDept.includes('oil');
-  }
-  if (target === 'robotics & automation') {
-    return cDept.includes('robotics');
-  }
-  if (target === 'ai & data science') {
-    return cDept.includes('ai') || cDept.includes('data science') || cDept.includes('analytics');
-  }
-
-  return false;
-}
 
 export default function AdminCourses() {
   // --- Courses State ---
@@ -106,11 +26,6 @@ export default function AdminCourses() {
   const [isCustomDept, setIsCustomDept] = useState(false);
   const [isNewDeptModalOpen, setIsNewDeptModalOpen] = useState(false);
   const [newDeptInput, setNewDeptInput] = useState('');
-
-  const isCustomDepartment = (deptName) => {
-    if (!deptName) return false;
-    return !DEFAULT_DEPARTMENTS.some(d => d.toLowerCase().trim() === deptName.toLowerCase().trim());
-  };
 
   // Dynamically compute all unique departments from default list + custom depts + stored courses
   const allDepartments = useMemo(() => {
@@ -266,7 +181,7 @@ export default function AdminCourses() {
     else if (chosenDept.includes('Robotics')) { link = '/mechanical'; cat = 'Robotics'; }
     else if (chosenDept.includes('AI') || chosenDept.includes('Data')) { link = '/computer-science'; cat = 'AI & Data Science'; }
     else if (isCustom) {
-      link = '/courses';
+      link = `/department/${slugifyDepartment(chosenDept)}`;
       cat = chosenDept || 'Custom Department';
     }
 
@@ -287,18 +202,20 @@ export default function AdminCourses() {
   };
 
   const handleOpenEditCourse = (course) => {
+    const isCustom = isCustomDepartment(course.department);
+    const defaultCustomLink = isCustom ? `/department/${slugifyDepartment(course.department)}` : '/mechanical';
     setEditingCourse(course);
-    setIsCustomDept(isCustomDepartment(course.department));
+    setIsCustomDept(isCustom);
     setCourseForm({
       title: course.title || '',
       department: course.department || 'Mechanical & Automobile',
-      category: course.category || 'Mechanical',
+      category: course.category || (isCustom ? course.department : 'Mechanical'),
       duration: course.duration || '3 Months',
       level: course.level || 'Beginner → Advanced',
       badge: course.badge || '',
       modules: course.modules || '',
       desc: course.desc || '',
-      link: course.link || '/mechanical',
+      link: (course.link && course.link !== '/courses' && course.link !== '/mechanical') ? course.link : defaultCustomLink,
       mode: course.mode || 'Classroom Studio & Live Online',
       image: course.image || course.img || '',
       isDiscipline: !!(course.isDiscipline || (course.id && course.id.startsWith('course-')))
@@ -387,13 +304,18 @@ export default function AdminCourses() {
     }
 
     // If custom department, register into customDepts so its section is permanent!
-    if (isCustomDepartment(enteredDept)) {
+    const isCustom = isCustomDepartment(enteredDept);
+    if (isCustom) {
       if (!customDepts.some(d => d.toLowerCase().trim() === enteredDept.toLowerCase())) {
         const nextCustom = [...customDepts, enteredDept];
         setCustomDepts(nextCustom);
         saveStoredCustomDepartments(nextCustom);
       }
     }
+
+    const finalLink = (courseForm.link && courseForm.link !== '/courses' && courseForm.link !== '/mechanical')
+      ? courseForm.link
+      : (isCustom ? `/department/${slugifyDepartment(enteredDept)}` : (courseForm.link || '/mechanical'));
 
     if (editingCourse) {
       const updated = courses.map(c => {
@@ -402,6 +324,8 @@ export default function AdminCourses() {
             ...c,
             ...courseForm,
             department: enteredDept,
+            link: finalLink,
+            category: isCustom ? (courseForm.category || enteredDept) : (courseForm.category || 'Engineering'),
             updatedAt: new Date().toISOString()
           };
         }
@@ -414,6 +338,8 @@ export default function AdminCourses() {
       const newEntry = {
         ...courseForm,
         department: enteredDept,
+        link: finalLink,
+        category: isCustom ? (courseForm.category || enteredDept) : (courseForm.category || 'Engineering'),
         id: `course-${Date.now()}`,
         order: courses.length + 1,
         createdAt: new Date().toISOString()
@@ -433,8 +359,8 @@ export default function AdminCourses() {
       setCourseForm(prev => ({
         ...prev,
         department: dept,
-        category: dept || 'Custom',
-        link: '/courses'
+        category: dept || 'Custom Department',
+        link: `/department/${slugifyDepartment(dept)}`
       }));
       return;
     }
@@ -916,8 +842,39 @@ export default function AdminCourses() {
                     </div>
                   </div>
 
-                  {/* Section Actions: + Add Course to Dept, Remove Section */}
+                  {/* Section Actions: Public Page, + Add Course to Dept, Remove Section */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                    <a
+                      href={isCustom ? `/department/${slugifyDepartment(deptName)}` : (
+                        deptName.includes('Civil') ? '/civil-engineering' :
+                        deptName.includes('CNC') ? '/cnc-programming' :
+                        deptName.includes('Computer') || deptName.includes('IT') ? '/computer-science' :
+                        deptName.includes('EEE') ? '/eee-instrumentation' :
+                        deptName.includes('ECE') ? '/ece' :
+                        deptName.includes('Piping') ? '/piping-engineering' :
+                        deptName.includes('AI') || deptName.includes('Data') ? '/computer-science' :
+                        '/mechanical'
+                      )}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.07)',
+                        border: '1px solid rgba(255, 255, 255, 0.18)',
+                        color: '#38bdf8',
+                        padding: '9px 14px',
+                        borderRadius: '10px',
+                        fontSize: '12.5px',
+                        fontWeight: '600',
+                        textDecoration: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      <span>Public Page ↗</span>
+                    </a>
+
                     <button
                       type="button"
                       onClick={() => handleOpenAddCourse(deptName)}
@@ -1191,7 +1148,13 @@ export default function AdminCourses() {
                               marginTop: 'auto'
                             }}>
                               <a
-                                href={c.link || '/mechanical'}
+                                href={
+                                  (c.link && c.link !== '/courses' && c.link !== '/mechanical')
+                                    ? c.link
+                                    : (isCustomDepartment(c.department)
+                                        ? `/department/${slugifyDepartment(c.department)}`
+                                        : (c.link || '/mechanical'))
+                                }
                                 target="_blank"
                                 rel="noreferrer"
                                 style={{
