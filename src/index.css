@@ -616,15 +616,69 @@
 }
 
 /* ==========================================================================
-   Curated Disciplines Dropdown (Courses Menu)
+   Curated Disciplines Dropdown & Global Dropdown Smoothing
+   Seamless, instantaneous hover response with zero gap disconnection
    ========================================================================== */
-.dropdown.active .dropdown-menu,
-.dropdown:hover .dropdown-menu {
-  display: flex !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  pointer-events: auto !important;
-  transform: translateY(0) !important;
+@media (min-width: 869px) {
+  .dropdown {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Safe hover bridge between trigger and menu */
+  .dropdown::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: -60px;
+    right: -60px;
+    height: 25px;
+    background: transparent;
+    pointer-events: auto;
+    z-index: 998;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    transform: translate(-50%, 4px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: opacity, transform;
+    z-index: 999;
+  }
+
+  /* Upward invisible hit-buffer on dropdown menu */
+  .dropdown-menu::after {
+    content: "";
+    position: absolute;
+    top: -18px;
+    left: 0;
+    right: 0;
+    height: 18px;
+    background: transparent;
+    pointer-events: auto;
+  }
+
+  /* Active & Hover states maintain exact horizontal centering without jumping */
+  .dropdown.active .dropdown-menu,
+  .dropdown:hover .dropdown-menu {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translate(-50%, 0) !important;
+  }
+
+  .dropdown:hover .chevron,
+  .dropdown.active .chevron {
+    border-color: #d946ef;
+    transform: rotate(-135deg);
+  }
 }
 
 .dropdown-menu.courses-curated-dropdown {

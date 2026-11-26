@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
@@ -7,6 +7,7 @@ export default function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [courses, setCourses] = useState(() => getStoredCourses());
   const location = useLocation();
+  const closeTimerRef = useRef(null);
 
   // Dynamically map whichever departments the admin chooses in courses to the front page Courses dropdown menu
   const activeDisciplines = useMemo(() => {
@@ -114,19 +115,53 @@ export default function Navbar() {
     return () => unsub();
   }, []);
 
-  // Close menus on route change
+  // Close menus on route change or unmount
   useEffect(() => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+    }
     setIsOpen(false);
     setActiveDropdown(null);
     window.scrollTo(0, 0);
+
+    return () => {
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+      }
+    };
   }, [location.pathname]);
+
+  const handleMouseEnter = (name) => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    setActiveDropdown(name);
+  };
+
+  const handleMouseLeave = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+    }
+    closeTimerRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 120);
+  };
 
   const toggleDropdown = (name, e) => {
     e.stopPropagation();
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
     setActiveDropdown(prev => prev === name ? null : name);
   };
 
   const closeAll = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
     setIsOpen(false);
     setActiveDropdown(null);
   };
@@ -155,7 +190,11 @@ export default function Navbar() {
           <Link to="/about" onClick={closeAll}>About Us</Link>
 
           {/* Courses Dropdown */}
-          <div className={`dropdown ${activeDropdown === 'courses' ? 'active' : ''}`}>
+          <div
+            className={`dropdown ${activeDropdown === 'courses' ? 'active' : ''}`}
+            onMouseEnter={() => handleMouseEnter('courses')}
+            onMouseLeave={handleMouseLeave}
+          >
             <span className="dropdown-trigger" onClick={(e) => toggleDropdown('courses', e)}>
               Courses <i className="chevron"></i>
             </span>
@@ -192,7 +231,11 @@ export default function Navbar() {
           </div>
 
           {/* Internship Dropdown */}
-          <div className={`dropdown ${activeDropdown === 'internship' ? 'active' : ''}`}>
+          <div
+            className={`dropdown ${activeDropdown === 'internship' ? 'active' : ''}`}
+            onMouseEnter={() => handleMouseEnter('internship')}
+            onMouseLeave={handleMouseLeave}
+          >
             <span className="dropdown-trigger" onClick={(e) => toggleDropdown('internship', e)}>
               Internship <i className="chevron"></i>
             </span>
@@ -209,7 +252,11 @@ export default function Navbar() {
           </div>
 
           {/* Flagship Dropdown */}
-          <div className={`dropdown ${activeDropdown === 'flagship' ? 'active' : ''}`}>
+          <div
+            className={`dropdown ${activeDropdown === 'flagship' ? 'active' : ''}`}
+            onMouseEnter={() => handleMouseEnter('flagship')}
+            onMouseLeave={handleMouseLeave}
+          >
             <span className="dropdown-trigger" onClick={(e) => toggleDropdown('flagship', e)}>
               Flagship <i className="chevron"></i>
             </span>
