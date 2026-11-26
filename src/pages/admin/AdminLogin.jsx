@@ -122,8 +122,8 @@ export default function AdminLogin() {
         
         {/* Top Header */}
         <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-          <div style={{ width: '52px', height: '52px', borderRadius: '16px', background: 'linear-gradient(135deg, #8b5cf6, #d946ef)', margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', boxShadow: '0 0 24px rgba(217, 70, 239, 0.4)' }}>
-            ⚙️
+          <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(255, 255, 255, 0.08)', border: '1px solid rgba(139, 92, 246, 0.45)', margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px', boxShadow: '0 0 24px rgba(217, 70, 239, 0.35)', overflow: 'hidden' }}>
+            <img src="/assets/gv-logo.png" alt="GV DesignTech Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} onError={(e) => { e.currentTarget.src = "/assets/logo.png"; }} />
           </div>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 12px', background: 'rgba(217, 70, 239, 0.15)', border: '1px solid rgba(217, 70, 239, 0.35)', borderRadius: '999px', fontSize: '11px', fontWeight: '700', letterSpacing: '0.8px', color: '#f472b6', marginBottom: '10px' }}>
             <span>🔥</span> FIREBASE AUTHENTICATION

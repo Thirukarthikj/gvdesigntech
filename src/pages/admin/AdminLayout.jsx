@@ -123,7 +123,13 @@ export default function AdminLayout() {
       <aside className={`admin-sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="admin-sidebar-header">
           <Link to="/admin/dashboard" className="admin-brand" onClick={() => setSidebarOpen(false)}>
-            <div className="admin-brand-icon">⚡</div>
+            <div className="admin-brand-icon">
+              <img
+                src="/assets/gv-logo.png"
+                alt="GV DesignTech Logo"
+                onError={(e) => { e.currentTarget.src = "/assets/logo.png"; }}
+              />
+            </div>
             <div>
               <div className="admin-brand-title">GV DesignTech</div>
               <span className="admin-brand-badge">ADMIN PORTAL</span>
