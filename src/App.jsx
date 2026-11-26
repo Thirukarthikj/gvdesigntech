@@ -71,6 +71,11 @@ export default function App() {
     }
   }, [isAuthOrAdmin]);
 
+  // Ensure every route transition scrolls smoothly to top of page
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [location.pathname]);
+
   const [selectedCourseForEnroll, setSelectedCourseForEnroll] = useState('');
 
   const openModal = (courseNameOrDetails = '') => {
@@ -169,6 +174,8 @@ export default function App() {
         {/* Dynamic Dedicated Pages for Any Admin-Created Internship Programs */}
         <Route path="/internship/:programSlug" element={<InternshipDetailPage onOpenModal={openModal} />} />
         <Route path="/internships/:programSlug" element={<InternshipDetailPage onOpenModal={openModal} />} />
+        <Route path="/interahip/:programSlug" element={<InternshipDetailPage onOpenModal={openModal} />} />
+        <Route path="/intership/:programSlug" element={<InternshipDetailPage onOpenModal={openModal} />} />
 
         {/* Core Verification, Contact, Skill Test */}
         <Route path="/certificate-verification" element={<CertificateVerification />} />

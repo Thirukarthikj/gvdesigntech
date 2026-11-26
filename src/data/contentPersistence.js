@@ -970,6 +970,32 @@ export function slugifyDepartment(deptName = '') {
     .replace(/^-+|-+$/g, '');
 }
 
+export function normalizeInternshipLink(prog) {
+  if (!prog) return '/internship';
+  let link = (typeof prog === 'string' ? prog : prog.link || '').trim();
+
+  // Fix common typos in prefix like /interahip/..., /intership/..., /intern/...
+  link = link.replace(/^\/+inter[a-z]*\//i, '/internship/');
+
+  // If empty, or just root internship page
+  if (!link || link === '/internship' || link === '/internship/' || link === '#' || link === '/') {
+    const title = typeof prog === 'object' ? (prog.title || prog.subtitle || '') : '';
+    const slug = slugifyDepartment(title);
+    return slug ? `/internship/${slug}` : '/internship';
+  }
+
+  if (!link.startsWith('/')) {
+    link = `/${link}`;
+  }
+
+  // Pre-configured paths like /internship/aiInternship
+  if (link.startsWith('/internship/') || link.startsWith('/internships/')) {
+    return link;
+  }
+
+  return `/internship/${link.replace(/^\/+/, '')}`;
+}
+
 export function getDepartmentIcon(deptName = '') {
   const d = (deptName || '').toLowerCase().trim();
   if (d.includes('aero') || d.includes('space') || d.includes('aviation')) return '🚀';

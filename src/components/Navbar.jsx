@@ -6,7 +6,8 @@ import {
   getStoredInternshipPrograms,
   subscribeToContentUpdates,
   isCustomDepartment,
-  slugifyDepartment
+  slugifyDepartment,
+  normalizeInternshipLink
 } from '../data/contentPersistence.js';
 
 export default function Navbar() {
@@ -262,9 +263,7 @@ export default function Navbar() {
                   </div>
                 ) : (
                   internships.map((prog) => {
-                    const targetLink = (prog.link && prog.link !== '/internship')
-                      ? prog.link
-                      : `/internship/${slugifyDepartment(prog.title || '')}`;
+                    const targetLink = normalizeInternshipLink(prog);
                     const subtext = prog.subtitle || prog.tag || (Array.isArray(prog.modules) ? prog.modules[0] : (typeof prog.modules === 'string' ? prog.modules.split('\n')[0] : 'Specialized Cohort'));
                     return (
                       <Link

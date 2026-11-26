@@ -4,7 +4,8 @@ import {
   getStoredInternshipPrograms,
   saveStoredInternshipPrograms,
   subscribeToContentUpdates,
-  slugifyDepartment
+  slugifyDepartment,
+  normalizeInternshipLink
 } from '../data/contentPersistence.js';
 import { fetchInternshipProgramsFromMongo } from '../services/mongoService.js';
 
@@ -380,7 +381,7 @@ export default function InternshipPrograms({ onOpenModal }) {
                       Apply Now
                     </button>
                     <Link
-                      to={(p.link && p.link !== '/internship') ? p.link : `/internship/${slugifyDepartment(p.title || '')}`}
+                      to={normalizeInternshipLink(p)}
                       style={{
                         padding: '12px 16px',
                         background: 'rgba(255, 255, 255, 0.05)',

@@ -4,7 +4,8 @@ import {
   getStoredInternshipPrograms,
   saveStoredInternshipPrograms,
   subscribeToContentUpdates,
-  slugifyDepartment
+  slugifyDepartment,
+  normalizeInternshipLink
 } from '../../data/contentPersistence.js';
 import {
   fetchInternshipProgramsFromMongo,
@@ -176,10 +177,10 @@ export default function AdminInternships() {
       .map(m => m.trim().replace(/^[-*•✓]\s*/, ''))
       .filter(Boolean);
 
-    const generatedSlug = slugifyDepartment(form.title.trim());
-    const finalLink = (form.link && form.link.trim() !== '' && form.link.trim() !== '/internship')
-      ? form.link.trim()
-      : `/internship/${generatedSlug}`;
+    const finalLink = normalizeInternshipLink({
+      link: form.link,
+      title: form.title.trim()
+    });
 
     const programPayload = {
       ...form,
@@ -572,7 +573,7 @@ export default function AdminInternships() {
                     {/* Card Actions Footer */}
                     <div style={{ display: 'flex', gap: '8px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px', alignItems: 'center' }}>
                       <Link
-                        to={p.link && p.link !== '/internship' ? p.link : `/internship/${slugifyDepartment(p.title)}`}
+                        to={normalizeInternshipLink(p)}
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{
