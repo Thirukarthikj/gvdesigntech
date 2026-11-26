@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import {
   getStoredInternshipPrograms,
   saveStoredInternshipPrograms,
-  subscribeToContentUpdates
+  subscribeToContentUpdates,
+  slugifyDepartment
 } from '../../data/contentPersistence.js';
 import {
   fetchInternshipProgramsFromMongo,
@@ -136,7 +137,7 @@ export default function AdminInternships() {
       desc: '',
       modules: 'Hands-On Technical Learning\nReal-World Project Development\nIndustry Mentor Guidance\nProject Documentation & Review',
       outcome: 'Gain verified industry experience and build projects for your portfolio.',
-      link: '/internship'
+      link: ''
     });
     setIsModalOpen(true);
   };
@@ -175,10 +176,16 @@ export default function AdminInternships() {
       .map(m => m.trim().replace(/^[-*•✓]\s*/, ''))
       .filter(Boolean);
 
+    const generatedSlug = slugifyDepartment(form.title.trim());
+    const finalLink = (form.link && form.link.trim() !== '' && form.link.trim() !== '/internship')
+      ? form.link.trim()
+      : `/internship/${generatedSlug}`;
+
     const programPayload = {
       ...form,
       title: form.title.trim(),
       subtitle: form.subtitle.trim() || form.title.trim(),
+      link: finalLink,
       modules: parsedModules.length > 0 ? parsedModules : ['Practical Technical Training', 'Live Project Development'],
       outcome: form.outcome.trim() || 'Gain hands-on industry experience and complete project portfolio work.'
     };
@@ -563,7 +570,32 @@ export default function AdminInternships() {
                     </div>
 
                     {/* Card Actions Footer */}
-                    <div style={{ display: 'flex', gap: '8px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px' }}>
+                    <div style={{ display: 'flex', gap: '8px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px', alignItems: 'center' }}>
+                      <Link
+                        to={p.link && p.link !== '/internship' ? p.link : `/internship/${slugifyDepartment(p.title)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          padding: '9px 12px',
+                          background: 'rgba(56, 189, 248, 0.15)',
+                          border: '1px solid rgba(56, 189, 248, 0.35)',
+                          borderRadius: '8px',
+                          color: '#38bdf8',
+                          fontSize: '12.5px',
+                          fontWeight: '700',
+                          textDecoration: 'none',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '4px',
+                          whiteSpace: 'nowrap'
+                        }}
+                        title="View the live public dedicated page for this internship"
+                      >
+                        <span>👁️</span>
+                        <span>Public Page ↗</span>
+                      </Link>
+
                       <button
                         type="button"
                         onClick={() => handleOpenEdit(p)}
@@ -903,7 +935,17 @@ export default function AdminInternships() {
                     required
                     placeholder="e.g. Cloud &amp; DevOps Internship"
                     value={form.title}
-                    onChange={(e) => setForm({ ...form, title: e.target.value })}
+                    onChange={(e) => {
+                      const newTitle = e.target.value;
+                      setForm(prev => {
+                        const isAutoLink = !prev.link || prev.link === '/internship' || prev.link.startsWith('/internship/');
+                        return {
+                          ...prev,
+                          title: newTitle,
+                          link: (isAutoLink && newTitle.trim()) ? `/internship/${slugifyDepartment(newTitle)}` : prev.link
+                        };
+                      });
+                    }}
                     style={{
                       width: '100%',
                       padding: '11px 14px',
@@ -1111,6 +1153,9 @@ export default function AdminInternships() {
                     outline: 'none'
                   }}
                 />
+                <div style={{ fontSize: '11.5px', color: '#c084fc', marginTop: '6px' }}>
+                  ✨ Automatically generates a dedicated public page at <code style={{ background: 'rgba(0,0,0,0.3)', padding: '2px 6px', borderRadius: '4px' }}>{form.link || `/internship/${slugifyDepartment(form.title || 'program')}`}</code> and adds it to the Navbar &quot;Internship&quot; dropdown.
+                </div>
               </div>
 
               {/* Row 5: Description */}

@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { getStoredInternshipPrograms, saveStoredInternshipPrograms, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import {
+  getStoredInternshipPrograms,
+  saveStoredInternshipPrograms,
+  subscribeToContentUpdates,
+  slugifyDepartment
+} from '../data/contentPersistence.js';
 import { fetchInternshipProgramsFromMongo } from '../services/mongoService.js';
 
 export default function InternshipPrograms({ onOpenModal }) {
@@ -374,48 +379,25 @@ export default function InternshipPrograms({ onOpenModal }) {
                     >
                       Apply Now
                     </button>
-                    {p.link ? (
-                      <Link
-                        to={p.link}
-                        style={{
-                          padding: '12px 16px',
-                          background: 'rgba(255, 255, 255, 0.05)',
-                          border: '1px solid rgba(139, 92, 246, 0.3)',
-                          borderRadius: '10px',
-                          color: '#cbd5e1',
-                          fontSize: '13px',
-                          fontWeight: '600',
-                          textDecoration: 'none',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          whiteSpace: 'nowrap'
-                        }}
-                      >
-                        View Details →
-                      </Link>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => onOpenModal && onOpenModal(p.subtitle || p.title || 'Industrial Internship Program')}
-                        style={{
-                          padding: '12px 16px',
-                          background: 'rgba(255, 255, 255, 0.05)',
-                          border: '1px solid rgba(139, 92, 246, 0.3)',
-                          borderRadius: '10px',
-                          color: '#cbd5e1',
-                          fontSize: '13px',
-                          fontWeight: '600',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          whiteSpace: 'nowrap'
-                        }}
-                      >
-                        Inquire →
-                      </button>
-                    )}
+                    <Link
+                      to={(p.link && p.link !== '/internship') ? p.link : `/internship/${slugifyDepartment(p.title || '')}`}
+                      style={{
+                        padding: '12px 16px',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(139, 92, 246, 0.3)',
+                        borderRadius: '10px',
+                        color: '#cbd5e1',
+                        fontSize: '13px',
+                        fontWeight: '600',
+                        textDecoration: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      View Details →
+                    </Link>
                   </div>
                 </div>
               );

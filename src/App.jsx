@@ -31,6 +31,7 @@ import ContactUs from './pages/ContactUs.jsx';
 import SkillTest from './pages/SkillTest.jsx';
 import ShowcaseVideo from './pages/ShowcaseVideo.jsx';
 import DepartmentPage from './pages/DepartmentPage.jsx';
+import InternshipDetailPage from './pages/InternshipDetailPage.jsx';
 
 // Admin Portal Pages
 import AdminLogin from './pages/admin/AdminLogin.jsx';
@@ -165,6 +166,9 @@ export default function App() {
         <Route path="/internship/datascience" element={<DataScienceInternship onOpenModal={openModal} />} />
         <Route path="/internship/Machinelearning" element={<MachineLearningInternship onOpenModal={openModal} />} />
         <Route path="/internship/machinelearning" element={<MachineLearningInternship onOpenModal={openModal} />} />
+        {/* Dynamic Dedicated Pages for Any Admin-Created Internship Programs */}
+        <Route path="/internship/:programSlug" element={<InternshipDetailPage onOpenModal={openModal} />} />
+        <Route path="/internships/:programSlug" element={<InternshipDetailPage onOpenModal={openModal} />} />
 
         {/* Core Verification, Contact, Skill Test */}
         <Route path="/certificate-verification" element={<CertificateVerification />} />

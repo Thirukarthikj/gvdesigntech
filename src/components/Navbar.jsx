@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   getStoredCourses,
   getStoredCustomDepartments,
+  getStoredInternshipPrograms,
   subscribeToContentUpdates,
   isCustomDepartment,
   slugifyDepartment
@@ -13,6 +14,7 @@ export default function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [courses, setCourses] = useState(() => getStoredCourses());
   const [customDepts, setCustomDepts] = useState(() => getStoredCustomDepartments());
+  const [internships, setInternships] = useState(() => getStoredInternshipPrograms());
   const location = useLocation();
   const closeTimerRef = useRef(null);
 
@@ -97,9 +99,11 @@ export default function Navbar() {
   useEffect(() => {
     setCourses(getStoredCourses());
     setCustomDepts(getStoredCustomDepartments());
+    setInternships(getStoredInternshipPrograms());
     const unsub = subscribeToContentUpdates(() => {
       setCourses(getStoredCourses());
       setCustomDepts(getStoredCustomDepartments());
+      setInternships(getStoredInternshipPrograms());
     });
     return () => unsub();
   }, []);
@@ -228,15 +232,57 @@ export default function Navbar() {
             <span className="dropdown-trigger" onClick={(e) => toggleDropdown('internship', e)}>
               Internship <i className="chevron"></i>
             </span>
-            <div className="dropdown-menu">
-              <Link to="/internship" onClick={closeAll} style={{ color: '#c084fc', fontWeight: '700', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '8px', marginBottom: '4px' }}>
-                All Internship Programs →
-              </Link>
-              <Link to="/internship/aiInternship" onClick={closeAll}>AI Internship</Link>
-              <Link to="/internship/summerinternship" onClick={closeAll}>Summer Internship</Link>
-              <Link to="/internship/college" onClick={closeAll}>College Internship</Link>
-              <Link to="/internship/datascience" onClick={closeAll}>Data Science Internship</Link>
-              <Link to="/internship/Machinelearning" onClick={closeAll}>Machine Learning Internship</Link>
+            <div className="dropdown-menu courses-curated-dropdown">
+              <div className="curated-header">
+                <span>INTERNSHIP TRACKS ({internships.length})</span>
+                <span className="curated-dot"></span>
+              </div>
+              <div className="curated-list">
+                <Link
+                  to="/internship"
+                  onClick={closeAll}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '10px 18px',
+                    color: '#c084fc',
+                    fontWeight: '700',
+                    fontSize: '13px',
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                    textDecoration: 'none'
+                  }}
+                >
+                  <span>All Internship Programs</span>
+                  <span>→</span>
+                </Link>
+                {internships.length === 0 ? (
+                  <div style={{ padding: '16px 20px', textAlign: 'center', color: '#94a3b8', fontSize: '13px' }}>
+                    No internship tracks available
+                  </div>
+                ) : (
+                  internships.map((prog) => {
+                    const targetLink = (prog.link && prog.link !== '/internship')
+                      ? prog.link
+                      : `/internship/${slugifyDepartment(prog.title || '')}`;
+                    const subtext = prog.subtitle || prog.tag || (Array.isArray(prog.modules) ? prog.modules[0] : (typeof prog.modules === 'string' ? prog.modules.split('\n')[0] : 'Specialized Cohort'));
+                    return (
+                      <Link
+                        to={targetLink}
+                        key={prog.id || prog._id || prog.title}
+                        className="curated-item"
+                        onClick={closeAll}
+                      >
+                        <div className="curated-item-info">
+                          <span className="curated-item-title">{prog.title}</span>
+                          <span className="curated-item-modules">{subtext}</span>
+                        </div>
+                        <span className="curated-arrow">→</span>
+                      </Link>
+                    );
+                  })
+                )}
+              </div>
             </div>
           </div>
 
