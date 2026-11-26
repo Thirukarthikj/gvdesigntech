@@ -7,7 +7,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 380px;
+  min-height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,18 +15,19 @@
   perspective-origin: center center;
   z-index: 2;
   cursor: grab;
+  user-select: none;
 }
 
 .cad-3d-platform {
   position: absolute;
-  width: 330px;
-  height: 330px;
-  bottom: 18px;
+  width: 340px;
+  height: 340px;
+  bottom: 22px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(217, 70, 239, 0.16) 42%, transparent 70%);
-  transform: rotateX(68deg) translateZ(-30px);
-  border: 1.5px dashed rgba(167, 139, 250, 0.5);
-  box-shadow: 0 0 45px rgba(139, 92, 246, 0.45), inset 0 0 35px rgba(217, 70, 239, 0.25);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.32) 0%, rgba(217, 70, 239, 0.14) 42%, transparent 70%);
+  transform: rotateX(68deg) translateZ(-35px);
+  border: 1.5px dashed rgba(167, 139, 250, 0.45);
+  box-shadow: 0 0 50px rgba(139, 92, 246, 0.4), inset 0 0 35px rgba(217, 70, 239, 0.25);
   animation: cadPlatformPulse 6s ease-in-out infinite alternate;
   pointer-events: none;
 }
@@ -37,16 +38,27 @@
   inset: 22px;
   border-radius: 50%;
   border: 1px solid rgba(57, 208, 255, 0.45);
-  animation: cadPlatformSpin 20s linear infinite;
+  animation: cadPlatformSpin 22s linear infinite;
 }
 
 .cad-3d-platform::after {
   content: '';
   position: absolute;
-  inset: -15px;
+  inset: -14px;
   border-radius: 50%;
   border: 1px dotted rgba(217, 70, 239, 0.35);
-  animation: cadPlatformSpinReverse 28s linear infinite;
+  animation: cadPlatformSpinReverse 30s linear infinite;
+}
+
+.cad-grid-lines {
+  position: absolute;
+  inset: 32px;
+  border-radius: 50%;
+  background: 
+    linear-gradient(rgba(57, 208, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57, 208, 255, 0.12) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.7;
 }
 
 @keyframes cadPlatformSpin {
@@ -60,51 +72,121 @@
 }
 
 @keyframes cadPlatformPulse {
-  0% { transform: rotateX(68deg) translateZ(-30px) scale(0.92); opacity: 0.7; }
-  100% { transform: rotateX(68deg) translateZ(-30px) scale(1.08); opacity: 1; }
+  0% { transform: rotateX(68deg) translateZ(-35px) scale(0.92); opacity: 0.7; }
+  100% { transform: rotateX(68deg) translateZ(-35px) scale(1.08); opacity: 1; }
 }
 
 .cad-3d-model-inner {
   position: relative;
-  width: 88%;
-  max-width: 390px;
+  width: 92%;
+  max-width: 440px;
   transform-style: preserve-3d;
   will-change: transform, filter;
-  animation: cad3dRotateFloating 7s ease-in-out infinite alternate;
-  transition: transform 0.15s ease-out, filter 0.3s ease;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.35s ease;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #090a16;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(139, 92, 246, 0.25);
 }
 
-.cad-3d-model-inner img {
+.cad-rotating-active {
+  animation: cad3dRotateFloating 8s ease-in-out infinite alternate;
+}
+
+.cad-machine-img {
   width: 100%;
   height: auto;
+  max-height: 290px;
   display: block;
   object-fit: contain;
   pointer-events: none;
   user-select: none;
-  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 25px rgba(139, 92, 246, 0.45));
+  transition: all 0.4s ease;
 }
 
-.cad-scan-line {
+/* Wireframe Blueprint Filter */
+.cad-wireframe-mode .cad-machine-img {
+  filter: invert(1) hue-rotate(170deg) contrast(175%) brightness(1.25) drop-shadow(0 0 20px rgba(34, 211, 238, 0.8));
+}
+
+.cad-wireframe-mode .cad-3d-model-inner {
+  box-shadow: 0 0 35px rgba(34, 211, 238, 0.5), 0 0 0 1.5px rgba(34, 211, 238, 0.7);
+  background: #04091a;
+}
+
+/* Technical HUD Coordinate Tripod */
+.cad-hud-tripod {
   position: absolute;
-  top: 0;
-  left: 6%;
-  right: 6%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #22d3ee 30%, #c084fc 70%, transparent);
-  box-shadow: 0 0 12px #22d3ee, 0 0 22px #a855f7;
-  opacity: 0.8;
+  bottom: 58px;
+  left: 18px;
+  display: flex;
+  gap: 5px;
+  background: rgba(10, 8, 26, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 4px 8px;
+  backdrop-filter: blur(8px);
+  z-index: 5;
   pointer-events: none;
-  animation: cadScanLaser 4s ease-in-out infinite;
 }
 
-@keyframes cadScanLaser {
-  0% { top: 8%; opacity: 0; }
-  15% { opacity: 0.85; }
-  85% { opacity: 0.85; }
-  100% { top: 92%; opacity: 0; }
+.cad-axis {
+  font-family: monospace;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.cad-axis-x { color: #f87171; background: rgba(239, 68, 68, 0.2); }
+.cad-axis-y { color: #4ade80; background: rgba(34, 197, 94, 0.2); }
+.cad-axis-z { color: #38bdf8; background: rgba(56, 189, 248, 0.2); }
+
+/* Interactive Control Strip */
+.cad-controls-strip {
+  position: absolute;
+  bottom: 8px;
+  display: flex;
+  gap: 8px;
+  z-index: 6;
+  background: rgba(15, 13, 36, 0.88);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  border-radius: 12px;
+  padding: 4px 6px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.cad-ctrl-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.cad-ctrl-btn:hover {
+  background: rgba(139, 92, 246, 0.3);
+  border-color: rgba(167, 139, 250, 0.55);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.cad-ctrl-btn.active {
+  background: linear-gradient(135deg, rgba(217, 70, 239, 0.35), rgba(139, 92, 246, 0.35));
+  border-color: rgba(217, 70, 239, 0.6);
+  color: #f0abfc;
 }
 
 @keyframes cad3dRotateFloating {

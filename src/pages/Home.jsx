@@ -22,6 +22,9 @@ export default function Home({ onOpenModal }) {
   const [galleryList, setGalleryList] = useState(() => getStoredGallery());
   const [siteConfig, setSiteConfig] = useState(() => getStoredSiteConfig());
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [cadViewMode, setCadViewMode] = useState('solid');
+  const [selectedCadMachine, setSelectedCadMachine] = useState('5axis');
+  const [isCadRotating, setIsCadRotating] = useState(true);
 
   const [counts, setCounts] = useState({
     professionals: 0,
@@ -305,21 +308,59 @@ export default function Home({ onOpenModal }) {
                 <div className={P['c-avatar']}>+</div>
               </div>
 
-              {/* 3D Model Badge */}
+              {/* 3D Model Top Badge */}
               <div className="cad-badge-tag">
                 <span className="cad-badge-dot"></span>
-                <span>3D CNC Machining Center</span>
+                <span>{selectedCadMachine === '5axis' ? '3D 5-Axis VMC Machining Center' : '3D Industrial CNC Mill'}</span>
               </div>
 
               {/* 3D Rotating CAD Showcase Scene */}
-              <div className="cad-3d-scene">
-                <div className="cad-3d-platform"></div>
-                <div className="cad-3d-model-inner">
+              <div className={`cad-3d-scene ${cadViewMode === 'wireframe' ? 'cad-wireframe-mode' : ''}`}>
+                <div className={`cad-3d-platform ${isCadRotating ? 'cad-platform-rotating' : ''}`}>
+                  <div className="cad-grid-lines"></div>
+                </div>
+
+                <div className={`cad-3d-model-inner ${isCadRotating ? 'cad-rotating-active' : ''}`}>
                   <img
-                    src="/assets/cad-cnc-machine.png"
+                    src={selectedCadMachine === '5axis' ? '/assets/cad-cnc-machine-pro.jpg' : '/assets/cad-cnc-solid.jpg'}
                     alt="GV DesignTech 3D CAD Industrial CNC Machining Center"
+                    className="cad-machine-img"
                   />
-                  <div className="cad-scan-line"></div>
+                </div>
+
+                {/* Technical HUD Coordinate Tripod Overlay */}
+                <div className="cad-hud-tripod">
+                  <span className="cad-axis cad-axis-x">X+</span>
+                  <span className="cad-axis cad-axis-y">Y+</span>
+                  <span className="cad-axis cad-axis-z">Z+</span>
+                </div>
+
+                {/* Interactive CAD Control Strip */}
+                <div className="cad-controls-strip">
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); setCadViewMode(m => m === 'solid' ? 'wireframe' : 'solid'); }}
+                    className={`cad-ctrl-btn ${cadViewMode === 'wireframe' ? 'active' : ''}`}
+                    title="Toggle Solid CAD vs Wireframe Blueprint Mode"
+                  >
+                    {cadViewMode === 'solid' ? '📐 Wireframe' : '🛠️ Solid CAD'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); setIsCadRotating(r => !r); }}
+                    className={`cad-ctrl-btn ${isCadRotating ? 'active' : ''}`}
+                    title="Toggle 3D Orbit Motion"
+                  >
+                    {isCadRotating ? '⏸ Pause' : '🔄 Orbit 3D'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); setSelectedCadMachine(m => m === '5axis' ? 'vmc' : '5axis'); }}
+                    className="cad-ctrl-btn"
+                    title="Switch Machine CAD Model"
+                  >
+                    {selectedCadMachine === '5axis' ? '⚙️ Switch Model' : '⚡ 5-Axis VMC'}
+                  </button>
                 </div>
               </div>
 
