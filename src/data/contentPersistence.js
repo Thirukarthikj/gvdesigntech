@@ -17,6 +17,13 @@ const INTERNSHIP_PROGRAMS_KEY = 'gv_admin_internship_programs';
 const SITE_CONFIG_KEY = 'gv_site_config';
 
 export const initialSiteConfig = {
+  socialLinks: {
+    youtube: 'https://www.youtube.com/@GVDESIGNTECH',
+    instagram: 'https://www.instagram.com/gvdesigntech/',
+    linkedin: 'https://www.linkedin.com/in/gv-design-tech-undefined-42845a35a',
+    facebook: 'https://www.facebook.com/profile.php?id=61596803677692',
+    whatsapp: 'https://wa.me/919655364707'
+  },
   demoVideo: {
     videoUrl: 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A',
     title: 'Watch How We Shape the Future of CAD & Engineering Design Education',
@@ -691,6 +698,7 @@ export function getStoredSiteConfig() {
     return {
       ...initialSiteConfig,
       ...parsed,
+      socialLinks: { ...initialSiteConfig.socialLinks, ...(parsed.socialLinks || {}) },
       demoVideo: { ...initialSiteConfig.demoVideo, ...(parsed.demoVideo || {}) },
       recentActivity: {
         ...initialSiteConfig.recentActivity,

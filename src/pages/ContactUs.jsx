@@ -114,6 +114,47 @@ export default function ContactUs() {
                   </p>
                 </div>
               </div>
+
+              {/* Social Channels */}
+              <div style={{ paddingTop: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                <h4 style={{ fontSize: '14px', fontWeight: '700', margin: '0 0 12px', color: '#cbd5e1', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+                  Official Social Channels
+                </h4>
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                  <a
+                    href="https://www.youtube.com/@GVDESIGNTECH"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '10px', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#ef4444', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
+                  >
+                    <i className="fa-brands fa-youtube" style={{ fontSize: '16px' }}></i> YouTube
+                  </a>
+                  <a
+                    href="https://www.instagram.com/gvdesigntech/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '10px', background: 'rgba(236, 72, 153, 0.12)', border: '1px solid rgba(236, 72, 153, 0.3)', color: '#ec4899', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
+                  >
+                    <i className="fa-brands fa-instagram" style={{ fontSize: '16px' }}></i> Instagram
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/gv-design-tech-undefined-42845a35a"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '10px', background: 'rgba(14, 165, 233, 0.12)', border: '1px solid rgba(14, 165, 233, 0.3)', color: '#0ea5e9', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
+                  >
+                    <i className="fa-brands fa-linkedin-in" style={{ fontSize: '16px' }}></i> LinkedIn
+                  </a>
+                  <a
+                    href="https://www.facebook.com/profile.php?id=61596803677692"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '10px', background: 'rgba(59, 130, 246, 0.12)', border: '1px solid rgba(59, 130, 246, 0.3)', color: '#3b82f6', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
+                  >
+                    <i className="fa-brands fa-facebook-f" style={{ fontSize: '16px' }}></i> Facebook
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 

@@ -52,7 +52,7 @@ export default function FloatingElements() {
       {/* Floating Social Media Sidebar */}
       <div className={sb.sidebar} aria-label="Social Media Links">
         <a
-          href="https://www.linkedin.com/in/muthu-raj-profenaa/"
+          href="https://www.linkedin.com/in/gv-design-tech-undefined-42845a35a"
           target="_blank"
           rel="noopener noreferrer"
           className={sb.icon}
@@ -63,7 +63,7 @@ export default function FloatingElements() {
           </svg>
         </a>
         <a
-          href="https://instagram.com/gvdesigntech"
+          href="https://www.instagram.com/gvdesigntech/"
           target="_blank"
           rel="noopener noreferrer"
           className={sb.icon}
@@ -74,7 +74,7 @@ export default function FloatingElements() {
           </svg>
         </a>
         <a
-          href="https://www.youtube.com/channel/UCSTvrgSrwwi5hx3mdkXLX5A"
+          href="https://www.youtube.com/@GVDESIGNTECH"
           target="_blank"
           rel="noopener noreferrer"
           className={sb.icon}
@@ -85,7 +85,7 @@ export default function FloatingElements() {
           </svg>
         </a>
         <a
-          href="https://www.facebook.com/gvdesigntech/"
+          href="https://www.facebook.com/profile.php?id=61596803677692"
           target="_blank"
           rel="noopener noreferrer"
           className={sb.icon}
