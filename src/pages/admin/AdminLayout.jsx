@@ -11,15 +11,15 @@ export default function AdminLayout() {
   const location = useLocation();
 
   useEffect(() => {
-    // Auth Check
-    const token = localStorage.getItem('gv_admin_token');
+    // Auth Check: strictly require active session token
+    const token = sessionStorage.getItem('gv_admin_token');
     if (!token) {
       navigate('/admin/login', { replace: true });
       return;
     }
 
     try {
-      const user = JSON.parse(localStorage.getItem('gv_admin_user') || '{}');
+      const user = JSON.parse(sessionStorage.getItem('gv_admin_user') || localStorage.getItem('gv_admin_user') || '{}');
       if (user.name) setAdminUser(user);
     } catch {
       // ignore
@@ -46,6 +46,8 @@ export default function AdminLayout() {
     } catch (err) {
       console.warn('Firebase signOut error:', err);
     }
+    sessionStorage.removeItem('gv_admin_token');
+    sessionStorage.removeItem('gv_admin_user');
     localStorage.removeItem('gv_admin_token');
     localStorage.removeItem('gv_admin_user');
     navigate('/admin/login', { replace: true });
