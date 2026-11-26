@@ -19,6 +19,7 @@ const INTERNSHIP_PROGRAMS_KEY = 'gv_admin_internship_programs';
 const SKILL_TEST_QUESTIONS_KEY = 'gv_skill_test_questions';
 const SKILL_TEST_RESULTS_KEY = 'gv_skill_test_results';
 const SITE_CONFIG_KEY = 'gv_site_config';
+const CUSTOM_DEPTS_KEY = 'gv_admin_custom_departments';
 
 export const initialSiteConfig = {
   contactInfo: {
@@ -941,3 +942,31 @@ export {
   saveStoredInternships,
   saveStoredInternshipApplicant
 } from './adminInitialData.js';
+
+// Custom Departments Management
+export function getStoredCustomDepartments() {
+  try {
+    const raw = localStorage.getItem(CUSTOM_DEPTS_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveStoredCustomDepartments(depts) {
+  try {
+    const clean = Array.isArray(depts)
+      ? Array.from(new Set(depts.filter(d => typeof d === 'string' && d.trim()))).map(d => d.trim())
+      : [];
+    localStorage.setItem(CUSTOM_DEPTS_KEY, JSON.stringify(clean));
+    notifyContentUpdate('custom_departments');
+
+    try {
+      syncToFirestore('custom_departments', { departments: clean });
+    } catch {}
+  } catch (err) {
+    console.error('Failed to save custom departments:', err);
+  }
+}
