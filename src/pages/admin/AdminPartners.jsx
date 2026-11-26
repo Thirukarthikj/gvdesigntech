@@ -1,11 +1,31 @@
-import React, { useState } from 'react';
-import { mouList } from '../../data/mous.js';
+import React, { useState, useEffect } from 'react';
+import { getStoredMous, saveStoredMous, subscribeToContentUpdates } from '../../data/contentPersistence.js';
 
 export default function AdminPartners() {
-  const [partnerList, setPartnerList] = useState(mouList);
+  const [partnerList, setPartnerList] = useState(() => getStoredMous());
   const [search, setSearch] = useState('');
   const [tagFilter, setTagFilter] = useState('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/mous')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setPartnerList(data);
+          localStorage.setItem('gv_admin_mous', JSON.stringify(data));
+        }
+      })
+      .catch(() => {});
+
+    const unsub = subscribeToContentUpdates((topic) => {
+      if (topic === 'mou' || topic === 'all') {
+        setPartnerList(getStoredMous());
+      }
+    });
+
+    return () => unsub();
+  }, []);
 
   const [newPartner, setNewPartner] = useState({
     name: '',
@@ -22,7 +42,9 @@ export default function AdminPartners() {
       ...newPartner,
       id: Date.now()
     };
-    setPartnerList([created, ...partnerList]);
+    const updated = [created, ...partnerList];
+    setPartnerList(updated);
+    saveStoredMous(updated);
     setIsModalOpen(false);
     setNewPartner({
       name: '',

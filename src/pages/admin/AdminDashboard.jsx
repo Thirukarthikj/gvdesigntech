@@ -1,25 +1,72 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getStoredLeads, getStoredInternships } from '../../data/adminInitialData.js';
-import { getStoredCourses } from '../../data/contentPersistence.js';
-import { mouList } from '../../data/mous.js';
+import {
+  getStoredCourses,
+  getStoredMous,
+  subscribeToContentUpdates
+} from '../../data/contentPersistence.js';
 
 export default function AdminDashboard() {
-  const [leads, setLeads] = useState([]);
-  const [courses, setCourses] = useState([]);
-  const [internships, setInternships] = useState([]);
+  const [leads, setLeads] = useState(() => getStoredLeads());
+  const [courses, setCourses] = useState(() => getStoredCourses());
+  const [internships, setInternships] = useState(() => getStoredInternships());
+  const [mous, setMous] = useState(() => getStoredMous());
 
   useEffect(() => {
+    // 1. Initial loads from persistent storage
     setLeads(getStoredLeads());
     setCourses(getStoredCourses());
     setInternships(getStoredInternships());
+    setMous(getStoredMous());
+
+    // 2. Fetch fresh data from MongoDB endpoints
+    fetch('/api/mous')
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setMous(data);
+          localStorage.setItem('gv_admin_mous', JSON.stringify(data));
+        }
+      })
+      .catch(() => {});
+
+    fetch('/api/courses')
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setCourses(data);
+          localStorage.setItem('gv_admin_courses', JSON.stringify(data));
+        }
+      })
+      .catch(() => {});
+
+    fetch('/api/leads')
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setLeads(data);
+          localStorage.setItem('gv_admin_leads', JSON.stringify(data));
+        }
+      })
+      .catch(() => {});
+
+    // 3. Realtime event listener across tabs and state updates
+    const unsub = subscribeToContentUpdates(() => {
+      setLeads(getStoredLeads());
+      setCourses(getStoredCourses());
+      setInternships(getStoredInternships());
+      setMous(getStoredMous());
+    });
+
+    return () => unsub();
   }, []);
 
   const totalLeads = leads.length;
   const enrolledCount = leads.filter(l => l.status === 'Enrolled').length;
   const newLeadsCount = leads.filter(l => l.status === 'New').length;
   const totalCourses = courses.length;
-  const totalPartners = mouList.length;
+  const totalPartners = mous.length;
 
   const departmentCounts = {
     'Mechanical & Auto': leads.filter(l => l.program.toLowerCase().includes('mech')).length || 4,
@@ -37,51 +84,59 @@ export default function AdminDashboard() {
     <div>
       {/* KPI Cards Grid */}
       <div className="admin-kpi-grid">
-        <div className="admin-kpi-card">
-          <div className="admin-kpi-top">
-            <span className="admin-kpi-label">Total Student Inquiries</span>
-            <div className="admin-kpi-icon" style={{ background: 'rgba(6, 182, 212, 0.15)', color: '#22d3ee' }}>📝</div>
+        <Link to="/admin/enrollments" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <div className="admin-kpi-card" style={{ height: '100%', cursor: 'pointer' }}>
+            <div className="admin-kpi-top">
+              <span className="admin-kpi-label">Total Student Inquiries</span>
+              <div className="admin-kpi-icon" style={{ background: 'rgba(6, 182, 212, 0.15)', color: '#22d3ee' }}>📝</div>
+            </div>
+            <div className="admin-kpi-val">{totalLeads}</div>
+            <div className="admin-kpi-sub">
+              <span className="admin-trend-up">+{newLeadsCount} New</span>
+              <span>inquiries awaiting follow-up</span>
+            </div>
           </div>
-          <div className="admin-kpi-val">{totalLeads}</div>
-          <div className="admin-kpi-sub">
-            <span className="admin-trend-up">+{newLeadsCount} New</span>
-            <span>inquiries awaiting follow-up</span>
-          </div>
-        </div>
+        </Link>
 
-        <div className="admin-kpi-card">
-          <div className="admin-kpi-top">
-            <span className="admin-kpi-label">Confirmed Admissions</span>
-            <div className="admin-kpi-icon" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}>🎓</div>
+        <Link to="/admin/enrollments" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <div className="admin-kpi-card" style={{ height: '100%', cursor: 'pointer' }}>
+            <div className="admin-kpi-top">
+              <span className="admin-kpi-label">Confirmed Admissions</span>
+              <div className="admin-kpi-icon" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}>🎓</div>
+            </div>
+            <div className="admin-kpi-val">{enrolledCount}</div>
+            <div className="admin-kpi-sub">
+              <span className="admin-trend-up">{(enrolledCount / (totalLeads || 1) * 100).toFixed(1)}%</span>
+              <span>conversion rate</span>
+            </div>
           </div>
-          <div className="admin-kpi-val">{enrolledCount}</div>
-          <div className="admin-kpi-sub">
-            <span className="admin-trend-up">{(enrolledCount / (totalLeads || 1) * 100).toFixed(1)}%</span>
-            <span>conversion rate</span>
-          </div>
-        </div>
+        </Link>
 
-        <div className="admin-kpi-card">
-          <div className="admin-kpi-top">
-            <span className="admin-kpi-label">Active Courses in Catalog</span>
-            <div className="admin-kpi-icon" style={{ background: 'rgba(217, 70, 239, 0.15)', color: '#f472b6' }}>🎓</div>
+        <Link to="/admin/courses" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <div className="admin-kpi-card" style={{ height: '100%', cursor: 'pointer' }}>
+            <div className="admin-kpi-top">
+              <span className="admin-kpi-label">Active Courses in Catalog</span>
+              <div className="admin-kpi-icon" style={{ background: 'rgba(217, 70, 239, 0.15)', color: '#f472b6' }}>🎓</div>
+            </div>
+            <div className="admin-kpi-val">{totalCourses}</div>
+            <div className="admin-kpi-sub">
+              <span>Across 8 engineering disciplines</span>
+            </div>
           </div>
-          <div className="admin-kpi-val">{totalCourses}</div>
-          <div className="admin-kpi-sub">
-            <span>Across 8 engineering disciplines</span>
-          </div>
-        </div>
+        </Link>
 
-        <div className="admin-kpi-card">
-          <div className="admin-kpi-top">
-            <span className="admin-kpi-label">Academic MOU Partners</span>
-            <div className="admin-kpi-icon" style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24' }}>🏛️</div>
+        <Link to="/admin/content-mou" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <div className="admin-kpi-card" style={{ height: '100%', cursor: 'pointer' }}>
+            <div className="admin-kpi-top">
+              <span className="admin-kpi-label">Academic MOU Partners</span>
+              <div className="admin-kpi-icon" style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24' }}>🏛️</div>
+            </div>
+            <div className="admin-kpi-val">{totalPartners}</div>
+            <div className="admin-kpi-sub">
+              <span>Engineering colleges in Tamil Nadu</span>
+            </div>
           </div>
-          <div className="admin-kpi-val">{totalPartners}</div>
-          <div className="admin-kpi-sub">
-            <span>Engineering colleges in Tamil Nadu</span>
-          </div>
-        </div>
+        </Link>
       </div>
 
       {/* Two Column Grid: Department Demand & Quick Action shortcuts */}

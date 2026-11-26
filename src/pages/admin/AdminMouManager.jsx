@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getStoredMous, saveStoredMous } from '../../data/contentPersistence.js';
+import { getStoredMous, saveStoredMous, subscribeToContentUpdates } from '../../data/contentPersistence.js';
 import { uploadImageToCloudinary, compressImageFile } from '../../services/cloudinaryService.js';
 
 export default function AdminMouManager() {
@@ -11,6 +11,26 @@ export default function AdminMouManager() {
   const [editingItem, setEditingItem] = useState(null);
   const [toast, setToast] = useState('');
   const [uploadingImage, setUploadingImage] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/mous')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setMous(data);
+          localStorage.setItem('gv_admin_mous', JSON.stringify(data));
+        }
+      })
+      .catch(() => {});
+
+    const unsub = subscribeToContentUpdates((topic) => {
+      if (topic === 'mou' || topic === 'all') {
+        setMous(getStoredMous());
+      }
+    });
+
+    return () => unsub();
+  }, []);
 
   const [formData, setFormData] = useState({
     name: '',
