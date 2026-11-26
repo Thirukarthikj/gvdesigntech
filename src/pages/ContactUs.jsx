@@ -73,8 +73,8 @@ export default function ContactUs() {
                 </div>
                 <div>
                   <h4 style={{ fontSize: '16px', fontWeight: '700', margin: '0 0 4px', color: '#fff' }}>Location Address</h4>
-                  <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.5, margin: 0 }}>
-                    Headquarters: Oddanchatram, Tamil Nadu
+                  <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.5, margin: 0 }}>
+                    Headquarters: Oddanchatram, Tamil Nadu 624619
                   </p>
                 </div>
               </div>
@@ -109,7 +109,7 @@ export default function ContactUs() {
                 </div>
                 <div>
                   <h4 style={{ fontSize: '16px', fontWeight: '700', margin: '0 0 4px', color: '#fff' }}>Operating Hours</h4>
-                  <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.5, margin: 0 }}>
+                  <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.5, margin: 0 }}>
                     Monday – Saturday: 9:00 AM – 7:00 PM<br />Sunday: Prior Appointment Only
                   </p>
                 </div>
@@ -262,6 +262,129 @@ export default function ContactUs() {
                 </button>
               </form>
             )}
+          </div>
+        </div>
+
+        {/* Interactive Google Map Section */}
+        <div
+          style={{
+            background: 'linear-gradient(160deg, rgba(26, 18, 66, 0.75), rgba(8, 6, 26, 0.9))',
+            border: '1px solid rgba(139, 92, 246, 0.35)',
+            borderRadius: '24px',
+            padding: '32px',
+            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4)'
+          }}
+        >
+          {/* Header & Directions Button */}
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: '16px',
+              marginBottom: '24px',
+              paddingBottom: '20px',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
+            }}
+          >
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '4px 14px', background: 'rgba(217, 70, 239, 0.15)', border: '1px solid rgba(217, 70, 239, 0.4)', borderRadius: '999px', color: '#f472b6', fontSize: '12px', fontWeight: '700', letterSpacing: '0.8px', marginBottom: '8px' }}>
+                📍 CAMPUS NAVIGATION &amp; DIRECTIONS
+              </div>
+              <h2 style={{ fontSize: '24px', fontWeight: '800', margin: '0 0 6px', color: '#fff' }}>
+                Visit GV DesignTech Headquarters
+              </h2>
+              <p style={{ margin: 0, fontSize: '14.5px', color: '#94a3b8' }}>
+                Headquarters: Oddanchatram, Dindigul District, Tamil Nadu 624619, India
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              <a
+                href="https://maps.google.com/?q=Oddanchatram,+Tamil+Nadu"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '12px 20px',
+                  borderRadius: '12px',
+                  background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
+                  color: '#fff',
+                  textDecoration: 'none',
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  boxShadow: '0 8px 20px rgba(139, 92, 246, 0.3)',
+                  transition: 'transform 0.2s ease'
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
+              >
+                <span>🗺️</span> Get Directions in Google Maps →
+              </a>
+            </div>
+          </div>
+
+          {/* Highlights Pills Bar */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+              gap: '14px',
+              marginBottom: '20px'
+            }}
+          >
+            <div style={{ padding: '12px 16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontSize: '20px' }}>🏫</span>
+              <div>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>CAD Lab &amp; Classrooms</div>
+                <div style={{ fontSize: '11px', color: '#94a3b8' }}>Workstations &amp; 3D Prototyping</div>
+              </div>
+            </div>
+            <div style={{ padding: '12px 16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontSize: '20px' }}>🚌</span>
+              <div>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>Transport Accessibility</div>
+                <div style={{ fontSize: '11px', color: '#94a3b8' }}>Near Bus Stand &amp; Railway</div>
+              </div>
+            </div>
+            <div style={{ padding: '12px 16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontSize: '20px' }}>💼</span>
+              <div>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>Admissions Desk</div>
+                <div style={{ fontSize: '11px', color: '#94a3b8' }}>In-Person Career Counseling</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Google Map Iframe Container */}
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              height: '420px',
+              borderRadius: '16px',
+              overflow: 'hidden',
+              border: '1px solid rgba(139, 92, 246, 0.3)',
+              background: '#090a16'
+            }}
+          >
+            <iframe
+              title="GV DesignTech Headquarters Map"
+              src="https://maps.google.com/maps?q=Oddanchatram,+Tamil+Nadu,+India&t=&z=14&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="100%"
+              style={{
+                border: 0,
+                display: 'block',
+                filter: 'invert(90%) hue-rotate(180deg) contrast(95%) saturate(120%)'
+              }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
           </div>
         </div>
       </div>
