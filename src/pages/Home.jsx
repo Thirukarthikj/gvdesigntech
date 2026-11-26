@@ -308,7 +308,7 @@ export default function Home({ onOpenModal }) {
               {/* 3D Model Badge */}
               <div className="cad-badge-tag">
                 <span className="cad-badge-dot"></span>
-                <span>3D CAD Model</span>
+                <span>3D CNC Machining Center</span>
               </div>
 
               {/* 3D Rotating CAD Showcase Scene */}
@@ -316,9 +316,10 @@ export default function Home({ onOpenModal }) {
                 <div className="cad-3d-platform"></div>
                 <div className="cad-3d-model-inner">
                   <img
-                    src="/assets/cad-isometric-room.png"
-                    alt="GV DesignTech 3D CAD Architectural Interior"
+                    src="/assets/cad-cnc-machine.png"
+                    alt="GV DesignTech 3D CAD Industrial CNC Machining Center"
                   />
+                  <div className="cad-scan-line"></div>
                 </div>
               </div>
 
