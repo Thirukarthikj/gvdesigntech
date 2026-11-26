@@ -140,7 +140,7 @@ export default function ComputerScience({ onOpenModal }) {
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
-              onClick={onOpenModal}
+              onClick={() => onOpenModal && onOpenModal('Computer Science & IT')}
               style={{
                 padding: '16px 36px',
                 background: 'linear-gradient(135deg, #38bdf8, #8b5cf6)',
@@ -229,7 +229,7 @@ export default function ComputerScience({ onOpenModal }) {
               </p>
               <button
                 type="button"
-                onClick={onOpenModal}
+                onClick={() => onOpenModal && onOpenModal('Computer Science & IT')}
                 style={{
                   padding: '12px 28px',
                   background: 'linear-gradient(135deg, #38bdf8, #8b5cf6)',
@@ -407,7 +407,7 @@ export default function ComputerScience({ onOpenModal }) {
           </p>
           <button
             type="button"
-            onClick={onOpenModal}
+            onClick={() => onOpenModal && onOpenModal('Computer Science & IT')}
             style={{
               padding: '16px 42px',
               background: 'linear-gradient(135deg, #0284c7, #2563eb)',

@@ -118,7 +118,7 @@ export default function CollegeInternship({ onOpenModal }) {
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
-              onClick={onOpenModal}
+              onClick={() => onOpenModal && onOpenModal('College In-Plant Internship Training')}
               style={{
                 padding: '16px 36px',
                 background: 'linear-gradient(135deg, #0284c7, #0369a1)',
@@ -288,7 +288,7 @@ export default function CollegeInternship({ onOpenModal }) {
           </p>
           <button
             type="button"
-            onClick={onOpenModal}
+            onClick={() => onOpenModal && onOpenModal('College In-Plant Internship Training')}
             style={{ padding: '16px 40px', background: 'linear-gradient(135deg, #0284c7, #0369a1)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 30px rgba(2, 132, 199, 0.4)', transition: 'transform 0.2s' }}
           >
             Apply for College Internship →

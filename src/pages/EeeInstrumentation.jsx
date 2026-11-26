@@ -140,7 +140,7 @@ export default function EeeInstrumentation({ onOpenModal }) {
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
-              onClick={onOpenModal}
+              onClick={() => onOpenModal && onOpenModal('EEE & Automation')}
               style={{
                 padding: '16px 36px',
                 background: 'linear-gradient(135deg, #f59e0b, #d97706)',
@@ -229,7 +229,7 @@ export default function EeeInstrumentation({ onOpenModal }) {
               </p>
               <button
                 type="button"
-                onClick={onOpenModal}
+                onClick={() => onOpenModal && onOpenModal('EEE & Automation')}
                 style={{
                   padding: '12px 28px',
                   background: 'linear-gradient(135deg, #f59e0b, #d97706)',
@@ -407,7 +407,7 @@ export default function EeeInstrumentation({ onOpenModal }) {
           </p>
           <button
             type="button"
-            onClick={onOpenModal}
+            onClick={() => onOpenModal && onOpenModal('EEE & Automation')}
             style={{
               padding: '16px 42px',
               background: 'linear-gradient(135deg, #f59e0b, #d97706)',

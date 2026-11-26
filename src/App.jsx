@@ -71,9 +71,31 @@ export default function App() {
   const [selectedCourseForEnroll, setSelectedCourseForEnroll] = useState('');
 
   const openModal = (courseNameOrDetails = '') => {
-    const courseTitle = typeof courseNameOrDetails === 'string'
-      ? courseNameOrDetails
-      : (courseNameOrDetails?.title || courseNameOrDetails?.department || '');
+    let courseTitle = '';
+    if (typeof courseNameOrDetails === 'string') {
+      courseTitle = courseNameOrDetails.trim();
+    } else if (courseNameOrDetails && typeof courseNameOrDetails === 'object' && !courseNameOrDetails.nativeEvent && !courseNameOrDetails.target) {
+      courseTitle = courseNameOrDetails.title || courseNameOrDetails.department || '';
+    }
+
+    // If no course explicitly passed, intelligently default to the active page's course or internship program!
+    if (!courseTitle) {
+      const p = (location.pathname || '').toLowerCase();
+      if (p.includes('/internship/ai')) courseTitle = 'AI & Artificial Intelligence Internship';
+      else if (p.includes('/internship/datascience')) courseTitle = 'Data Science & Analytics Internship';
+      else if (p.includes('/internship/machinelearning')) courseTitle = 'Machine Learning & Deep Learning Internship';
+      else if (p.includes('/internship/summer')) courseTitle = 'Summer Internship for Engineering Students';
+      else if (p.includes('/internship/college')) courseTitle = 'College In-Plant Internship Training';
+      else if (p.startsWith('/internship')) courseTitle = 'Industrial Internship Program';
+      else if (p.includes('/civil')) courseTitle = 'Civil Engineering & BIM';
+      else if (p.includes('/mechanical')) courseTitle = 'Mechanical & Automobile';
+      else if (p.includes('/cnc')) courseTitle = 'CNC Programming & CAM';
+      else if (p.includes('/computer-science') || p.includes('/artificial')) courseTitle = 'Computer Science & IT';
+      else if (p.includes('/eee') || p.includes('/instrumentation')) courseTitle = 'EEE & Automation';
+      else if (p.includes('/ece') || p.includes('/electronics')) courseTitle = 'ECE Embedded & IoT';
+      else if (p.includes('/piping')) courseTitle = 'Piping Engineering (Oil & Gas)';
+    }
+
     setSelectedCourseForEnroll(courseTitle);
     setIsEnrollModalOpen(true);
   };

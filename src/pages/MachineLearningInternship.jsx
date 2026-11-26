@@ -119,7 +119,7 @@ export default function MachineLearningInternship({ onOpenModal }) {
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
-              onClick={onOpenModal}
+              onClick={() => onOpenModal && onOpenModal('Machine Learning & Deep Learning Internship')}
               style={{
                 padding: '16px 36px',
                 background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
@@ -289,7 +289,7 @@ export default function MachineLearningInternship({ onOpenModal }) {
           </p>
           <button
             type="button"
-            onClick={onOpenModal}
+            onClick={() => onOpenModal && onOpenModal('Machine Learning & Deep Learning Internship')}
             style={{ padding: '16px 40px', background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 30px rgba(139, 92, 246, 0.4)', transition: 'transform 0.2s' }}
           >
             Apply for ML Internship →

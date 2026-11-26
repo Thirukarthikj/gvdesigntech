@@ -118,7 +118,7 @@ export default function SummerInternship({ onOpenModal }) {
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
-              onClick={onOpenModal}
+              onClick={() => onOpenModal && onOpenModal('Summer Internship for Engineering Students')}
               style={{
                 padding: '16px 36px',
                 background: 'linear-gradient(135deg, #f59e0b, #d97706)',
@@ -288,7 +288,7 @@ export default function SummerInternship({ onOpenModal }) {
           </p>
           <button
             type="button"
-            onClick={onOpenModal}
+            onClick={() => onOpenModal && onOpenModal('Summer Internship for Engineering Students')}
             style={{ padding: '16px 40px', background: 'linear-gradient(135deg, #f59e0b, #d97706)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 30px rgba(245, 158, 11, 0.4)', transition: 'transform 0.2s' }}
           >
             Apply for Summer Internship →

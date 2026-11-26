@@ -238,7 +238,7 @@ export default function InternshipPrograms({ onOpenModal }) {
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
-              onClick={onOpenModal}
+              onClick={() => onOpenModal && onOpenModal('Industrial Internship Program')}
               style={{
                 padding: '16px 36px',
                 background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
@@ -400,7 +400,7 @@ export default function InternshipPrograms({ onOpenModal }) {
               <div style={{ display: 'flex', gap: '12px' }}>
                 <button
                   type="button"
-                  onClick={onOpenModal}
+                  onClick={() => onOpenModal && onOpenModal(p.subtitle || p.title || 'Industrial Internship Program')}
                   style={{
                     flex: 1,
                     padding: '12px 18px',
@@ -525,7 +525,7 @@ export default function InternshipPrograms({ onOpenModal }) {
 
           <button
             type="button"
-            onClick={onOpenModal}
+            onClick={() => onOpenModal && onOpenModal('Industrial Internship Program')}
             style={{
               padding: '16px 42px',
               background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',

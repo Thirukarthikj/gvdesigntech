@@ -3,10 +3,38 @@ import { modalStyles } from '../data/styles.js';
 import { syncToFirestore } from '../services/firebase.js';
 import { getStoredSiteConfig, getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
 
+export const STANDARD_DISCIPLINES = [
+  'Mechanical & Automobile',
+  'Civil Engineering & BIM',
+  'CNC Programming & CAM',
+  'Computer Science & IT',
+  'EEE & Automation',
+  'ECE Embedded & IoT',
+  'Piping Engineering (Oil & Gas)',
+  'Robotics & Automation',
+  'AI & Data Science'
+];
+
+export const INTERNSHIP_PROGRAMS = [
+  'AI & Artificial Intelligence Internship',
+  'Data Science & Analytics Internship',
+  'Machine Learning & Deep Learning Internship',
+  'Summer Internship for Engineering Students',
+  'College In-Plant Internship Training',
+  'Full Stack Software Development Internship',
+  'Mechanical CAD / CAE Industrial Internship',
+  'Civil BIM & Structural Detailing Internship',
+  'Embedded Systems & IoT Internship',
+  'Industrial Internship Program'
+];
+
+export const STANDARD_COURSES = STANDARD_DISCIPLINES;
+
 export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
   const [siteConfig, setSiteConfig] = useState(() => getStoredSiteConfig());
   const [courses, setCourses] = useState(() => getStoredCourses());
   const modalConfig = siteConfig.enrollModal || {};
+  const publishedCourses = (courses || []).filter(c => c && (c.title || c.department));
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -32,15 +60,40 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
   useEffect(() => {
     if (isOpen) {
       if (initialProgram) {
-        const matched = (courses || []).find(c =>
-          (c.title && c.title.toLowerCase().trim() === initialProgram.toLowerCase().trim()) ||
-          (c.department && c.department.toLowerCase().trim() === initialProgram.toLowerCase().trim())
+        const raw = (typeof initialProgram === 'string' ? initialProgram : '').trim();
+        const trimmed = raw.toLowerCase();
+
+        // 1. Try match in published dynamic courses from MongoDB
+        const matchedCourse = publishedCourses.find(c =>
+          (c.title && c.title.toLowerCase().trim() === trimmed) ||
+          (c.department && c.department.toLowerCase().trim() === trimmed) ||
+          (c.title && c.title.toLowerCase().includes(trimmed)) ||
+          (trimmed.length >= 3 && (c.title || '').toLowerCase().includes(trimmed)) ||
+          (trimmed.length >= 3 && trimmed.includes((c.title || '').toLowerCase()))
         );
-        const resolvedProgram = matched ? (matched.title || matched.department) : initialProgram;
+
+        // 2. Try match in standard disciplines
+        const matchedDiscipline = STANDARD_DISCIPLINES.find(d =>
+          d.toLowerCase().trim() === trimmed ||
+          (trimmed.length >= 3 && d.toLowerCase().includes(trimmed)) ||
+          (trimmed.length >= 3 && trimmed.includes(d.toLowerCase()))
+        );
+
+        // 3. Try match in internships
+        const matchedInternship = INTERNSHIP_PROGRAMS.find(p =>
+          p.toLowerCase().trim() === trimmed ||
+          (trimmed.length >= 3 && p.toLowerCase().includes(trimmed)) ||
+          (trimmed.length >= 3 && trimmed.includes(p.toLowerCase()))
+        );
+
+        const resolved = matchedCourse
+          ? (matchedCourse.title || matchedCourse.department)
+          : (matchedInternship || matchedDiscipline || raw);
+
         setFormData(prev => ({
           ...prev,
-          program: resolvedProgram,
-          message: prev.message || `Interested in enrolling for ${resolvedProgram}`
+          program: resolved,
+          message: prev.message && !prev.message.startsWith('Interested in enrolling for') ? prev.message : `Interested in enrolling for ${resolved}`
         }));
       }
     }
@@ -258,29 +311,45 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
                   }}
                 >
                   <option value="" style={{ backgroundColor: '#0f1123', color: '#94a3b8' }}>Choose your program…</option>
-                  {initialProgram && !(courses || []).some(c => (c.title === initialProgram || c.department === initialProgram)) && (
-                    <option value={initialProgram} style={{ backgroundColor: '#0f1123', color: '#38bdf8', fontWeight: '700' }}>
-                      {initialProgram} (Selected)
-                    </option>
-                  )}
-                  {courses && courses.length > 0 ? (
-                    courses.map((c) => (
-                      <option key={c.id || c.title} value={c.title || c.department} style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>
-                        {c.title || c.department}
+
+                  {/* Render active custom or dynamic selection on top if not in static lists */}
+                  {formData.program &&
+                    !publishedCourses.some(c => (c.title === formData.program || c.department === formData.program)) &&
+                    !STANDARD_DISCIPLINES.includes(formData.program) &&
+                    !INTERNSHIP_PROGRAMS.includes(formData.program) && (
+                      <option value={formData.program} style={{ backgroundColor: '#0f1123', color: '#38bdf8', fontWeight: '700' }}>
+                        {formData.program} (Selected)
                       </option>
-                    ))
-                  ) : (
-                    <>
-                      <option value="Mechanical & Automobile CAD" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>Mechanical &amp; Automobile CAD</option>
-                      <option value="Civil Engineering & BIM" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>Civil Engineering &amp; BIM</option>
-                      <option value="CNC Programming & CAM" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>CNC Programming &amp; CAM</option>
-                      <option value="Computer Science & IT" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>Computer Science &amp; IT</option>
-                      <option value="EEE / Instrumentation" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>EEE / Instrumentation</option>
-                      <option value="ECE Design" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>ECE Design</option>
-                      <option value="Piping (Oil & Gas)" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>Piping (Oil &amp; Gas)</option>
-                      <option value="Engineering Internship" style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>Engineering Internship</option>
-                    </>
                   )}
+
+                  {/* 1. Dynamic Courses Published from MongoDB / Admin Panel */}
+                  {publishedCourses.length > 0 && (
+                    <optgroup label="🌟 Published Training Courses">
+                      {publishedCourses.map((c) => (
+                        <option key={c.id || c._id || c.title} value={c.title || c.department} style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>
+                          {c.title || c.department}
+                        </option>
+                      ))}
+                    </optgroup>
+                  )}
+
+                  {/* 2. Core Engineering Disciplines */}
+                  <optgroup label="🎓 Engineering Disciplines &amp; Departments">
+                    {STANDARD_DISCIPLINES.map((dept) => (
+                      <option key={dept} value={dept} style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>
+                        {dept}
+                      </option>
+                    ))}
+                  </optgroup>
+
+                  {/* 3. Industry Internship Programs */}
+                  <optgroup label="💼 Industry Internship Programs">
+                    {INTERNSHIP_PROGRAMS.map((title) => (
+                      <option key={title} value={title} style={{ backgroundColor: '#0f1123', color: '#ffffff' }}>
+                        {title}
+                      </option>
+                    ))}
+                  </optgroup>
                 </select>
                 <div className={s['em-select-arrow']}>
                   <svg viewBox="0 0 12 8" fill="none">

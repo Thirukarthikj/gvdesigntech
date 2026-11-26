@@ -140,7 +140,7 @@ export default function EceCommunication({ onOpenModal }) {
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
-              onClick={onOpenModal}
+              onClick={() => onOpenModal && onOpenModal('ECE Embedded & IoT')}
               style={{
                 padding: '16px 36px',
                 background: 'linear-gradient(135deg, #0284c7, #0369a1)',
@@ -233,7 +233,7 @@ export default function EceCommunication({ onOpenModal }) {
               </p>
               <button
                 type="button"
-                onClick={onOpenModal}
+                onClick={() => onOpenModal && onOpenModal('ECE Embedded & IoT')}
                 style={{
                   padding: '12px 28px',
                   background: 'linear-gradient(135deg, #0284c7, #0369a1)',
@@ -484,7 +484,7 @@ export default function EceCommunication({ onOpenModal }) {
           </p>
           <button
             type="button"
-            onClick={onOpenModal}
+            onClick={() => onOpenModal && onOpenModal('ECE Embedded & IoT')}
             style={{
               padding: '16px 40px',
               background: 'linear-gradient(135deg, #0284c7, #0369a1)',

@@ -140,7 +140,7 @@ export default function CncProgramming({ onOpenModal }) {
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
-              onClick={onOpenModal}
+              onClick={() => onOpenModal && onOpenModal('CNC Programming & CAM')}
               style={{
                 padding: '16px 36px',
                 background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
@@ -229,7 +229,7 @@ export default function CncProgramming({ onOpenModal }) {
               </p>
               <button
                 type="button"
-                onClick={onOpenModal}
+                onClick={() => onOpenModal && onOpenModal('CNC Programming & CAM')}
                 style={{
                   padding: '12px 28px',
                   background: 'linear-gradient(135deg, #be123c, #f43f5e)',
@@ -404,7 +404,7 @@ export default function CncProgramming({ onOpenModal }) {
           </p>
           <button
             type="button"
-            onClick={onOpenModal}
+            onClick={() => onOpenModal && onOpenModal('CNC Programming & CAM')}
             style={{
               padding: '16px 42px',
               background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',

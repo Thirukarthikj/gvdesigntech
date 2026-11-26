@@ -117,7 +117,7 @@ export default function CivilEngineering({ onOpenModal }) {
         <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <button
             type="button"
-            onClick={onOpenModal}
+            onClick={() => onOpenModal && onOpenModal('Civil Engineering & BIM')}
             style={{ padding: '14px 36px', background: 'linear-gradient(135deg, #8b5cf6, #d946ef)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 24px rgba(217, 70, 239, 0.35)', transition: 'all 0.25s ease' }}
           >
             Apply for Next Batch
@@ -170,7 +170,7 @@ export default function CivilEngineering({ onOpenModal }) {
                 </p>
                 <button
                   type="button"
-                  onClick={onOpenModal}
+                  onClick={() => onOpenModal && onOpenModal('Civil Engineering & BIM')}
                   style={{
                     padding: '12px 28px',
                     background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
@@ -318,7 +318,7 @@ export default function CivilEngineering({ onOpenModal }) {
           </p>
           <button
             type="button"
-            onClick={onOpenModal}
+            onClick={() => onOpenModal && onOpenModal('Civil Engineering & BIM')}
             style={{ padding: '14px 40px', background: 'linear-gradient(135deg, #8b5cf6, #d946ef)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 24px rgba(217, 70, 239, 0.35)', transition: 'all 0.25s ease' }}
           >
             Enroll in Civil &amp; BIM Track

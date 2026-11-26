@@ -119,7 +119,7 @@ export default function DataScienceInternship({ onOpenModal }) {
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
-              onClick={onOpenModal}
+              onClick={() => onOpenModal && onOpenModal('Data Science & Analytics Internship')}
               style={{
                 padding: '16px 36px',
                 background: 'linear-gradient(135deg, #059669, #047857)',
@@ -289,7 +289,7 @@ export default function DataScienceInternship({ onOpenModal }) {
           </p>
           <button
             type="button"
-            onClick={onOpenModal}
+            onClick={() => onOpenModal && onOpenModal('Data Science & Analytics Internship')}
             style={{ padding: '16px 40px', background: 'linear-gradient(135deg, #059669, #047857)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 30px rgba(16, 185, 129, 0.4)', transition: 'transform 0.2s' }}
           >
             Apply for Data Science Internship →

@@ -140,7 +140,7 @@ export default function PipingEngineering({ onOpenModal }) {
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
-              onClick={onOpenModal}
+              onClick={() => onOpenModal && onOpenModal('Piping Engineering (Oil & Gas)')}
               style={{
                 padding: '16px 36px',
                 background: 'linear-gradient(135deg, #0d9488, #0f766e)',
@@ -233,7 +233,7 @@ export default function PipingEngineering({ onOpenModal }) {
               </p>
               <button
                 type="button"
-                onClick={onOpenModal}
+                onClick={() => onOpenModal && onOpenModal('Piping Engineering (Oil & Gas)')}
                 style={{
                   padding: '12px 28px',
                   background: 'linear-gradient(135deg, #0d9488, #0f766e)',
@@ -484,7 +484,7 @@ export default function PipingEngineering({ onOpenModal }) {
           </p>
           <button
             type="button"
-            onClick={onOpenModal}
+            onClick={() => onOpenModal && onOpenModal('Piping Engineering (Oil & Gas)')}
             style={{
               padding: '16px 40px',
               background: 'linear-gradient(135deg, #0d9488, #0f766e)',

@@ -118,7 +118,7 @@ export default function AiInternship({ onOpenModal }) {
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
-              onClick={onOpenModal}
+              onClick={() => onOpenModal && onOpenModal('AI & Artificial Intelligence Internship')}
               style={{
                 padding: '16px 36px',
                 background: 'linear-gradient(135deg, #ec4899, #d946ef)',
@@ -288,7 +288,7 @@ export default function AiInternship({ onOpenModal }) {
           </p>
           <button
             type="button"
-            onClick={onOpenModal}
+            onClick={() => onOpenModal && onOpenModal('AI & Artificial Intelligence Internship')}
             style={{ padding: '16px 40px', background: 'linear-gradient(135deg, #ec4899, #d946ef)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 8px 30px rgba(236, 72, 153, 0.4)', transition: 'transform 0.2s' }}
           >
             Apply for AI Internship →
