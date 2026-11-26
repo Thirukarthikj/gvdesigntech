@@ -12,6 +12,7 @@ import {
   getStoredSiteConfig,
   subscribeToContentUpdates
 } from '../data/contentPersistence.js';
+import { isVideoFile, formatVideoEmbedUrl } from '../data/videoUtils.js';
 
 export default function Home({ onOpenModal }) {
   const [leaders, setLeaders] = useState(() => getStoredLeaders());
@@ -802,17 +803,27 @@ export default function Home({ onOpenModal }) {
                 </button>
               </div>
 
-              <div style={{ width: '100%', height: '480px', borderRadius: '16px', overflow: 'hidden', background: '#000' }}>
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src={siteConfig.demoVideo?.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A'}
-                  title={siteConfig.demoVideo?.title || 'GV DesignTech Showcase Video'}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  style={{ border: 'none' }}
-                ></iframe>
+              <div style={{ width: '100%', height: '480px', borderRadius: '16px', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {isVideoFile(siteConfig.demoVideo?.videoUrl) ? (
+                  <video
+                    controls
+                    autoPlay
+                    playsInline
+                    src={siteConfig.demoVideo.videoUrl}
+                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  />
+                ) : (
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={formatVideoEmbedUrl(siteConfig.demoVideo?.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A')}
+                    title={siteConfig.demoVideo?.title || 'GV DesignTech Showcase Video'}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    style={{ border: 'none' }}
+                  ></iframe>
+                )}
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px', flexWrap: 'wrap', gap: '12px' }}>

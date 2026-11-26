@@ -983,3 +983,30 @@ apiRouter.post('/settings/mongodb', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+/* ==========================================
+   14. Direct Video Upload Handler
+   ========================================== */
+apiRouter.post('/upload-video', async (req, res) => {
+  try {
+    const { data, filename } = req.body;
+    if (!data) return res.status(400).json({ error: 'No video payload provided.' });
+
+    const uploadsDir = path.resolve(process.cwd(), 'public', 'assets', 'videos');
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+
+    const ext = path.extname(filename || 'video.mp4') || '.mp4';
+    const safeName = `demo-${Date.now()}${ext}`;
+    const filePath = path.join(uploadsDir, safeName);
+
+    const base64Data = data.replace(/^data:[^;]+;base64,/, '');
+    fs.writeFileSync(filePath, Buffer.from(base64Data, 'base64'));
+
+    const publicUrl = `/assets/videos/${safeName}`;
+    res.json({ success: true, url: publicUrl });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});

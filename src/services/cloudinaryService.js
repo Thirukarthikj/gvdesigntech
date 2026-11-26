@@ -304,3 +304,75 @@ export function compressImageFile(file, maxWidth = 1280, maxHeight = 1280, quali
 }
 
 const fileToDataUrl = compressImageFile;
+
+/**
+ * Uploads a video file from device.
+ * Prioritizes Cloudinary video endpoint, then local /api/upload-video fallback, and base64 Data URL.
+ */
+export async function uploadVideoToCloudinary(file, options = {}) {
+  const config = getCloudinaryConfig();
+
+  if (config.cloudName && config.uploadPreset) {
+    try {
+      const endpoint = `https://api.cloudinary.com/v1_1/${config.cloudName.trim()}/video/upload`;
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', config.uploadPreset.trim());
+      formData.append('folder', options.folder || 'gvdesigntech/videos');
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return {
+          url: data.secure_url || data.url,
+          isCloudinary: true,
+          publicId: data.public_id,
+          format: data.format,
+          bytes: data.bytes
+        };
+      }
+    } catch (err) {
+      console.warn('Cloudinary video upload failed, trying local server fallback:', err.message);
+    }
+  }
+
+  // Fallback 1: Local server upload if running on development or Express backend
+  try {
+    const base64 = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+    const res = await fetch('/api/upload-video', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: base64,
+        filename: file.name,
+        mimeType: file.type
+      })
+    });
+    if (res.ok) {
+      const json = await res.json();
+      if (json.url) return { url: json.url, isCloudinary: false };
+    }
+  } catch (e) {
+    console.warn('Server video upload failed, falling back to data URL:', e.message);
+  }
+
+  // Fallback 2: Base64 Data URL
+  const dataUrl = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+  return { url: dataUrl, isCloudinary: false };
+}
+

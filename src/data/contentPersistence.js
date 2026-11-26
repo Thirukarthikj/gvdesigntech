@@ -5,6 +5,7 @@ import { initialCourses } from './coursesData.js';
 import { initialInternshipPrograms } from './internshipsData.js';
 import { initialSkillQuestions } from './skillTestData.js';
 import { syncToFirestore, subscribeToFirestore } from '../services/firebase.js';
+import { formatVideoEmbedUrl } from './videoUtils.js';
 
 // Keys for localStorage
 const MOU_KEY = 'gv_admin_mous';
@@ -725,7 +726,11 @@ export function getStoredSiteConfig() {
       ...parsed,
       contactInfo: { ...initialSiteConfig.contactInfo, ...(parsed.contactInfo || {}) },
       socialLinks: { ...initialSiteConfig.socialLinks, ...(parsed.socialLinks || {}) },
-      demoVideo: { ...initialSiteConfig.demoVideo, ...(parsed.demoVideo || {}) },
+      demoVideo: {
+        ...initialSiteConfig.demoVideo,
+        ...(parsed.demoVideo || {}),
+        videoUrl: formatVideoEmbedUrl(parsed.demoVideo?.videoUrl || initialSiteConfig.demoVideo.videoUrl)
+      },
       recentActivity: {
         ...initialSiteConfig.recentActivity,
         ...(parsed.recentActivity || {}),
@@ -752,8 +757,16 @@ export function getStoredSiteConfig() {
 }
 
 export function saveStoredSiteConfig(config) {
+  const sanitizedConfig = config ? {
+    ...config,
+    demoVideo: config.demoVideo ? {
+      ...config.demoVideo,
+      videoUrl: formatVideoEmbedUrl(config.demoVideo.videoUrl || '')
+    } : config.demoVideo
+  } : config;
+
   try {
-    localStorage.setItem(SITE_CONFIG_KEY, JSON.stringify(config));
+    localStorage.setItem(SITE_CONFIG_KEY, JSON.stringify(sanitizedConfig));
     notifyContentUpdate('site_config');
   } catch (err) {
     console.error('Failed to save Site Config to localStorage:', err);
@@ -764,13 +777,13 @@ export function saveStoredSiteConfig(config) {
     fetch('/api/site-config', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(config)
+      body: JSON.stringify(sanitizedConfig)
     }).catch(e => console.warn('MongoDB Site Config sync:', e.message));
   } catch (e) {}
 
   // Cloud firestore sync
   try {
-    syncToFirestore('site_config', config);
+    syncToFirestore('site_config', sanitizedConfig);
   } catch {}
 }
 

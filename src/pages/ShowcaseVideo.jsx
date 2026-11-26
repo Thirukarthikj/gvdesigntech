@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getStoredSiteConfig, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import { isVideoFile, formatVideoEmbedUrl } from '../data/videoUtils.js';
 
 export default function ShowcaseVideo() {
   const [siteConfig, setSiteConfig] = useState(() => getStoredSiteConfig());
@@ -27,17 +28,26 @@ export default function ShowcaseVideo() {
         </p>
 
         {/* Video Player Box */}
-        <div style={{ width: '100%', height: '480px', borderRadius: '24px', overflow: 'hidden', background: 'linear-gradient(160deg, rgba(30, 22, 68, 0.9), rgba(6, 6, 24, 0.95))', border: '1px solid rgba(217, 70, 239, 0.4)', boxShadow: '0 20px 60px rgba(0,0,0,0.7)', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <iframe
-            width="100%"
-            height="100%"
-            src={video.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A'}
-            title={video.title || 'GV DesignTech Showcase Video'}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            style={{ border: 'none' }}
-          ></iframe>
+        <div style={{ width: '100%', height: '480px', borderRadius: '24px', overflow: 'hidden', background: '#000', border: '1px solid rgba(217, 70, 239, 0.4)', boxShadow: '0 20px 60px rgba(0,0,0,0.7)', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {isVideoFile(video.videoUrl) ? (
+            <video
+              controls
+              playsInline
+              src={video.videoUrl}
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            />
+          ) : (
+            <iframe
+              width="100%"
+              height="100%"
+              src={formatVideoEmbedUrl(video.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A')}
+              title={video.title || 'GV DesignTech Showcase Video'}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              style={{ border: 'none' }}
+            ></iframe>
+          )}
         </div>
 
         <div style={{ marginTop: '40px' }}>

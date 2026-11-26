@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { getStoredSiteConfig, saveStoredSiteConfig, initialSiteConfig } from '../../data/contentPersistence.js';
-import { uploadImageToCloudinary, compressImageFile } from '../../services/cloudinaryService.js';
+import { uploadImageToCloudinary, uploadVideoToCloudinary, compressImageFile } from '../../services/cloudinaryService.js';
+import { isVideoFile, formatVideoEmbedUrl } from '../../data/videoUtils.js';
 
 export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
   const location = useLocation();
   const [config, setConfig] = useState(() => getStoredSiteConfig());
   const [toast, setToast] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [videoUploading, setVideoUploading] = useState(false);
+  const [videoFileInfo, setVideoFileInfo] = useState('');
 
   // Determine active tab directly from URL route or prop
   const getTabFromRoute = () => {
@@ -566,23 +569,112 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
           </div>
 
           <form onSubmit={(e) => { e.preventDefault(); handleSaveAll(); }}>
-            <div className="admin-form-group">
-              <label className="admin-label">
-                Video Embed / Stream URL <span style={{ color: '#d946ef' }}>*</span>
-              </label>
+            {/* SOURCE SELECTION: Upload from Device OR Paste URL */}
+            <div style={{ marginBottom: '24px', padding: '20px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '16px' }}>
+              <div style={{ fontSize: '14px', fontWeight: '800', color: '#c084fc', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span>📁</span>
+                <span>OPTION 1: UPLOAD VIDEO FROM YOUR DEVICE</span>
+              </div>
+              <p style={{ margin: '0 0 14px', fontSize: '13px', color: '#94a3b8' }}>
+                Select an MP4, WebM, or MOV video file directly from your computer or phone. It will be uploaded and served across the website.
+              </p>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+                <label
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '12px 22px',
+                    borderRadius: '12px',
+                    background: videoUploading ? 'rgba(255,255,255,0.1)' : 'linear-gradient(135deg, #8b5cf6, #d946ef)',
+                    color: '#fff',
+                    fontWeight: '700',
+                    fontSize: '14px',
+                    cursor: videoUploading ? 'wait' : 'pointer',
+                    boxShadow: '0 8px 20px rgba(139, 92, 246, 0.35)',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <span>{videoUploading ? '⏳' : '📤'}</span>
+                  <span>{videoUploading ? 'Uploading Video from Device...' : 'Choose Video File from Device'}</span>
+                  <input
+                    type="file"
+                    accept="video/mp4,video/webm,video/quicktime,video/ogg,video/x-matroska,video/*"
+                    disabled={videoUploading}
+                    style={{ display: 'none' }}
+                    onChange={async (e) => {
+                      const file = e.target.files && e.target.files[0];
+                      if (!file) return;
+                      if (!file.type.startsWith('video/')) {
+                        alert('Please select a valid video file (MP4, WebM, MOV, OGG).');
+                        return;
+                      }
+                      setVideoUploading(true);
+                      setVideoFileInfo(`${file.name} (${(file.size / (1024 * 1024)).toFixed(1)} MB)`);
+                      try {
+                        showToast('⏳ Uploading video from device, please wait...');
+                        const res = await uploadVideoToCloudinary(file, { folder: 'gvdesigntech/videos' });
+                        if (res && res.url) {
+                          setConfig(prev => ({
+                            ...prev,
+                            demoVideo: { ...prev.demoVideo, videoUrl: res.url }
+                          }));
+                          showToast(res.isCloudinary ? '☁️ Video uploaded to Cloudinary CDN!' : '✓ Video uploaded successfully!');
+                        }
+                      } catch (err) {
+                        console.error('Video upload error:', err);
+                        showToast('⚠️ Video upload error: ' + err.message);
+                      } finally {
+                        setVideoUploading(false);
+                      }
+                    }}
+                  />
+                </label>
+
+                {videoFileInfo && (
+                  <span style={{ fontSize: '13px', color: '#38bdf8', fontWeight: '600' }}>
+                    📎 {videoFileInfo}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* OPTION 2: Paste YouTube / Stream URL */}
+            <div className="admin-form-group" style={{ marginBottom: '20px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <label className="admin-label" style={{ margin: 0 }}>
+                  OPTION 2: Video Embed / Stream URL (or YouTube Link) <span style={{ color: '#d946ef' }}>*</span>
+                </label>
+                {config.demoVideo?.videoUrl && isVideoFile(config.demoVideo.videoUrl) && (
+                  <span style={{ fontSize: '11.5px', color: '#4ade80', fontWeight: '700' }}>
+                    ✓ Device Video Loaded
+                  </span>
+                )}
+                {config.demoVideo?.videoUrl && !isVideoFile(config.demoVideo.videoUrl) && config.demoVideo.videoUrl.includes('embed') && (
+                  <span style={{ fontSize: '11.5px', color: '#c084fc', fontWeight: '700' }}>
+                    ✓ YouTube Embed Ready
+                  </span>
+                )}
+              </div>
+
               <input
                 type="text"
                 className="admin-input"
                 required
-                placeholder="https://www.youtube-nocookie.com/embed/... or direct MP4 link"
+                placeholder="Paste YouTube link (e.g. https://youtu.be/...) or direct MP4 link"
                 value={config.demoVideo?.videoUrl || ''}
-                onChange={(e) => setConfig({
-                  ...config,
-                  demoVideo: { ...config.demoVideo, videoUrl: e.target.value }
-                })}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  const formatted = formatVideoEmbedUrl(raw);
+                  setConfig(prev => ({
+                    ...prev,
+                    demoVideo: { ...prev.demoVideo, videoUrl: formatted }
+                  }));
+                }}
               />
-              <span style={{ fontSize: '11.5px', color: 'rgba(255,255,255,0.4)', marginTop: '4px', display: 'block' }}>
-                Tip: Paste YouTube embed link (e.g. https://www.youtube-nocookie.com/embed/YOUR_VIDEO_ID) or direct video URL.
+              <span style={{ fontSize: '12px', color: '#94a3b8', marginTop: '6px', display: 'block' }}>
+                💡 <strong>YouTube Links Auto-Fixed:</strong> You can paste any YouTube URL (like <code>https://youtu.be/b68HETiNO98?si=...</code> or <code>https://youtube.com/watch?v=...</code>) and it will automatically convert to the working embed format.
               </span>
             </div>
 
@@ -613,21 +705,36 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
             </div>
 
             {/* Live Video Preview Box */}
-            <div style={{ marginTop: '24px', padding: '16px', background: 'rgba(0, 0, 0, 0.4)', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-              <div style={{ fontSize: '13px', fontWeight: '700', color: '#c084fc', marginBottom: '12px' }}>
-                📺 LIVE VIDEO PREVIEW
+            <div style={{ marginTop: '24px', padding: '16px', background: 'rgba(0, 0, 0, 0.6)', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: '#c084fc' }}>
+                  📺 LIVE VIDEO PREVIEW
+                </div>
+                <span style={{ fontSize: '11.5px', color: '#94a3b8' }}>
+                  {isVideoFile(config.demoVideo?.videoUrl) ? 'HTML5 Native Video Player' : 'Embedded Video Player'}
+                </span>
               </div>
-              <div style={{ width: '100%', height: '360px', borderRadius: '12px', overflow: 'hidden', background: '#000' }}>
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src={config.demoVideo?.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A'}
-                  title="Demo Video Preview"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  style={{ border: 'none' }}
-                ></iframe>
+
+              <div style={{ width: '100%', height: '380px', borderRadius: '12px', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {isVideoFile(config.demoVideo?.videoUrl) ? (
+                  <video
+                    controls
+                    playsInline
+                    src={config.demoVideo.videoUrl}
+                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  />
+                ) : (
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={formatVideoEmbedUrl(config.demoVideo?.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A')}
+                    title="Demo Video Preview"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    style={{ border: 'none' }}
+                  ></iframe>
+                )}
               </div>
             </div>
 
@@ -640,7 +747,7 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                 Reset to Default
               </button>
               <button type="submit" className="admin-btn-primary">
-                Save Video Configuration
+                💾 Save Video Configuration
               </button>
             </div>
           </form>
