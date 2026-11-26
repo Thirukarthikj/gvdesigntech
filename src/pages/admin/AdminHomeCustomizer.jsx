@@ -21,10 +21,17 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
     if (p.includes('impact-stats')) return 'stats';
     if (p.includes('lab-photos')) return 'showcaseImages';
     if (p.includes('enroll-form')) return 'enrollModal';
-    if (p.includes('specializations')) return 'specializations';
+    if (p.includes('specializations') || p.includes('specialization')) return 'specializations';
     return initialTab || 'demoVideo';
   };
-  const activeTab = getTabFromRoute();
+
+  const [tabOverride, setTabOverride] = useState(null);
+  const activeTab = tabOverride || getTabFromRoute();
+
+  // Reset tab override when location route changes
+  React.useEffect(() => {
+    setTabOverride(null);
+  }, [location.pathname]);
 
   const getHeaderInfo = () => {
     switch (activeTab) {
@@ -64,11 +71,17 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
           title: 'Enroll Form & Offer Banner Manager',
           desc: 'Customize the Instant Enroll modal offer heading, countdown timer minutes, and form configuration in real time.'
         };
+      case 'specializations':
+        return {
+          icon: '🎯',
+          title: 'Core Specialization Cards (About Page)',
+          desc: 'Configure the 3 core CAD discipline tracks (Mechanical, Civil BIM, CNC Machining) displayed in the Our Core Specializations section on the About Us page.'
+        };
       default:
         return {
           icon: '🎯',
           title: 'Core Specialization Cards',
-          desc: 'Configure the primary discipline tracks displayed across the home page.'
+          desc: 'Configure the primary discipline tracks displayed across the website.'
         };
     }
   };
@@ -165,11 +178,12 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
           { id: 'stats', route: '/admin/impact-stats', icon: '📈', label: 'Impact Numbers' },
           { id: 'showcaseImages', route: '/admin/lab-photos', icon: '🏫', label: 'Lab & Classroom Photos' },
           { id: 'enrollModal', route: '/admin/enroll-form', icon: '📝', label: 'Enroll Form & Offer' },
-          { id: 'specializations', route: '/admin/home-customizer', icon: '🎯', label: 'Specialization Cards' }
+          { id: 'specializations', route: '/admin/specializations', icon: '🎯', label: 'Specialization Cards' }
         ].map(t => (
           <Link
             key={t.id}
             to={t.route}
+            onClick={() => setTabOverride(t.id)}
             style={{
               display: 'inline-flex',
               alignItems: 'center',

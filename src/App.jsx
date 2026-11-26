@@ -204,6 +204,8 @@ export default function App() {
           <Route path="impact-stats" element={<AdminHomeCustomizer initialTab="stats" />} />
           <Route path="lab-photos" element={<AdminHomeCustomizer initialTab="showcaseImages" />} />
           <Route path="enroll-form" element={<AdminHomeCustomizer initialTab="enrollModal" />} />
+          <Route path="specializations" element={<AdminHomeCustomizer initialTab="specializations" />} />
+          <Route path="specialization" element={<AdminHomeCustomizer initialTab="specializations" />} />
           <Route path="home-customizer" element={<AdminHomeCustomizer />} />
           <Route path="showcase-customizer" element={<AdminHomeCustomizer />} />
           <Route path="settings" element={<AdminSettings />} />

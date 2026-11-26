@@ -78,7 +78,8 @@ export default function AdminLayout() {
         { to: '/admin/recent-activities', icon: '⚡', label: 'Recent Activities' },
         { to: '/admin/impact-stats', icon: '📈', label: 'Impact Numbers & Stats' },
         { to: '/admin/lab-photos', icon: '🏫', label: 'Classroom & Lab Photos' },
-        { to: '/admin/enroll-form', icon: '📝', label: 'Enroll Form & Offer Banner' }
+        { to: '/admin/enroll-form', icon: '📝', label: 'Enroll Form & Offer Banner' },
+        { to: '/admin/specializations', icon: '🎯', label: 'Specialization Cards' }
       ]
     },
     {
@@ -107,6 +108,7 @@ export default function AdminLayout() {
     if (path.includes('impact-stats')) return 'Key Impact Metrics & Statistics';
     if (path.includes('lab-photos')) return 'Classroom & CAD Lab Environment Photos';
     if (path.includes('enroll-form')) return 'Enroll Form, Offer Timer & Hero Video';
+    if (path.includes('specializations') || path.includes('specialization')) return 'Core Specialization Cards & Programs';
     if (path.includes('home-customizer')) return 'Home Page & Showcase Customizer';
     if (path.includes('settings')) return 'Portal Administration & Settings';
     return 'Executive CAD Operations Dashboard';
