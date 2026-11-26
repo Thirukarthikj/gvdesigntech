@@ -266,9 +266,6 @@ export default function Navbar() {
               <Link to="/flagship/Placement" onClick={closeAll}>Placement</Link>
               <Link to="/flagship/Blog-page" onClick={closeAll}>Blog</Link>
               <Link to="/certificate-verification" onClick={closeAll}>Certification Verification</Link>
-              <Link to="/admin/login" onClick={closeAll} style={{ color: '#c084fc', fontWeight: '700', borderTop: '1px solid rgba(255, 255, 255, 0.1)', marginTop: '4px', paddingTop: '8px' }}>
-                Admin Portal 🔐
-              </Link>
             </div>
           </div>
 
