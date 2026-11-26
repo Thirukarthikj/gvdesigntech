@@ -160,7 +160,16 @@ export default function About({ onOpenModal }) {
                   <button
                     type="button"
                     className="cad-card-action-btn"
-                    onClick={onOpenModal}
+                    onClick={() => {
+                      if (typeof onOpenModal === 'function') {
+                        onOpenModal({
+                          title: card.title,
+                          badge: card.badge,
+                          tools: card.tools,
+                          desc: card.desc
+                        });
+                      }
+                    }}
                   >
                     {card.btnText || 'Explore Track →'}
                   </button>
@@ -235,7 +244,11 @@ export default function About({ onOpenModal }) {
             <button
               type="button"
               className="cad-showcase-cta"
-              onClick={onOpenModal}
+              onClick={() => {
+                if (typeof onOpenModal === 'function') {
+                  onOpenModal('Mechanical & Automobile CAD');
+                }
+              }}
             >
               <span>Explore CAD Design Studio</span>
               <span>→</span>
@@ -266,7 +279,11 @@ export default function About({ onOpenModal }) {
             <button
               type="button"
               className={Im['ab-btn-grad']}
-              onClick={onOpenModal}
+              onClick={() => {
+                if (typeof onOpenModal === 'function') {
+                  onOpenModal('Mechanical & Automobile CAD');
+                }
+              }}
               style={{ border: 'none', cursor: 'pointer', fontSize: '16px', padding: '14px 34px' }}
             >
               Enroll Now

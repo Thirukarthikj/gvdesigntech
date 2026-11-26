@@ -73,10 +73,14 @@ export default function App() {
 
   const openModal = (courseNameOrDetails = '') => {
     let courseTitle = '';
+    let coursePayload = null;
+
     if (typeof courseNameOrDetails === 'string') {
       courseTitle = courseNameOrDetails.trim();
+      coursePayload = courseTitle;
     } else if (courseNameOrDetails && typeof courseNameOrDetails === 'object' && !courseNameOrDetails.nativeEvent && !courseNameOrDetails.target) {
-      courseTitle = courseNameOrDetails.title || courseNameOrDetails.department || '';
+      courseTitle = courseNameOrDetails.title || courseNameOrDetails.program || courseNameOrDetails.department || '';
+      coursePayload = courseNameOrDetails;
     }
 
     // If no course explicitly passed, intelligently default to the active page's course or internship program!
@@ -95,9 +99,10 @@ export default function App() {
       else if (p.includes('/eee') || p.includes('/instrumentation')) courseTitle = 'EEE & Automation';
       else if (p.includes('/ece') || p.includes('/electronics')) courseTitle = 'ECE Embedded & IoT';
       else if (p.includes('/piping')) courseTitle = 'Piping Engineering (Oil & Gas)';
+      coursePayload = courseTitle;
     }
 
-    setSelectedCourseForEnroll(courseTitle);
+    setSelectedCourseForEnroll(coursePayload || courseTitle);
     setIsEnrollModalOpen(true);
   };
 

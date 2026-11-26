@@ -10,9 +10,11 @@ import {
 } from '../data/contentPersistence.js';
 
 export const STANDARD_DISCIPLINES = [
+  'Mechanical & Automobile CAD',
+  'Civil BIM & Architectural Drafting',
+  'CNC Programming & CAM',
   'Mechanical & Automobile',
   'Civil Engineering & BIM',
-  'CNC Programming & CAM',
   'Computer Science & IT',
   'EEE & Automation',
   'ECE Embedded & IoT',
@@ -87,7 +89,22 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
   useEffect(() => {
     if (isOpen) {
       if (initialProgram) {
-        const raw = (typeof initialProgram === 'string' ? initialProgram : '').trim();
+        let raw = '';
+        let toolsList = [];
+        let cardDesc = '';
+
+        if (typeof initialProgram === 'string') {
+          raw = initialProgram.trim();
+        } else if (typeof initialProgram === 'object') {
+          raw = (initialProgram.title || initialProgram.program || initialProgram.department || '').trim();
+          if (Array.isArray(initialProgram.tools)) {
+            toolsList = initialProgram.tools;
+          } else if (typeof initialProgram.tools === 'string') {
+            toolsList = initialProgram.tools.split(',');
+          }
+          cardDesc = initialProgram.desc || '';
+        }
+
         const trimmed = raw.toLowerCase();
 
         // 1. Try match in published dynamic courses from MongoDB
@@ -99,28 +116,43 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
           (trimmed.length >= 3 && trimmed.includes((c.title || '').toLowerCase()))
         );
 
-        // 2. Try match in standard disciplines
+        // 2. Try match in standard disciplines (prefer exact match first)
         const matchedDiscipline = STANDARD_DISCIPLINES.find(d =>
-          d.toLowerCase().trim() === trimmed ||
+          d.toLowerCase().trim() === trimmed
+        ) || STANDARD_DISCIPLINES.find(d =>
           (trimmed.length >= 3 && d.toLowerCase().includes(trimmed)) ||
           (trimmed.length >= 3 && trimmed.includes(d.toLowerCase()))
         );
 
         // 3. Try match in internships (both dynamic and static)
         const matchedInternship = allInternshipOptions.find(p =>
-          p.toLowerCase().trim() === trimmed ||
+          p.toLowerCase().trim() === trimmed
+        ) || allInternshipOptions.find(p =>
           (trimmed.length >= 3 && p.toLowerCase().includes(trimmed)) ||
           (trimmed.length >= 3 && trimmed.includes(p.toLowerCase()))
         );
 
         const resolved = matchedCourse
           ? (matchedCourse.title || matchedCourse.department)
-          : (matchedInternship || matchedDiscipline || raw);
+          : (matchedDiscipline || matchedInternship || raw);
+
+        const inferredDept = inferDepartment(resolved);
+
+        let defaultMessage = `Interested in enrolling for ${resolved}`;
+        if (toolsList.length > 0) {
+          const toolsStr = toolsList.map(t => String(t).trim()).filter(Boolean).join(', ');
+          defaultMessage += ` (Focused Tools: ${toolsStr})`;
+        } else if (cardDesc) {
+          defaultMessage += ` (${cardDesc})`;
+        }
 
         setFormData(prev => ({
           ...prev,
           program: resolved,
-          message: prev.message && !prev.message.startsWith('Interested in enrolling for') ? prev.message : `Interested in enrolling for ${resolved}`
+          department: prev.department || inferredDept,
+          message: prev.message && !prev.message.startsWith('Interested in enrolling for')
+            ? prev.message
+            : defaultMessage
         }));
       }
     }
