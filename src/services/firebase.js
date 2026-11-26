@@ -19,13 +19,13 @@ import { getAuth } from 'firebase/auth';
 const env = typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env : {};
 
 export const firebaseConfig = {
-  apiKey: env.VITE_FIREBASE_API_KEY || "AIzaSyDwewf8Le10N0m23pwtl31ocCa3q96YVQQ",
-  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN || "gvde-3e923.firebaseapp.com",
-  projectId: env.VITE_FIREBASE_PROJECT_ID || "gvde-3e923",
-  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET || "gvde-3e923.firebasestorage.app",
-  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID || "119138622787",
-  appId: env.VITE_FIREBASE_APP_ID || "1:119138622787:web:7c15b8931afda0079e23f6",
-  measurementId: env.VITE_FIREBASE_MEASUREMENT_ID || "G-ZK6FF6R88G"
+  apiKey: env.VITE_FIREBASE_API_KEY || "AIzaSyCeWumBgrdmJ1DBNNr3qwJHv4DjsCm_8-A",
+  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN || "gvdesigntech.firebaseapp.com",
+  projectId: env.VITE_FIREBASE_PROJECT_ID || "gvdesigntech",
+  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET || "gvdesigntech.firebasestorage.app",
+  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID || "595294376162",
+  appId: env.VITE_FIREBASE_APP_ID || "1:595294376162:web:a2b2c44740605c2ffc4ebb",
+  measurementId: env.VITE_FIREBASE_MEASUREMENT_ID || "G-92J44HJ8TV"
 };
 
 // Initialize Firebase App (ensures single instance)
@@ -34,7 +34,7 @@ export const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getA
 // Cloud Firestore Database
 export const db = getFirestore(app);
 
-// Cloud Storage Bucket (gvde-3e923.firebasestorage.app)
+// Cloud Storage Bucket (gvdesigntech.firebasestorage.app)
 export const storage = getStorage(app);
 
 // Authentication
@@ -46,7 +46,7 @@ if (typeof window !== 'undefined') {
   isAnalyticsSupported().then((supported) => {
     if (supported) {
       analytics = getAnalytics(app);
-      console.log('📊 Firebase Analytics initialized (Measurement ID: G-ZK6FF6R88G)');
+      console.log('📊 Firebase Analytics initialized (Measurement ID: G-92J44HJ8TV)');
     }
   }).catch((err) => {
     console.warn('Firebase Analytics not supported in this environment:', err);
