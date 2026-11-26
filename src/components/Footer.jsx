@@ -113,6 +113,7 @@ export default function Footer() {
             <li><Link to="/">Home</Link></li>
             <li><Link to="/about">About Us</Link></li>
             <li><Link to="/Contactus">Contact</Link></li>
+            <li><Link to="/admin/login" style={{ color: '#c084fc', fontWeight: '600' }}>Admin Portal 🔐</Link></li>
           </ul>
         </div>
 
@@ -151,7 +152,29 @@ export default function Footer() {
           </Link>{' '}
           All rights reserved.
         </p>
-        <p className="credits">Designed for GV Design Tech</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+          <Link
+            to="/admin/login"
+            style={{
+              color: '#c084fc',
+              textDecoration: 'none',
+              fontSize: '12.5px',
+              fontWeight: '700',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '4px 10px',
+              borderRadius: '8px',
+              background: 'rgba(168, 85, 247, 0.12)',
+              border: '1px solid rgba(168, 85, 247, 0.3)',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <span>🔒</span>
+            <span>Admin Portal</span>
+          </Link>
+          <p className="credits" style={{ margin: 0 }}>Designed for GV Design Tech</p>
+        </div>
       </div>
     </footer>
   );
