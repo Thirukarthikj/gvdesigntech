@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
+import { signOut, onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../services/firebase.js';
 import './admin.css';
 
 export default function AdminLayout() {
@@ -22,9 +24,28 @@ export default function AdminLayout() {
     } catch {
       // ignore
     }
+
+    // Keep auth state in sync with Firebase
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        setAdminUser({
+          name: firebaseUser.displayName || firebaseUser.email.split('@')[0],
+          email: firebaseUser.email,
+          role: 'Super Administrator',
+          uid: firebaseUser.uid
+        });
+      }
+    });
+
+    return () => unsubscribe();
   }, [navigate]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (err) {
+      console.warn('Firebase signOut error:', err);
+    }
     localStorage.removeItem('gv_admin_token');
     localStorage.removeItem('gv_admin_user');
     navigate('/admin/login', { replace: true });

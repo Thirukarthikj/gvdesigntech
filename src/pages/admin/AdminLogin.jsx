@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../../services/firebase.js';
 import './admin.css';
 
 export default function AdminLogin() {
@@ -7,52 +9,107 @@ export default function AdminLogin() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [infoMsg, setInfoMsg] = useState('');
   const [loading, setLoading] = useState(false);
+  const [resetMode, setResetMode] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // If already authenticated, redirect straight to dashboard
+    // If already authenticated with token, redirect straight to dashboard
     const token = localStorage.getItem('gv_admin_token');
     if (token) {
       navigate('/admin/dashboard', { replace: true });
     }
   }, [navigate]);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
+    setInfoMsg('');
 
-    if (!email.trim() || !password.trim()) {
-      setError('Please provide both administrative email and password.');
+    const cleanEmail = email.trim();
+    const cleanPass = password.trim();
+
+    if (!cleanEmail || !cleanPass) {
+      setError('Please provide both administrator email and password.');
       return;
     }
 
     setLoading(true);
 
-    setTimeout(() => {
-      // Validate credentials (accepts admin@gvdesigntech.com or admin with password admin2026 / admin123)
-      const validEmail = email.trim().toLowerCase() === 'admin@gvdesigntech.com' || email.trim().toLowerCase() === 'admin';
-      const validPass = password.trim() === 'admin2026' || password.trim() === 'admin123';
+    try {
+      // Firebase Authentication sign in
+      const userCredential = await signInWithEmailAndPassword(auth, cleanEmail, cleanPass);
+      const user = userCredential.user;
 
-      if (validEmail && validPass) {
-        localStorage.setItem('gv_admin_token', 'gv_session_' + Date.now());
-        localStorage.setItem('gv_admin_user', JSON.stringify({
-          name: 'Chief Admin Officer',
-          email: 'admin@gvdesigntech.com',
-          role: 'Super Administrator'
-        }));
-        navigate('/admin/dashboard', { replace: true });
-      } else {
-        setError('Invalid credentials. Use admin@gvdesigntech.com / admin2026');
-        setLoading(false);
+      // Extract fresh JWT ID token
+      const token = await user.getIdToken();
+      localStorage.setItem('gv_admin_token', token);
+      localStorage.setItem('gv_admin_user', JSON.stringify({
+        name: user.displayName || cleanEmail.split('@')[0],
+        email: user.email,
+        role: 'Super Administrator',
+        uid: user.uid
+      }));
+
+      navigate('/admin/dashboard', { replace: true });
+    } catch (err) {
+      console.error('Firebase Auth sign in error:', err);
+      setLoading(false);
+
+      switch (err.code) {
+        case 'auth/invalid-credential':
+        case 'auth/user-not-found':
+        case 'auth/wrong-password':
+          setError('Invalid administrator email or password.');
+          break;
+        case 'auth/invalid-email':
+          setError('Please enter a valid administrator email address.');
+          break;
+        case 'auth/user-disabled':
+          setError('This administrator account has been disabled in Firebase.');
+          break;
+        case 'auth/too-many-requests':
+          setError('Access temporarily disabled due to many failed login attempts. Please try again later or reset password.');
+          break;
+        case 'auth/network-request-failed':
+          setError('Network connection error. Please check your internet connectivity.');
+          break;
+        default:
+          setError(err.message || 'Authentication failed. Please check your credentials.');
       }
-    }, 600);
+    }
   };
 
-  const fillDemoCreds = () => {
-    setEmail('admin@gvdesigntech.com');
-    setPassword('admin2026');
+  const handlePasswordReset = async (e) => {
+    e.preventDefault();
     setError('');
+    setInfoMsg('');
+
+    const cleanEmail = email.trim();
+    if (!cleanEmail) {
+      setError('Please enter your administrator email to receive a password reset link.');
+      return;
+    }
+
+    setResetLoading(true);
+
+    try {
+      await sendPasswordResetEmail(auth, cleanEmail);
+      setInfoMsg(`A secure password reset email has been dispatched to ${cleanEmail}. Check your inbox!`);
+      setResetLoading(false);
+    } catch (err) {
+      console.error('Password reset error:', err);
+      setResetLoading(false);
+      if (err.code === 'auth/user-not-found') {
+        setError('No administrator registered with that email address.');
+      } else if (err.code === 'auth/invalid-email') {
+        setError('Please enter a valid email address.');
+      } else {
+        setError(err.message || 'Failed to send password reset email.');
+      }
+    }
   };
 
   return (
@@ -68,14 +125,16 @@ export default function AdminLogin() {
           <div style={{ width: '52px', height: '52px', borderRadius: '16px', background: 'linear-gradient(135deg, #8b5cf6, #d946ef)', margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', boxShadow: '0 0 24px rgba(217, 70, 239, 0.4)' }}>
             ⚙️
           </div>
-          <div style={{ display: 'inline-block', padding: '3px 12px', background: 'rgba(217, 70, 239, 0.15)', border: '1px solid rgba(217, 70, 239, 0.35)', borderRadius: '999px', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', color: '#f472b6', marginBottom: '10px' }}>
-            GV DESIGNTECH ADMIN PORTAL
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 12px', background: 'rgba(217, 70, 239, 0.15)', border: '1px solid rgba(217, 70, 239, 0.35)', borderRadius: '999px', fontSize: '11px', fontWeight: '700', letterSpacing: '0.8px', color: '#f472b6', marginBottom: '10px' }}>
+            <span>🔥</span> FIREBASE AUTHENTICATION
           </div>
           <h1 style={{ fontSize: '26px', fontWeight: '800', margin: '0 0 8px', color: '#fff' }}>
-            Administrator Sign In
+            {resetMode ? 'Reset Password' : 'Administrator Sign In'}
           </h1>
           <p style={{ fontSize: '14px', color: '#94a3b8', margin: 0 }}>
-            Enter your authorized management credentials
+            {resetMode
+              ? 'Enter your admin email to receive reset instructions'
+              : 'Enter your authorized Firebase credentials'}
           </p>
         </div>
 
@@ -87,63 +146,114 @@ export default function AdminLogin() {
           </div>
         )}
 
-        {/* Login Form */}
-        <form onSubmit={handleLogin}>
-          <div style={{ marginBottom: '18px' }}>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#cbd5e1', marginBottom: '8px' }}>
-              Admin Email / Username
-            </label>
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@gvdesigntech.com"
-              style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.16)', borderRadius: '12px', color: '#fff', fontSize: '14.5px', outline: 'none', boxSizing: 'border-box' }}
-              autoComplete="username"
-            />
+        {/* Info / Success Alert */}
+        {infoMsg && (
+          <div style={{ padding: '12px 16px', background: 'rgba(34, 197, 94, 0.12)', border: '1px solid rgba(34, 197, 94, 0.35)', borderRadius: '12px', color: '#86efac', fontSize: '13.5px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span>✉️</span>
+            <span>{infoMsg}</span>
           </div>
+        )}
 
-          <div style={{ marginBottom: '22px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-              <label style={{ fontSize: '13px', fontWeight: '600', color: '#cbd5e1' }}>
-                Password
+        {!resetMode ? (
+          /* Login Form */
+          <form onSubmit={handleLogin}>
+            <div style={{ marginBottom: '18px' }}>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#cbd5e1', marginBottom: '8px' }}>
+                Admin Email Address
               </label>
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                style={{ background: 'none', border: 'none', color: '#c084fc', fontSize: '12px', cursor: 'pointer' }}
-              >
-                {showPassword ? 'Hide' : 'Show'}
-              </button>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="admin@gvdesigntech.com"
+                style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.16)', borderRadius: '12px', color: '#fff', fontSize: '14.5px', outline: 'none', boxSizing: 'border-box' }}
+                autoComplete="email"
+              />
             </div>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.16)', borderRadius: '12px', color: '#fff', fontSize: '14.5px', outline: 'none', boxSizing: 'border-box' }}
-              autoComplete="current-password"
-            />
-          </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            style={{ width: '100%', padding: '13px', background: 'linear-gradient(135deg, #8b5cf6, #d946ef)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '15px', fontWeight: '700', cursor: loading ? 'not-allowed' : 'pointer', boxShadow: '0 8px 24px rgba(217, 70, 239, 0.35)', transition: 'all 0.2s', opacity: loading ? 0.7 : 1 }}
-          >
-            {loading ? 'Authenticating...' : 'Sign In to Portal →'}
-          </button>
-        </form>
+            <div style={{ marginBottom: '22px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <label style={{ fontSize: '13px', fontWeight: '600', color: '#cbd5e1' }}>
+                  Password
+                </label>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                  <button
+                    type="button"
+                    onClick={() => setResetMode(true)}
+                    style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline' }}
+                  >
+                    Forgot?
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{ background: 'none', border: 'none', color: '#c084fc', fontSize: '12px', cursor: 'pointer' }}
+                  >
+                    {showPassword ? 'Hide' : 'Show'}
+                  </button>
+                </div>
+              </div>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••••••"
+                style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.16)', borderRadius: '12px', color: '#fff', fontSize: '14.5px', outline: 'none', boxSizing: 'border-box' }}
+                autoComplete="current-password"
+              />
+            </div>
 
-        {/* Quick Demo Fill Helper */}
-        <div style={{ marginTop: '22px', paddingTop: '18px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', textAlign: 'center' }}>
-          <button
-            type="button"
-            onClick={fillDemoCreds}
-            style={{ background: 'rgba(139, 92, 246, 0.12)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '8px', padding: '6px 14px', color: '#c084fc', fontSize: '12.5px', cursor: 'pointer', fontWeight: '600' }}
-          >
-            ⚡ Click to Auto-Fill Admin Credentials
-          </button>
+            <button
+              type="submit"
+              disabled={loading}
+              style={{ width: '100%', padding: '13px', background: 'linear-gradient(135deg, #8b5cf6, #d946ef)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '15px', fontWeight: '700', cursor: loading ? 'not-allowed' : 'pointer', boxShadow: '0 8px 24px rgba(217, 70, 239, 0.35)', transition: 'all 0.2s', opacity: loading ? 0.7 : 1 }}
+            >
+              {loading ? 'Authenticating with Firebase...' : 'Sign In with Firebase →'}
+            </button>
+          </form>
+        ) : (
+          /* Password Reset Form */
+          <form onSubmit={handlePasswordReset}>
+            <div style={{ marginBottom: '22px' }}>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#cbd5e1', marginBottom: '8px' }}>
+                Administrator Email Address
+              </label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="admin@gvdesigntech.com"
+                style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.16)', borderRadius: '12px', color: '#fff', fontSize: '14.5px', outline: 'none', boxSizing: 'border-box' }}
+                autoComplete="email"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={resetLoading}
+              style={{ width: '100%', padding: '13px', background: 'linear-gradient(135deg, #8b5cf6, #d946ef)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '15px', fontWeight: '700', cursor: resetLoading ? 'not-allowed' : 'pointer', boxShadow: '0 8px 24px rgba(217, 70, 239, 0.35)', transition: 'all 0.2s', opacity: resetLoading ? 0.7 : 1, marginBottom: '14px' }}
+            >
+              {resetLoading ? 'Sending Email...' : 'Send Password Reset Link →'}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => { setResetMode(false); setError(''); setInfoMsg(''); }}
+              style={{ width: '100%', padding: '10px', background: 'transparent', border: '1px solid rgba(255, 255, 255, 0.15)', borderRadius: '12px', color: '#cbd5e1', fontSize: '13.5px', cursor: 'pointer' }}
+            >
+              ← Back to Sign In
+            </button>
+          </form>
+        )}
+
+        {/* Security Notice */}
+        <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', textAlign: 'center' }}>
+          <span style={{ fontSize: '12px', color: '#94a3b8', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+            <span>🔒</span> End-to-end encrypted via Firebase Auth SDK
+          </span>
         </div>
 
         {/* Back to Live Website */}
