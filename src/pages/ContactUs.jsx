@@ -1,9 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { contactStyles as L } from '../data/styles.js';
 import { syncToFirestore } from '../services/firebase.js';
-import { saveStoredInternshipApplicant } from '../data/contentPersistence.js';
+import { saveStoredInternshipApplicant, getStoredSiteConfig, subscribeToContentUpdates, initialSiteConfig } from '../data/contentPersistence.js';
 
 export default function ContactUs() {
+  const [siteConfig, setSiteConfig] = useState(() => getStoredSiteConfig());
+
+  useEffect(() => {
+    const unsubscribe = subscribeToContentUpdates(() => {
+      setSiteConfig(getStoredSiteConfig());
+    });
+    return unsubscribe;
+  }, []);
+
+  const contact = siteConfig.contactInfo || initialSiteConfig.contactInfo;
+  const social = siteConfig.socialLinks || initialSiteConfig.socialLinks;
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -80,7 +92,7 @@ export default function ContactUs() {
           {/* Info Card */}
           <div style={{ padding: '36px', background: 'linear-gradient(160deg, rgba(30, 22, 68, 0.7), rgba(6, 6, 24, 0.8))', border: '1px solid rgba(139, 92, 246, 0.35)', borderRadius: '24px' }}>
             <h2 style={{ fontSize: '26px', fontWeight: '800', marginBottom: '24px', color: '#fff' }}>
-              Headquarters: Oddanchatram, Tamil Nadu
+              {contact.heading || 'Headquarters: Oddanchatram, Tamil Nadu'}
             </h2>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -91,7 +103,7 @@ export default function ContactUs() {
                 <div>
                   <h4 style={{ fontSize: '16px', fontWeight: '700', margin: '0 0 4px', color: '#fff' }}>Location Address</h4>
                   <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.5, margin: 0 }}>
-                    Headquarters: Oddanchatram, Tamil Nadu 624619
+                    {contact.address || 'Headquarters: Oddanchatram, Tamil Nadu 624619'}
                   </p>
                 </div>
               </div>
@@ -102,8 +114,8 @@ export default function ContactUs() {
                 </div>
                 <div>
                   <h4 style={{ fontSize: '16px', fontWeight: '700', margin: '0 0 4px', color: '#fff' }}>Email Address</h4>
-                  <a href="mailto:gvdesigntech707@gmail.com" style={{ fontSize: '14px', color: '#e879f9', textDecoration: 'none' }}>
-                    gvdesigntech707@gmail.com
+                  <a href={`mailto:${contact.email || 'gvdesigntech707@gmail.com'}`} style={{ fontSize: '14px', color: '#e879f9', textDecoration: 'none' }}>
+                    {contact.email || 'gvdesigntech707@gmail.com'}
                   </a>
                 </div>
               </div>
@@ -114,8 +126,8 @@ export default function ContactUs() {
                 </div>
                 <div>
                   <h4 style={{ fontSize: '16px', fontWeight: '700', margin: '0 0 4px', color: '#fff' }}>Call or WhatsApp</h4>
-                  <a href="tel:+919655364707" style={{ fontSize: '14px', color: '#22d3ee', textDecoration: 'none' }}>
-                    +91 96553 64707
+                  <a href={`tel:${(contact.phone || '+91 96553 64707').replace(/[^0-9+]/g, '')}`} style={{ fontSize: '14px', color: '#22d3ee', textDecoration: 'none' }}>
+                    {contact.phone || '+91 96553 64707'}
                   </a>
                 </div>
               </div>
@@ -127,7 +139,8 @@ export default function ContactUs() {
                 <div>
                   <h4 style={{ fontSize: '16px', fontWeight: '700', margin: '0 0 4px', color: '#fff' }}>Operating Hours</h4>
                   <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.5, margin: 0 }}>
-                    Monday – Saturday: 9:00 AM – 7:00 PM<br />Sunday: Prior Appointment Only
+                    {contact.operatingHoursWeekdays || 'Monday – Saturday: 9:00 AM – 7:00 PM'}<br />
+                    {contact.operatingHoursSunday || 'Sunday: Prior Appointment Only'}
                   </p>
                 </div>
               </div>
@@ -138,38 +151,56 @@ export default function ContactUs() {
                   Official Social Channels
                 </h4>
                 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                  <a
-                    href="https://www.youtube.com/@GVDESIGNTECH"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '10px', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#ef4444', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
-                  >
-                    <i className="fa-brands fa-youtube" style={{ fontSize: '16px' }}></i> YouTube
-                  </a>
-                  <a
-                    href="https://www.instagram.com/gvdesigntech/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '10px', background: 'rgba(236, 72, 153, 0.12)', border: '1px solid rgba(236, 72, 153, 0.3)', color: '#ec4899', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
-                  >
-                    <i className="fa-brands fa-instagram" style={{ fontSize: '16px' }}></i> Instagram
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/gv-design-tech-undefined-42845a35a"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '10px', background: 'rgba(14, 165, 233, 0.12)', border: '1px solid rgba(14, 165, 233, 0.3)', color: '#0ea5e9', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
-                  >
-                    <i className="fa-brands fa-linkedin-in" style={{ fontSize: '16px' }}></i> LinkedIn
-                  </a>
-                  <a
-                    href="https://www.facebook.com/profile.php?id=61596803677692"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '10px', background: 'rgba(59, 130, 246, 0.12)', border: '1px solid rgba(59, 130, 246, 0.3)', color: '#3b82f6', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
-                  >
-                    <i className="fa-brands fa-facebook-f" style={{ fontSize: '16px' }}></i> Facebook
-                  </a>
+                  {social.youtube && (
+                    <a
+                      href={social.youtube}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '10px', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#ef4444', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
+                    >
+                      <i className="fa-brands fa-youtube" style={{ fontSize: '16px' }}></i> YouTube
+                    </a>
+                  )}
+                  {social.instagram && (
+                    <a
+                      href={social.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '10px', background: 'rgba(236, 72, 153, 0.12)', border: '1px solid rgba(236, 72, 153, 0.3)', color: '#ec4899', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
+                    >
+                      <i className="fa-brands fa-instagram" style={{ fontSize: '16px' }}></i> Instagram
+                    </a>
+                  )}
+                  {social.linkedin && (
+                    <a
+                      href={social.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '10px', background: 'rgba(14, 165, 233, 0.12)', border: '1px solid rgba(14, 165, 233, 0.3)', color: '#0ea5e9', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
+                    >
+                      <i className="fa-brands fa-linkedin-in" style={{ fontSize: '16px' }}></i> LinkedIn
+                    </a>
+                  )}
+                  {social.facebook && (
+                    <a
+                      href={social.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '10px', background: 'rgba(59, 130, 246, 0.12)', border: '1px solid rgba(59, 130, 246, 0.3)', color: '#3b82f6', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
+                    >
+                      <i className="fa-brands fa-facebook-f" style={{ fontSize: '16px' }}></i> Facebook
+                    </a>
+                  )}
+                  {social.whatsapp && (
+                    <a
+                      href={social.whatsapp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '10px', background: 'rgba(34, 197, 94, 0.12)', border: '1px solid rgba(34, 197, 94, 0.3)', color: '#22c55e', textDecoration: 'none', fontSize: '13px', fontWeight: '600' }}
+                    >
+                      <i className="fa-brands fa-whatsapp" style={{ fontSize: '16px' }}></i> WhatsApp
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
@@ -313,13 +344,13 @@ export default function ContactUs() {
                 Visit GV DesignTech Headquarters
               </h2>
               <p style={{ margin: 0, fontSize: '14.5px', color: '#94a3b8' }}>
-                Headquarters: Oddanchatram, Dindigul District, Tamil Nadu 624619, India
+                {contact.mapAddress || 'Headquarters: Oddanchatram, Dindigul District, Tamil Nadu 624619, India'}
               </p>
             </div>
 
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
               <a
-                href="https://maps.google.com/?q=Oddanchatram,+Tamil+Nadu"
+                href={contact.mapDirectionsUrl || `https://maps.google.com/?q=${encodeURIComponent(contact.mapAddress || contact.address || 'Oddanchatram, Tamil Nadu')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -390,7 +421,7 @@ export default function ContactUs() {
           >
             <iframe
               title="GV DesignTech Headquarters Map"
-              src="https://maps.google.com/maps?q=Oddanchatram,+Tamil+Nadu,+India&t=&z=14&ie=UTF8&iwloc=&output=embed"
+              src={contact.mapEmbedUrl || 'https://maps.google.com/maps?q=Oddanchatram,+Tamil+Nadu,+India&t=&z=14&ie=UTF8&iwloc=&output=embed'}
               width="100%"
               height="100%"
               style={{

@@ -20,6 +20,17 @@ const SKILL_TEST_RESULTS_KEY = 'gv_skill_test_results';
 const SITE_CONFIG_KEY = 'gv_site_config';
 
 export const initialSiteConfig = {
+  contactInfo: {
+    heading: 'Headquarters: Oddanchatram, Tamil Nadu',
+    address: 'Headquarters: Oddanchatram, Tamil Nadu 624619',
+    email: 'gvdesigntech707@gmail.com',
+    phone: '+91 96553 64707',
+    operatingHoursWeekdays: 'Monday – Saturday: 9:00 AM – 7:00 PM',
+    operatingHoursSunday: 'Sunday: Prior Appointment Only',
+    mapAddress: 'Headquarters: Oddanchatram, Dindigul District, Tamil Nadu 624619, India',
+    mapDirectionsUrl: 'https://maps.google.com/?q=Oddanchatram,+Tamil+Nadu',
+    mapEmbedUrl: 'https://maps.google.com/maps?q=Oddanchatram,+Tamil+Nadu,+India&t=&z=14&ie=UTF8&iwloc=&output=embed'
+  },
   socialLinks: {
     youtube: 'https://www.youtube.com/@GVDESIGNTECH',
     instagram: 'https://www.instagram.com/gvdesigntech/',
@@ -258,7 +269,13 @@ export async function syncWithMongo() {
       changed = true;
     }
     if (siteConfigRes.status === 'fulfilled' && siteConfigRes.value && typeof siteConfigRes.value === 'object') {
-      localStorage.setItem(SITE_CONFIG_KEY, JSON.stringify(siteConfigRes.value));
+      const mergedConfig = {
+        ...initialSiteConfig,
+        ...siteConfigRes.value,
+        contactInfo: { ...initialSiteConfig.contactInfo, ...(siteConfigRes.value.contactInfo || {}) },
+        socialLinks: { ...initialSiteConfig.socialLinks, ...(siteConfigRes.value.socialLinks || {}) }
+      };
+      localStorage.setItem(SITE_CONFIG_KEY, JSON.stringify(mergedConfig));
       changed = true;
     }
     if (internApplicantsRes && internApplicantsRes.status === 'fulfilled' && Array.isArray(internApplicantsRes.value) && internApplicantsRes.value.length > 0) {
@@ -706,6 +723,7 @@ export function getStoredSiteConfig() {
     return {
       ...initialSiteConfig,
       ...parsed,
+      contactInfo: { ...initialSiteConfig.contactInfo, ...(parsed.contactInfo || {}) },
       socialLinks: { ...initialSiteConfig.socialLinks, ...(parsed.socialLinks || {}) },
       demoVideo: { ...initialSiteConfig.demoVideo, ...(parsed.demoVideo || {}) },
       recentActivity: {

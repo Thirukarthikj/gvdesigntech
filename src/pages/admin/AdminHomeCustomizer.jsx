@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { getStoredSiteConfig, saveStoredSiteConfig, initialSiteConfig } from '../../data/contentPersistence.js';
 import { uploadImageToCloudinary, compressImageFile } from '../../services/cloudinaryService.js';
 
@@ -12,6 +12,7 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
   // Determine active tab directly from URL route or prop
   const getTabFromRoute = () => {
     const p = location.pathname;
+    if (p.includes('contact-info') || p.includes('headquarters') || p.includes('contact')) return 'contactInfo';
     if (p.includes('demo-video')) return 'demoVideo';
     if (p.includes('recent-activities')) return 'recentActivity';
     if (p.includes('impact-stats')) return 'stats';
@@ -24,6 +25,12 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
 
   const getHeaderInfo = () => {
     switch (activeTab) {
+      case 'contactInfo':
+        return {
+          icon: '📍',
+          title: 'Headquarters, Contact & Social Channels Manager',
+          desc: 'Configure headquarters address, admissions email, phone / WhatsApp, operating hours, official social channels, and Google Maps campus directions in real-time.'
+        };
       case 'demoVideo':
         return {
           icon: '🎬',
@@ -134,7 +141,7 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
       )}
 
       {/* Header Banner */}
-      <div style={{ marginBottom: '28px' }}>
+      <div style={{ marginBottom: '24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
           <span style={{ fontSize: '26px' }}>{headerInfo.icon}</span>
           <h1 style={{ fontSize: '26px', fontWeight: '800', color: '#fff', margin: 0 }}>
@@ -145,6 +152,403 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
           {headerInfo.desc}
         </p>
       </div>
+
+      {/* Quick Tab Switcher */}
+      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '24px' }}>
+        {[
+          { id: 'contactInfo', route: '/admin/contact-info', icon: '📍', label: 'Headquarters & Contact' },
+          { id: 'demoVideo', route: '/admin/demo-video', icon: '🎬', label: 'Watch Demo Video' },
+          { id: 'recentActivity', route: '/admin/recent-activities', icon: '⚡', label: 'Recent Activities' },
+          { id: 'stats', route: '/admin/impact-stats', icon: '📈', label: 'Impact Numbers' },
+          { id: 'showcaseImages', route: '/admin/lab-photos', icon: '🏫', label: 'Lab & Classroom Photos' },
+          { id: 'enrollModal', route: '/admin/enroll-form', icon: '📝', label: 'Enroll Form & Offer' },
+          { id: 'specializations', route: '/admin/home-customizer', icon: '🎯', label: 'Specialization Cards' }
+        ].map(t => (
+          <Link
+            key={t.id}
+            to={t.route}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '8px 14px',
+              borderRadius: '10px',
+              textDecoration: 'none',
+              fontSize: '13px',
+              fontWeight: '700',
+              background: activeTab === t.id
+                ? 'linear-gradient(135deg, #8b5cf6, #d946ef)'
+                : 'rgba(255, 255, 255, 0.05)',
+              color: activeTab === t.id ? '#fff' : '#94a3b8',
+              border: activeTab === t.id ? '1px solid transparent' : '1px solid rgba(255, 255, 255, 0.1)',
+              boxShadow: activeTab === t.id ? '0 4px 15px rgba(217, 70, 239, 0.35)' : 'none',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <span>{t.icon}</span>
+            <span>{t.label}</span>
+          </Link>
+        ))}
+      </div>
+
+      {/* ========================================================
+          TAB 0: HEADQUARTERS & CONTACT INFO
+          ======================================================== */}
+      {activeTab === 'contactInfo' && (
+        <div className="admin-card">
+          <div className="admin-card-header">
+            <h3 className="admin-card-title">
+              <span>📍</span>
+              <span>Headquarters &amp; Contact Options</span>
+            </h3>
+            <span style={{ fontSize: '12px', color: '#94a3b8' }}>
+              Displayed on /Contactus page, Footer &amp; MongoDB Atlas site_config
+            </span>
+          </div>
+
+          <form onSubmit={(e) => { e.preventDefault(); handleSaveAll(); }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '20px' }}>
+              <div className="admin-form-group">
+                <label className="admin-label">
+                  Headquarters Card Heading <span style={{ color: '#d946ef' }}>*</span>
+                </label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  required
+                  placeholder="e.g. Headquarters: Oddanchatram, Tamil Nadu"
+                  value={config.contactInfo?.heading || ''}
+                  onChange={(e) => setConfig({
+                    ...config,
+                    contactInfo: { ...config.contactInfo, heading: e.target.value }
+                  })}
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label className="admin-label">
+                  Location Address <span style={{ color: '#d946ef' }}>*</span>
+                </label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  required
+                  placeholder="e.g. Headquarters: Oddanchatram, Tamil Nadu 624619"
+                  value={config.contactInfo?.address || ''}
+                  onChange={(e) => setConfig({
+                    ...config,
+                    contactInfo: { ...config.contactInfo, address: e.target.value }
+                  })}
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label className="admin-label">
+                  Official Inquiries Email <span style={{ color: '#d946ef' }}>*</span>
+                </label>
+                <input
+                  type="email"
+                  className="admin-input"
+                  required
+                  placeholder="e.g. gvdesigntech707@gmail.com"
+                  value={config.contactInfo?.email || ''}
+                  onChange={(e) => setConfig({
+                    ...config,
+                    contactInfo: { ...config.contactInfo, email: e.target.value }
+                  })}
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label className="admin-label">
+                  Call or WhatsApp Phone <span style={{ color: '#d946ef' }}>*</span>
+                </label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  required
+                  placeholder="e.g. +91 96553 64707"
+                  value={config.contactInfo?.phone || ''}
+                  onChange={(e) => setConfig({
+                    ...config,
+                    contactInfo: { ...config.contactInfo, phone: e.target.value }
+                  })}
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label className="admin-label">Operating Hours (Monday – Saturday)</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  placeholder="e.g. Monday – Saturday: 9:00 AM – 7:00 PM"
+                  value={config.contactInfo?.operatingHoursWeekdays || ''}
+                  onChange={(e) => setConfig({
+                    ...config,
+                    contactInfo: { ...config.contactInfo, operatingHoursWeekdays: e.target.value }
+                  })}
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label className="admin-label">Operating Hours (Sunday / Holidays)</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  placeholder="e.g. Sunday: Prior Appointment Only"
+                  value={config.contactInfo?.operatingHoursSunday || ''}
+                  onChange={(e) => setConfig({
+                    ...config,
+                    contactInfo: { ...config.contactInfo, operatingHoursSunday: e.target.value }
+                  })}
+                />
+              </div>
+            </div>
+
+            {/* Official Social Media Channels */}
+            <div style={{ marginTop: '24px', marginBottom: '24px', padding: '20px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '16px' }}>
+              <div style={{ fontSize: '14px', fontWeight: '800', color: '#c084fc', marginBottom: '14px', letterSpacing: '0.5px' }}>
+                🌐 OFFICIAL SOCIAL CHANNELS
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px' }}>
+                <div className="admin-form-group">
+                  <label className="admin-label">YouTube Channel Link</label>
+                  <input
+                    type="url"
+                    className="admin-input"
+                    placeholder="https://www.youtube.com/@GVDESIGNTECH"
+                    value={config.socialLinks?.youtube || ''}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      socialLinks: { ...config.socialLinks, youtube: e.target.value }
+                    })}
+                  />
+                </div>
+
+                <div className="admin-form-group">
+                  <label className="admin-label">Instagram Profile Link</label>
+                  <input
+                    type="url"
+                    className="admin-input"
+                    placeholder="https://www.instagram.com/gvdesigntech/"
+                    value={config.socialLinks?.instagram || ''}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      socialLinks: { ...config.socialLinks, instagram: e.target.value }
+                    })}
+                  />
+                </div>
+
+                <div className="admin-form-group">
+                  <label className="admin-label">LinkedIn Page Link</label>
+                  <input
+                    type="url"
+                    className="admin-input"
+                    placeholder="https://www.linkedin.com/in/gv-design-tech-..."
+                    value={config.socialLinks?.linkedin || ''}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      socialLinks: { ...config.socialLinks, linkedin: e.target.value }
+                    })}
+                  />
+                </div>
+
+                <div className="admin-form-group">
+                  <label className="admin-label">Facebook Page Link</label>
+                  <input
+                    type="url"
+                    className="admin-input"
+                    placeholder="https://www.facebook.com/profile.php?id=..."
+                    value={config.socialLinks?.facebook || ''}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      socialLinks: { ...config.socialLinks, facebook: e.target.value }
+                    })}
+                  />
+                </div>
+
+                <div className="admin-form-group">
+                  <label className="admin-label">WhatsApp Direct Chat Link</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    placeholder="https://wa.me/919655364707"
+                    value={config.socialLinks?.whatsapp || ''}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      socialLinks: { ...config.socialLinks, whatsapp: e.target.value }
+                    })}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Google Campus Map & Directions */}
+            <div style={{ marginTop: '24px', marginBottom: '24px', padding: '20px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '16px' }}>
+              <div style={{ fontSize: '14px', fontWeight: '800', color: '#c084fc', marginBottom: '14px', letterSpacing: '0.5px' }}>
+                🗺️ CAMPUS MAP &amp; GOOGLE DIRECTIONS
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+                <div className="admin-form-group">
+                  <label className="admin-label">Map Address Subtitle</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    placeholder="e.g. Headquarters: Oddanchatram, Dindigul District, Tamil Nadu 624619, India"
+                    value={config.contactInfo?.mapAddress || ''}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      contactInfo: { ...config.contactInfo, mapAddress: e.target.value }
+                    })}
+                  />
+                </div>
+
+                <div className="admin-form-group">
+                  <label className="admin-label">Google Maps Directions URL</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    placeholder="https://maps.google.com/?q=Oddanchatram,+Tamil+Nadu"
+                    value={config.contactInfo?.mapDirectionsUrl || ''}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      contactInfo: { ...config.contactInfo, mapDirectionsUrl: e.target.value }
+                    })}
+                  />
+                </div>
+              </div>
+
+              <div className="admin-form-group" style={{ marginTop: '12px' }}>
+                <label className="admin-label">Google Maps Embed Iframe URL</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  placeholder="https://maps.google.com/maps?q=Oddanchatram,+Tamil+Nadu,+India&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                  value={config.contactInfo?.mapEmbedUrl || ''}
+                  onChange={(e) => setConfig({
+                    ...config,
+                    contactInfo: { ...config.contactInfo, mapEmbedUrl: e.target.value }
+                  })}
+                />
+              </div>
+            </div>
+
+            {/* Live Visual Preview matching screenshot */}
+            <div style={{ marginTop: '28px', padding: '24px', background: 'rgba(0, 0, 0, 0.65)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '20px' }}>
+              <div style={{ fontSize: '12px', fontWeight: '800', color: '#c084fc', marginBottom: '16px', letterSpacing: '1px' }}>
+                👀 LIVE CONTACT CARD PREVIEW
+              </div>
+
+              <div style={{
+                maxWidth: '560px',
+                padding: '32px',
+                background: 'linear-gradient(160deg, rgba(30, 22, 68, 0.9), rgba(6, 6, 24, 0.95))',
+                border: '1px solid rgba(139, 92, 246, 0.4)',
+                borderRadius: '24px',
+                boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+              }}>
+                <h3 style={{ fontSize: '24px', fontWeight: '800', marginBottom: '22px', color: '#fff', lineHeight: 1.3 }}>
+                  {config.contactInfo?.heading || 'Headquarters: Oddanchatram, Tamil Nadu'}
+                </h3>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                    <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(139,92,246,0.2)', border: '1px solid #8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0 }}>
+                      📍
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '15px', fontWeight: '700', color: '#fff', marginBottom: '3px' }}>Location Address</div>
+                      <div style={{ fontSize: '13.5px', color: '#94a3b8', lineHeight: 1.4 }}>
+                        {config.contactInfo?.address || 'Headquarters: Oddanchatram, Tamil Nadu 624619'}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                    <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(217,70,239,0.2)', border: '1px solid #d946ef', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0 }}>
+                      📩
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '15px', fontWeight: '700', color: '#fff', marginBottom: '3px' }}>Email Address</div>
+                      <div style={{ fontSize: '13.5px', color: '#e879f9' }}>
+                        {config.contactInfo?.email || 'gvdesigntech707@gmail.com'}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                    <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(34,211,238,0.2)', border: '1px solid #22d3ee', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0 }}>
+                      📞
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '15px', fontWeight: '700', color: '#fff', marginBottom: '3px' }}>Call or WhatsApp</div>
+                      <div style={{ fontSize: '13.5px', color: '#22d3ee' }}>
+                        {config.contactInfo?.phone || '+91 96553 64707'}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                    <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(251,191,36,0.2)', border: '1px solid #fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0 }}>
+                      ⏰
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '15px', fontWeight: '700', color: '#fff', marginBottom: '3px' }}>Operating Hours</div>
+                      <div style={{ fontSize: '13.5px', color: '#94a3b8', lineHeight: 1.4 }}>
+                        {config.contactInfo?.operatingHoursWeekdays || 'Monday – Saturday: 9:00 AM – 7:00 PM'}<br />
+                        {config.contactInfo?.operatingHoursSunday || 'Sunday: Prior Appointment Only'}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Social Buttons in Preview */}
+                  <div style={{ paddingTop: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                    <div style={{ fontSize: '13px', fontWeight: '700', margin: '0 0 12px', color: '#cbd5e1', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+                      Official Social Channels
+                    </div>
+                    <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '8px', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#ef4444', fontSize: '12.5px', fontWeight: '600' }}>
+                        <i className="fa-brands fa-youtube"></i> YouTube
+                      </span>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '8px', background: 'rgba(236, 72, 153, 0.12)', border: '1px solid rgba(236, 72, 153, 0.3)', color: '#ec4899', fontSize: '12.5px', fontWeight: '600' }}>
+                        <i className="fa-brands fa-instagram"></i> Instagram
+                      </span>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '8px', background: 'rgba(14, 165, 233, 0.12)', border: '1px solid rgba(14, 165, 233, 0.3)', color: '#0ea5e9', fontSize: '12.5px', fontWeight: '600' }}>
+                        <i className="fa-brands fa-linkedin-in"></i> LinkedIn
+                      </span>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '8px', background: 'rgba(59, 130, 246, 0.12)', border: '1px solid rgba(59, 130, 246, 0.3)', color: '#3b82f6', fontSize: '12.5px', fontWeight: '600' }}>
+                        <i className="fa-brands fa-facebook-f"></i> Facebook
+                      </span>
+                      {config.socialLinks?.whatsapp && (
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '8px', background: 'rgba(34, 197, 94, 0.12)', border: '1px solid rgba(34, 197, 94, 0.3)', color: '#22c55e', fontSize: '12.5px', fontWeight: '600' }}>
+                          <i className="fa-brands fa-whatsapp"></i> WhatsApp
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
+              <button
+                type="button"
+                className="admin-btn-secondary"
+                onClick={() => handleSaveAll({
+                  ...config,
+                  contactInfo: initialSiteConfig.contactInfo,
+                  socialLinks: initialSiteConfig.socialLinks
+                })}
+              >
+                Reset to Defaults
+              </button>
+              <button type="submit" className="admin-btn-primary">
+                💾 Save Headquarters &amp; Contact Options
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       {/* ========================================================
           TAB 1: WATCH DEMO VIDEO

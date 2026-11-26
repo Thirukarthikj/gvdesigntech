@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { initialAdminLeads, initialAdminBatches, initialAdminInternships, saveStoredLeads, saveStoredBatches, saveStoredInternships } from '../../data/adminInitialData.js';
 import { getCloudinaryConfig, saveCloudinaryConfig, testCloudinaryConnection } from '../../services/cloudinaryService.js';
 import { firebaseConfig, syncToFirestore } from '../../services/firebase.js';
-import { getStoredMous, getStoredGallery, getStoredPlacements, getStoredBlogs, getStoredLeaders, getStoredCertificates } from '../../data/contentPersistence.js';
+import { getStoredMous, getStoredGallery, getStoredPlacements, getStoredBlogs, getStoredLeaders, getStoredCertificates, getStoredSiteConfig, saveStoredSiteConfig, initialSiteConfig } from '../../data/contentPersistence.js';
 
 export default function AdminSettings() {
   const [notificationSaved, setNotificationSaved] = useState(false);
+  const [siteConfig, setSiteConfig] = useState(() => getStoredSiteConfig());
   const [centerPhone, setCenterPhone] = useState('+91 96553 64707');
-  const [centerEmail, setCenterEmail] = useState('info@gvdesigntech.com');
+  const [centerEmail, setCenterEmail] = useState('gvdesigntech707@gmail.com');
   const [admissionOpen, setAdmissionOpen] = useState(true);
 
   // Cloudinary settings state
@@ -204,8 +205,9 @@ export default function AdminSettings() {
 
   const handleSaveConfig = (e) => {
     e.preventDefault();
+    saveStoredSiteConfig(siteConfig);
     setNotificationSaved(true);
-    setTimeout(() => setNotificationSaved(false), 3000);
+    setTimeout(() => setNotificationSaved(false), 3500);
   };
 
   const handleSaveCloudinary = (e) => {
@@ -290,29 +292,49 @@ export default function AdminSettings() {
   return (
     <div style={{ maxWidth: '800px' }}>
       {/* Center Details */}
+      {/* Center Information & Headquarters Operational Config */}
       <div className="admin-card">
-        <div className="admin-card-header">
+        <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
           <h3 className="admin-card-title">
-            <span>⚙️</span>
-            <span>Center Information &amp; Operational Config</span>
+            <span>📍</span>
+            <span>Headquarters, Contact &amp; Operational Config</span>
           </h3>
+          <span style={{ fontSize: '12px', color: '#94a3b8' }}>
+            Syncs to Contact Us page, Footer &amp; MongoDB Atlas site_config
+          </span>
         </div>
 
         {notificationSaved && (
           <div style={{ padding: '12px 16px', background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.4)', borderRadius: '10px', color: '#34d399', fontSize: '14px', marginBottom: '18px' }}>
-            ✓ Center settings saved successfully!
+            ✓ Headquarters &amp; Contact settings saved successfully to MongoDB Atlas and website!
           </div>
         )}
 
         <form onSubmit={handleSaveConfig}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
             <div className="admin-form-group">
-              <label className="admin-label">Official Helpline Phone</label>
+              <label className="admin-label">Headquarters Card Heading</label>
               <input
                 type="text"
                 className="admin-input"
-                value={centerPhone}
-                onChange={(e) => setCenterPhone(e.target.value)}
+                value={siteConfig.contactInfo?.heading || ''}
+                onChange={(e) => setSiteConfig({
+                  ...siteConfig,
+                  contactInfo: { ...siteConfig.contactInfo, heading: e.target.value }
+                })}
+              />
+            </div>
+
+            <div className="admin-form-group">
+              <label className="admin-label">Location Address</label>
+              <input
+                type="text"
+                className="admin-input"
+                value={siteConfig.contactInfo?.address || ''}
+                onChange={(e) => setSiteConfig({
+                  ...siteConfig,
+                  contactInfo: { ...siteConfig.contactInfo, address: e.target.value }
+                })}
               />
             </div>
 
@@ -321,21 +343,149 @@ export default function AdminSettings() {
               <input
                 type="email"
                 className="admin-input"
-                value={centerEmail}
-                onChange={(e) => setCenterEmail(e.target.value)}
+                value={siteConfig.contactInfo?.email || ''}
+                onChange={(e) => setSiteConfig({
+                  ...siteConfig,
+                  contactInfo: { ...siteConfig.contactInfo, email: e.target.value }
+                })}
+              />
+            </div>
+
+            <div className="admin-form-group">
+              <label className="admin-label">Official Helpline Phone / WhatsApp</label>
+              <input
+                type="text"
+                className="admin-input"
+                value={siteConfig.contactInfo?.phone || ''}
+                onChange={(e) => setSiteConfig({
+                  ...siteConfig,
+                  contactInfo: { ...siteConfig.contactInfo, phone: e.target.value }
+                })}
+              />
+            </div>
+
+            <div className="admin-form-group">
+              <label className="admin-label">Operating Hours (Monday – Saturday)</label>
+              <input
+                type="text"
+                className="admin-input"
+                value={siteConfig.contactInfo?.operatingHoursWeekdays || ''}
+                onChange={(e) => setSiteConfig({
+                  ...siteConfig,
+                  contactInfo: { ...siteConfig.contactInfo, operatingHoursWeekdays: e.target.value }
+                })}
+              />
+            </div>
+
+            <div className="admin-form-group">
+              <label className="admin-label">Operating Hours (Sunday / Holidays)</label>
+              <input
+                type="text"
+                className="admin-input"
+                value={siteConfig.contactInfo?.operatingHoursSunday || ''}
+                onChange={(e) => setSiteConfig({
+                  ...siteConfig,
+                  contactInfo: { ...siteConfig.contactInfo, operatingHoursSunday: e.target.value }
+                })}
               />
             </div>
           </div>
 
-          <div className="admin-form-group">
-            <label className="admin-label">Physical Center Address</label>
-            <input
-              type="text"
-              className="admin-input"
-              defaultValue="No. 12, Pollachi Main Road, Coimbatore, Tamil Nadu 641021"
-            />
+          {/* Social Channels Config */}
+          <div style={{ marginTop: '20px', padding: '16px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '14px' }}>
+            <div style={{ fontSize: '13px', fontWeight: '800', color: '#c084fc', marginBottom: '12px' }}>
+              🌐 OFFICIAL SOCIAL CHANNELS
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px' }}>
+              <div className="admin-form-group">
+                <label className="admin-label">YouTube URL</label>
+                <input
+                  type="url"
+                  className="admin-input"
+                  value={siteConfig.socialLinks?.youtube || ''}
+                  onChange={(e) => setSiteConfig({
+                    ...siteConfig,
+                    socialLinks: { ...siteConfig.socialLinks, youtube: e.target.value }
+                  })}
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label className="admin-label">Instagram URL</label>
+                <input
+                  type="url"
+                  className="admin-input"
+                  value={siteConfig.socialLinks?.instagram || ''}
+                  onChange={(e) => setSiteConfig({
+                    ...siteConfig,
+                    socialLinks: { ...siteConfig.socialLinks, instagram: e.target.value }
+                  })}
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label className="admin-label">LinkedIn URL</label>
+                <input
+                  type="url"
+                  className="admin-input"
+                  value={siteConfig.socialLinks?.linkedin || ''}
+                  onChange={(e) => setSiteConfig({
+                    ...siteConfig,
+                    socialLinks: { ...siteConfig.socialLinks, linkedin: e.target.value }
+                  })}
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label className="admin-label">Facebook URL</label>
+                <input
+                  type="url"
+                  className="admin-input"
+                  value={siteConfig.socialLinks?.facebook || ''}
+                  onChange={(e) => setSiteConfig({
+                    ...siteConfig,
+                    socialLinks: { ...siteConfig.socialLinks, facebook: e.target.value }
+                  })}
+                />
+              </div>
+            </div>
           </div>
 
+          {/* Map details */}
+          <div style={{ marginTop: '20px', padding: '16px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '14px' }}>
+            <div style={{ fontSize: '13px', fontWeight: '800', color: '#c084fc', marginBottom: '12px' }}>
+              🗺️ CAMPUS MAP &amp; GOOGLE DIRECTIONS
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px' }}>
+              <div className="admin-form-group">
+                <label className="admin-label">Map Address Subtitle</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={siteConfig.contactInfo?.mapAddress || ''}
+                  onChange={(e) => setSiteConfig({
+                    ...siteConfig,
+                    contactInfo: { ...siteConfig.contactInfo, mapAddress: e.target.value }
+                  })}
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label className="admin-label">Google Maps Directions URL</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={siteConfig.contactInfo?.mapDirectionsUrl || ''}
+                  onChange={(e) => setSiteConfig({
+                    ...siteConfig,
+                    contactInfo: { ...siteConfig.contactInfo, mapDirectionsUrl: e.target.value }
+                  })}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Admissions Status Toggle */}
           <div style={{ marginTop: '20px', padding: '16px', background: 'rgba(255, 255, 255, 0.03)', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <div style={{ fontWeight: '700', color: '#fff', fontSize: '14.5px' }}>Admissions Status Banner</div>
@@ -354,9 +504,20 @@ export default function AdminSettings() {
             </label>
           </div>
 
-          <div style={{ marginTop: '24px' }}>
+          <div style={{ marginTop: '24px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             <button type="submit" className="admin-btn-primary">
-              Save Configuration
+              💾 Save Center &amp; Contact Configuration
+            </button>
+            <button
+              type="button"
+              className="admin-btn-secondary"
+              onClick={() => setSiteConfig({
+                ...siteConfig,
+                contactInfo: initialSiteConfig.contactInfo,
+                socialLinks: initialSiteConfig.socialLinks
+              })}
+            >
+              Reset to Defaults
             </button>
           </div>
         </form>

@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getStoredSiteConfig, subscribeToContentUpdates, initialSiteConfig } from '../data/contentPersistence.js';
 
 export default function Footer() {
+  const [siteConfig, setSiteConfig] = useState(() => getStoredSiteConfig());
+
+  useEffect(() => {
+    const unsubscribe = subscribeToContentUpdates(() => {
+      setSiteConfig(getStoredSiteConfig());
+    });
+    return unsubscribe;
+  }, []);
+
+  const contact = siteConfig.contactInfo || initialSiteConfig.contactInfo;
+  const social = siteConfig.socialLinks || initialSiteConfig.socialLinks;
   return (
     <footer id="contact">
       <div className="footer-nl">
@@ -31,47 +43,67 @@ export default function Footer() {
           <p>
             GV Design Tech provides premier CAD &amp; Engineering Design training. We empower engineers and designers with industry-ready skills through AutoCAD, Revit, SolidWorks, and BIM frameworks.
           </p>
-          <div className="footer-social-links" style={{ display: 'flex', gap: '10px', marginTop: '16px' }}>
-            <a
-              href="https://www.youtube.com/@GVDESIGNTECH"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="YouTube"
-              title="YouTube"
-              style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.35)', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', textDecoration: 'none', transition: 'all 0.2s' }}
-            >
-              <i className="fa-brands fa-youtube"></i>
-            </a>
-            <a
-              href="https://www.instagram.com/gvdesigntech/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              title="Instagram"
-              style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(236, 72, 153, 0.15)', border: '1px solid rgba(236, 72, 153, 0.35)', color: '#ec4899', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', textDecoration: 'none', transition: 'all 0.2s' }}
-            >
-              <i className="fa-brands fa-instagram"></i>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/gv-design-tech-undefined-42845a35a"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              title="LinkedIn"
-              style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(14, 165, 233, 0.15)', border: '1px solid rgba(14, 165, 233, 0.35)', color: '#0ea5e9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', textDecoration: 'none', transition: 'all 0.2s' }}
-            >
-              <i className="fa-brands fa-linkedin-in"></i>
-            </a>
-            <a
-              href="https://www.facebook.com/profile.php?id=61596803677692"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook"
-              title="Facebook"
-              style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(59, 130, 246, 0.15)', border: '1px solid rgba(59, 130, 246, 0.35)', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', textDecoration: 'none', transition: 'all 0.2s' }}
-            >
-              <i className="fa-brands fa-facebook-f"></i>
-            </a>
+          <div className="footer-social-links" style={{ display: 'flex', gap: '10px', marginTop: '16px', flexWrap: 'wrap' }}>
+            {social.youtube && (
+              <a
+                href={social.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+                title="YouTube"
+                style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.35)', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', textDecoration: 'none', transition: 'all 0.2s' }}
+              >
+                <i className="fa-brands fa-youtube"></i>
+              </a>
+            )}
+            {social.instagram && (
+              <a
+                href={social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                title="Instagram"
+                style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(236, 72, 153, 0.15)', border: '1px solid rgba(236, 72, 153, 0.35)', color: '#ec4899', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', textDecoration: 'none', transition: 'all 0.2s' }}
+              >
+                <i className="fa-brands fa-instagram"></i>
+              </a>
+            )}
+            {social.linkedin && (
+              <a
+                href={social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                title="LinkedIn"
+                style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(14, 165, 233, 0.15)', border: '1px solid rgba(14, 165, 233, 0.35)', color: '#0ea5e9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', textDecoration: 'none', transition: 'all 0.2s' }}
+              >
+                <i className="fa-brands fa-linkedin-in"></i>
+              </a>
+            )}
+            {social.facebook && (
+              <a
+                href={social.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                title="Facebook"
+                style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(59, 130, 246, 0.15)', border: '1px solid rgba(59, 130, 246, 0.35)', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', textDecoration: 'none', transition: 'all 0.2s' }}
+              >
+                <i className="fa-brands fa-facebook-f"></i>
+              </a>
+            )}
+            {social.whatsapp && (
+              <a
+                href={social.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+                title="WhatsApp"
+                style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(34, 197, 94, 0.15)', border: '1px solid rgba(34, 197, 94, 0.35)', color: '#22c55e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', textDecoration: 'none', transition: 'all 0.2s' }}
+              >
+                <i className="fa-brands fa-whatsapp"></i>
+              </a>
+            )}
           </div>
         </div>
 
@@ -99,15 +131,15 @@ export default function Footer() {
           <h4>Contact</h4>
           <div className="contact-item">
             <div className="ci-ico">📍</div>
-            <span>Headquarters: Oddanchatram, Tamil Nadu</span>
+            <span>{contact.address || 'Headquarters: Oddanchatram, Tamil Nadu'}</span>
           </div>
-          <div className="contact-item" style={{ cursor: 'pointer' }} onClick={() => window.location.href = 'mailto:gvdesigntech707@gmail.com'}>
+          <div className="contact-item" style={{ cursor: 'pointer' }} onClick={() => window.location.href = `mailto:${contact.email || 'gvdesigntech707@gmail.com'}`}>
             <div className="ci-ico">📩</div>
-            <span>gvdesigntech707@gmail.com</span>
+            <span>{contact.email || 'gvdesigntech707@gmail.com'}</span>
           </div>
-          <div className="contact-item" style={{ cursor: 'pointer' }} onClick={() => window.location.href = 'tel:+919655364707'}>
+          <div className="contact-item" style={{ cursor: 'pointer' }} onClick={() => window.location.href = `tel:${(contact.phone || '+91 96553 64707').replace(/[^0-9+]/g, '')}`}>
             <div className="ci-ico">📞</div>
-            <span>+91 96553 64707</span>
+            <span>{contact.phone || '+91 96553 64707'}</span>
           </div>
         </div>
       </div>

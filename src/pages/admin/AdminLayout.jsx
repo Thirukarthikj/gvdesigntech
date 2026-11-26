@@ -65,6 +65,7 @@ export default function AdminLayout() {
     {
       title: 'CONTENT & PAGES',
       items: [
+        { to: '/admin/contact-info', icon: '📍', label: 'Headquarters & Contact' },
         { to: '/admin/content-leaders', icon: '👑', label: 'Leadership & Founders' },
         { to: '/admin/content-mou', icon: '🏛️', label: 'Manage MOUs' },
         { to: '/admin/content-gallery', icon: '📸', label: 'Manage Gallery' },
@@ -88,6 +89,7 @@ export default function AdminLayout() {
 
   const getPageTitle = () => {
     const path = location.pathname;
+    if (path.includes('contact-info') || path.includes('headquarters') || path.includes('contact')) return 'Headquarters, Contact & Social Links';
     if (path.includes('skill-test') || path.includes('pest-exam')) return 'Skill Test Question Bank & Candidate Scores';
     if (path.includes('enrollments')) return 'Student Inquiries & Admissions';
     if (path.includes('courses')) return 'Curated Courses & Disciplines Management';
