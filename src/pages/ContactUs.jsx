@@ -25,8 +25,27 @@ export default function ContactUs() {
   });
   const [submitted, setSubmitted] = useState(false);
 
+  const [lastWhatsappUrl, setLastWhatsappUrl] = useState('');
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Prepare target phone from site configuration
+    const rawPhone = (contact.phone || '919655364707').replace(/[^0-9]/g, '');
+    const targetPhone = rawPhone.length === 10 ? `91${rawPhone}` : (rawPhone || '919655364707');
+
+    const whatsappMsg = `🎓 *New Website Inquiry - GV DesignTech*
+
+👤 *Full Name:* ${formData.name || 'Not provided'}
+📧 *Email Address:* ${formData.email || 'Not provided'}
+📱 *Phone Number:* ${formData.phone || 'Not provided'}
+📚 *Interested Program:* ${formData.subject || 'General Engineering Inquiry'}
+💬 *Message / Queries:* ${formData.message || 'No additional notes'}
+
+🌐 _Sent via Contact Form on GV DesignTech Website_`;
+
+    const whatsappUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(whatsappMsg)}`;
+    setLastWhatsappUrl(whatsappUrl);
     setSubmitted(true);
 
     try {
@@ -65,10 +84,12 @@ export default function ContactUs() {
       // ignore
     }
 
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-    }, 3000);
+    // Directly open WhatsApp with the inquiry pre-filled
+    try {
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    } catch {
+      window.location.href = whatsappUrl;
+    }
   };
 
   return (
@@ -216,12 +237,55 @@ export default function ContactUs() {
             </p>
 
             {submitted ? (
-              <div style={{ padding: '36px', textAlign: 'center', background: 'rgba(34, 211, 238, 0.1)', border: '1px solid #22d3ee', borderRadius: '16px' }}>
-                <div style={{ fontSize: '36px', marginBottom: '8px' }}>🎉</div>
-                <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#22d3ee', margin: '0 0 6px' }}>Message Sent!</h3>
-                <p style={{ fontSize: '14px', color: '#94a3b8', margin: 0 }}>
-                  Thank you! Our admissions coordinator will get back to you shortly.
+              <div style={{ padding: '36px 24px', textAlign: 'center', background: 'rgba(34, 197, 94, 0.12)', border: '1px solid rgba(34, 197, 94, 0.4)', borderRadius: '18px' }}>
+                <div style={{ fontSize: '42px', marginBottom: '10px' }}>💬</div>
+                <h3 style={{ fontSize: '21px', fontWeight: '800', color: '#4ade80', margin: '0 0 8px' }}>Opening WhatsApp...</h3>
+                <p style={{ fontSize: '14px', color: '#cbd5e1', margin: '0 auto 18px', maxWidth: '420px', lineHeight: 1.5 }}>
+                  Thank you, <strong>{formData.name || 'there'}</strong>! Your inquiry details are being forwarded to our official WhatsApp chat (+91 96553 64707).
                 </p>
+                {lastWhatsappUrl && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
+                    <a
+                      href={lastWhatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '12px 24px',
+                        background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                        color: '#fff',
+                        borderRadius: '10px',
+                        textDecoration: 'none',
+                        fontSize: '14.5px',
+                        fontWeight: '700',
+                        boxShadow: '0 4px 15px rgba(34, 197, 94, 0.45)'
+                      }}
+                    >
+                      <i className="fa-brands fa-whatsapp" style={{ fontSize: '18px' }}></i>
+                      <span>Continue in WhatsApp</span>
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSubmitted(false);
+                        setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+                      }}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#94a3b8',
+                        fontSize: '12.5px',
+                        cursor: 'pointer',
+                        textDecoration: 'underline',
+                        marginTop: '6px'
+                      }}
+                    >
+                      Send another inquiry
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -296,18 +360,27 @@ export default function ContactUs() {
                   type="submit"
                   style={{
                     padding: '14px',
-                    background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
+                    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
                     border: 'none',
                     borderRadius: '10px',
                     color: '#fff',
-                    fontSize: '16px',
+                    fontSize: '15.5px',
                     fontWeight: '700',
                     cursor: 'pointer',
-                    marginTop: '8px'
+                    marginTop: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '10px',
+                    boxShadow: '0 4px 18px rgba(34, 197, 94, 0.4)'
                   }}
                 >
-                  Send Inquiry
+                  <i className="fa-brands fa-whatsapp" style={{ fontSize: '20px' }}></i>
+                  <span>Send Inquiry to WhatsApp</span>
                 </button>
+                <div style={{ fontSize: '12px', color: '#94a3b8', textAlign: 'center', marginTop: '-4px' }}>
+                  💬 Directly connects you to an academic counselor on WhatsApp (+91 96553 64707)
+                </div>
               </form>
             )}
           </div>
