@@ -20,6 +20,9 @@ export default function AdminSettings() {
 
   // MongoDB status state
   const [mongoStatus, setMongoStatus] = useState({ testing: false, syncing: false, msg: '', success: null, data: null });
+  const [mongoAtlasUri, setMongoAtlasUri] = useState('');
+  const [mongoConnecting, setMongoConnecting] = useState(false);
+  const [mongoSaved, setMongoSaved] = useState(false);
 
   useEffect(() => {
     // Check MongoDB on mount
@@ -30,9 +33,21 @@ export default function AdminSettings() {
           setMongoStatus(prev => ({
             ...prev,
             success: true,
-            msg: `MongoDB connected on ${d.host} (Database: ${d.database})`,
+            msg: d.isAtlas
+              ? `Connected to MongoDB Atlas Cloud Cluster (${d.database})`
+              : `MongoDB connected on ${d.host} (Database: ${d.database})`,
             data: d
           }));
+        }
+      })
+      .catch(() => {});
+
+    // Fetch existing Atlas URI if configured
+    fetch('/api/settings/mongodb')
+      .then(r => r.json())
+      .then(d => {
+        if (d.rawUri) {
+          setMongoAtlasUri(d.rawUri);
         }
       })
       .catch(() => {});
@@ -47,7 +62,9 @@ export default function AdminSettings() {
         setMongoStatus({
           testing: false,
           syncing: false,
-          msg: `Connected to MongoDB database "${data.database}" at ${data.host}!`,
+          msg: data.isAtlas
+            ? `Connected to MongoDB Atlas Cloud Cluster (${data.database})!`
+            : `Connected to MongoDB database "${data.database}" at ${data.host}!`,
           success: true,
           data
         });
@@ -68,6 +85,54 @@ export default function AdminSettings() {
         success: false,
         data: null
       });
+    }
+  };
+
+  const handleConnectMongoAtlas = async (e) => {
+    if (e) e.preventDefault();
+    if (!mongoAtlasUri.trim()) {
+      alert('Please enter your MongoDB Atlas connection string URI.');
+      return;
+    }
+    setMongoConnecting(true);
+    setMongoStatus(prev => ({ ...prev, msg: 'Testing & connecting to MongoDB Atlas Cloud...', success: null }));
+    try {
+      const res = await fetch('/api/settings/mongodb', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uri: mongoAtlasUri.trim() })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setMongoSaved(true);
+        setTimeout(() => setMongoSaved(false), 4000);
+        setMongoStatus({
+          testing: false,
+          syncing: false,
+          msg: data.message || 'Connected to MongoDB Atlas Cloud successfully!',
+          success: true,
+          data: null
+        });
+        await handleTestMongo();
+      } else {
+        setMongoStatus({
+          testing: false,
+          syncing: false,
+          msg: data.error || 'Failed to connect to MongoDB Atlas.',
+          success: false,
+          data: null
+        });
+      }
+    } catch (err) {
+      setMongoStatus({
+        testing: false,
+        syncing: false,
+        msg: 'Connection error: ' + err.message,
+        success: false,
+        data: null
+      });
+    } finally {
+      setMongoConnecting(false);
     }
   };
 
@@ -444,23 +509,37 @@ export default function AdminSettings() {
         </div>
       </div>
 
-      {/* MongoDB Database Center */}
+      {/* MongoDB Database Center & Cloud Storage */}
       <div className="admin-card">
-        <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
           <h3 className="admin-card-title">
             <span>🍃</span>
-            <span>MongoDB Database Center</span>
+            <span>MongoDB Atlas Cloud Database &amp; Storage</span>
           </h3>
           <span style={{
             fontSize: '12px',
-            padding: '4px 10px',
+            padding: '5px 12px',
             borderRadius: '999px',
-            background: mongoStatus.success ? 'rgba(34, 197, 94, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-            color: mongoStatus.success ? '#4ade80' : '#fbbf24',
-            border: `1px solid ${mongoStatus.success ? 'rgba(34, 197, 94, 0.35)' : 'rgba(245, 158, 11, 0.35)'}`,
-            fontWeight: '600'
+            background: mongoStatus.data?.isAtlas
+              ? 'rgba(6, 182, 212, 0.2)'
+              : (mongoStatus.success ? 'rgba(34, 197, 94, 0.15)' : 'rgba(245, 158, 11, 0.15)'),
+            color: mongoStatus.data?.isAtlas
+              ? '#38bdf8'
+              : (mongoStatus.success ? '#4ade80' : '#fbbf24'),
+            border: `1px solid ${
+              mongoStatus.data?.isAtlas
+                ? 'rgba(6, 182, 212, 0.4)'
+                : (mongoStatus.success ? 'rgba(34, 197, 94, 0.35)' : 'rgba(245, 158, 11, 0.35)')
+            }`,
+            fontWeight: '700',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px'
           }}>
-            {mongoStatus.success ? '● MongoDB Connected (127.0.0.1:27017)' : '● Checking MongoDB...'}
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: mongoStatus.success ? '#4ade80' : '#fbbf24' }}></span>
+            {mongoStatus.data?.isAtlas
+              ? '☁️ MongoDB Atlas Cloud Connected'
+              : (mongoStatus.success ? '💻 Local MongoDB Connected (127.0.0.1:27017)' : '● Checking MongoDB...')}
           </span>
         </div>
 
@@ -480,9 +559,63 @@ export default function AdminSettings() {
           </div>
         )}
 
-        <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.6, marginBottom: '20px' }}>
-          All data in the admin panel (MOUs, Gallery photos, Placements, Blogs, Leadership, Certificates, Student Leads) is connected directly to your local MongoDB database (<strong style={{ color: '#4ade80' }}>gvdesigntech</strong>). Any new content added or updated in the admin panel persists to MongoDB and immediately updates the public website.
+        {mongoSaved && (
+          <div style={{
+            padding: '10px 14px',
+            background: 'rgba(34, 197, 94, 0.2)',
+            border: '1px solid rgba(34, 197, 94, 0.4)',
+            borderRadius: '8px',
+            color: '#4ade80',
+            fontSize: '13px',
+            marginBottom: '16px',
+            fontWeight: '600'
+          }}>
+            🎉 MongoDB Atlas Cloud configuration saved successfully and persisted to .env!
+          </div>
+        )}
+
+        <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.6, marginBottom: '18px' }}>
+          GV DesignTech stores all database entities (Courses, Internship cohorts, Applicant pipelines, MOUs, Gallery photos, Placements, Blogs, Leaders, and Inquiries) in MongoDB. Connect your <strong>MongoDB Atlas Cloud Cluster</strong> below for high-availability cloud storage and real-time persistence.
         </p>
+
+        {/* MongoDB Atlas URI Configuration Form */}
+        <form onSubmit={handleConnectMongoAtlas} style={{ marginBottom: '22px', background: 'rgba(255, 255, 255, 0.02)', padding: '16px', borderRadius: '12px', border: '1px solid rgba(139, 92, 246, 0.25)' }}>
+          <label className="admin-label" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>MongoDB Atlas Connection URI (mongodb+srv://)</span>
+            <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 'normal' }}>Stored securely in .env</span>
+          </label>
+          <div style={{ display: 'flex', gap: '10px', marginTop: '6px', flexWrap: 'wrap' }}>
+            <input
+              type="text"
+              className="admin-input"
+              style={{ flex: 1, minWidth: '280px', fontFamily: 'monospace', fontSize: '13px' }}
+              placeholder="mongodb+srv://<username>:<password>@cluster0.abcde.mongodb.net/gvdesigntech?retryWrites=true&w=majority"
+              value={mongoAtlasUri}
+              onChange={(e) => setMongoAtlasUri(e.target.value)}
+            />
+            <button
+              type="submit"
+              disabled={mongoConnecting}
+              className="admin-btn-primary"
+              style={{ cursor: mongoConnecting ? 'wait' : 'pointer', whiteSpace: 'nowrap', minWidth: '180px' }}
+            >
+              {mongoConnecting ? '⏳ Connecting...' : '☁️ Connect to Atlas'}
+            </button>
+          </div>
+        </form>
+
+        {/* 3-Step Setup Instructions Box */}
+        <div style={{ marginBottom: '20px', padding: '14px 16px', background: 'rgba(6, 182, 212, 0.08)', border: '1px solid rgba(6, 182, 212, 0.25)', borderRadius: '12px', fontSize: '13px', color: '#e2e8f0', lineHeight: 1.65 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#38bdf8', fontWeight: '700', fontSize: '13.5px', marginBottom: '8px' }}>
+            <span>📘</span>
+            <span>How to get your MongoDB Atlas Cloud URI in 3 steps:</span>
+          </div>
+          <ol style={{ margin: '0 0 0 18px', padding: 0 }}>
+            <li>Go to <a href="https://cloud.mongodb.com" target="_blank" rel="noopener noreferrer" style={{ color: '#38bdf8', textDecoration: 'underline' }}>cloud.mongodb.com</a> &rarr; <strong>Database</strong> &rarr; Click <strong>Connect</strong> on your cluster.</li>
+            <li>Select <strong>Drivers</strong> &rarr; Select <strong>Node.js</strong> &rarr; Copy the connection string.</li>
+            <li>In Atlas <strong>Network Access</strong>, ensure <code style={{ background: 'rgba(0,0,0,0.4)', padding: '2px 5px', borderRadius: '4px', color: '#4ade80' }}>0.0.0.0/0</code> (or your current IP) is allowed, replace <code style={{ background: 'rgba(0,0,0,0.4)', padding: '2px 5px', borderRadius: '4px', color: '#f472b6' }}>&lt;password&gt;</code> with your database password, paste above, and click <strong>Connect to Atlas</strong>!</li>
+          </ol>
+        </div>
 
         {mongoStatus.data && mongoStatus.data.counts && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '10px', marginBottom: '20px' }}>

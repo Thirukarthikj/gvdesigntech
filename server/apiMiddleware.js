@@ -1,7 +1,9 @@
 // Express Router for MongoDB Endpoints in GV DesignTech
 import express from 'express';
 import cors from 'cors';
-import { connectMongo, getDb } from './db.js';
+import fs from 'fs';
+import path from 'path';
+import { connectMongo, reconnectMongo, getMongoUri, getDbName, getDb } from './db.js';
 import { ObjectId } from 'mongodb';
 
 export const apiRouter = express.Router();
@@ -15,7 +17,7 @@ apiRouter.use(express.urlencoded({ extended: true, limit: '50mb' }));
 apiRouter.use(async (req, res, next) => {
   const db = await connectMongo();
   if (!db) {
-    return res.status(503).json({ error: 'MongoDB service unavailable on 127.0.0.1:27017' });
+    return res.status(503).json({ error: 'MongoDB service unavailable. Please verify your MongoDB Atlas connection URI or local MongoDB service.' });
   }
   req.db = db;
   next();
@@ -892,10 +894,13 @@ apiRouter.delete('/internship-applicants/:id', async (req, res) => {
 });
 
 /* ==========================================
-   9. MongoDB Health & Stats
+   9. MongoDB Health, Atlas Cloud & Stats
    ========================================== */
 apiRouter.get('/health', async (req, res) => {
   try {
+    const uri = getMongoUri();
+    const isAtlas = uri.includes('mongodb+srv://') || uri.includes('mongodb.net');
+    const maskedUri = uri.replace(/\/\/([^:]+):([^@]+)@/, '//***:***@');
     const collections = await req.db.listCollections().toArray();
     const counts = {};
     for (const c of collections) {
@@ -903,12 +908,78 @@ apiRouter.get('/health', async (req, res) => {
     }
     res.json({
       status: 'connected',
-      database: 'gvdesigntech',
-      host: '127.0.0.1:27017',
+      type: isAtlas ? 'MongoDB Atlas Cloud' : 'Local MongoDB',
+      database: req.db.databaseName,
+      host: isAtlas ? 'MongoDB Atlas Cluster' : '127.0.0.1:27017',
+      uri: maskedUri,
+      isAtlas,
       collections: collections.map(c => c.name),
       counts
     });
   } catch (err) {
     res.status(500).json({ status: 'error', message: err.message });
+  }
+});
+
+apiRouter.get('/settings/mongodb', async (req, res) => {
+  try {
+    const uri = getMongoUri();
+    const isAtlas = uri.includes('mongodb+srv://') || uri.includes('mongodb.net');
+    const maskedUri = uri.replace(/\/\/([^:]+):([^@]+)@/, '//***:***@');
+    res.json({
+      uri: maskedUri,
+      rawUri: isAtlas ? uri : '',
+      isAtlas,
+      database: req.db ? req.db.databaseName : getDbName(),
+      connected: !!req.db
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.post('/settings/mongodb', async (req, res) => {
+  try {
+    const { uri } = req.body;
+    if (!uri || typeof uri !== 'string') {
+      return res.status(400).json({ error: 'Please provide a valid MongoDB connection string URI.' });
+    }
+
+    const cleanUri = uri.trim();
+    const isAtlas = cleanUri.includes('mongodb+srv://') || cleanUri.includes('mongodb.net');
+
+    // Test the new connection
+    const newDb = await reconnectMongo(cleanUri);
+    if (!newDb) {
+      return res.status(400).json({
+        error: 'Failed to connect to MongoDB with provided URI. Please ensure your username and password are correct, and your IP address (or 0.0.0.0/0) is added to the MongoDB Atlas Network Access whitelist.'
+      });
+    }
+
+    // Persist to .env file
+    try {
+      const envPath = path.resolve(process.cwd(), '.env');
+      let envContent = '';
+      if (fs.existsSync(envPath)) {
+        envContent = fs.readFileSync(envPath, 'utf8');
+      }
+      if (envContent.includes('MONGODB_URI=')) {
+        envContent = envContent.replace(/^MONGODB_URI=.*$/m, `MONGODB_URI=${cleanUri}`);
+      } else {
+        envContent += `\n# MongoDB Cloud Connection URI\nMONGODB_URI=${cleanUri}\n`;
+      }
+      fs.writeFileSync(envPath, envContent, 'utf8');
+    } catch (fsErr) {
+      console.warn('Could not update .env file:', fsErr.message);
+    }
+
+    res.json({
+      success: true,
+      message: `Successfully connected to ${isAtlas ? 'MongoDB Atlas Cloud' : 'MongoDB'} (Database: "${newDb.databaseName}")!`,
+      isAtlas,
+      database: newDb.databaseName
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });

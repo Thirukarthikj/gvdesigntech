@@ -8,30 +8,53 @@ import { initialAdminLeads } from '../src/data/adminInitialData.js';
 import { initialCourses } from '../src/data/coursesData.js';
 import { initialInternshipPrograms } from '../src/data/internshipsData.js';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/gvdesigntech';
-const DB_NAME = 'gvdesigntech';
-
 let client = null;
 let db = null;
 
+export function getMongoUri() {
+  return process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/gvdesigntech';
+}
+
+export function getDbName() {
+  return process.env.MONGODB_DB_NAME || 'gvdesigntech';
+}
+
 export async function connectMongo() {
   if (db) return db;
+  const uri = getMongoUri();
+  const dbName = getDbName();
   try {
-    client = new MongoClient(MONGODB_URI, {
-      serverSelectionTimeoutMS: 5000
+    client = new MongoClient(uri, {
+      serverSelectionTimeoutMS: 8000
     });
     await client.connect();
-    db = client.db(DB_NAME);
-    console.log(`🍃 Connected to MongoDB: ${DB_NAME} (at ${MONGODB_URI})`);
+    db = client.db(dbName);
+    const isAtlas = uri.includes('mongodb+srv://') || uri.includes('mongodb.net');
+    console.log(`🍃 Connected to MongoDB (${isAtlas ? 'MongoDB Atlas Cloud' : 'Local'}): ${db.databaseName}`);
 
     // Seed initial clean records if collections are empty
     await seedInitialData(db);
 
     return db;
   } catch (err) {
-    console.error(`❌ MongoDB connection failed (${MONGODB_URI}):`, err.message);
+    const masked = uri.replace(/\/\/([^:]+):([^@]+)@/, '//***:***@');
+    console.error(`❌ MongoDB connection failed (${masked}):`, err.message);
     return null;
   }
+}
+
+export async function reconnectMongo(newUri) {
+  if (client) {
+    try {
+      await client.close();
+    } catch {}
+    client = null;
+    db = null;
+  }
+  if (newUri) {
+    process.env.MONGODB_URI = newUri.trim();
+  }
+  return connectMongo();
 }
 
 async function seedInitialData(database) {
