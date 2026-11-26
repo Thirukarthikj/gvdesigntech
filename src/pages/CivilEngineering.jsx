@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import {
+  getStoredCourses,
+  saveStoredCourses,
+  subscribeToContentUpdates,
+  courseMatchesDept
+} from '../data/contentPersistence.js';
+import { fetchCoursesFromMongo } from '../services/mongoService.js';
 
 export default function CivilEngineering({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -54,21 +60,31 @@ export default function CivilEngineering({ onOpenModal }) {
     };
   }, []);
 
-  const getCivilCourses = () => {
-    return getStoredCourses().filter(c =>
-      !c.isDiscipline && (
-        (c.department && c.department.toLowerCase().includes('civil')) ||
-        (c.category && c.category.toLowerCase().includes('civil')) ||
-        c.link === '/civil-engineering'
-      )
+  const filterCivilCourses = (list) => {
+    return (list || []).filter(c =>
+      courseMatchesDept(c, 'Civil Engineering & BIM') ||
+      (c.department && c.department.toLowerCase().includes('civil')) ||
+      (c.category && c.category.toLowerCase().includes('civil')) ||
+      c.link === '/civil-engineering'
     );
   };
 
-  const [coursesList, setCoursesList] = useState(getCivilCourses);
+  const [coursesList, setCoursesList] = useState(() => filterCivilCourses(getStoredCourses()));
 
   useEffect(() => {
+    async function loadCourses() {
+      const mongoList = await fetchCoursesFromMongo();
+      if (mongoList && Array.isArray(mongoList) && mongoList.length > 0) {
+        saveStoredCourses(mongoList);
+        setCoursesList(filterCivilCourses(mongoList));
+      } else {
+        setCoursesList(filterCivilCourses(getStoredCourses()));
+      }
+    }
+    loadCourses();
+
     const unsub = subscribeToContentUpdates(() => {
-      setCoursesList(getCivilCourses());
+      setCoursesList(filterCivilCourses(getStoredCourses()));
     });
     return () => unsub();
   }, []);

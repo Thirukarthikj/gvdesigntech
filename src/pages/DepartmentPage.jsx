@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   getStoredCourses,
+  saveStoredCourses,
   getStoredCustomDepartments,
   subscribeToContentUpdates,
   courseMatchesDept,
@@ -10,6 +11,7 @@ import {
   getStoredSiteConfig,
   initialSiteConfig
 } from '../data/contentPersistence.js';
+import { fetchCoursesFromMongo } from '../services/mongoService.js';
 
 export default function DepartmentPage({ onOpenModal }) {
   const { deptSlug } = useParams();
@@ -23,8 +25,17 @@ export default function DepartmentPage({ onOpenModal }) {
   const phoneDigits = (contact.phone || '919655364707').replace(/[^0-9]/g, '');
   const whatsappNumber = phoneDigits.length === 10 ? `91${phoneDigits}` : (phoneDigits || '919655364707');
 
-  // Subscribe to live course updates
+  // Subscribe to live course updates & load from MongoDB
   useEffect(() => {
+    async function loadMongoCourses() {
+      const mongoList = await fetchCoursesFromMongo();
+      if (mongoList && Array.isArray(mongoList) && mongoList.length > 0) {
+        saveStoredCourses(mongoList);
+        setCourses(mongoList);
+      }
+    }
+    loadMongoCourses();
+
     const unsub = subscribeToContentUpdates(() => {
       setCourses(getStoredCourses());
       setCustomDepts(getStoredCustomDepartments());

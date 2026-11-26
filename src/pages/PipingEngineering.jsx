@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import {
+  getStoredCourses,
+  saveStoredCourses,
+  subscribeToContentUpdates,
+  courseMatchesDept
+} from '../data/contentPersistence.js';
+import { fetchCoursesFromMongo } from '../services/mongoService.js';
 
 export default function PipingEngineering({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -70,21 +76,31 @@ export default function PipingEngineering({ onOpenModal }) {
     };
   }, []);
 
-  const getPipingCourses = () => {
-    return getStoredCourses().filter(c =>
-      !c.isDiscipline && (
-        (c.department && c.department.toLowerCase().includes('piping')) ||
-        (c.category && c.category.toLowerCase().includes('piping')) ||
-        c.link === '/piping-engineering'
-      )
+  const filterPipingCourses = (list) => {
+    return (list || []).filter(c =>
+      courseMatchesDept(c, 'Piping Engineering (Oil & Gas)') ||
+      (c.department && c.department.toLowerCase().includes('piping')) ||
+      (c.category && c.category.toLowerCase().includes('piping')) ||
+      c.link === '/piping-engineering'
     );
   };
 
-  const [coursesList, setCoursesList] = useState(getPipingCourses);
+  const [coursesList, setCoursesList] = useState(() => filterPipingCourses(getStoredCourses()));
 
   useEffect(() => {
+    async function loadCourses() {
+      const mongoList = await fetchCoursesFromMongo();
+      if (mongoList && Array.isArray(mongoList) && mongoList.length > 0) {
+        saveStoredCourses(mongoList);
+        setCoursesList(filterPipingCourses(mongoList));
+      } else {
+        setCoursesList(filterPipingCourses(getStoredCourses()));
+      }
+    }
+    loadCourses();
+
     const unsub = subscribeToContentUpdates(() => {
-      setCoursesList(getPipingCourses());
+      setCoursesList(filterPipingCourses(getStoredCourses()));
     });
     return () => unsub();
   }, []);

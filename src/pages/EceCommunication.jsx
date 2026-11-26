@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import {
+  getStoredCourses,
+  saveStoredCourses,
+  subscribeToContentUpdates,
+  courseMatchesDept
+} from '../data/contentPersistence.js';
+import { fetchCoursesFromMongo } from '../services/mongoService.js';
 
 export default function EceCommunication({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -70,21 +76,31 @@ export default function EceCommunication({ onOpenModal }) {
     };
   }, []);
 
-  const getEceCourses = () => {
-    return getStoredCourses().filter(c =>
-      !c.isDiscipline && (
-        (c.department && c.department.toLowerCase().includes('ece')) ||
-        (c.category && c.category.toLowerCase().includes('electronics')) ||
-        c.link === '/ece'
-      )
+  const filterEceCourses = (list) => {
+    return (list || []).filter(c =>
+      courseMatchesDept(c, 'ECE & Embedded Systems') ||
+      (c.department && c.department.toLowerCase().includes('ece')) ||
+      (c.category && c.category.toLowerCase().includes('electronics')) ||
+      c.link === '/ece'
     );
   };
 
-  const [coursesList, setCoursesList] = useState(getEceCourses);
+  const [coursesList, setCoursesList] = useState(() => filterEceCourses(getStoredCourses()));
 
   useEffect(() => {
+    async function loadCourses() {
+      const mongoList = await fetchCoursesFromMongo();
+      if (mongoList && Array.isArray(mongoList) && mongoList.length > 0) {
+        saveStoredCourses(mongoList);
+        setCoursesList(filterEceCourses(mongoList));
+      } else {
+        setCoursesList(filterEceCourses(getStoredCourses()));
+      }
+    }
+    loadCourses();
+
     const unsub = subscribeToContentUpdates(() => {
-      setCoursesList(getEceCourses());
+      setCoursesList(filterEceCourses(getStoredCourses()));
     });
     return () => unsub();
   }, []);

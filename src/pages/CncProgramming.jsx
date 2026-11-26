@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import {
+  getStoredCourses,
+  saveStoredCourses,
+  subscribeToContentUpdates,
+  courseMatchesDept
+} from '../data/contentPersistence.js';
+import { fetchCoursesFromMongo } from '../services/mongoService.js';
 
 export default function CncProgramming({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -70,21 +76,31 @@ export default function CncProgramming({ onOpenModal }) {
     };
   }, []);
 
-  const getCncCourses = () => {
-    return getStoredCourses().filter(c =>
-      !c.isDiscipline && (
-        (c.department && c.department.toLowerCase().includes('cnc')) ||
-        (c.category && c.category.toLowerCase().includes('cnc')) ||
-        c.link === '/cnc-programming'
-      )
+  const filterCncCourses = (list) => {
+    return (list || []).filter(c =>
+      courseMatchesDept(c, 'CNC Programming & CAM') ||
+      (c.department && c.department.toLowerCase().includes('cnc')) ||
+      (c.category && c.category.toLowerCase().includes('cnc')) ||
+      c.link === '/cnc-programming'
     );
   };
 
-  const [coursesList, setCoursesList] = useState(getCncCourses);
+  const [coursesList, setCoursesList] = useState(() => filterCncCourses(getStoredCourses()));
 
   useEffect(() => {
+    async function loadCourses() {
+      const mongoList = await fetchCoursesFromMongo();
+      if (mongoList && Array.isArray(mongoList) && mongoList.length > 0) {
+        saveStoredCourses(mongoList);
+        setCoursesList(filterCncCourses(mongoList));
+      } else {
+        setCoursesList(filterCncCourses(getStoredCourses()));
+      }
+    }
+    loadCourses();
+
     const unsub = subscribeToContentUpdates(() => {
-      setCoursesList(getCncCourses());
+      setCoursesList(filterCncCourses(getStoredCourses()));
     });
     return () => unsub();
   }, []);

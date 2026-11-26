@@ -12,7 +12,13 @@ import {
   slugifyDepartment
 } from '../../data/contentPersistence.js';
 import { uploadImageToCloudinary, compressImageFile } from '../../services/cloudinaryService.js';
-import { fetchCoursesFromMongo, deleteCourseInMongo } from '../../services/mongoService.js';
+import {
+  fetchCoursesFromMongo,
+  createCourseInMongo,
+  updateCourseInMongo,
+  deleteCourseInMongo,
+  syncCoursesToMongo
+} from '../../services/mongoService.js';
 
 export default function AdminCourses() {
   // --- Courses State ---
@@ -292,7 +298,7 @@ export default function AdminCourses() {
     showToast(`Reordered "${temp.title}" in ${deptName}`);
   };
 
-  const handleCourseSubmit = (e) => {
+  const handleCourseSubmit = async (e) => {
     e.preventDefault();
     if (!courseForm.title.trim()) {
       alert('Please enter a course title');
@@ -319,21 +325,27 @@ export default function AdminCourses() {
       : (isCustom ? `/department/${slugifyDepartment(enteredDept)}` : (courseForm.link || '/mechanical'));
 
     if (editingCourse) {
+      const targetId = editingCourse.id || editingCourse._id;
+      const updatedCourse = {
+        ...editingCourse,
+        ...courseForm,
+        department: enteredDept,
+        link: finalLink,
+        category: isCustom ? (courseForm.category || enteredDept) : (courseForm.category || 'Engineering'),
+        updatedAt: new Date().toISOString()
+      };
       const updated = courses.map(c => {
         if ((editingCourse.id && c.id === editingCourse.id) || (editingCourse._id && c._id === editingCourse._id)) {
-          return {
-            ...c,
-            ...courseForm,
-            department: enteredDept,
-            link: finalLink,
-            category: isCustom ? (courseForm.category || enteredDept) : (courseForm.category || 'Engineering'),
-            updatedAt: new Date().toISOString()
-          };
+          return updatedCourse;
         }
         return c;
       });
       setCourses(updated);
       saveStoredCourses(updated);
+      try {
+        await updateCourseInMongo(targetId, updatedCourse);
+        await syncCoursesToMongo(updated);
+      } catch (err) {}
       showToast(`Updated course "${courseForm.title}" in section "${enteredDept}"`);
     } else {
       const newEntry = {
@@ -348,6 +360,10 @@ export default function AdminCourses() {
       const updated = [newEntry, ...courses];
       setCourses(updated);
       saveStoredCourses(updated);
+      try {
+        await createCourseInMongo(newEntry);
+        await syncCoursesToMongo(updated);
+      } catch (err) {}
       showToast(`Added new course "${courseForm.title}" to section "${enteredDept}"!`);
     }
 

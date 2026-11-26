@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import {
+  getStoredCourses,
+  saveStoredCourses,
+  subscribeToContentUpdates,
+  courseMatchesDept
+} from '../data/contentPersistence.js';
+import { fetchCoursesFromMongo } from '../services/mongoService.js';
 
 export default function EeeInstrumentation({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -70,21 +76,31 @@ export default function EeeInstrumentation({ onOpenModal }) {
     };
   }, []);
 
-  const getEeeCourses = () => {
-    return getStoredCourses().filter(c =>
-      !c.isDiscipline && (
-        (c.department && c.department.toLowerCase().includes('eee')) ||
-        (c.category && c.category.toLowerCase().includes('electrical')) ||
-        c.link === '/eee-instrumentation'
-      )
+  const filterEeeCourses = (list) => {
+    return (list || []).filter(c =>
+      courseMatchesDept(c, 'EEE & Automation') ||
+      (c.department && c.department.toLowerCase().includes('eee')) ||
+      (c.category && c.category.toLowerCase().includes('electrical')) ||
+      c.link === '/eee-instrumentation'
     );
   };
 
-  const [coursesList, setCoursesList] = useState(getEeeCourses);
+  const [coursesList, setCoursesList] = useState(() => filterEeeCourses(getStoredCourses()));
 
   useEffect(() => {
+    async function loadCourses() {
+      const mongoList = await fetchCoursesFromMongo();
+      if (mongoList && Array.isArray(mongoList) && mongoList.length > 0) {
+        saveStoredCourses(mongoList);
+        setCoursesList(filterEeeCourses(mongoList));
+      } else {
+        setCoursesList(filterEeeCourses(getStoredCourses()));
+      }
+    }
+    loadCourses();
+
     const unsub = subscribeToContentUpdates(() => {
-      setCoursesList(getEeeCourses());
+      setCoursesList(filterEeeCourses(getStoredCourses()));
     });
     return () => unsub();
   }, []);

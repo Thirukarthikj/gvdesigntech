@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import {
+  getStoredCourses,
+  saveStoredCourses,
+  subscribeToContentUpdates,
+  courseMatchesDept
+} from '../data/contentPersistence.js';
+import { fetchCoursesFromMongo } from '../services/mongoService.js';
 
 export default function ComputerScience({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -70,21 +76,31 @@ export default function ComputerScience({ onOpenModal }) {
     };
   }, []);
 
-  const getCsCourses = () => {
-    return getStoredCourses().filter(c =>
-      !c.isDiscipline && (
-        (c.department && c.department.toLowerCase().includes('computer')) ||
-        (c.category && c.category.toLowerCase().includes('computer')) ||
-        c.link === '/computer-science'
-      )
+  const filterCsCourses = (list) => {
+    return (list || []).filter(c =>
+      courseMatchesDept(c, 'Computer Science & IT') ||
+      (c.department && c.department.toLowerCase().includes('computer')) ||
+      (c.category && c.category.toLowerCase().includes('computer')) ||
+      c.link === '/computer-science'
     );
   };
 
-  const [coursesList, setCoursesList] = useState(getCsCourses);
+  const [coursesList, setCoursesList] = useState(() => filterCsCourses(getStoredCourses()));
 
   useEffect(() => {
+    async function loadCourses() {
+      const mongoList = await fetchCoursesFromMongo();
+      if (mongoList && Array.isArray(mongoList) && mongoList.length > 0) {
+        saveStoredCourses(mongoList);
+        setCoursesList(filterCsCourses(mongoList));
+      } else {
+        setCoursesList(filterCsCourses(getStoredCourses()));
+      }
+    }
+    loadCourses();
+
     const unsub = subscribeToContentUpdates(() => {
-      setCoursesList(getCsCourses());
+      setCoursesList(filterCsCourses(getStoredCourses()));
     });
     return () => unsub();
   }, []);

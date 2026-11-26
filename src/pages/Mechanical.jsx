@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getStoredCourses, subscribeToContentUpdates } from '../data/contentPersistence.js';
+import {
+  getStoredCourses,
+  saveStoredCourses,
+  subscribeToContentUpdates,
+  courseMatchesDept
+} from '../data/contentPersistence.js';
+import { fetchCoursesFromMongo } from '../services/mongoService.js';
 
 export default function Mechanical({ onOpenModal }) {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -73,21 +79,31 @@ export default function Mechanical({ onOpenModal }) {
     };
   }, []);
 
-  const getMechCourses = () => {
-    return getStoredCourses().filter(c =>
-      !c.isDiscipline && (
-        (c.department && c.department.toLowerCase().includes('mech')) ||
-        (c.category && c.category.toLowerCase().includes('mech')) ||
-        c.link === '/mechanical'
-      )
+  const filterMechCourses = (list) => {
+    return (list || []).filter(c =>
+      courseMatchesDept(c, 'Mechanical & Automobile') ||
+      (c.department && c.department.toLowerCase().includes('mech')) ||
+      (c.category && c.category.toLowerCase().includes('mech')) ||
+      c.link === '/mechanical'
     );
   };
 
-  const [coursesList, setCoursesList] = useState(getMechCourses);
+  const [coursesList, setCoursesList] = useState(() => filterMechCourses(getStoredCourses()));
 
   useEffect(() => {
+    async function loadCourses() {
+      const mongoList = await fetchCoursesFromMongo();
+      if (mongoList && Array.isArray(mongoList) && mongoList.length > 0) {
+        saveStoredCourses(mongoList);
+        setCoursesList(filterMechCourses(mongoList));
+      } else {
+        setCoursesList(filterMechCourses(getStoredCourses()));
+      }
+    }
+    loadCourses();
+
     const unsub = subscribeToContentUpdates(() => {
-      setCoursesList(getMechCourses());
+      setCoursesList(filterMechCourses(getStoredCourses()));
     });
     return () => unsub();
   }, []);

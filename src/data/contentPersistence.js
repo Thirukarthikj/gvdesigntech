@@ -627,12 +627,16 @@ export function getStoredCourses() {
   try {
     const raw = localStorage.getItem(COURSE_KEY);
     if (!raw) {
+      if (initialCourses && initialCourses.length > 0) {
+        localStorage.setItem(COURSE_KEY, JSON.stringify(initialCourses));
+        return initialCourses;
+      }
       return [];
     }
     const list = JSON.parse(raw);
-    return Array.isArray(list) ? dedupeCourseList(list) : [];
+    return Array.isArray(list) ? dedupeCourseList(list) : (initialCourses || []);
   } catch {
-    return [];
+    return initialCourses || [];
   }
 }
 
