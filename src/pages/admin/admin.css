@@ -666,6 +666,29 @@ select.admin-input option {
    Comprehensive Mobile & Tablet Responsive Styles
    ========================================================================== */
 @media (max-width: 900px) {
+  /* Header fixed on mobile: always visible on top while scrolling */
+  .admin-header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 58px !important;
+    min-height: 58px !important;
+    z-index: 950 !important;
+    background: rgba(8, 7, 24, 0.98) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7) !important;
+    box-sizing: border-box !important;
+    padding: 8px 14px !important;
+  }
+
+  .admin-main {
+    padding-top: 58px !important;
+  }
+
   .admin-sidebar {
     position: fixed;
     top: 0;
@@ -673,8 +696,11 @@ select.admin-input option {
     left: -290px;
     width: 280px;
     height: 100vh;
-    z-index: 1000;
+    z-index: 1050;
     box-shadow: 12px 0 40px rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
 
   .admin-sidebar.open {
@@ -687,7 +713,14 @@ select.admin-input option {
     inset: 0;
     background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(4px);
-    z-index: 999;
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1040;
+  }
+
+  .admin-nav {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .admin-sidebar-close {
@@ -715,21 +748,25 @@ select.admin-input option {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 9px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    font-size: 18px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    font-size: 20px;
     color: #fff;
     cursor: pointer;
     flex-shrink: 0;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .admin-mobile-toggle:hover {
-    background: rgba(139, 92, 246, 0.2);
-    border-color: rgba(139, 92, 246, 0.4);
+  .admin-mobile-toggle:hover,
+  .admin-mobile-toggle:active {
+    background: rgba(139, 92, 246, 0.3);
+    border-color: rgba(217, 70, 239, 0.6);
+    transform: scale(0.96);
   }
 
   .admin-body {
@@ -738,11 +775,11 @@ select.admin-input option {
 }
 
 @media (max-width: 768px) {
-  /* Header clean layout */
+  /* Header clean layout - strictly pinned at top */
   .admin-header {
-    height: auto;
-    min-height: 58px;
-    padding: 10px 14px;
+    height: 58px !important;
+    min-height: 58px !important;
+    padding: 8px 14px !important;
     gap: 8px;
   }
 
@@ -755,6 +792,7 @@ select.admin-input option {
 
   .admin-header-text {
     min-width: 0;
+    flex: 1;
     overflow: hidden;
   }
 
@@ -765,7 +803,8 @@ select.admin-input option {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 170px;
+    max-width: 100% !important;
+    margin: 0;
   }
 
   /* Subtitle hidden on mobile to prevent ugly multi-line text collisions */
@@ -1104,7 +1143,7 @@ select.admin-input option {
 
 @media (max-width: 480px) {
   .admin-header-title {
-    max-width: 135px;
+    max-width: 100% !important;
     font-size: 14px;
   }
 
