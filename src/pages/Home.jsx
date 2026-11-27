@@ -372,7 +372,12 @@ export default function Home({ onOpenModal }) {
                 {(() => {
                   const activeVideoUrl = siteConfig.aboutVideo?.videoUrl || siteConfig.demoVideo?.videoUrl;
                   const activeTitle = siteConfig.aboutVideo?.title || 'GV DesignTech Academy Showcase';
-                  return isVideoFile(activeVideoUrl) ? (
+                  const isFile = isVideoFile(activeVideoUrl);
+                  const apiFallbackUrl = (activeVideoUrl && activeVideoUrl.startsWith('/assets/videos/'))
+                    ? activeVideoUrl.replace('/assets/videos/', '/api/videos/')
+                    : null;
+
+                  return isFile ? (
                     <video
                       key={activeVideoUrl}
                       controls
@@ -388,10 +393,9 @@ export default function Home({ onOpenModal }) {
                         display: 'block',
                         borderRadius: '18px'
                       }}
-                      src={activeVideoUrl}
                     >
-                      <source src={activeVideoUrl} type="video/mp4" />
-                      <source src={activeVideoUrl} type="video/webm" />
+                      <source src={activeVideoUrl} />
+                      {apiFallbackUrl && <source src={apiFallbackUrl} />}
                       Your browser does not support HTML5 video.
                     </video>
                   ) : (
@@ -902,11 +906,12 @@ export default function Home({ onOpenModal }) {
                     autoPlay
                     playsInline
                     preload="auto"
-                    src={siteConfig.demoVideo.videoUrl}
                     style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                   >
-                    <source src={siteConfig.demoVideo.videoUrl} type="video/mp4" />
-                    <source src={siteConfig.demoVideo.videoUrl} type="video/webm" />
+                    <source src={siteConfig.demoVideo.videoUrl} />
+                    {siteConfig.demoVideo?.videoUrl?.startsWith('/assets/videos/') && (
+                      <source src={siteConfig.demoVideo.videoUrl.replace('/assets/videos/', '/api/videos/')} />
+                    )}
                     Your browser does not support the video tag.
                   </video>
                 ) : (

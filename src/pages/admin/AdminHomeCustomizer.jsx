@@ -959,14 +959,41 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
           </div>
 
           <form onSubmit={(e) => { e.preventDefault(); handleSaveAll(); }}>
-            {/* SOURCE SELECTION: Upload from Device OR Paste URL */}
-            <div style={{ marginBottom: '24px', padding: '20px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '16px' }}>
-              <div style={{ fontSize: '14px', fontWeight: '800', color: '#c084fc', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span>📁</span>
-                <span>OPTION 1: UPLOAD VIDEO FROM YOUR DEVICE</span>
+            {/* MOBILE & DEVICE VIDEO UPLOAD (Option 2 Removed) */}
+            <div style={{
+              marginBottom: '24px',
+              padding: '24px',
+              background: 'radial-gradient(ellipse at top left, rgba(168, 85, 247, 0.12) 0%, rgba(15, 23, 42, 0.95) 100%)',
+              border: '1px solid rgba(168, 85, 247, 0.35)',
+              borderRadius: '18px',
+              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.4)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '10px' }}>
+                <div style={{ fontSize: '15px', fontWeight: '800', color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span>📱</span>
+                  <span>Upload Video from Mobile / Device</span>
+                </div>
+                {config.aboutVideo?.videoUrl && (
+                  <span style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '4px 12px',
+                    borderRadius: '999px',
+                    background: 'rgba(34, 197, 94, 0.15)',
+                    border: '1px solid rgba(34, 197, 94, 0.4)',
+                    color: '#4ade80',
+                    fontSize: '12px',
+                    fontWeight: '700'
+                  }}>
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22c55e' }}></span>
+                    ✓ Video Active on Front Site
+                  </span>
+                )}
               </div>
-              <p style={{ margin: '0 0 14px', fontSize: '13px', color: '#94a3b8' }}>
-                Select an MP4, WebM, or MOV video file directly from your computer or phone for the About section card.
+
+              <p style={{ margin: '0 0 16px', fontSize: '13px', color: '#94a3b8', lineHeight: 1.5 }}>
+                Select an MP4, WebM, or MOV video directly from your mobile gallery or phone files. It will automatically upload, optimize, and display live on the Home page.
               </p>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
@@ -974,20 +1001,20 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '8px',
-                    padding: '12px 22px',
+                    gap: '10px',
+                    padding: '14px 28px',
                     borderRadius: '12px',
-                    background: videoUploading ? 'rgba(255,255,255,0.1)' : 'linear-gradient(135deg, #8b5cf6, #d946ef)',
+                    background: videoUploading ? 'rgba(255,255,255,0.1)' : 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)',
                     color: '#fff',
-                    fontWeight: '700',
+                    fontWeight: '800',
                     fontSize: '14px',
                     cursor: videoUploading ? 'wait' : 'pointer',
-                    boxShadow: '0 8px 20px rgba(139, 92, 246, 0.35)',
-                    transition: 'all 0.2s'
+                    boxShadow: '0 8px 24px rgba(168, 85, 247, 0.4)',
+                    transition: 'all 0.2s ease'
                   }}
                 >
-                  <span>{videoUploading ? '⏳' : '📤'}</span>
-                  <span>{videoUploading ? 'Uploading Video from Device...' : 'Choose Video File from Device'}</span>
+                  <span style={{ fontSize: '18px' }}>{videoUploading ? '⏳' : '📤'}</span>
+                  <span>{videoUploading ? 'Uploading Video from Mobile, Please Wait...' : (config.aboutVideo?.videoUrl ? 'Choose New Video from Mobile' : 'Upload Video from Mobile / Device')}</span>
                   <input
                     type="file"
                     accept="video/mp4,video/webm,video/quicktime,video/ogg,video/x-matroska,video/*"
@@ -1012,7 +1039,7 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                           };
                           setConfig(updated);
                           handleSaveAll(updated);
-                          showToast(res.isCloudinary ? '☁️ Video uploaded to Cloudinary & saved live!' : '✓ Device video uploaded & saved live in About section!');
+                          showToast('✓ Mobile video uploaded and saved live on front site!');
                         }
                       } catch (err) {
                         console.error('Video upload error:', err);
@@ -1030,44 +1057,54 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                   </span>
                 )}
               </div>
-            </div>
 
-            {/* OPTION 2: Paste YouTube / Stream URL */}
-            <div className="admin-form-group" style={{ marginBottom: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <label className="admin-label" style={{ margin: 0 }}>
-                  OPTION 2: Video Embed / Stream URL (or YouTube Link) <span style={{ color: '#d946ef' }}>*</span>
-                </label>
-                {config.aboutVideo?.videoUrl && isVideoFile(config.aboutVideo.videoUrl) && (
-                  <span style={{ fontSize: '11.5px', color: '#4ade80', fontWeight: '700' }}>
-                    ✓ Device Video Loaded
-                  </span>
-                )}
-                {config.aboutVideo?.videoUrl && !isVideoFile(config.aboutVideo.videoUrl) && config.aboutVideo.videoUrl.includes('embed') && (
-                  <span style={{ fontSize: '11.5px', color: '#c084fc', fontWeight: '700' }}>
-                    ✓ YouTube Embed Ready
-                  </span>
-                )}
-              </div>
-
-              <input
-                type="text"
-                className="admin-input"
-                required
-                placeholder="Paste YouTube link (e.g. https://youtu.be/...) or direct MP4 link"
-                value={config.aboutVideo?.videoUrl || ''}
-                onChange={(e) => {
-                  const raw = e.target.value;
-                  const formatted = formatVideoEmbedUrl(raw);
-                  setConfig(prev => ({
-                    ...prev,
-                    aboutVideo: { ...(prev.aboutVideo || {}), videoUrl: formatted }
-                  }));
-                }}
-              />
-              <span style={{ fontSize: '12px', color: '#94a3b8', marginTop: '6px', display: 'block' }}>
-                💡 <strong>YouTube Links Auto-Fixed:</strong> You can paste any YouTube URL (like <code>https://youtu.be/b68HETiNO98?si=...</code> or <code>https://youtube.com/watch?v=...</code>) and it will automatically convert to the working embed format.
-              </span>
+              {/* Active Video Status Details */}
+              {config.aboutVideo?.videoUrl && (
+                <div style={{
+                  marginTop: '16px',
+                  padding: '12px 16px',
+                  background: 'rgba(0, 0, 0, 0.4)',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                  gap: '10px'
+                }}>
+                  <div style={{ fontSize: '12px', color: '#cbd5e1', wordBreak: 'break-all' }}>
+                    <span style={{ color: '#94a3b8' }}>Current Video Source: </span>
+                    <strong style={{ color: '#e2e8f0' }}>{config.aboutVideo.videoUrl}</strong>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (window.confirm('Reset About video to default?')) {
+                        const updated = {
+                          ...config,
+                          aboutVideo: { ...config.aboutVideo, videoUrl: initialSiteConfig.aboutVideo.videoUrl }
+                        };
+                        setConfig(updated);
+                        handleSaveAll(updated);
+                        setVideoFileInfo('');
+                        showToast('Video reset to default');
+                      }
+                    }}
+                    style={{
+                      padding: '4px 10px',
+                      background: 'rgba(239, 68, 68, 0.15)',
+                      border: '1px solid rgba(239, 68, 68, 0.3)',
+                      color: '#f87171',
+                      borderRadius: '6px',
+                      fontSize: '11px',
+                      fontWeight: '700',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Reset Video
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="admin-form-group" style={{ marginBottom: '20px' }}>

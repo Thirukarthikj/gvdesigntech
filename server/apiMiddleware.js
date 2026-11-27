@@ -987,28 +987,72 @@ apiRouter.post('/settings/mongodb', async (req, res) => {
 /* ==========================================
    14. Direct Video Upload & Streaming Handler
    ========================================== */
-apiRouter.get('/videos/:filename', async (req, res) => {
+export function handleVideoStream(filePath, buffer, mimeType, req, res) {
+  const fileSize = filePath ? fs.statSync(filePath).size : buffer.length;
+  const range = req.headers.range;
+
+  if (range) {
+    const parts = range.replace(/bytes=/, '').split('-');
+    const start = parseInt(parts[0], 10);
+    const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+
+    if (start >= fileSize) {
+      res.status(416).setHeader('Content-Range', `bytes */${fileSize}`).end();
+      return;
+    }
+
+    const chunksize = (end - start) + 1;
+    res.writeHead(206, {
+      'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+      'Accept-Ranges': 'bytes',
+      'Content-Length': chunksize,
+      'Content-Type': mimeType || 'video/mp4'
+    });
+
+    if (filePath) {
+      fs.createReadStream(filePath, { start, end }).pipe(res);
+    } else {
+      res.end(buffer.slice(start, end + 1));
+    }
+  } else {
+    res.writeHead(200, {
+      'Content-Length': fileSize,
+      'Accept-Ranges': 'bytes',
+      'Content-Type': mimeType || 'video/mp4'
+    });
+    if (filePath) {
+      fs.createReadStream(filePath).pipe(res);
+    } else {
+      res.end(buffer);
+    }
+  }
+}
+
+export async function serveVideoHandler(req, res) {
   try {
-    const { filename } = req.params;
+    const filename = req.params.filename || path.basename(req.path);
     const localPath = path.resolve(process.cwd(), 'public', 'assets', 'videos', filename);
+    const ext = path.extname(filename).toLowerCase();
+    const mime = ext === '.webm' ? 'video/webm' : (ext === '.mov' ? 'video/quicktime' : 'video/mp4');
+
     if (fs.existsSync(localPath)) {
-      return res.sendFile(localPath);
+      return handleVideoStream(localPath, null, mime, req, res);
     }
     if (req.db) {
       const doc = await req.db.collection('media_videos').findOne({ _id: filename });
       if (doc && doc.data) {
         const buffer = Buffer.from(doc.data, 'base64');
-        res.setHeader('Content-Type', doc.mimeType || 'video/mp4');
-        res.setHeader('Content-Length', buffer.length);
-        res.setHeader('Accept-Ranges', 'bytes');
-        return res.end(buffer);
+        return handleVideoStream(null, buffer, doc.mimeType || mime, req, res);
       }
     }
     res.status(404).send('Video not found');
   } catch (err) {
     res.status(500).send(err.message);
   }
-});
+}
+
+apiRouter.get('/videos/:filename', serveVideoHandler);
+apiRouter.get('/assets/videos/:filename', serveVideoHandler);
 
 apiRouter.post('/upload-video', async (req, res) => {
   try {
