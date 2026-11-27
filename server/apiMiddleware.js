@@ -985,11 +985,34 @@ apiRouter.post('/settings/mongodb', async (req, res) => {
 });
 
 /* ==========================================
-   14. Direct Video Upload Handler
+   14. Direct Video Upload & Streaming Handler
    ========================================== */
+apiRouter.get('/videos/:filename', async (req, res) => {
+  try {
+    const { filename } = req.params;
+    const localPath = path.resolve(process.cwd(), 'public', 'assets', 'videos', filename);
+    if (fs.existsSync(localPath)) {
+      return res.sendFile(localPath);
+    }
+    if (req.db) {
+      const doc = await req.db.collection('media_videos').findOne({ _id: filename });
+      if (doc && doc.data) {
+        const buffer = Buffer.from(doc.data, 'base64');
+        res.setHeader('Content-Type', doc.mimeType || 'video/mp4');
+        res.setHeader('Content-Length', buffer.length);
+        res.setHeader('Accept-Ranges', 'bytes');
+        return res.end(buffer);
+      }
+    }
+    res.status(404).send('Video not found');
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 apiRouter.post('/upload-video', async (req, res) => {
   try {
-    const { data, filename } = req.body;
+    const { data, filename, mimeType } = req.body;
     if (!data) return res.status(400).json({ error: 'No video payload provided.' });
 
     const uploadsDir = path.resolve(process.cwd(), 'public', 'assets', 'videos');
@@ -1004,8 +1027,24 @@ apiRouter.post('/upload-video', async (req, res) => {
     const base64Data = data.replace(/^data:[^;]+;base64,/, '');
     fs.writeFileSync(filePath, Buffer.from(base64Data, 'base64'));
 
+    if (req.db) {
+      await req.db.collection('media_videos').updateOne(
+        { _id: safeName },
+        {
+          $set: {
+            _id: safeName,
+            filename: safeName,
+            mimeType: mimeType || (ext === '.webm' ? 'video/webm' : 'video/mp4'),
+            data: base64Data,
+            createdAt: new Date().toISOString()
+          }
+        },
+        { upsert: true }
+      ).catch(e => console.warn('MongoDB media_videos save notice:', e.message));
+    }
+
     const publicUrl = `/assets/videos/${safeName}`;
-    res.json({ success: true, url: publicUrl });
+    res.json({ success: true, url: publicUrl, filename: safeName });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

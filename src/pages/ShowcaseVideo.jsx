@@ -7,6 +7,27 @@ export default function ShowcaseVideo() {
   const [siteConfig, setSiteConfig] = useState(() => getStoredSiteConfig());
 
   useEffect(() => {
+    fetch('/api/site-config')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data && typeof data === 'object') {
+          const current = getStoredSiteConfig();
+          const merged = {
+            ...current,
+            ...data,
+            demoVideo: {
+              ...(current.demoVideo || {}),
+              ...(data.demoVideo || {})
+            }
+          };
+          setSiteConfig(merged);
+          try {
+            localStorage.setItem('gv_site_config', JSON.stringify(merged));
+          } catch {}
+        }
+      })
+      .catch(() => {});
+
     return subscribeToContentUpdates(() => {
       setSiteConfig(getStoredSiteConfig());
     });
@@ -31,13 +52,20 @@ export default function ShowcaseVideo() {
         <div style={{ width: '100%', height: '480px', borderRadius: '24px', overflow: 'hidden', background: '#000', border: '1px solid rgba(217, 70, 239, 0.4)', boxShadow: '0 20px 60px rgba(0,0,0,0.7)', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {isVideoFile(video.videoUrl) ? (
             <video
+              key={video.videoUrl}
               controls
               playsInline
+              preload="auto"
               src={video.videoUrl}
               style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-            />
+            >
+              <source src={video.videoUrl} type="video/mp4" />
+              <source src={video.videoUrl} type="video/webm" />
+              Your browser does not support the video tag.
+            </video>
           ) : (
             <iframe
+              key={video.videoUrl}
               width="100%"
               height="100%"
               src={formatVideoEmbedUrl(video.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A')}

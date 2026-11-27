@@ -275,7 +275,8 @@ export async function syncWithMongo() {
         ...initialSiteConfig,
         ...siteConfigRes.value,
         contactInfo: { ...initialSiteConfig.contactInfo, ...(siteConfigRes.value.contactInfo || {}) },
-        socialLinks: { ...initialSiteConfig.socialLinks, ...(siteConfigRes.value.socialLinks || {}) }
+        socialLinks: { ...initialSiteConfig.socialLinks, ...(siteConfigRes.value.socialLinks || {}) },
+        demoVideo: { ...initialSiteConfig.demoVideo, ...(siteConfigRes.value.demoVideo || {}) }
       };
       localStorage.setItem(SITE_CONFIG_KEY, JSON.stringify(mergedConfig));
       changed = true;
@@ -734,7 +735,9 @@ export function getStoredSiteConfig() {
       demoVideo: {
         ...initialSiteConfig.demoVideo,
         ...(parsed.demoVideo || {}),
-        videoUrl: formatVideoEmbedUrl(parsed.demoVideo?.videoUrl || initialSiteConfig.demoVideo.videoUrl)
+        videoUrl: isVideoFile(parsed.demoVideo?.videoUrl)
+          ? (parsed.demoVideo?.videoUrl || '').trim()
+          : formatVideoEmbedUrl(parsed.demoVideo?.videoUrl || initialSiteConfig.demoVideo.videoUrl)
       },
       recentActivity: {
         ...initialSiteConfig.recentActivity,
@@ -766,7 +769,9 @@ export function saveStoredSiteConfig(config) {
     ...config,
     demoVideo: config.demoVideo ? {
       ...config.demoVideo,
-      videoUrl: formatVideoEmbedUrl(config.demoVideo.videoUrl || '')
+      videoUrl: isVideoFile(config.demoVideo.videoUrl)
+        ? (config.demoVideo.videoUrl || '').trim()
+        : formatVideoEmbedUrl(config.demoVideo.videoUrl || '')
     } : config.demoVideo
   } : config;
 
@@ -774,7 +779,8 @@ export function saveStoredSiteConfig(config) {
     localStorage.setItem(SITE_CONFIG_KEY, JSON.stringify(sanitizedConfig));
     notifyContentUpdate('site_config');
   } catch (err) {
-    console.error('Failed to save Site Config to localStorage:', err);
+    console.warn('Failed to save Site Config to localStorage (possibly quota exceeded):', err.message);
+    notifyContentUpdate('site_config');
   }
 
   // Persist directly to MongoDB

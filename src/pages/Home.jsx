@@ -34,6 +34,28 @@ export default function Home({ onOpenModal }) {
   });
 
   useEffect(() => {
+    // Fetch latest site config from MongoDB on mount to guarantee fresh live sync across devices
+    fetch('/api/site-config')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data && typeof data === 'object') {
+          const current = getStoredSiteConfig();
+          const merged = {
+            ...current,
+            ...data,
+            demoVideo: {
+              ...(current.demoVideo || {}),
+              ...(data.demoVideo || {})
+            }
+          };
+          setSiteConfig(merged);
+          try {
+            localStorage.setItem('gv_site_config', JSON.stringify(merged));
+          } catch {}
+        }
+      })
+      .catch(() => {});
+
     return subscribeToContentUpdates(() => {
       setLeaders(getStoredLeaders());
       setMous(getStoredMous());
@@ -266,9 +288,9 @@ export default function Home({ onOpenModal }) {
                   type="button"
                   className={P['btn-secondary']}
                   onClick={() => setIsVideoModalOpen(true)}
-                  style={{ border: '1px solid rgba(255,255,255,0.18)', font: 'inherit', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                  style={{ border: '1px solid rgba(255,255,255,0.18)', font: 'inherit', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
                 >
-                  Watch Demo
+                  <span style={{ color: '#d946ef', fontSize: '13px' }}>▶</span> Watch Demo
                 </button>
               </div>
             </div>
@@ -848,14 +870,21 @@ export default function Home({ onOpenModal }) {
               <div style={{ width: '100%', height: '480px', borderRadius: '16px', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {isVideoFile(siteConfig.demoVideo?.videoUrl) ? (
                   <video
+                    key={siteConfig.demoVideo?.videoUrl}
                     controls
                     autoPlay
                     playsInline
+                    preload="auto"
                     src={siteConfig.demoVideo.videoUrl}
                     style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                  />
+                  >
+                    <source src={siteConfig.demoVideo.videoUrl} type="video/mp4" />
+                    <source src={siteConfig.demoVideo.videoUrl} type="video/webm" />
+                    Your browser does not support the video tag.
+                  </video>
                 ) : (
                   <iframe
+                    key={siteConfig.demoVideo?.videoUrl}
                     width="100%"
                     height="100%"
                     src={formatVideoEmbedUrl(siteConfig.demoVideo?.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A')}

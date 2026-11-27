@@ -630,11 +630,13 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                         showToast('⏳ Uploading video from device, please wait...');
                         const res = await uploadVideoToCloudinary(file, { folder: 'gvdesigntech/videos' });
                         if (res && res.url) {
-                          setConfig(prev => ({
-                            ...prev,
-                            demoVideo: { ...prev.demoVideo, videoUrl: res.url }
-                          }));
-                          showToast(res.isCloudinary ? '☁️ Video uploaded to Cloudinary CDN!' : '✓ Video uploaded successfully!');
+                          const updated = {
+                            ...config,
+                            demoVideo: { ...config.demoVideo, videoUrl: res.url }
+                          };
+                          setConfig(updated);
+                          handleSaveAll(updated);
+                          showToast(res.isCloudinary ? '☁️ Video uploaded to Cloudinary & saved live!' : '✓ Device video uploaded & saved live across website!');
                         }
                       } catch (err) {
                         console.error('Video upload error:', err);
@@ -732,13 +734,19 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
               <div style={{ width: '100%', height: '380px', borderRadius: '12px', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {isVideoFile(config.demoVideo?.videoUrl) ? (
                   <video
+                    key={config.demoVideo?.videoUrl}
                     controls
                     playsInline
+                    preload="metadata"
                     src={config.demoVideo.videoUrl}
                     style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                  />
+                  >
+                    <source src={config.demoVideo.videoUrl} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
                 ) : (
                   <iframe
+                    key={config.demoVideo?.videoUrl}
                     width="100%"
                     height="100%"
                     src={formatVideoEmbedUrl(config.demoVideo?.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A')}

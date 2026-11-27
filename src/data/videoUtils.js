@@ -8,13 +8,10 @@ export function isVideoFile(url) {
   const trimmed = url.trim();
   const lower = trimmed.toLowerCase();
   return (
-    lower.endsWith('.mp4') ||
-    lower.endsWith('.webm') ||
-    lower.endsWith('.mov') ||
-    lower.endsWith('.ogg') ||
-    lower.endsWith('.m4v') ||
-    lower.endsWith('.mkv') ||
+    /\.(mp4|webm|mov|ogg|m4v|mkv|avi|flv)($|[?#])/i.test(trimmed) ||
     lower.includes('/video/upload/') ||
+    lower.includes('/assets/videos/') ||
+    lower.includes('/api/videos/') ||
     lower.startsWith('blob:') ||
     lower.startsWith('data:video/')
   );
