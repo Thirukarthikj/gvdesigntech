@@ -295,7 +295,7 @@ export default function SkillTest() {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Karthik Raj"
+                  placeholder="e.g. Gokul Prasath"
                   value={candidate.name}
                   onChange={(e) => setCandidate({ ...candidate, name: e.target.value })}
                   style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.15)', borderRadius: '12px', color: '#fff', fontSize: '14.5px', outline: 'none', boxSizing: 'border-box' }}
@@ -310,7 +310,7 @@ export default function SkillTest() {
                   <input
                     type="email"
                     required
-                    placeholder="karthik@example.com"
+                    placeholder="gokul.prasath@example.com"
                     value={candidate.email}
                     onChange={(e) => setCandidate({ ...candidate, email: e.target.value })}
                     style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.15)', borderRadius: '12px', color: '#fff', fontSize: '14.5px', outline: 'none', boxSizing: 'border-box' }}

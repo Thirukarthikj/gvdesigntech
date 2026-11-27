@@ -404,7 +404,7 @@ export default function AdminEnrollments() {
                   type="text"
                   className="admin-input"
                   required
-                  placeholder="e.g. Anandha Kumar"
+                  placeholder="e.g. Gokul Prasath"
                   value={newLeadForm.name}
                   onChange={(e) => setNewLeadForm({ ...newLeadForm, name: e.target.value })}
                 />
@@ -428,7 +428,7 @@ export default function AdminEnrollments() {
                   <input
                     type="email"
                     className="admin-input"
-                    placeholder="student@gmail.com"
+                    placeholder="gokul.prasath@gmail.com"
                     value={newLeadForm.email}
                     onChange={(e) => setNewLeadForm({ ...newLeadForm, email: e.target.value })}
                   />

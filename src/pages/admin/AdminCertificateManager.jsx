@@ -479,7 +479,7 @@ export default function AdminCertificateManager() {
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Karthik Raja"
+                    placeholder="e.g. Gokul Prasath"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     style={{

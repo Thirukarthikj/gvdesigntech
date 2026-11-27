@@ -447,7 +447,7 @@ export default function AdminPlacementManager() {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Karthik Raja"
+                  placeholder="e.g. Gokul Prasath"
                   value={storyForm.name}
                   onChange={(e) => setStoryForm({ ...storyForm, name: e.target.value })}
                   style={{

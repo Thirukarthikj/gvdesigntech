@@ -294,7 +294,7 @@ export default function ContactUs() {
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Karthik Raj"
+                    placeholder="e.g. Gokul Prasath"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(139,92,246,0.3)', color: '#fff', fontSize: '14.5px', outline: 'none' }}
@@ -307,7 +307,7 @@ export default function ContactUs() {
                     <input
                       type="email"
                       required
-                      placeholder="karthik@example.com"
+                      placeholder="gokul.prasath@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(139,92,246,0.3)', color: '#fff', fontSize: '14.5px', outline: 'none' }}
