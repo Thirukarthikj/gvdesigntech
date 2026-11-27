@@ -43,8 +43,20 @@ export const initialSiteConfig = {
   demoVideo: {
     videoUrl: 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A',
     title: 'Watch How We Shape the Future of CAD & Engineering Design Education',
-    description: 'Take a guided virtual tour through our state-of-the-art CAD workstations, hands-on 3D printing & prototyping labs, BIM coordination studios, and placement training sessions at GV DesignTech.'
+    description: 'Take a guided virtual tour through our state-of-the-art CAD workstations, hands-on 3D printing & prototyping labs, BIM coordination studios, and placement training sessions at GV DesignTech.',
+    tag: 'Campus Tour',
+    isFeatured: true
   },
+  videoList: [
+    {
+      id: 'video-1',
+      videoUrl: 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A',
+      title: 'Watch How We Shape the Future of CAD & Engineering Design Education',
+      description: 'Take a guided virtual tour through our state-of-the-art CAD workstations, hands-on 3D printing & prototyping labs, BIM coordination studios, and placement training sessions at GV DesignTech.',
+      tag: 'Campus Tour',
+      isFeatured: true
+    }
+  ],
   recentActivity: {
     badge: 'NEW',
     title: 'Recent Activities',
@@ -271,12 +283,27 @@ export async function syncWithMongo() {
       changed = true;
     }
     if (siteConfigRes.status === 'fulfilled' && siteConfigRes.value && typeof siteConfigRes.value === 'object') {
+      const activeDemo = { ...initialSiteConfig.demoVideo, ...(siteConfigRes.value.demoVideo || {}) };
+      const rawVideoList = (Array.isArray(siteConfigRes.value.videoList) && siteConfigRes.value.videoList.length > 0)
+        ? siteConfigRes.value.videoList
+        : [
+            {
+              id: 'video-mongo-featured',
+              videoUrl: activeDemo.videoUrl,
+              title: activeDemo.title,
+              description: activeDemo.description,
+              tag: activeDemo.tag || 'Campus Tour',
+              isFeatured: true
+            }
+          ];
+
       const mergedConfig = {
         ...initialSiteConfig,
         ...siteConfigRes.value,
         contactInfo: { ...initialSiteConfig.contactInfo, ...(siteConfigRes.value.contactInfo || {}) },
         socialLinks: { ...initialSiteConfig.socialLinks, ...(siteConfigRes.value.socialLinks || {}) },
-        demoVideo: { ...initialSiteConfig.demoVideo, ...(siteConfigRes.value.demoVideo || {}) }
+        demoVideo: activeDemo,
+        videoList: rawVideoList
       };
       localStorage.setItem(SITE_CONFIG_KEY, JSON.stringify(mergedConfig));
       changed = true;
@@ -739,6 +766,23 @@ export function getStoredSiteConfig() {
           ? (parsed.demoVideo?.videoUrl || '').trim()
           : formatVideoEmbedUrl(parsed.demoVideo?.videoUrl || initialSiteConfig.demoVideo.videoUrl)
       },
+      videoList: (Array.isArray(parsed.videoList) && parsed.videoList.length > 0)
+        ? parsed.videoList.map(v => ({
+            ...v,
+            videoUrl: isVideoFile(v.videoUrl) ? (v.videoUrl || '').trim() : formatVideoEmbedUrl(v.videoUrl || '')
+          }))
+        : [
+            {
+              id: 'video-default',
+              videoUrl: isVideoFile(parsed.demoVideo?.videoUrl)
+                ? (parsed.demoVideo?.videoUrl || '').trim()
+                : formatVideoEmbedUrl(parsed.demoVideo?.videoUrl || initialSiteConfig.demoVideo.videoUrl),
+              title: parsed.demoVideo?.title || initialSiteConfig.demoVideo.title,
+              description: parsed.demoVideo?.description || initialSiteConfig.demoVideo.description,
+              tag: 'Campus Tour',
+              isFeatured: true
+            }
+          ],
       recentActivity: {
         ...initialSiteConfig.recentActivity,
         ...(parsed.recentActivity || {}),
@@ -772,7 +816,13 @@ export function saveStoredSiteConfig(config) {
       videoUrl: isVideoFile(config.demoVideo.videoUrl)
         ? (config.demoVideo.videoUrl || '').trim()
         : formatVideoEmbedUrl(config.demoVideo.videoUrl || '')
-    } : config.demoVideo
+    } : config.demoVideo,
+    videoList: Array.isArray(config.videoList) ? config.videoList.map(v => ({
+      ...v,
+      videoUrl: isVideoFile(v.videoUrl)
+        ? (v.videoUrl || '').trim()
+        : formatVideoEmbedUrl(v.videoUrl || '')
+    })) : config.videoList
   } : config;
 
   try {
