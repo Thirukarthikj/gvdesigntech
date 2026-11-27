@@ -125,7 +125,12 @@ export default function Navbar() {
     };
   }, [location.pathname]);
 
+  const isDesktop = () => {
+    return typeof window !== 'undefined' && window.innerWidth > 1080;
+  };
+
   const handleMouseEnter = (name) => {
+    if (!isDesktop()) return;
     if (closeTimerRef.current) {
       clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
@@ -134,6 +139,7 @@ export default function Navbar() {
   };
 
   const handleMouseLeave = () => {
+    if (!isDesktop()) return;
     if (closeTimerRef.current) {
       clearTimeout(closeTimerRef.current);
     }
@@ -143,12 +149,15 @@ export default function Navbar() {
   };
 
   const toggleDropdown = (name, e) => {
-    e.stopPropagation();
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      if (typeof e.stopPropagation === 'function') e.stopPropagation();
+    }
     if (closeTimerRef.current) {
       clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
-    setActiveDropdown(prev => prev === name ? null : name);
+    setActiveDropdown(prev => (prev === name ? null : name));
   };
 
   const closeAll = () => {
