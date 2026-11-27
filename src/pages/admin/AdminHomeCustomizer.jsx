@@ -710,6 +710,40 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
             </span>
           </div>
 
+          {/* Quick Notice to About Card Video */}
+          <div style={{
+            marginBottom: '20px',
+            padding: '12px 18px',
+            background: 'rgba(139, 92, 246, 0.1)',
+            border: '1px solid rgba(139, 92, 246, 0.3)',
+            borderRadius: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '10px'
+          }}>
+            <div style={{ fontSize: '13px', color: '#cbd5e1' }}>
+              ℹ️ Looking to edit the <strong>About Us Video &amp; "3D 5-AXIS VMC MACHINING CENTER" Top Badge Tag</strong>?
+            </div>
+            <Link
+              to="/admin/about-video"
+              onClick={() => setTabOverride('aboutVideo')}
+              style={{
+                fontSize: '12px',
+                fontWeight: '700',
+                color: '#c084fc',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
+            >
+              <span>Go to Home About Video Form</span>
+              <span>→</span>
+            </Link>
+          </div>
+
           <form onSubmit={(e) => { e.preventDefault(); handleSaveAll(); }}>
             {/* SOURCE SELECTION: Upload from Device OR Paste URL */}
             <div style={{ marginBottom: '24px', padding: '20px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '16px' }}>
@@ -1036,18 +1070,42 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
               </span>
             </div>
 
-            <div className="admin-form-group">
-              <label className="admin-label">Top Badge Tag (Display Above Video)</label>
+            <div className="admin-form-group" style={{ marginBottom: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
+                <label className="admin-label" style={{ margin: 0 }}>
+                  Top Badge Tag / Pill (Shown on Top Right of Video Card)
+                </label>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  background: 'rgba(139, 92, 246, 0.25)',
+                  border: '1px solid rgba(167, 139, 250, 0.4)',
+                  padding: '4px 12px',
+                  borderRadius: '999px',
+                  fontSize: '11px',
+                  color: '#c084fc',
+                  fontWeight: '700',
+                  letterSpacing: '0.8px',
+                  textTransform: 'uppercase'
+                }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 6px #22c55e' }}></span>
+                  <span>{config.aboutVideo?.tag !== undefined ? (config.aboutVideo.tag || '3D 5-AXIS VMC MACHINING CENTER') : '3D 5-AXIS VMC MACHINING CENTER'}</span>
+                </div>
+              </div>
               <input
                 type="text"
                 className="admin-input"
                 placeholder="e.g. 3D 5-AXIS VMC MACHINING CENTER"
-                value={config.aboutVideo?.tag || ''}
+                value={config.aboutVideo?.tag !== undefined ? config.aboutVideo.tag : '3D 5-AXIS VMC MACHINING CENTER'}
                 onChange={(e) => setConfig({
                   ...config,
                   aboutVideo: { ...(config.aboutVideo || {}), tag: e.target.value }
                 })}
               />
+              <span style={{ fontSize: '12px', color: '#94a3b8', marginTop: '6px', display: 'block' }}>
+                Edit the top badge text displayed above the video on the Home page (e.g. <code>3D 5-AXIS VMC MACHINING CENTER</code>).
+              </span>
             </div>
 
             <div className="admin-form-group">
@@ -1075,7 +1133,45 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                 </span>
               </div>
 
-              <div style={{ width: '100%', height: '380px', borderRadius: '12px', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{
+                position: 'relative',
+                width: '100%',
+                height: '380px',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                background: '#000',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                {/* Live Badge Preview matching Home Page visual */}
+                {(config.aboutVideo?.tag !== '' && (config.aboutVideo?.tag || '3D 5-AXIS VMC MACHINING CENTER')) && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '16px',
+                    right: '16px',
+                    background: 'rgba(139, 92, 246, 0.3)',
+                    border: '1px solid rgba(167, 139, 250, 0.45)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    color: '#c084fc',
+                    fontSize: '11px',
+                    fontWeight: '700',
+                    letterSpacing: '0.8px',
+                    padding: '6px 14px',
+                    borderRadius: '999px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '7px',
+                    zIndex: 10,
+                    textTransform: 'uppercase',
+                    boxShadow: '0 4px 14px rgba(0,0,0,0.4)',
+                    pointerEvents: 'none'
+                  }}>
+                    <span style={{ width: '7px', height: '7px', background: '#22c55e', borderRadius: '50%', boxShadow: '0 0 8px #22c55e' }}></span>
+                    <span>{config.aboutVideo?.tag || '3D 5-AXIS VMC MACHINING CENTER'}</span>
+                  </div>
+                )}
                 {isVideoFile(config.aboutVideo?.videoUrl) ? (
                   <video
                     key={config.aboutVideo?.videoUrl}

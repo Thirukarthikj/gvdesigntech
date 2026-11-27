@@ -340,18 +340,14 @@ export default function Home({ onOpenModal }) {
             >
               <div className={`${P['about-blob']} ${P.ab1}`}></div>
               <div className={`${P['about-blob']} ${P.ab2}`}></div>
-              <div className={P['client-bubbles']} style={{ zIndex: 3 }}>
-                <div className={P['c-avatar']}>AR</div>
-                <div className={P['c-avatar']}>SK</div>
-                <div className={P['c-avatar']}>MV</div>
-                <div className={P['c-avatar']}>+</div>
-              </div>
 
-              {/* Live Showcase Video Tag */}
-              <div className="cad-badge-tag">
-                <span className="cad-badge-dot" style={{ background: '#22c55e', boxShadow: '0 0 10px #22c55e' }}></span>
-                <span>{(siteConfig.aboutVideo?.tag || siteConfig.aboutVideo?.title) || '3D 5-AXIS VMC MACHINING CENTER'}</span>
-              </div>
+              {/* Live Showcase Video Top Badge Tag (Editable via Admin Panel Video Form) */}
+              {(siteConfig.aboutVideo?.tag !== '' && (siteConfig.aboutVideo?.tag || '3D 5-AXIS VMC MACHINING CENTER')) && (
+                <div className="cad-badge-tag">
+                  <span className="cad-badge-dot" style={{ background: '#22c55e', boxShadow: '0 0 10px #22c55e' }}></span>
+                  <span>{siteConfig.aboutVideo?.tag || '3D 5-AXIS VMC MACHINING CENTER'}</span>
+                </div>
+              )}
 
               {/* Video Player Display (Admin Dedicated About Section Video) */}
               <div
