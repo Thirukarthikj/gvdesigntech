@@ -822,26 +822,63 @@ export function saveStoredSiteConfig(config) {
     } : config.aboutVideo
   } : config;
 
+  // Protect localStorage from QuotaExceededError by stripping large base64 video payloads
+  let localSafeConfig = sanitizedConfig;
+  if (
+    sanitizedConfig?.demoVideo?.videoUrl?.startsWith('data:video/') ||
+    sanitizedConfig?.aboutVideo?.videoUrl?.startsWith('data:video/')
+  ) {
+    localSafeConfig = {
+      ...sanitizedConfig,
+      demoVideo: sanitizedConfig.demoVideo ? {
+        ...sanitizedConfig.demoVideo,
+        videoUrl: sanitizedConfig.demoVideo.videoUrl.startsWith('data:video/')
+          ? 'indexeddb://demoVideo'
+          : sanitizedConfig.demoVideo.videoUrl
+      } : sanitizedConfig.demoVideo,
+      aboutVideo: sanitizedConfig.aboutVideo ? {
+        ...sanitizedConfig.aboutVideo,
+        videoUrl: sanitizedConfig.aboutVideo.videoUrl.startsWith('data:video/')
+          ? 'indexeddb://aboutVideo'
+          : sanitizedConfig.aboutVideo.videoUrl
+      } : sanitizedConfig.aboutVideo
+    };
+  }
+
   try {
-    localStorage.setItem(SITE_CONFIG_KEY, JSON.stringify(sanitizedConfig));
+    localStorage.setItem(SITE_CONFIG_KEY, JSON.stringify(localSafeConfig));
     notifyContentUpdate('site_config');
   } catch (err) {
     console.warn('Failed to save Site Config to localStorage (possibly quota exceeded):', err.message);
     notifyContentUpdate('site_config');
   }
 
-  // Persist directly to MongoDB
+  // Persist directly to MongoDB and sync back clean short URLs
   try {
     fetch('/api/site-config', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(sanitizedConfig)
-    }).catch(e => console.warn('MongoDB Site Config sync:', e.message));
+    })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && typeof data === 'object') {
+          try {
+            const current = getStoredSiteConfig();
+            const merged = { ...current, ...data };
+            localStorage.setItem(SITE_CONFIG_KEY, JSON.stringify(merged));
+            notifyContentUpdate('site_config');
+          } catch {}
+        }
+      })
+      .catch(e => console.warn('MongoDB Site Config sync:', e.message));
   } catch (e) {}
 
-  // Cloud firestore sync
+  // Cloud firestore sync (only if payload is small enough for Firestore's 1MB limit)
   try {
-    syncToFirestore('site_config', sanitizedConfig);
+    if (JSON.stringify(localSafeConfig).length < 800000) {
+      syncToFirestore('site_config', localSafeConfig);
+    }
   } catch {}
 }
 

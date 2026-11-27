@@ -654,8 +654,43 @@ apiRouter.delete('/internship-programs/:id', async (req, res) => {
    ========================================== */
 apiRouter.get('/site-config', async (req, res) => {
   try {
-    const config = await req.db.collection('site_config').findOne({ _id: 'main' });
-    res.json(config || null);
+    const db = req.db || await connectMongo();
+    if (!db) return res.status(503).json({ error: 'Database service unavailable' });
+    const config = await db.collection('site_config').findOne({ _id: 'main' });
+    if (!config) return res.json(null);
+
+    // Auto-migrate inline base64 demoVideo / aboutVideo to media_videos collection to eliminate payload bloat
+    let modified = false;
+    if (config.demoVideo?.videoUrl?.startsWith('data:video/')) {
+      const safeName = 'demo-hero.mp4';
+      const base64Data = config.demoVideo.videoUrl.replace(/^data:[^;]+;base64,/, '');
+      await db.collection('media_videos').updateOne(
+        { _id: safeName },
+        { $set: { _id: safeName, filename: safeName, mimeType: 'video/mp4', data: base64Data, updatedAt: new Date().toISOString() } },
+        { upsert: true }
+      ).catch(() => {});
+      config.demoVideo.videoUrl = `/api/videos/${safeName}`;
+      modified = true;
+    }
+    if (config.aboutVideo?.videoUrl?.startsWith('data:video/')) {
+      const safeName = 'about-showcase.mp4';
+      const base64Data = config.aboutVideo.videoUrl.replace(/^data:[^;]+;base64,/, '');
+      await db.collection('media_videos').updateOne(
+        { _id: safeName },
+        { $set: { _id: safeName, filename: safeName, mimeType: 'video/mp4', data: base64Data, updatedAt: new Date().toISOString() } },
+        { upsert: true }
+      ).catch(() => {});
+      config.aboutVideo.videoUrl = `/api/videos/${safeName}`;
+      modified = true;
+    }
+    if (modified) {
+      await db.collection('site_config').updateOne(
+        { _id: 'main' },
+        { $set: { demoVideo: config.demoVideo, aboutVideo: config.aboutVideo } }
+      ).catch(() => {});
+    }
+
+    res.json(config);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -663,9 +698,34 @@ apiRouter.get('/site-config', async (req, res) => {
 
 apiRouter.post('/site-config', async (req, res) => {
   try {
+    const db = req.db || await connectMongo();
+    if (!db) return res.status(503).json({ error: 'Database service unavailable' });
     const { _id, ...clean } = req.body;
     clean.updatedAt = new Date().toISOString();
-    await req.db.collection('site_config').updateOne(
+
+    // Prevent base64 bloat: extract large video data into media_videos collection
+    if (clean.demoVideo?.videoUrl?.startsWith('data:video/')) {
+      const safeName = `demo-${Date.now()}.mp4`;
+      const base64Data = clean.demoVideo.videoUrl.replace(/^data:[^;]+;base64,/, '');
+      await db.collection('media_videos').updateOne(
+        { _id: safeName },
+        { $set: { _id: safeName, filename: safeName, mimeType: 'video/mp4', data: base64Data, createdAt: new Date().toISOString() } },
+        { upsert: true }
+      ).catch(() => {});
+      clean.demoVideo.videoUrl = `/api/videos/${safeName}`;
+    }
+    if (clean.aboutVideo?.videoUrl?.startsWith('data:video/')) {
+      const safeName = `about-${Date.now()}.mp4`;
+      const base64Data = clean.aboutVideo.videoUrl.replace(/^data:[^;]+;base64,/, '');
+      await db.collection('media_videos').updateOne(
+        { _id: safeName },
+        { $set: { _id: safeName, filename: safeName, mimeType: 'video/mp4', data: base64Data, createdAt: new Date().toISOString() } },
+        { upsert: true }
+      ).catch(() => {});
+      clean.aboutVideo.videoUrl = `/api/videos/${safeName}`;
+    }
+
+    await db.collection('site_config').updateOne(
       { _id: 'main' },
       { $set: clean },
       { upsert: true }
@@ -1069,20 +1129,26 @@ apiRouter.post('/upload-video', async (req, res) => {
     const { data, filename, mimeType } = req.body;
     if (!data) return res.status(400).json({ error: 'No video payload provided.' });
 
-    const uploadsDir = path.resolve(process.cwd(), 'public', 'assets', 'videos');
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
+    const ext = path.extname(filename || 'video.mp4') || '.mp4';
+    const safeName = `video-${Date.now()}${ext}`;
+    const base64Data = data.replace(/^data:[^;]+;base64,/, '');
+
+    // Best-effort local disk write (fails gracefully on read-only serverless like Vercel)
+    try {
+      const uploadsDir = path.resolve(process.cwd(), 'public', 'assets', 'videos');
+      if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+      }
+      const filePath = path.join(uploadsDir, safeName);
+      fs.writeFileSync(filePath, Buffer.from(base64Data, 'base64'));
+    } catch (diskErr) {
+      console.warn('Local disk write skipped (read-only environment):', diskErr.message);
     }
 
-    const ext = path.extname(filename || 'video.mp4') || '.mp4';
-    const safeName = `demo-${Date.now()}${ext}`;
-    const filePath = path.join(uploadsDir, safeName);
-
-    const base64Data = data.replace(/^data:[^;]+;base64,/, '');
-    fs.writeFileSync(filePath, Buffer.from(base64Data, 'base64'));
-
-    if (req.db) {
-      await req.db.collection('media_videos').updateOne(
+    // Save permanently into MongoDB Atlas
+    const db = req.db || await connectMongo();
+    if (db) {
+      await db.collection('media_videos').updateOne(
         { _id: safeName },
         {
           $set: {
@@ -1097,8 +1163,79 @@ apiRouter.post('/upload-video', async (req, res) => {
       ).catch(e => console.warn('MongoDB media_videos save notice:', e.message));
     }
 
-    const publicUrl = `/assets/videos/${safeName}`;
+    const publicUrl = `/api/videos/${safeName}`;
     res.json({ success: true, url: publicUrl, filename: safeName });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Chunked video upload endpoint for handling large files on mobile without hitting serverless payload limits
+apiRouter.post('/upload-video-chunk', async (req, res) => {
+  try {
+    const { uploadId, filename, mimeType, chunkIndex, totalChunks, chunkData } = req.body;
+    if (!uploadId || chunkData === undefined) {
+      return res.status(400).json({ error: 'Missing upload chunk parameters.' });
+    }
+
+    const db = req.db || await connectMongo();
+    if (!db) {
+      return res.status(503).json({ error: 'Database service unavailable for video chunk storage.' });
+    }
+
+    const cIdx = Number(chunkIndex);
+    const tChunks = Number(totalChunks);
+
+    // Save individual chunk into temporary collection
+    await db.collection('media_video_chunks').updateOne(
+      { uploadId, chunkIndex: cIdx },
+      { $set: { uploadId, chunkIndex: cIdx, data: chunkData, createdAt: new Date() } },
+      { upsert: true }
+    );
+
+    // Check if all chunks have arrived
+    const count = await db.collection('media_video_chunks').countDocuments({ uploadId });
+    if (count < tChunks) {
+      return res.json({ success: true, progress: Math.round((count / tChunks) * 100), completed: false });
+    }
+
+    // All chunks arrived: assemble in order
+    const chunks = await db.collection('media_video_chunks')
+      .find({ uploadId })
+      .sort({ chunkIndex: 1 })
+      .toArray();
+
+    const fullBase64 = chunks.map(c => c.data).join('');
+    const ext = path.extname(filename || 'video.mp4') || '.mp4';
+    const safeName = `mobile-${Date.now()}${ext}`;
+
+    // Best-effort local write
+    try {
+      const uploadsDir = path.resolve(process.cwd(), 'public', 'assets', 'videos');
+      if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+      fs.writeFileSync(path.join(uploadsDir, safeName), Buffer.from(fullBase64, 'base64'));
+    } catch {}
+
+    // Save assembled video into media_videos
+    await db.collection('media_videos').updateOne(
+      { _id: safeName },
+      {
+        $set: {
+          _id: safeName,
+          filename: safeName,
+          mimeType: mimeType || (ext === '.webm' ? 'video/webm' : 'video/mp4'),
+          data: fullBase64,
+          createdAt: new Date().toISOString()
+        }
+      },
+      { upsert: true }
+    );
+
+    // Clean up temporary chunks
+    await db.collection('media_video_chunks').deleteMany({ uploadId }).catch(() => {});
+
+    const publicUrl = `/api/videos/${safeName}`;
+    res.json({ success: true, completed: true, url: publicUrl, filename: safeName });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

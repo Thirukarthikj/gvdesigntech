@@ -305,14 +305,26 @@ export function compressImageFile(file, maxWidth = 1280, maxHeight = 1280, quali
 
 const fileToDataUrl = compressImageFile;
 
+import { storeVideoInIndexedDB } from '../utils/videoStorage.js';
+
 /**
- * Uploads a video file from device.
- * Prioritizes Cloudinary video endpoint, then local /api/upload-video fallback, and base64 Data URL.
+ * Uploads a video file from mobile or desktop device.
+ * Prioritizes Chunked Server Streaming into MongoDB Atlas to bypass Vercel 4.5MB payload limits,
+ * caches in IndexedDB for instant zero-lag device playback, and avoids localStorage 5MB quota errors.
  */
 export async function uploadVideoToCloudinary(file, options = {}) {
   const config = getCloudinaryConfig();
+  const storageKey = options.key || (options.folder?.includes('about') ? 'aboutVideo' : 'demoVideo');
 
-  if (config.cloudName && config.uploadPreset) {
+  // 1. Immediately store the raw video File/Blob in IndexedDB for instant local device playback
+  try {
+    await storeVideoInIndexedDB(storageKey, file);
+  } catch (idbErr) {
+    console.warn('IndexedDB video cache notice:', idbErr);
+  }
+
+  // 2. Unsigned Cloudinary upload if a valid custom preset is configured (not the default unconfigured one)
+  if (config.cloudName && config.uploadPreset && config.uploadPreset !== 'gvdesigntech') {
     try {
       const endpoint = `https://api.cloudinary.com/v1_1/${config.cloudName.trim()}/video/upload`;
       const formData = new FormData();
@@ -336,11 +348,12 @@ export async function uploadVideoToCloudinary(file, options = {}) {
         };
       }
     } catch (err) {
-      console.warn('Cloudinary video upload failed, trying local server fallback:', err.message);
+      console.warn('Cloudinary video upload attempt:', err.message);
     }
   }
 
-  // Fallback 1: Local server upload if running on development or Express backend
+  // 3. Chunked Stream Upload directly to MongoDB Atlas backend
+  // Slices large mobile recordings into 1.2MB base64 parts to guarantee Vercel 4.5MB body limit is never exceeded
   try {
     const base64 = await new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -349,30 +362,60 @@ export async function uploadVideoToCloudinary(file, options = {}) {
       reader.readAsDataURL(file);
     });
 
-    const res = await fetch('/api/upload-video', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        data: base64,
-        filename: file.name,
-        mimeType: file.type
-      })
-    });
-    if (res.ok) {
-      const json = await res.json();
-      if (json.url) return { url: json.url, isCloudinary: false };
+    const cleanBase64 = base64.replace(/^data:[^;]+;base64,/, '');
+    const CHUNK_SIZE = 1200000; // ~900KB binary per chunk, comfortably below Vercel's 4.5MB limit
+    const totalChunks = Math.ceil(cleanBase64.length / CHUNK_SIZE);
+    const uploadId = `upload_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+
+    if (totalChunks > 1) {
+      let finalResult = null;
+      for (let i = 0; i < totalChunks; i++) {
+        const chunkSlice = cleanBase64.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
+        const res = await fetch('/api/upload-video-chunk', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            uploadId,
+            filename: file.name,
+            mimeType: file.type || 'video/mp4',
+            chunkIndex: i,
+            totalChunks,
+            chunkData: chunkSlice
+          })
+        });
+        if (!res.ok) {
+          throw new Error(`Chunk ${i + 1}/${totalChunks} upload failed with status ${res.status}`);
+        }
+        const json = await res.json();
+        if (json.completed && json.url) {
+          finalResult = json;
+        }
+      }
+      if (finalResult && finalResult.url) {
+        return { url: finalResult.url, isCloudinary: false };
+      }
+    } else {
+      // Single chunk upload for small video files
+      const res = await fetch('/api/upload-video', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          data: base64,
+          filename: file.name,
+          mimeType: file.type || 'video/mp4'
+        })
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.url) return { url: json.url, isCloudinary: false };
+      }
     }
-  } catch (e) {
-    console.warn('Server video upload failed, falling back to data URL:', e.message);
+  } catch (err) {
+    console.warn('Server chunked video upload failed:', err.message);
   }
 
-  // Fallback 2: Base64 Data URL
-  const dataUrl = await new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-  return { url: dataUrl, isCloudinary: false };
+  // 4. Client-side Blob URL Fallback (Stored in IndexedDB, never bloats localStorage!)
+  const blobUrl = URL.createObjectURL(file);
+  return { url: blobUrl, isCloudinary: false, isLocalBlob: true };
 }
 

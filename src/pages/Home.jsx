@@ -13,6 +13,7 @@ import {
   subscribeToContentUpdates
 } from '../data/contentPersistence.js';
 import { isVideoFile, formatVideoEmbedUrl } from '../data/videoUtils.js';
+import { getVideoFromIndexedDB } from '../utils/videoStorage.js';
 
 export default function Home({ onOpenModal }) {
   const [leaders, setLeaders] = useState(() => getStoredLeaders());
@@ -32,6 +33,23 @@ export default function Home({ onOpenModal }) {
     alumni: 0,
     awards: 0
   });
+
+  const [idbVideos, setIdbVideos] = useState({ aboutVideo: null, demoVideo: null });
+
+  useEffect(() => {
+    // Check IndexedDB for locally cached mobile video uploads
+    getVideoFromIndexedDB('aboutVideo').then(blob => {
+      if (blob) {
+        setIdbVideos(prev => ({ ...prev, aboutVideo: URL.createObjectURL(blob) }));
+      }
+    }).catch(() => {});
+
+    getVideoFromIndexedDB('demoVideo').then(blob => {
+      if (blob) {
+        setIdbVideos(prev => ({ ...prev, demoVideo: URL.createObjectURL(blob) }));
+      }
+    }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     // Fetch latest site config from MongoDB on mount to guarantee fresh live sync across devices
@@ -372,13 +390,24 @@ export default function Home({ onOpenModal }) {
                 {(() => {
                   const isAboutCustom = siteConfig.aboutVideo?.videoUrl && !siteConfig.aboutVideo.videoUrl.includes('videoseries?list=');
                   const isDemoCustom = siteConfig.demoVideo?.videoUrl && !siteConfig.demoVideo.videoUrl.includes('videoseries?list=');
-                  const activeVideoUrl = isAboutCustom
+                  let activeVideoUrl = isAboutCustom
                     ? siteConfig.aboutVideo.videoUrl
                     : (isDemoCustom ? siteConfig.demoVideo.videoUrl : (siteConfig.aboutVideo?.videoUrl || siteConfig.demoVideo?.videoUrl));
+
+                  // If video is referenced via IndexedDB or locally cached on mobile
+                  if (activeVideoUrl?.startsWith('indexeddb://') || (!isAboutCustom && idbVideos.aboutVideo)) {
+                    activeVideoUrl = idbVideos.aboutVideo || activeVideoUrl;
+                  } else if (activeVideoUrl?.startsWith('indexeddb://demo') && idbVideos.demoVideo) {
+                    activeVideoUrl = idbVideos.demoVideo;
+                  }
+
                   const activeTitle = siteConfig.aboutVideo?.title || 'GV DesignTech Academy Showcase';
-                  const isFile = isVideoFile(activeVideoUrl);
+                  const isFile = isVideoFile(activeVideoUrl) || activeVideoUrl?.startsWith('blob:');
                   const apiFallbackUrl = (activeVideoUrl && activeVideoUrl.startsWith('/assets/videos/'))
                     ? activeVideoUrl.replace('/assets/videos/', '/api/videos/')
+                    : null;
+                  const assetsFallbackUrl = (activeVideoUrl && activeVideoUrl.startsWith('/api/videos/'))
+                    ? activeVideoUrl.replace('/api/videos/', '/assets/videos/')
                     : null;
 
                   return isFile ? (
@@ -400,6 +429,7 @@ export default function Home({ onOpenModal }) {
                     >
                       <source src={activeVideoUrl} />
                       {apiFallbackUrl && <source src={apiFallbackUrl} />}
+                      {assetsFallbackUrl && <source src={assetsFallbackUrl} />}
                       Your browser does not support HTML5 video.
                     </video>
                   ) : (
@@ -903,34 +933,43 @@ export default function Home({ onOpenModal }) {
               </div>
 
               <div style={{ width: '100%', height: '480px', borderRadius: '16px', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {isVideoFile(siteConfig.demoVideo?.videoUrl) ? (
-                  <video
-                    key={siteConfig.demoVideo?.videoUrl}
-                    controls
-                    autoPlay
-                    playsInline
-                    preload="auto"
-                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                  >
-                    <source src={siteConfig.demoVideo.videoUrl} />
-                    {siteConfig.demoVideo?.videoUrl?.startsWith('/assets/videos/') && (
-                      <source src={siteConfig.demoVideo.videoUrl.replace('/assets/videos/', '/api/videos/')} />
-                    )}
-                    Your browser does not support the video tag.
-                  </video>
-                ) : (
-                  <iframe
-                    key={siteConfig.demoVideo?.videoUrl}
-                    width="100%"
-                    height="100%"
-                    src={formatVideoEmbedUrl(siteConfig.demoVideo?.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A')}
-                    title={siteConfig.demoVideo?.title || 'GV DesignTech Showcase Video'}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    style={{ border: 'none' }}
-                  ></iframe>
-                )}
+                {(() => {
+                  let demoUrl = siteConfig.demoVideo?.videoUrl;
+                  if (demoUrl?.startsWith('indexeddb://') || idbVideos.demoVideo) {
+                    demoUrl = idbVideos.demoVideo || demoUrl;
+                  }
+                  return isVideoFile(demoUrl) || demoUrl?.startsWith('blob:') ? (
+                    <video
+                      key={demoUrl}
+                      controls
+                      autoPlay
+                      playsInline
+                      preload="auto"
+                      style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    >
+                      <source src={demoUrl} />
+                      {demoUrl?.startsWith('/assets/videos/') && (
+                        <source src={demoUrl.replace('/assets/videos/', '/api/videos/')} />
+                      )}
+                      {demoUrl?.startsWith('/api/videos/') && (
+                        <source src={demoUrl.replace('/api/videos/', '/assets/videos/')} />
+                      )}
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <iframe
+                      key={demoUrl}
+                      width="100%"
+                      height="100%"
+                      src={formatVideoEmbedUrl(demoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A')}
+                      title={siteConfig.demoVideo?.title || 'GV DesignTech Showcase Video'}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      style={{ border: 'none' }}
+                    ></iframe>
+                  );
+                })()}
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px', flexWrap: 'wrap', gap: '12px' }}>

@@ -837,7 +837,7 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                       setVideoFileInfo(`${file.name} (${(file.size / (1024 * 1024)).toFixed(1)} MB)`);
                       try {
                         showToast('⏳ Uploading video from device, please wait...');
-                        const res = await uploadVideoToCloudinary(file, { folder: 'gvdesigntech/videos' });
+                        const res = await uploadVideoToCloudinary(file, { folder: 'gvdesigntech/videos', key: 'demoVideo' });
                         if (res && res.url) {
                           const updated = {
                             ...config,
@@ -1117,7 +1117,7 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                       setVideoFileInfo(`${file.name} (${(file.size / (1024 * 1024)).toFixed(1)} MB)`);
                       try {
                         showToast('⏳ Uploading video from device, please wait...');
-                        const res = await uploadVideoToCloudinary(file, { folder: 'gvdesigntech/videos' });
+                        const res = await uploadVideoToCloudinary(file, { folder: 'gvdesigntech/videos', key: 'aboutVideo' });
                         if (res && res.url) {
                           const updated = {
                             ...config,

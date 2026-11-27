@@ -13,7 +13,8 @@ export function isVideoFile(url) {
     lower.includes('/assets/videos/') ||
     lower.includes('/api/videos/') ||
     lower.startsWith('blob:') ||
-    lower.startsWith('data:video/')
+    lower.startsWith('data:video/') ||
+    lower.startsWith('indexeddb:')
   );
 }
 
