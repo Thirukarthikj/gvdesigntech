@@ -13,8 +13,18 @@ apiRouter.use(cors());
 apiRouter.use(express.json({ limit: '50mb' }));
 apiRouter.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// Ensure DB is connected for every request
+// Ensure DB is connected for every request (bypass DB check for local video uploads and video streaming)
 apiRouter.use(async (req, res, next) => {
+  const p = (req.path || req.url || '').toLowerCase();
+  if (
+    p.includes('upload-video') ||
+    p.includes('/videos/')
+  ) {
+    const existingDb = getDb();
+    if (existingDb) req.db = existingDb;
+    return next();
+  }
+
   const db = await connectMongo();
   if (!db) {
     return res.status(503).json({ error: 'MongoDB service unavailable. Please verify your MongoDB Atlas connection URI or local MongoDB service.' });

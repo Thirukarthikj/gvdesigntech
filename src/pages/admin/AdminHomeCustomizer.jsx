@@ -4,6 +4,26 @@ import { getStoredSiteConfig, saveStoredSiteConfig, initialSiteConfig } from '..
 import { uploadImageToCloudinary, uploadVideoToCloudinary, compressImageFile } from '../../services/cloudinaryService.js';
 import { isVideoFile, formatVideoEmbedUrl } from '../../data/videoUtils.js';
 
+function formatVideoSourceDisplay(url) {
+  if (!url || typeof url !== 'string') return 'None';
+  const trimmed = url.trim();
+  if (trimmed.startsWith('data:video/')) {
+    return '📱 Mobile Upload (Embedded Video)';
+  }
+  if (trimmed.startsWith('blob:')) {
+    return '📱 Local Preview Video';
+  }
+  if (trimmed.length > 36) {
+    try {
+      const parts = trimmed.split('/');
+      const last = parts[parts.length - 1];
+      if (last && last.length < 32) return last;
+    } catch {}
+    return trimmed.slice(0, 20) + '...' + trimmed.slice(-10);
+  }
+  return trimmed;
+}
+
 export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
   const location = useLocation();
   const [config, setConfig] = useState(() => getStoredSiteConfig());
@@ -859,9 +879,37 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                   flexWrap: 'wrap',
                   gap: '10px'
                 }}>
-                  <div style={{ fontSize: '12px', color: '#cbd5e1', wordBreak: 'break-all' }}>
-                    <span style={{ color: '#94a3b8' }}>Current Video Source: </span>
-                    <strong style={{ color: '#e2e8f0' }}>{config.demoVideo.videoUrl}</strong>
+                  <div style={{
+                    fontSize: '12px',
+                    color: '#cbd5e1',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    flexWrap: 'wrap',
+                    maxWidth: '100%',
+                    overflow: 'hidden'
+                  }}>
+                    <span style={{ color: '#94a3b8', whiteSpace: 'nowrap' }}>Current Video Source: </span>
+                    <strong
+                      title={typeof config.demoVideo.videoUrl === 'string' && !config.demoVideo.videoUrl.startsWith('data:') ? config.demoVideo.videoUrl : 'Mobile Uploaded Video File'}
+                      style={{
+                        color: '#38bdf8',
+                        background: 'rgba(56, 189, 248, 0.12)',
+                        border: '1px solid rgba(56, 189, 248, 0.25)',
+                        padding: '3px 10px',
+                        borderRadius: '6px',
+                        fontFamily: 'monospace',
+                        fontSize: '11px',
+                        fontWeight: '600',
+                        maxWidth: '240px',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        display: 'inline-block'
+                      }}
+                    >
+                      {formatVideoSourceDisplay(config.demoVideo.videoUrl)}
+                    </strong>
                   </div>
                   <button
                     type="button"
@@ -1110,9 +1158,37 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                   flexWrap: 'wrap',
                   gap: '10px'
                 }}>
-                  <div style={{ fontSize: '12px', color: '#cbd5e1', wordBreak: 'break-all' }}>
-                    <span style={{ color: '#94a3b8' }}>Current Video Source: </span>
-                    <strong style={{ color: '#e2e8f0' }}>{config.aboutVideo.videoUrl}</strong>
+                  <div style={{
+                    fontSize: '12px',
+                    color: '#cbd5e1',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    flexWrap: 'wrap',
+                    maxWidth: '100%',
+                    overflow: 'hidden'
+                  }}>
+                    <span style={{ color: '#94a3b8', whiteSpace: 'nowrap' }}>Current Video Source: </span>
+                    <strong
+                      title={typeof config.aboutVideo?.videoUrl === 'string' && !config.aboutVideo.videoUrl.startsWith('data:') ? config.aboutVideo.videoUrl : 'Mobile Uploaded Video File'}
+                      style={{
+                        color: '#38bdf8',
+                        background: 'rgba(56, 189, 248, 0.12)',
+                        border: '1px solid rgba(56, 189, 248, 0.25)',
+                        padding: '3px 10px',
+                        borderRadius: '6px',
+                        fontFamily: 'monospace',
+                        fontSize: '11px',
+                        fontWeight: '600',
+                        maxWidth: '240px',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        display: 'inline-block'
+                      }}
+                    >
+                      {formatVideoSourceDisplay(config.aboutVideo?.videoUrl)}
+                    </strong>
                   </div>
                   <button
                     type="button"
