@@ -1102,6 +1102,135 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
             </form>
           </div>
 
+          {/* Modal Content Config (Title, Description, Date, Location) */}
+          <div className="admin-card" style={{ marginBottom: '24px' }}>
+            <div className="admin-card-header">
+              <div>
+                <h3 className="admin-card-title">
+                  <span>📝</span>
+                  <span>Activity Popup Modal Content</span>
+                </h3>
+                <p style={{ margin: '4px 0 0', fontSize: '13px', color: '#94a3b8' }}>
+                  Edit the event headline, highlighted completion text, detailed description, date, and campus location shown inside the popup modal.
+                </p>
+              </div>
+            </div>
+
+            <form onSubmit={(e) => { e.preventDefault(); handleSaveAll(); }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
+                <div className="admin-form-group">
+                  <label className="admin-label">Event Headline / Prefix</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    placeholder="e.g. AI Workshop"
+                    value={config.recentActivity?.modalHeading !== undefined ? config.recentActivity.modalHeading : 'AI Workshop'}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      recentActivity: { ...config.recentActivity, modalHeading: e.target.value }
+                    })}
+                  />
+                  <span style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px', display: 'block' }}>First part of title in white</span>
+                </div>
+
+                <div className="admin-form-group">
+                  <label className="admin-label">Headline Accent (Purple Highlighted)</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    placeholder="e.g. Successfully Completed"
+                    value={config.recentActivity?.modalHeadingAccent !== undefined ? config.recentActivity.modalHeadingAccent : 'Successfully Completed'}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      recentActivity: { ...config.recentActivity, modalHeadingAccent: e.target.value }
+                    })}
+                  />
+                  <span style={{ fontSize: '11px', color: '#c084fc', marginTop: '4px', display: 'block' }}>Second part highlighted with gradient</span>
+                </div>
+
+                <div className="admin-form-group">
+                  <label className="admin-label">📅 Event Date / Timing</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    placeholder="e.g. September 2026"
+                    value={config.recentActivity?.modalDate !== undefined ? config.recentActivity.modalDate : 'September 2026'}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      recentActivity: { ...config.recentActivity, modalDate: e.target.value }
+                    })}
+                  />
+                </div>
+
+                <div className="admin-form-group">
+                  <label className="admin-label">📍 Event Location</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    placeholder="e.g. GV DesignTech, Oddanchatram, Tamil Nadu"
+                    value={config.recentActivity?.modalLocation !== undefined ? config.recentActivity.modalLocation : 'GV DesignTech, Oddanchatram, Tamil Nadu'}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      recentActivity: { ...config.recentActivity, modalLocation: e.target.value }
+                    })}
+                  />
+                </div>
+
+                <div className="admin-form-group" style={{ gridColumn: '1 / -1' }}>
+                  <label className="admin-label">Event Full Description</label>
+                  <textarea
+                    className="admin-input"
+                    rows={3}
+                    placeholder="Students participated in a hands-on AI and technology workshop focused on practical learning, real-world applications, and future-ready skills."
+                    value={config.recentActivity?.modalText !== undefined ? config.recentActivity.modalText : 'Students participated in a hands-on AI and technology workshop focused on practical learning, real-world applications, and future-ready skills.'}
+                    onChange={(e) => setConfig({
+                      ...config,
+                      recentActivity: { ...config.recentActivity, modalText: e.target.value }
+                    })}
+                  />
+                </div>
+              </div>
+
+              {/* Live Preview Box */}
+              <div style={{
+                marginTop: '16px',
+                padding: '20px',
+                background: 'radial-gradient(ellipse at center, rgba(30, 18, 60, 0.7) 0%, rgba(10, 8, 25, 0.95) 100%)',
+                border: '1px solid rgba(139, 92, 246, 0.3)',
+                borderRadius: '16px',
+                textAlign: 'center'
+              }}>
+                <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
+                  Live Preview in Popup Modal
+                </div>
+                <h4 style={{ fontSize: '20px', fontWeight: '800', color: '#fff', margin: '0 0 10px' }}>
+                  {config.recentActivity?.modalHeading || 'AI Workshop'}{' '}
+                  <span style={{
+                    background: 'linear-gradient(135deg, #c084fc, #e879f9)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}>
+                    {config.recentActivity?.modalHeadingAccent !== undefined ? config.recentActivity.modalHeadingAccent : 'Successfully Completed'}
+                  </span>
+                </h4>
+                <p style={{ fontSize: '14px', color: '#cbd5e1', maxWidth: '600px', margin: '0 auto 12px', lineHeight: 1.5 }}>
+                  {config.recentActivity?.modalText || 'Students participated in a hands-on AI and technology workshop focused on practical learning, real-world applications, and future-ready skills.'}
+                </p>
+                <div style={{ display: 'inline-flex', gap: '16px', fontSize: '12px', color: '#94a3b8', flexWrap: 'wrap', justifyContent: 'center' }}>
+                  <span>📅 {config.recentActivity?.modalDate || 'September 2026'}</span>
+                  <span>|</span>
+                  <span>📍 {config.recentActivity?.modalLocation || 'GV DesignTech, Oddanchatram, Tamil Nadu'}</span>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+                <button type="submit" className="admin-btn-primary">
+                  💾 Save Modal Content
+                </button>
+              </div>
+            </form>
+          </div>
+
           {/* Activity Carousel Slides */}
           <div className="admin-card">
             <div className="admin-card-header">

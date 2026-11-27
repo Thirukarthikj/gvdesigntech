@@ -211,18 +211,21 @@ export default function FloatingElements() {
               ))}
             </div>
 
-            {/* Text description */}
+            {/* Text description (Dynamic from Admin Panel) */}
             <div className="pb-recent-activity-content">
               <h2 className="pb-recent-activity-title">
-                AI Workshop <span className="pb-recent-activity-title-accent">Successfully Completed</span>
+                {recent.modalHeading || 'AI Workshop'}{' '}
+                <span className="pb-recent-activity-title-accent">
+                  {recent.modalHeadingAccent !== undefined ? recent.modalHeadingAccent : 'Successfully Completed'}
+                </span>
               </h2>
               <p className="pb-recent-activity-text">
-                Students participated in a hands-on AI and technology workshop focused on practical learning, real-world applications, and future-ready skills.
+                {recent.modalText || 'Students participated in a hands-on AI and technology workshop focused on practical learning, real-world applications, and future-ready skills.'}
               </p>
               <div className="pb-recent-activity-meta">
-                <span>📅 September 2026</span>
+                <span>📅 {recent.modalDate || 'September 2026'}</span>
                 <span className="pb-recent-activity-meta-sep"></span>
-                <span>📍 GV DesignTech, Oddanchatram, Tamil Nadu</span>
+                <span>📍 {recent.modalLocation || 'GV DesignTech, Oddanchatram, Tamil Nadu'}</span>
               </div>
             </div>
           </div>

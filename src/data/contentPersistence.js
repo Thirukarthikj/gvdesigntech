@@ -55,6 +55,11 @@ export const initialSiteConfig = {
     title: 'Recent Activities',
     desc: "See what's happening at GV DesignTech.",
     thumb: '/assets/recent-activity/ai-workshop-2.jpg',
+    modalHeading: 'AI Workshop',
+    modalHeadingAccent: 'Successfully Completed',
+    modalText: 'Students participated in a hands-on AI and technology workshop focused on practical learning, real-world applications, and future-ready skills.',
+    modalDate: 'September 2026',
+    modalLocation: 'GV DesignTech, Oddanchatram, Tamil Nadu',
     items: [
       { id: 2, src: '/assets/recent-activity/ai-workshop-2.jpg', alt: 'CAD Training Classroom' },
       { id: 3, src: '/assets/recent-activity/ai-workshop-3.jpg', alt: 'CAD Workshop Mentorship' }
