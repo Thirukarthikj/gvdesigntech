@@ -27,6 +27,7 @@ export const initialSiteConfig = {
     address: 'Headquarters: Oddanchatram, Tamil Nadu 624619',
     email: 'gvdesigntech707@gmail.com',
     phone: '+91 96553 64707',
+    secondaryPhone: '',
     operatingHoursWeekdays: 'Monday – Saturday: 9:00 AM – 7:00 PM',
     operatingHoursSunday: 'Sunday: Prior Appointment Only',
     mapAddress: 'Headquarters: Oddanchatram, Dindigul District, Tamil Nadu 624619, India',

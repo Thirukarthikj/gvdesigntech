@@ -147,9 +147,16 @@ export default function ContactUs() {
                 </div>
                 <div>
                   <h4 style={{ fontSize: '16px', fontWeight: '700', margin: '0 0 4px', color: '#fff' }}>Call or WhatsApp</h4>
-                  <a href={`tel:${(contact.phone || '+91 96553 64707').replace(/[^0-9+]/g, '')}`} style={{ fontSize: '14px', color: '#22d3ee', textDecoration: 'none' }}>
-                    {contact.phone || '+91 96553 64707'}
-                  </a>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <a href={`tel:${(contact.phone || '+91 96553 64707').replace(/[^0-9+]/g, '')}`} style={{ fontSize: '14px', color: '#22d3ee', textDecoration: 'none' }}>
+                      {contact.phone || '+91 96553 64707'}
+                    </a>
+                    {contact.secondaryPhone && (
+                      <a href={`tel:${contact.secondaryPhone.replace(/[^0-9+]/g, '')}`} style={{ fontSize: '14px', color: '#a78bfa', textDecoration: 'none' }}>
+                        {contact.secondaryPhone} (Alt)
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
 

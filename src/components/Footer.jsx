@@ -139,7 +139,20 @@ export default function Footer() {
           </div>
           <div className="contact-item" style={{ cursor: 'pointer' }} onClick={() => window.location.href = `tel:${(contact.phone || '+91 96553 64707').replace(/[^0-9+]/g, '')}`}>
             <div className="ci-ico">📞</div>
-            <span>{contact.phone || '+91 96553 64707'}</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <span>{contact.phone || '+91 96553 64707'}</span>
+              {contact.secondaryPhone && (
+                <span
+                  style={{ color: '#a78bfa', fontSize: '12.5px' }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.location.href = `tel:${contact.secondaryPhone.replace(/[^0-9+]/g, '')}`;
+                  }}
+                >
+                  {contact.secondaryPhone}
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -426,7 +426,7 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
 
               <div className="admin-form-group">
                 <label className="admin-label">
-                  Call or WhatsApp Phone <span style={{ color: '#d946ef' }}>*</span>
+                  Call or WhatsApp Phone (Primary) <span style={{ color: '#d946ef' }}>*</span>
                 </label>
                 <input
                   type="text"
@@ -439,6 +439,25 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                     contactInfo: { ...config.contactInfo, phone: e.target.value }
                   })}
                 />
+              </div>
+
+              <div className="admin-form-group">
+                <label className="admin-label">
+                  Secondary / Alternate Mobile Number (Optional)
+                </label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  placeholder="e.g. +91 98765 43210"
+                  value={config.contactInfo?.secondaryPhone || ''}
+                  onChange={(e) => setConfig({
+                    ...config,
+                    contactInfo: { ...config.contactInfo, secondaryPhone: e.target.value }
+                  })}
+                />
+                <span style={{ fontSize: '11px', color: '#94a3b8' }}>
+                  Shown on Contact Us page and Footer alongside primary phone.
+                </span>
               </div>
 
               <div className="admin-form-group">
@@ -647,8 +666,11 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                     </div>
                     <div>
                       <div style={{ fontSize: '15px', fontWeight: '700', color: '#fff', marginBottom: '3px' }}>Call or WhatsApp</div>
-                      <div style={{ fontSize: '13.5px', color: '#22d3ee' }}>
-                        {config.contactInfo?.phone || '+91 96553 64707'}
+                      <div style={{ fontSize: '13.5px', color: '#22d3ee', display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                        <span>{config.contactInfo?.phone || '+91 96553 64707'}</span>
+                        {config.contactInfo?.secondaryPhone && (
+                          <span style={{ color: '#a78bfa' }}>{config.contactInfo.secondaryPhone} (Alt)</span>
+                        )}
                       </div>
                     </div>
                   </div>

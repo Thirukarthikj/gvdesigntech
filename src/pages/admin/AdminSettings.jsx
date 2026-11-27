@@ -352,7 +352,7 @@ export default function AdminSettings() {
             </div>
 
             <div className="admin-form-group">
-              <label className="admin-label">Official Helpline Phone / WhatsApp</label>
+              <label className="admin-label">Official Helpline Phone / WhatsApp (Primary)</label>
               <input
                 type="text"
                 className="admin-input"
@@ -360,6 +360,20 @@ export default function AdminSettings() {
                 onChange={(e) => setSiteConfig({
                   ...siteConfig,
                   contactInfo: { ...siteConfig.contactInfo, phone: e.target.value }
+                })}
+              />
+            </div>
+
+            <div className="admin-form-group">
+              <label className="admin-label">Secondary / Alternate Mobile Number</label>
+              <input
+                type="text"
+                className="admin-input"
+                placeholder="e.g. +91 98765 43210"
+                value={siteConfig.contactInfo?.secondaryPhone || ''}
+                onChange={(e) => setSiteConfig({
+                  ...siteConfig,
+                  contactInfo: { ...siteConfig.contactInfo, secondaryPhone: e.target.value }
                 })}
               />
             </div>
