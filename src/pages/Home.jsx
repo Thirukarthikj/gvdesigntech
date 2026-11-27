@@ -355,36 +355,52 @@ export default function Home({ onOpenModal }) {
             <div
               className={`${P['about-visual']} ${P.reveal} ${P.visible} ${P.show}`}
               ref={cadCardRef}
+              style={{
+                position: 'relative',
+                overflow: 'hidden',
+                borderRadius: '24px',
+                padding: 0,
+                border: '1px solid rgba(139, 92, 246, 0.35)',
+                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.7)'
+              }}
             >
-              <div className={`${P['about-blob']} ${P.ab1}`}></div>
-              <div className={`${P['about-blob']} ${P.ab2}`}></div>
+              <div className={`${P['about-blob']} ${P.ab1}`} style={{ pointerEvents: 'none', zIndex: 1 }}></div>
+              <div className={`${P['about-blob']} ${P.ab2}`} style={{ pointerEvents: 'none', zIndex: 1 }}></div>
 
               {/* Live Showcase Video Top Badge Tag (Editable via Admin Panel Video Form) */}
               {(siteConfig.aboutVideo?.tag !== '' && (siteConfig.aboutVideo?.tag || '3D 5-AXIS VMC MACHINING CENTER')) && (
-                <div className="cad-badge-tag">
+                <div
+                  className="cad-badge-tag"
+                  style={{
+                    position: 'absolute',
+                    top: '18px',
+                    right: '18px',
+                    zIndex: 10,
+                    pointerEvents: 'none',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.6)'
+                  }}
+                >
                   <span className="cad-badge-dot" style={{ background: '#22c55e', boxShadow: '0 0 10px #22c55e' }}></span>
                   <span>{siteConfig.aboutVideo?.tag || '3D 5-AXIS VMC MACHINING CENTER'}</span>
                 </div>
               )}
 
-              {/* Video Player Display (Admin Dedicated About Section Video) */}
+              {/* Video Player Display (Admin Dedicated About Section Video - Covers Full Frame) */}
               <div
                 className="about-video-screen"
                 style={{
-                  position: 'relative',
+                  position: 'absolute',
+                  inset: 0,
                   width: '100%',
-                  aspectRatio: '16 / 10',
-                  minHeight: '260px',
-                  borderRadius: '20px',
+                  height: '100%',
                   overflow: 'hidden',
-                  background: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.15) 0%, rgba(10, 10, 26, 0.98) 100%)',
-                  border: '1px solid rgba(139, 92, 246, 0.35)',
-                  boxShadow: '0 20px 45px rgba(0, 0, 0, 0.65), inset 0 0 30px rgba(139, 92, 246, 0.15)',
+                  zIndex: 2,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  margin: '16px 0 20px',
-                  zIndex: 2
+                  background: '#04020a'
                 }}
               >
                 {(() => {
@@ -420,11 +436,12 @@ export default function Home({ onOpenModal }) {
                       loop
                       preload="auto"
                       style={{
+                        position: 'absolute',
+                        inset: 0,
                         width: '100%',
                         height: '100%',
                         objectFit: 'cover',
-                        display: 'block',
-                        borderRadius: '18px'
+                        display: 'block'
                       }}
                     >
                       <source src={activeVideoUrl} />
@@ -440,23 +457,40 @@ export default function Home({ onOpenModal }) {
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
                       style={{
+                        position: 'absolute',
+                        inset: 0,
                         width: '100%',
                         height: '100%',
                         border: 'none',
-                        display: 'block',
-                        borderRadius: '18px'
+                        display: 'block'
                       }}
                     />
                   );
                 })()}
               </div>
 
-              <div className={P['about-stat-pill']} style={{ zIndex: 3 }}>
+              <div
+                className={P['about-stat-pill']}
+                style={{
+                  position: 'absolute',
+                  bottom: '24px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  zIndex: 10,
+                  maxWidth: 'calc(100% - 32px)',
+                  boxSizing: 'border-box',
+                  background: 'rgba(10, 8, 28, 0.75)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(255, 255, 255, 0.18)',
+                  boxShadow: '0 10px 30px rgba(0, 0, 0, 0.6)'
+                }}
+              >
                 <div>
                   <div className={P.big}>5200+</div>
                   <div className={P.sm}>Verified Local Members</div>
                 </div>
-                <div style={{ width: '1px', height: '36px', background: 'rgba(255, 255, 255, 0.12)' }}></div>
+                <div style={{ width: '1px', height: '36px', background: 'rgba(255, 255, 255, 0.15)' }}></div>
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ fontSize: '22px', fontWeight: 800, color: 'rgb(167, 139, 250)' }}>4.9★</div>
                   <div className={P.sm}>Avg Rating</div>

@@ -987,7 +987,7 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                     playsInline
                     preload="metadata"
                     src={config.demoVideo.videoUrl}
-                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   >
                     <source src={config.demoVideo.videoUrl} type="video/mp4" />
                     Your browser does not support the video tag.
@@ -1330,7 +1330,7 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                     playsInline
                     preload="metadata"
                     src={config.aboutVideo.videoUrl}
-                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   >
                     <source src={config.aboutVideo.videoUrl} type="video/mp4" />
                     Your browser does not support the video tag.
