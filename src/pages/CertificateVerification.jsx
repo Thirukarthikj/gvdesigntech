@@ -152,9 +152,10 @@ export default function CertificateVerification() {
                 borderRadius: '24px',
                 boxShadow: isRevoked ? '0 0 30px rgba(239, 68, 68, 0.25)' : '0 0 30px rgba(34, 211, 238, 0.2)'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
+                {/* Header Row: Status Badge & Certificate ID */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '22px', flexWrap: 'wrap', gap: '12px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ fontSize: '28px' }}>{isRevoked ? '❌' : (isPending ? '⏳' : '✅')}</span>
+                    <span style={{ fontSize: '26px' }}>{isRevoked ? '❌' : (isPending ? '⏳' : '✅')}</span>
                     <span style={{
                       padding: '6px 16px',
                       background: isRevoked ? 'rgba(239, 68, 68, 0.15)' : (isPending ? 'rgba(245, 158, 11, 0.15)' : 'rgba(34, 211, 238, 0.15)'),
@@ -162,13 +163,14 @@ export default function CertificateVerification() {
                       borderRadius: '999px',
                       color: isRevoked ? '#f87171' : (isPending ? '#fbbf24' : '#22d3ee'),
                       fontSize: '13px',
-                      fontWeight: '800'
+                      fontWeight: '800',
+                      letterSpacing: '0.5px'
                     }}>
                       {result.status || 'VERIFIED AUTHENTIC'}
                     </span>
                   </div>
-                  <span style={{ fontSize: '13px', color: '#94a3b8' }}>
-                    Certificate ID: <strong style={{ color: '#fff' }}>{result.certId || result.id || certId.trim().toUpperCase()}</strong>
+                  <span style={{ fontSize: '13.5px', color: '#94a3b8' }}>
+                    Certificate ID: <strong style={{ color: '#fff', letterSpacing: '0.5px' }}>{result.certId || result.id || certId.trim().toUpperCase()}</strong>
                   </span>
                 </div>
 
@@ -186,98 +188,99 @@ export default function CertificateVerification() {
                   </div>
                 )}
 
-                {/* Verified Graduate Banner with Student Photo */}
+                {/* Main Student Info & Photo Layout (Student Photo in the marked upper-right spot) */}
                 <div style={{
                   display: 'flex',
-                  alignItems: 'center',
-                  gap: '22px',
-                  padding: '20px 24px',
-                  marginBottom: '26px',
-                  background: 'rgba(56, 189, 248, 0.06)',
-                  border: '1px solid rgba(56, 189, 248, 0.3)',
-                  borderRadius: '18px',
-                  flexWrap: 'wrap'
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  gap: '16px',
+                  marginBottom: '24px'
                 }}>
-                  <div style={{ position: 'relative', flexShrink: 0 }}>
-                    {(result.studentImage || result.image) ? (
-                      <img
-                        src={result.studentImage || result.image}
-                        alt={result.name}
-                        style={{
-                          width: '92px',
-                          height: '92px',
-                          borderRadius: '16px',
-                          objectFit: 'cover',
-                          border: '2px solid #38bdf8',
-                          boxShadow: '0 8px 24px rgba(56, 189, 248, 0.35)',
-                          display: 'block'
-                        }}
-                      />
-                    ) : (
-                      <div style={{
-                        width: '92px',
-                        height: '92px',
-                        borderRadius: '16px',
-                        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(56, 189, 248, 0.3))',
-                        border: '2px solid rgba(56, 189, 248, 0.5)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: '#38bdf8',
-                        fontSize: '36px',
-                        fontWeight: '800'
-                      }}>
-                        {result.name ? result.name.charAt(0).toUpperCase() : '🎓'}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ marginBottom: '18px' }}>
+                      <div style={{ fontSize: '12px', fontWeight: '700', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.8px', textTransform: 'uppercase', marginBottom: '4px' }}>
+                        STUDENT NAME
                       </div>
-                    )}
-                    <div style={{
-                      position: 'absolute',
-                      bottom: '-7px',
-                      left: '50%',
-                      transform: 'translateX(-50%)',
-                      background: 'linear-gradient(135deg, #0ea5e9, #38bdf8)',
-                      color: '#000',
-                      fontSize: '9.5px',
-                      fontWeight: '900',
-                      letterSpacing: '0.6px',
-                      padding: '2px 8px',
-                      borderRadius: '999px',
-                      whiteSpace: 'nowrap',
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.4)'
-                    }}>
-                      VERIFIED
+                      <div style={{ fontSize: 'clamp(20px, 4vw, 26px)', fontWeight: '800', color: '#fff', wordBreak: 'break-word', lineHeight: 1.2 }}>
+                        {result.name}
+                      </div>
+                    </div>
+
+                    <div>
+                      <div style={{ fontSize: '12px', fontWeight: '700', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.8px', textTransform: 'uppercase', marginBottom: '4px' }}>
+                        PROGRAM COMPLETED
+                      </div>
+                      <div style={{ fontSize: 'clamp(14.5px, 2.5vw, 16px)', fontWeight: '700', color: '#e879f9', lineHeight: 1.35, wordBreak: 'break-word' }}>
+                        {result.course}
+                      </div>
                     </div>
                   </div>
 
-                  <div style={{ flex: 1, minWidth: '220px' }}>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', letterSpacing: '1px', textTransform: 'uppercase', color: '#38bdf8', fontWeight: '800', marginBottom: '4px' }}>
-                      <span>🛡️</span>
-                      <span>VERIFIED GRADUATE STUDENT</span>
-                    </div>
-                    <h2 style={{ fontSize: 'clamp(22px, 3.5vw, 28px)', fontWeight: '800', color: '#fff', margin: '0 0 6px', letterSpacing: '-0.3px' }}>
-                      {result.name}
-                    </h2>
-                    <div style={{ fontSize: '14.5px', color: '#cbd5e1', fontWeight: '500', lineHeight: 1.4 }}>
-                      {result.course}
-                    </div>
+                  {/* Student Image: Exactly in the top-right position marked by user */}
+                  <div style={{ flexShrink: 0, textAlign: 'center' }}>
+                    {(result.studentImage || result.image) ? (
+                      <div style={{ position: 'relative', display: 'inline-block' }}>
+                        <img
+                          src={result.studentImage || result.image}
+                          alt={result.name}
+                          style={{
+                            width: '100px',
+                            height: '115px',
+                            borderRadius: '14px',
+                            objectFit: 'cover',
+                            border: '2px solid #38bdf8',
+                            boxShadow: '0 8px 20px rgba(56, 189, 248, 0.3)',
+                            display: 'block'
+                          }}
+                        />
+                        <span style={{
+                          position: 'absolute',
+                          bottom: '-6px',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          background: 'linear-gradient(135deg, #0ea5e9, #38bdf8)',
+                          color: '#000',
+                          fontSize: '8.5px',
+                          fontWeight: '900',
+                          letterSpacing: '0.5px',
+                          padding: '2px 7px',
+                          borderRadius: '999px',
+                          whiteSpace: 'nowrap',
+                          boxShadow: '0 2px 6px rgba(0,0,0,0.5)'
+                        }}>
+                          VERIFIED
+                        </span>
+                      </div>
+                    ) : (
+                      <div style={{
+                        width: '100px',
+                        height: '115px',
+                        borderRadius: '14px',
+                        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(56, 189, 248, 0.15))',
+                        border: '2px dashed rgba(56, 189, 248, 0.5)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '4px',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)'
+                      }}>
+                        <span style={{ fontSize: '32px' }}>🎓</span>
+                        <span style={{ fontSize: '9.5px', color: '#38bdf8', fontWeight: '800', letterSpacing: '0.5px' }}>
+                          OFFICIAL ID
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '24px' }}>
                   <div>
-                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '4px' }}>STUDENT NAME</div>
-                    <div style={{ fontSize: '20px', fontWeight: '800', color: '#fff' }}>{result.name}</div>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '4px' }}>PROGRAM COMPLETED</div>
-                    <div style={{ fontSize: '16px', fontWeight: '700', color: '#e879f9' }}>{result.course}</div>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '4px' }}>GRADE / RATING</div>
+                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '4px', letterSpacing: '0.8px', textTransform: 'uppercase' }}>GRADE / RATING</div>
                     <div style={{ fontSize: '16px', fontWeight: '700', color: '#34d399' }}>{result.grade}</div>
                   </div>
                   <div>
-                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '4px' }}>ISSUED BY</div>
+                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '4px', letterSpacing: '0.8px', textTransform: 'uppercase' }}>ISSUED BY</div>
                     <div style={{ fontSize: '14px', color: '#cbd5e1' }}>{result.issuedBy}</div>
                   </div>
                 </div>

@@ -171,7 +171,7 @@ export const defaultCertificates = {
   'GV-CNC-2024-301': {
     certId: 'GV-CNC-2024-301',
     name: 'Suresh Babu',
-    studentImage: '',
+    studentImage: '/assets/image1-CO0kRs3Y.jpeg',
     course: 'CNC Programming & MasterCAM Precision Machining',
     completionDate: '18 November 2026',
     grade: 'Distinction (A+)',
@@ -181,7 +181,7 @@ export const defaultCertificates = {
   'GV-AI-2024-001': {
     certId: 'GV-AI-2024-001',
     name: 'Arun Kumar',
-    studentImage: '',
+    studentImage: '/assets/chairman-real-uq_F_5Yk.jpg',
     course: 'Artificial Intelligence & Deep Learning Master Track',
     completionDate: '14 August 2026',
     grade: 'Distinction (A+)',
@@ -191,7 +191,7 @@ export const defaultCertificates = {
   'GV-DS-2024-042': {
     certId: 'GV-DS-2024-042',
     name: 'Sanjana Priya',
-    studentImage: '',
+    studentImage: '/assets/image2-KIrwALpr.jpeg',
     course: 'Advanced Data Science & MLOps Certification',
     completionDate: '28 September 2026',
     grade: 'Distinction (A+)',
@@ -201,7 +201,7 @@ export const defaultCertificates = {
   'GV-FS-2024-118': {
     certId: 'GV-FS-2024-118',
     name: 'Vignesh Kumar',
-    studentImage: '',
+    studentImage: '/assets/gokul-prasath.jpg',
     course: 'Python Full Stack Web Developer Track',
     completionDate: '10 October 2026',
     grade: 'First Class (A)',
