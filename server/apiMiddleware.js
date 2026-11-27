@@ -490,6 +490,32 @@ apiRouter.get('/courses', async (req, res) => {
   }
 });
 
+apiRouter.get('/courses/:id', async (req, res) => {
+  try {
+    const rawId = req.params.id;
+    let course = null;
+    try {
+      const query = buildIdQuery(rawId);
+      course = await req.db.collection('courses').findOne(query);
+    } catch (_) {}
+
+    if (!course) {
+      const decoded = decodeURIComponent(rawId).trim();
+      const escaped = decoded.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      course = await req.db.collection('courses').findOne({
+        title: { $regex: new RegExp(`^${escaped}$`, 'i') }
+      });
+    }
+
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+    res.json(course);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 apiRouter.post('/courses/sync', async (req, res) => {
   try {
     const list = req.body;

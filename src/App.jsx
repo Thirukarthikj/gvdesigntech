@@ -76,7 +76,14 @@ export default function App() {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [location.pathname]);
 
-  const [selectedCourseForEnroll, setSelectedCourseForEnroll] = useState('');
+  const [selectedCourseForEnroll, setSelectedCourseForEnroll] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem('gv_selected_course');
+      return saved ? JSON.parse(saved) : '';
+    } catch {
+      return '';
+    }
+  });
 
   const openModal = (courseNameOrDetails = '') => {
     let courseTitle = '';
@@ -86,7 +93,7 @@ export default function App() {
       courseTitle = courseNameOrDetails.trim();
       coursePayload = courseTitle;
     } else if (courseNameOrDetails && typeof courseNameOrDetails === 'object' && !courseNameOrDetails.nativeEvent && !courseNameOrDetails.target) {
-      courseTitle = courseNameOrDetails.title || courseNameOrDetails.program || courseNameOrDetails.department || '';
+      courseTitle = courseNameOrDetails.title || courseNameOrDetails.courseName || courseNameOrDetails.program || courseNameOrDetails.department || '';
       coursePayload = courseNameOrDetails;
     }
 
@@ -113,9 +120,37 @@ export default function App() {
       coursePayload = courseTitle;
     }
 
-    setSelectedCourseForEnroll(coursePayload || courseTitle);
+    const payloadToStore = coursePayload || courseTitle;
+    try {
+      if (payloadToStore) {
+        sessionStorage.setItem('gv_selected_course', JSON.stringify(payloadToStore));
+      }
+    } catch (_) {}
+
+    setSelectedCourseForEnroll(payloadToStore);
     setIsEnrollModalOpen(true);
   };
+
+  // Support URL query parameters (?courseId=... or ?course=...) and direct navigation
+  useEffect(() => {
+    if (isAuthOrAdmin) return;
+    try {
+      const params = new URLSearchParams(location.search);
+      const queryCourseId = params.get('courseId') || params.get('course_id');
+      const queryCourse = params.get('course') || params.get('program');
+      const openEnrollParam = params.get('enroll') || params.get('enrollNow');
+
+      if (queryCourseId || queryCourse || openEnrollParam) {
+        if (queryCourseId) {
+          openModal({ id: queryCourseId, title: queryCourse || '' });
+        } else if (queryCourse) {
+          openModal(queryCourse);
+        } else if (openEnrollParam) {
+          openModal();
+        }
+      }
+    } catch (_) {}
+  }, [location.search, isAuthOrAdmin]);
 
   return (
     <div className="App">
@@ -262,6 +297,7 @@ export default function App() {
           onClose={() => {
             setIsEnrollModalOpen(false);
             setSelectedCourseForEnroll('');
+            try { sessionStorage.removeItem('gv_selected_course'); } catch (_) {}
           }}
           initialProgram={selectedCourseForEnroll}
         />

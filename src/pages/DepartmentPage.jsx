@@ -146,9 +146,9 @@ export default function DepartmentPage({ onOpenModal }) {
     };
   }, []);
 
-  const handleEnrollClick = (courseTitle = '') => {
+  const handleEnrollClick = (courseItem = null) => {
     if (typeof onOpenModal === 'function') {
-      onOpenModal(courseTitle || currentDept);
+      onOpenModal(courseItem || currentDept);
     }
   };
 
@@ -552,7 +552,7 @@ export default function DepartmentPage({ onOpenModal }) {
                       }}>
                         <button
                           type="button"
-                          onClick={() => handleEnrollClick(c.title)}
+                          onClick={() => handleEnrollClick(c)}
                           style={{
                             padding: '10px',
                             background: 'linear-gradient(135deg, #d946ef, #8b5cf6)',

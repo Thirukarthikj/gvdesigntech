@@ -336,7 +336,7 @@ export default function EeeInstrumentation({ onOpenModal }) {
 
                   <button
                     type="button"
-                    onClick={() => onOpenModal && onOpenModal(c.title || c.department)}
+                    onClick={() => onOpenModal && onOpenModal(c)}
                     style={{
                       width: '100%',
                       padding: '11px 0',

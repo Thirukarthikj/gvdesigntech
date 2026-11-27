@@ -66,7 +66,9 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
     lastName: '',
     email: '',
     phone: '',
-    program: initialProgram || '',
+    program: typeof initialProgram === 'object' ? (initialProgram.title || initialProgram.courseName || initialProgram.program || '') : (initialProgram || ''),
+    courseId: typeof initialProgram === 'object' ? (initialProgram.id || initialProgram._id || initialProgram.courseId || '') : '',
+    courseName: typeof initialProgram === 'object' ? (initialProgram.title || initialProgram.courseName || initialProgram.program || '') : (typeof initialProgram === 'string' ? initialProgram : ''),
     college: '',
     department: '',
     cgpa: '',
@@ -88,72 +90,127 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
   // Sync initialProgram whenever modal opens or program prop changes
   useEffect(() => {
     if (isOpen) {
-      if (initialProgram) {
-        let raw = '';
-        let toolsList = [];
-        let cardDesc = '';
+      let targetId = '';
+      let rawTitle = '';
+      let toolsList = [];
+      let cardDesc = '';
 
-        if (typeof initialProgram === 'string') {
-          raw = initialProgram.trim();
-        } else if (typeof initialProgram === 'object') {
-          raw = (initialProgram.title || initialProgram.program || initialProgram.department || '').trim();
-          if (Array.isArray(initialProgram.tools)) {
-            toolsList = initialProgram.tools;
-          } else if (typeof initialProgram.tools === 'string') {
-            toolsList = initialProgram.tools.split(',');
-          }
-          cardDesc = initialProgram.desc || '';
+      if (typeof initialProgram === 'string' && initialProgram.trim()) {
+        rawTitle = initialProgram.trim();
+      } else if (initialProgram && typeof initialProgram === 'object') {
+        targetId = String(initialProgram.id || initialProgram._id || initialProgram.courseId || '').trim();
+        rawTitle = (initialProgram.title || initialProgram.courseName || initialProgram.program || initialProgram.department || '').trim();
+        if (Array.isArray(initialProgram.tools)) {
+          toolsList = initialProgram.tools;
+        } else if (typeof initialProgram.tools === 'string') {
+          toolsList = initialProgram.tools.split(',');
         }
+        cardDesc = initialProgram.desc || '';
+      }
 
-        const trimmed = raw.toLowerCase();
+      const trimmed = rawTitle.toLowerCase();
 
-        // 1. Try match in published dynamic courses from MongoDB
-        const matchedCourse = publishedCourses.find(c =>
-          (c.title && c.title.toLowerCase().trim() === trimmed) ||
-          (c.department && c.department.toLowerCase().trim() === trimmed) ||
-          (c.title && c.title.toLowerCase().includes(trimmed)) ||
-          (trimmed.length >= 3 && (c.title || '').toLowerCase().includes(trimmed)) ||
-          (trimmed.length >= 3 && trimmed.includes((c.title || '').toLowerCase()))
+      // 1. Try match by exact course ID in published courses
+      let matchedCourse = null;
+      if (targetId) {
+        matchedCourse = publishedCourses.find(c =>
+          (c.id && String(c.id).trim() === targetId) ||
+          (c._id && String(c._id).trim() === targetId)
         );
+      }
 
-        // 2. Try match in standard disciplines (prefer exact match first)
-        const matchedDiscipline = STANDARD_DISCIPLINES.find(d =>
-          d.toLowerCase().trim() === trimmed
-        ) || STANDARD_DISCIPLINES.find(d =>
-          (trimmed.length >= 3 && d.toLowerCase().includes(trimmed)) ||
-          (trimmed.length >= 3 && trimmed.includes(d.toLowerCase()))
+      // 2. Try match by exact course title (case-insensitive)
+      if (!matchedCourse && trimmed) {
+        matchedCourse = publishedCourses.find(c =>
+          c.title && c.title.toLowerCase().trim() === trimmed
         );
+      }
 
-        // 3. Try match in internships (both dynamic and static)
-        const matchedInternship = allInternshipOptions.find(p =>
-          p.toLowerCase().trim() === trimmed
-        ) || allInternshipOptions.find(p =>
-          (trimmed.length >= 3 && p.toLowerCase().includes(trimmed)) ||
-          (trimmed.length >= 3 && trimmed.includes(p.toLowerCase()))
+      // 3. Try match by exact department if no exact title matched
+      if (!matchedCourse && trimmed) {
+        matchedCourse = publishedCourses.find(c =>
+          c.department && c.department.toLowerCase().trim() === trimmed
         );
+      }
 
-        const resolved = matchedCourse
-          ? (matchedCourse.title || matchedCourse.department)
-          : (matchedDiscipline || matchedInternship || raw);
+      // 4. Try match in standard disciplines (prefer exact match first)
+      const matchedDiscipline = trimmed
+        ? STANDARD_DISCIPLINES.find(d => d.toLowerCase().trim() === trimmed)
+        : null;
 
-        const inferredDept = inferDepartment(resolved);
+      // 5. Try match in internships (both dynamic and static)
+      const matchedInternship = trimmed
+        ? allInternshipOptions.find(p => p.toLowerCase().trim() === trimmed)
+        : null;
 
-        let defaultMessage = `Interested in enrolling for ${resolved}`;
-        if (toolsList.length > 0) {
-          const toolsStr = toolsList.map(t => String(t).trim()).filter(Boolean).join(', ');
-          defaultMessage += ` (Focused Tools: ${toolsStr})`;
-        } else if (cardDesc) {
-          defaultMessage += ` (${cardDesc})`;
-        }
+      const resolvedTitle = matchedCourse
+        ? (matchedCourse.title || matchedCourse.department)
+        : (matchedDiscipline || matchedInternship || rawTitle);
 
+      const resolvedId = matchedCourse
+        ? (matchedCourse.id || matchedCourse._id || targetId || '')
+        : targetId;
+
+      const resolvedTools = (matchedCourse && matchedCourse.tools)
+        ? (Array.isArray(matchedCourse.tools) ? matchedCourse.tools : String(matchedCourse.tools).split(','))
+        : toolsList;
+
+      const resolvedDesc = (matchedCourse && matchedCourse.desc) ? matchedCourse.desc : cardDesc;
+
+      const inferredDept = inferDepartment(resolvedTitle);
+
+      let defaultMessage = resolvedTitle ? `Interested in enrolling for ${resolvedTitle}` : '';
+      if (resolvedTools.length > 0) {
+        const toolsStr = resolvedTools.map(t => String(t).trim()).filter(Boolean).join(', ');
+        defaultMessage += ` (Focused Tools: ${toolsStr})`;
+      } else if (resolvedDesc) {
+        defaultMessage += ` (${resolvedDesc})`;
+      }
+
+      if (resolvedTitle || resolvedId) {
         setFormData(prev => ({
           ...prev,
-          program: resolved,
+          program: resolvedTitle || prev.program,
+          courseName: resolvedTitle || prev.courseName,
+          courseId: resolvedId || prev.courseId,
           department: prev.department || inferredDept,
           message: prev.message && !prev.message.startsWith('Interested in enrolling for')
             ? prev.message
-            : defaultMessage
+            : (defaultMessage || prev.message)
         }));
+      }
+
+      // 6. Dynamically fetch the latest course details from MongoDB using course ID (or title)
+      const fetchTarget = targetId || (rawTitle ? encodeURIComponent(rawTitle) : '');
+      if (fetchTarget) {
+        fetch(`/api/courses/${fetchTarget}`)
+          .then(r => r.ok ? r.json() : null)
+          .then(dbCourse => {
+            if (dbCourse && (dbCourse.title || dbCourse.department)) {
+              const exactTitle = dbCourse.title || dbCourse.department;
+              const exactId = dbCourse.id || dbCourse._id || targetId;
+              const dbTools = dbCourse.tools ? (Array.isArray(dbCourse.tools) ? dbCourse.tools : String(dbCourse.tools).split(',')) : [];
+              let dynamicMsg = `Interested in enrolling for ${exactTitle}`;
+              if (dbTools.length > 0) {
+                const toolsStr = dbTools.map(t => String(t).trim()).filter(Boolean).join(', ');
+                dynamicMsg += ` (Focused Tools: ${toolsStr})`;
+              } else if (dbCourse.desc) {
+                dynamicMsg += ` (${dbCourse.desc})`;
+              }
+
+              setFormData(prev => ({
+                ...prev,
+                program: exactTitle,
+                courseName: exactTitle,
+                courseId: exactId,
+                department: prev.department || inferDepartment(exactTitle),
+                message: prev.message && !prev.message.startsWith('Interested in enrolling for')
+                  ? prev.message
+                  : dynamicMsg
+              }));
+            }
+          })
+          .catch(() => {});
       }
     }
   }, [isOpen, initialProgram, courses, internshipPrograms]);
@@ -186,6 +243,31 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleProgramSelectChange = (e) => {
+    const selectedVal = e.target.value;
+    const trimmedVal = selectedVal.toLowerCase().trim();
+
+    const matched = publishedCourses.find(c =>
+      (c.title && c.title.toLowerCase().trim() === trimmedVal) ||
+      (c.department && c.department.toLowerCase().trim() === trimmedVal)
+    );
+
+    const cId = matched ? (matched.id || matched._id || '') : '';
+    const cTitle = matched ? (matched.title || matched.department) : selectedVal;
+    const inferred = inferDepartment(cTitle);
+
+    setFormData(prev => ({
+      ...prev,
+      program: selectedVal,
+      courseName: cTitle,
+      courseId: cId,
+      department: inferred,
+      message: prev.message && !prev.message.startsWith('Interested in enrolling for')
+        ? prev.message
+        : (selectedVal ? `Interested in enrolling for ${selectedVal}` : '')
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -229,6 +311,9 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
         phone: formData.phone || 'N/A',
         college: formData.college?.trim() || 'Website Direct Inquirer',
         program: formData.program || 'Mechanical & Automobile CAD',
+        courseId: formData.courseId || '',
+        courseName: formData.courseName || formData.program || '',
+        department: formData.department || inferDepartment(formData.program),
         message: formData.message || (isInternship ? `Applied for ${formData.program}` : 'Submitted via Instant Enroll Modal'),
         date: new Date().toISOString().split('T')[0],
         status: 'New'
@@ -398,7 +483,7 @@ export default function EnrollModal({ isOpen, onClose, initialProgram = '' }) {
                   name="program"
                   required
                   value={formData.program}
-                  onChange={handleChange}
+                  onChange={handleProgramSelectChange}
                   style={{
                     colorScheme: 'dark',
                     backgroundColor: 'rgba(15, 17, 35, 0.95)',

@@ -197,7 +197,8 @@ export default function AdminEnrollments() {
                           <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 'normal' }}>{l.email}</div>
                         </td>
                         <td>
-                          <span style={{ color: '#c084fc', fontWeight: '600' }}>{l.program}</span>
+                          <span style={{ color: '#c084fc', fontWeight: '600' }}>{l.courseName || l.program}</span>
+                          {l.courseId && <div style={{ fontSize: '11px', color: '#64748b', fontFamily: 'monospace' }}>ID: {l.courseId}</div>}
                         </td>
                         <td style={{ color: '#cbd5e1' }}>{l.college || 'Direct Walk-in'}</td>
                         <td style={{ fontFamily: 'monospace', color: '#38bdf8' }}>{l.phone}</td>
@@ -310,7 +311,7 @@ export default function AdminEnrollments() {
                       boxSizing: 'border-box'
                     }}
                   >
-                    {l.program}
+                    {l.courseName || l.program}
                   </span>
                 </div>
 
