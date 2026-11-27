@@ -881,29 +881,41 @@ export default function AdminInternships() {
           MODAL: ADD / EDIT INTERNSHIP PROGRAM
           ========================================================= */}
       {isModalOpen && (
-        <div style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 10000,
-          background: 'rgba(4, 2, 10, 0.85)',
-          backdropFilter: 'blur(8px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '20px'
-        }}>
-          <div style={{
-            background: 'linear-gradient(135deg, #120e2e, #0a061c)',
-            border: '1px solid rgba(139, 92, 246, 0.4)',
-            borderRadius: '20px',
-            width: '100%',
-            maxWidth: '680px',
-            maxHeight: '90vh',
+        <div
+          className="admin-modal-overlay"
+          onClick={() => setIsModalOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 10000,
+            background: 'rgba(4, 2, 10, 0.85)',
+            backdropFilter: 'blur(8px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px 12px',
             overflowY: 'auto',
-            padding: '32px',
-            boxShadow: '0 24px 60px rgba(0, 0, 0, 0.7)',
-            position: 'relative'
-          }}>
+            WebkitOverflowScrolling: 'touch'
+          }}
+        >
+          <div
+            className="admin-modal"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: 'linear-gradient(135deg, #120e2e, #0a061c)',
+              border: '1px solid rgba(139, 92, 246, 0.4)',
+              borderRadius: '20px',
+              width: '100%',
+              maxWidth: '680px',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              WebkitOverflowScrolling: 'touch',
+              padding: '32px',
+              boxShadow: '0 24px 60px rgba(0, 0, 0, 0.7)',
+              position: 'relative',
+              margin: 'auto 0'
+            }}
+          >
             {/* Modal Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '16px' }}>
               <div>

@@ -625,11 +625,13 @@ select.admin-input option {
   inset: 0;
   background: rgba(3, 2, 12, 0.85);
   backdrop-filter: blur(8px);
-  z-index: 1000;
+  z-index: 10000;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .admin-modal {
@@ -638,9 +640,14 @@ select.admin-input option {
   border-radius: 20px;
   width: 100%;
   max-width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 28px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
   position: relative;
+  box-sizing: border-box;
+  margin: auto;
 }
 
 .admin-form-group {
@@ -1168,16 +1175,21 @@ select.admin-input option {
 
   /* Modals on Mobile */
   .admin-modal-overlay {
-    padding: 12px;
+    padding: 16px 12px;
+    align-items: flex-start;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
   }
 
   .admin-modal {
     padding: 20px 14px !important;
     border-radius: 16px !important;
-    max-height: 90vh !important;
+    max-height: 92vh !important;
     max-width: 100% !important;
     overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
+    margin: auto 0;
   }
 
   .admin-modal h3 {

@@ -404,28 +404,40 @@ export default function AdminPlacementManager() {
 
       {/* Story Modal */}
       {isStoryModalOpen && (
-        <div style={{
-          position: 'fixed',
-          inset: 0,
-          background: 'rgba(4, 2, 10, 0.85)',
-          backdropFilter: 'blur(8px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '20px',
-          zIndex: 9999
-        }}>
-          <div style={{
-            background: 'linear-gradient(160deg, #181136, #090518)',
-            border: '1px solid rgba(139, 92, 246, 0.4)',
-            borderRadius: '20px',
-            width: '100%',
-            maxWidth: '580px',
-            maxHeight: '90vh',
+        <div
+          className="admin-modal-overlay"
+          onClick={() => setIsStoryModalOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(4, 2, 10, 0.85)',
+            backdropFilter: 'blur(8px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px 12px',
+            zIndex: 10000,
             overflowY: 'auto',
-            padding: '30px',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)'
-          }}>
+            WebkitOverflowScrolling: 'touch'
+          }}
+        >
+          <div
+            className="admin-modal"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: 'linear-gradient(160deg, #181136, #090518)',
+              border: '1px solid rgba(139, 92, 246, 0.4)',
+              borderRadius: '20px',
+              width: '100%',
+              maxWidth: '580px',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              WebkitOverflowScrolling: 'touch',
+              padding: '30px',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)',
+              margin: 'auto 0'
+            }}
+          >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ fontSize: '20px', fontWeight: '800', color: '#fff', margin: 0 }}>
                 {editingStory ? '✏️ Edit Success Story' : '🌟 Add Student Success Story'}
