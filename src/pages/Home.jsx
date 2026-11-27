@@ -370,7 +370,11 @@ export default function Home({ onOpenModal }) {
                 }}
               >
                 {(() => {
-                  const activeVideoUrl = siteConfig.aboutVideo?.videoUrl || siteConfig.demoVideo?.videoUrl;
+                  const isAboutCustom = siteConfig.aboutVideo?.videoUrl && !siteConfig.aboutVideo.videoUrl.includes('videoseries?list=');
+                  const isDemoCustom = siteConfig.demoVideo?.videoUrl && !siteConfig.demoVideo.videoUrl.includes('videoseries?list=');
+                  const activeVideoUrl = isAboutCustom
+                    ? siteConfig.aboutVideo.videoUrl
+                    : (isDemoCustom ? siteConfig.demoVideo.videoUrl : (siteConfig.aboutVideo?.videoUrl || siteConfig.demoVideo?.videoUrl));
                   const activeTitle = siteConfig.aboutVideo?.title || 'GV DesignTech Academy Showcase';
                   const isFile = isVideoFile(activeVideoUrl);
                   const apiFallbackUrl = (activeVideoUrl && activeVideoUrl.startsWith('/assets/videos/'))
