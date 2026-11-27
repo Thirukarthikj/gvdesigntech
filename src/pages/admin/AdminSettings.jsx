@@ -571,7 +571,7 @@ export default function AdminSettings() {
         </p>
 
         <form onSubmit={handleSaveCloudinary}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))', gap: '16px', marginBottom: '16px' }}>
             <div className="admin-form-group">
               <label className="admin-label">Cloudinary Cloud Name *</label>
               <input
@@ -597,7 +597,7 @@ export default function AdminSettings() {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))', gap: '16px', marginBottom: '16px' }}>
             <div className="admin-form-group">
               <label className="admin-label">Cloudinary API Key (Optional / Signed)</label>
               <input
@@ -851,22 +851,22 @@ export default function AdminSettings() {
           GV DesignTech is linked to Google Firebase for real-time multi-device cloud synchronization, Google Analytics 4 tracking, and cloud data persistence.
         </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '16px', marginBottom: '20px' }}>
           <div style={{ padding: '14px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px' }}>
             <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Project ID</div>
-            <div style={{ fontSize: '15px', fontWeight: '700', color: '#fff', marginTop: '4px' }}>{firebaseConfig.projectId}</div>
+            <div style={{ fontSize: '15px', fontWeight: '700', color: '#fff', marginTop: '4px', wordBreak: 'break-all', overflowWrap: 'anywhere' }}>{firebaseConfig.projectId}</div>
           </div>
           <div style={{ padding: '14px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px' }}>
             <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Storage Bucket</div>
-            <div style={{ fontSize: '13.5px', fontWeight: '700', color: '#38bdf8', marginTop: '4px', wordBreak: 'break-all' }}>{firebaseConfig.storageBucket}</div>
+            <div style={{ fontSize: '13.5px', fontWeight: '700', color: '#38bdf8', marginTop: '4px', wordBreak: 'break-all', overflowWrap: 'anywhere' }}>{firebaseConfig.storageBucket}</div>
           </div>
           <div style={{ padding: '14px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px' }}>
             <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Auth Domain</div>
-            <div style={{ fontSize: '14px', fontWeight: '700', color: '#fff', marginTop: '4px' }}>{firebaseConfig.authDomain}</div>
+            <div style={{ fontSize: '14px', fontWeight: '700', color: '#fff', marginTop: '4px', wordBreak: 'break-all', overflowWrap: 'anywhere' }}>{firebaseConfig.authDomain}</div>
           </div>
           <div style={{ padding: '14px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px' }}>
             <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Analytics Measurement ID</div>
-            <div style={{ fontSize: '14px', fontWeight: '700', color: '#fbbf24', marginTop: '4px' }}>{firebaseConfig.measurementId}</div>
+            <div style={{ fontSize: '14px', fontWeight: '700', color: '#fbbf24', marginTop: '4px', wordBreak: 'break-all', overflowWrap: 'anywhere' }}>{firebaseConfig.measurementId}</div>
           </div>
         </div>
 

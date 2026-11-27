@@ -185,9 +185,9 @@ export default function AdminLeaderManager() {
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '24px',
-          padding: '24px'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
+          gap: '16px',
+          padding: '16px 0'
         }}>
           {leaders.map((leader) => (
             <div
@@ -196,10 +196,13 @@ export default function AdminLeaderManager() {
                 background: 'linear-gradient(160deg, rgba(30, 22, 68, 0.6), rgba(6, 6, 24, 0.8))',
                 border: '1px solid rgba(139, 92, 246, 0.35)',
                 borderRadius: '20px',
-                padding: '24px',
+                padding: '16px',
                 display: 'flex',
-                gap: '20px',
-                alignItems: 'center'
+                gap: '16px',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                maxWidth: '100%',
+                boxSizing: 'border-box'
               }}
             >
               {/* Photo Frame */}

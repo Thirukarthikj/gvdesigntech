@@ -138,7 +138,7 @@ export default function AdminLogin() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#04020a', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px', position: 'relative', overflow: 'hidden' }}>
+    <div style={{ minHeight: '100vh', background: '#04020a', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px', position: 'relative', overflow: 'hidden', maxWidth: '100vw', width: '100%', boxSizing: 'border-box' }}>
       {/* Background glow ambient effects */}
       <div style={{ position: 'absolute', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%)', top: '10%', left: '15%', pointerEvents: 'none' }}></div>
       <div style={{ position: 'absolute', width: '600px', height: '600px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(217, 70, 239, 0.12) 0%, transparent 70%)', bottom: '10%', right: '15%', pointerEvents: 'none' }}></div>

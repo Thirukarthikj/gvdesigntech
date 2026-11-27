@@ -436,7 +436,7 @@ export default function AdminInternships() {
           {/* Programs Grid */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))',
             gap: '24px',
             marginBottom: '40px'
           }}>
@@ -541,9 +541,9 @@ export default function AdminInternships() {
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                         {modulesList.slice(0, 4).map((m, mIdx) => (
-                          <div key={mIdx} style={{ fontSize: '12.5px', color: '#cbd5e1', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <span style={{ color: accent, fontSize: '12px', fontWeight: '700' }}>✓</span>
-                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m}</span>
+                          <div key={mIdx} style={{ fontSize: '12.5px', color: '#cbd5e1', display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0 }}>
+                            <span style={{ color: accent, fontSize: '12px', fontWeight: '700', flexShrink: 0 }}>✓</span>
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0 }}>{m}</span>
                           </div>
                         ))}
                         {modulesList.length > 4 && (

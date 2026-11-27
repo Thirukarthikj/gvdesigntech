@@ -1509,7 +1509,7 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                 </button>
               </div>
             ) : (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '18px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 260px), 1fr))', gap: '18px' }}>
                 {config.recentActivity.items.map((item, idx) => (
                   <div
                     key={item.id || idx}
@@ -2034,7 +2034,7 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
           </div>
 
           <form onSubmit={(e) => { e.preventDefault(); handleSaveAll(); }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))', gap: '24px' }}>
               {/* Photo 1 */}
               <div style={{ padding: '20px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(139, 92, 246, 0.25)', borderRadius: '16px' }}>
                 <div style={{ fontSize: '13px', fontWeight: '800', color: '#c084fc', marginBottom: '12px' }}>
