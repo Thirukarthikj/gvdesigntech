@@ -5,7 +5,7 @@ import { initialCourses } from './coursesData.js';
 import { initialInternshipPrograms } from './internshipsData.js';
 import { initialSkillQuestions } from './skillTestData.js';
 import { syncToFirestore, subscribeToFirestore } from '../services/firebase.js';
-import { formatVideoEmbedUrl } from './videoUtils.js';
+import { isVideoFile, formatVideoEmbedUrl } from './videoUtils.js';
 
 // Keys for localStorage
 const MOU_KEY = 'gv_admin_mous';
