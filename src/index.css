@@ -1072,46 +1072,143 @@
 }
 
 /* ==========================================================================
-   Hero Leaders Group (Founder / CEO & Managing Director Cards)
+   Hero Leaders Group (Founder / CEO, MD, Leadership Cards - Equal Sizes & 2-Col Grid)
    ========================================================================== */
 .hero-leaders-group {
-  display: flex;
-  align-items: flex-end;
-  gap: 14px;
-  z-index: 2;
-  align-self: flex-start;
-  margin-left: 0;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(130px, 168px)) !important;
+  gap: 16px 14px !important;
+  z-index: 2 !important;
+  align-self: flex-start !important;
+  margin: 6px 0 0 0 !important;
+  justify-content: flex-start !important;
+  align-items: start !important;
+  width: fit-content !important;
 }
 
-.hero-leaders-group ._hero-chairman_tpo9n_4013,
-.hero-leaders-group [class*="hero-chairman"] {
-  width: clamp(138px, 10.5vw, 170px);
-  margin: 0;
-  flex-shrink: 0;
+/* Individual Leader Card - Guaranteed Identical Dimensions */
+.hero-leaders-group .hero-leader-card,
+.hero-leaders-group figure {
+  width: 100% !important;
+  max-width: 168px !important;
+  min-width: 130px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-self: start !important;
+}
+
+/* 3rd Leader Card: when 3rd leader is added, place it under the two images */
+.hero-leaders-group > .hero-leader-card:nth-child(3):last-child,
+.hero-leaders-group > figure:nth-child(3):last-child {
+  grid-column: 1 / -1 !important;
+  justify-self: center !important;
+  max-width: 168px !important;
+}
+
+/* Outer Gradient Frame - Identical padding, border-radius, and height */
+.hero-leaders-group .hero-leader-card [class*="hero-chairman-frame"],
+.hero-leaders-group figure [class*="hero-chairman-frame"] {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  border-radius: 20px !important;
+  padding: 2.5px !important;
+  background: linear-gradient(145deg, #8b5cf6, #d946ef 55%, rgba(139, 92, 246, 0.4)) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7), 0 0 25px rgba(139, 92, 246, 0.3) !important;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease !important;
+}
+
+/* Inner Container - Strict 3:4 Aspect Ratio so all images are identically sized */
+.hero-leaders-group .hero-leader-card [class*="hero-chairman-inner"],
+.hero-leaders-group figure [class*="hero-chairman-inner"] {
+  width: 100% !important;
+  aspect-ratio: 3 / 4 !important;
+  height: auto !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  position: relative !important;
+  background: #0b0a1f !important;
+}
+
+/* Photo - Uniform fill across the entire 3:4 card */
+.hero-leaders-group .hero-leader-card [class*="hero-chairman-img"],
+.hero-leaders-group figure [class*="hero-chairman-img"] {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* Caption - Consistent height and styling across all cards */
+.hero-leaders-group .hero-leader-card [class*="hero-chairman-cap"],
+.hero-leaders-group figure [class*="hero-chairman-cap"] {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  padding: 34px 10px 10px !important;
+  background: linear-gradient(to top, rgba(2, 4, 18, 0.96) 0%, rgba(2, 4, 18, 0.8) 58%, transparent 100%) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-end !important;
+  text-align: center !important;
+  pointer-events: none !important;
+  min-height: 58px !important;
+  box-sizing: border-box !important;
+}
+
+.hero-leaders-group .hero-leader-card [class*="hero-chairman-role"],
+.hero-leaders-group figure [class*="hero-chairman-role"] {
+  color: #ffffff !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: block !important;
+}
+
+.hero-leaders-group .hero-leader-card [class*="hero-chairman-title"],
+.hero-leaders-group figure [class*="hero-chairman-title"] {
+  color: rgba(255, 255, 255, 0.92) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  margin-top: 2px !important;
+  display: block !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.hero-leaders-group .hero-leader-card [class*="hero-chairman-org"],
+.hero-leaders-group figure [class*="hero-chairman-org"] {
+  color: #d946ef !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  display: block !important;
 }
 
 @media (max-width: 1200px) {
   .hero-leaders-group {
-    gap: 10px;
-  }
-  .hero-leaders-group ._hero-chairman_tpo9n_4013,
-  .hero-leaders-group [class*="hero-chairman"] {
-    width: clamp(128px, 11vw, 150px);
+    grid-template-columns: repeat(2, minmax(126px, 155px)) !important;
+    gap: 14px 10px !important;
   }
 }
 
 @media (max-width: 800px) {
   .hero-leaders-group {
-    order: 1;
-    width: 100%;
-    max-width: 380px;
-    justify-content: center;
-    gap: 12px;
-    margin: 10px auto 4px;
-  }
-  .hero-leaders-group ._hero-chairman_tpo9n_4013,
-  .hero-leaders-group [class*="hero-chairman"] {
-    width: clamp(135px, 42vw, 165px);
+    grid-template-columns: repeat(2, minmax(130px, 160px)) !important;
+    gap: 12px 10px !important;
+    justify-content: center !important;
+    margin: 12px auto 6px !important;
+    width: 100% !important;
+    max-width: 340px !important;
   }
 }
 
@@ -1151,11 +1248,8 @@
   }
 
   .hero-leaders-group {
-    display: flex;
-    align-items: flex-end;
     align-self: flex-start !important;
     margin-left: 0 !important;
-    gap: 14px;
     margin-top: 2px;
   }
 
@@ -1184,10 +1278,7 @@
   }
 
   .hero-leaders-group {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    width: 100%;
+    margin: 12px auto 6px !important;
   }
 }
 

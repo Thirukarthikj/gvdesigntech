@@ -34,7 +34,7 @@ export default function Home({ onOpenModal }) {
   });
 
   useEffect(() => {
-    // Fetch latest site config from MongoDB on mount to guarantee fresh live sync across devices
+    // Fetch latest site config and leaders from MongoDB on mount to guarantee fresh live sync across devices
     fetch('/api/site-config')
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
@@ -51,6 +51,18 @@ export default function Home({ onOpenModal }) {
           setSiteConfig(merged);
           try {
             localStorage.setItem('gv_site_config', JSON.stringify(merged));
+          } catch {}
+        }
+      })
+      .catch(() => {});
+
+    fetch('/api/leaders')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setLeaders(data);
+          try {
+            localStorage.setItem('gv_admin_leaders', JSON.stringify(data));
           } catch {}
         }
       })
@@ -246,14 +258,12 @@ export default function Home({ onOpenModal }) {
 
               <div className="hero-leaders-group">
                 {leaders.map((leader, idx) => (
-                  <figure key={leader.id || idx} className={`${P['hero-chairman']} ${P.reveal} ${P.visible} ${P.show}`}>
-                    <div className={P['hero-chairman-frame']} style={idx === 1 ? { animationDelay: '-3.5s' } : {}}>
+                  <figure key={leader.id || idx} className={`${P['hero-chairman']} ${P.reveal} ${P.visible} ${P.show} hero-leader-card`}>
+                    <div className={P['hero-chairman-frame']}>
                       <div className={P['hero-chairman-inner']}>
                         <img
                           alt={`${leader.name}, ${leader.role} of ${leader.org || 'GV DesignTech'}`}
                           className={P['hero-chairman-img']}
-                          width="1122"
-                          height="1402"
                           decoding="async"
                           src={leader.image}
                           style={leader.objectPosition ? { objectPosition: leader.objectPosition } : {}}
