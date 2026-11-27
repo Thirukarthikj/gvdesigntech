@@ -211,23 +211,36 @@ export default function FloatingElements() {
               ))}
             </div>
 
-            {/* Text description (Dynamic from Admin Panel) */}
-            <div className="pb-recent-activity-content">
-              <h2 className="pb-recent-activity-title">
-                {recent.modalHeading || 'AI Workshop'}{' '}
-                <span className="pb-recent-activity-title-accent">
-                  {recent.modalHeadingAccent !== undefined ? recent.modalHeadingAccent : 'Successfully Completed'}
-                </span>
-              </h2>
-              <p className="pb-recent-activity-text">
-                {recent.modalText || 'Students participated in a hands-on AI and technology workshop focused on practical learning, real-world applications, and future-ready skills.'}
-              </p>
-              <div className="pb-recent-activity-meta">
-                <span>📅 {recent.modalDate || 'September 2026'}</span>
-                <span className="pb-recent-activity-meta-sep"></span>
-                <span>📍 {recent.modalLocation || 'GV DesignTech, Oddanchatram, Tamil Nadu'}</span>
-              </div>
-            </div>
+            {/* Text description (Dynamic per active activity slide) */}
+            {(() => {
+              const currentAct = activities[activeSlide] || activities[0] || {};
+              const actTitle = currentAct.title || currentAct.modalHeading || recent.modalHeading || 'AI Workshop';
+              const actAccent = currentAct.accent !== undefined ? currentAct.accent : (currentAct.modalHeadingAccent !== undefined ? currentAct.modalHeadingAccent : (recent.modalHeadingAccent !== undefined ? recent.modalHeadingAccent : 'Successfully Completed'));
+              const actDesc = currentAct.desc || currentAct.text || currentAct.modalText || recent.modalText || 'Students participated in a hands-on AI and technology workshop focused on practical learning, real-world applications, and future-ready skills.';
+              const actDate = currentAct.date || currentAct.modalDate || recent.modalDate || 'September 2026';
+              const actLocation = currentAct.location || currentAct.modalLocation || recent.modalLocation || 'GV DesignTech, Oddanchatram, Tamil Nadu';
+
+              return (
+                <div className="pb-recent-activity-content">
+                  <h2 className="pb-recent-activity-title">
+                    {actTitle}{' '}
+                    {actAccent && (
+                      <span className="pb-recent-activity-title-accent">
+                        {actAccent}
+                      </span>
+                    )}
+                  </h2>
+                  <p className="pb-recent-activity-text">
+                    {actDesc}
+                  </p>
+                  <div className="pb-recent-activity-meta">
+                    {actDate && <span>📅 {actDate}</span>}
+                    {actDate && actLocation && <span className="pb-recent-activity-meta-sep"></span>}
+                    {actLocation && <span>📍 {actLocation}</span>}
+                  </div>
+                </div>
+              );
+            })()}
           </div>
         </div>
       )}

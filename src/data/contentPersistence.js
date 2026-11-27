@@ -61,8 +61,26 @@ export const initialSiteConfig = {
     modalDate: 'September 2026',
     modalLocation: 'GV DesignTech, Oddanchatram, Tamil Nadu',
     items: [
-      { id: 2, src: '/assets/recent-activity/ai-workshop-2.jpg', alt: 'CAD Training Classroom' },
-      { id: 3, src: '/assets/recent-activity/ai-workshop-3.jpg', alt: 'CAD Workshop Mentorship' }
+      {
+        id: 'act-1',
+        src: '/assets/recent-activity/ai-workshop-2.jpg',
+        alt: 'CAD Training Classroom',
+        title: 'AI Workshop',
+        accent: 'Successfully Completed',
+        desc: 'Students participated in a hands-on AI and technology workshop focused on practical learning, real-world applications, and future-ready skills.',
+        date: 'September 2026',
+        location: 'GV DesignTech, Oddanchatram, Tamil Nadu'
+      },
+      {
+        id: 'act-2',
+        src: '/assets/recent-activity/ai-workshop-3.jpg',
+        alt: 'CAD Workshop Mentorship',
+        title: 'Masterclass Workshop',
+        accent: 'Industrial Prototyping',
+        desc: 'Hands-on CAD modeling, engineering design verification, and direct mentorship session with industry specialists.',
+        date: 'October 2026',
+        location: 'GV DesignTech, Oddanchatram, Tamil Nadu'
+      }
     ]
   },
   stats: [

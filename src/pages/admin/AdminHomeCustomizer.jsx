@@ -94,8 +94,128 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
   };
   const headerInfo = getHeaderInfo();
 
-  // New activity slide temporary form
-  const [newSlide, setNewSlide] = useState({ src: '', alt: '' });
+  // Unified Activity (Photo + Content) state
+  const [activityModalOpen, setActivityModalOpen] = useState(false);
+  const [editingActivityIdx, setEditingActivityIdx] = useState(null);
+  const [activityForm, setActivityForm] = useState({
+    src: '',
+    alt: '',
+    title: '',
+    accent: '',
+    date: 'September 2026',
+    location: 'GV DesignTech, Oddanchatram, Tamil Nadu',
+    desc: ''
+  });
+
+  const handleOpenAddActivity = () => {
+    setEditingActivityIdx(null);
+    setActivityForm({
+      src: '',
+      alt: '',
+      title: '',
+      accent: '',
+      date: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+      location: 'GV DesignTech, Oddanchatram, Tamil Nadu',
+      desc: ''
+    });
+    setActivityModalOpen(true);
+  };
+
+  const handleOpenEditActivity = (item, idx) => {
+    setEditingActivityIdx(idx);
+    setActivityForm({
+      src: item.src || '',
+      alt: item.alt || '',
+      title: item.title || item.modalHeading || config.recentActivity?.modalHeading || 'AI Workshop',
+      accent: item.accent !== undefined ? item.accent : (item.modalHeadingAccent !== undefined ? item.modalHeadingAccent : (config.recentActivity?.modalHeadingAccent || 'Successfully Completed')),
+      date: item.date || item.modalDate || config.recentActivity?.modalDate || 'September 2026',
+      location: item.location || item.modalLocation || config.recentActivity?.modalLocation || 'GV DesignTech, Oddanchatram, Tamil Nadu',
+      desc: item.desc || item.modalText || config.recentActivity?.modalText || ''
+    });
+    setActivityModalOpen(true);
+  };
+
+  const handleSaveActivity = (e) => {
+    if (e) e.preventDefault();
+    if (!activityForm.src) {
+      alert('Please select or upload an activity photo.');
+      return;
+    }
+    const currentItems = Array.isArray(config.recentActivity?.items) ? [...config.recentActivity.items] : [];
+    const itemData = {
+      id: (editingActivityIdx !== null && currentItems[editingActivityIdx]?.id) ? currentItems[editingActivityIdx].id : `act-${Date.now()}`,
+      src: activityForm.src,
+      alt: activityForm.alt || activityForm.title || 'GV DesignTech Recent Activity',
+      title: activityForm.title || 'AI Workshop',
+      accent: activityForm.accent || '',
+      date: activityForm.date || '',
+      location: activityForm.location || '',
+      desc: activityForm.desc || ''
+    };
+
+    if (editingActivityIdx !== null && editingActivityIdx >= 0) {
+      currentItems[editingActivityIdx] = itemData;
+    } else {
+      currentItems.push(itemData);
+    }
+
+    const updated = {
+      ...config,
+      recentActivity: {
+        ...config.recentActivity,
+        modalHeading: currentItems[0]?.title || config.recentActivity?.modalHeading || 'AI Workshop',
+        modalHeadingAccent: currentItems[0]?.accent || config.recentActivity?.modalHeadingAccent || 'Successfully Completed',
+        modalText: currentItems[0]?.desc || config.recentActivity?.modalText || '',
+        modalDate: currentItems[0]?.date || config.recentActivity?.modalDate || 'September 2026',
+        modalLocation: currentItems[0]?.location || config.recentActivity?.modalLocation || 'GV DesignTech, Oddanchatram, Tamil Nadu',
+        thumb: config.recentActivity?.thumb || currentItems[0]?.src || '',
+        items: currentItems
+      }
+    };
+
+    handleSaveAll(updated);
+    setActivityModalOpen(false);
+    showToast(editingActivityIdx !== null ? '✓ Activity updated successfully!' : '✓ New activity added successfully!');
+  };
+
+  const handleDeleteActivity = (idx) => {
+    if (!window.confirm('Are you sure you want to delete this activity?')) return;
+    const currentItems = (config.recentActivity?.items || []).filter((_, i) => i !== idx);
+    const updated = {
+      ...config,
+      recentActivity: {
+        ...config.recentActivity,
+        items: currentItems
+      }
+    };
+    handleSaveAll(updated);
+    showToast('Activity deleted');
+  };
+
+  const handleActivityImageUpload = async (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      alert('Please upload a valid image file (JPG, PNG, WebP).');
+      return;
+    }
+    try {
+      setUploading(true);
+      const localData = await compressImageFile(file);
+      setActivityForm(prev => ({ ...prev, src: localData }));
+      showToast('📷 Photo attached! Processing cloud upload...');
+
+      const result = await uploadImageToCloudinary(file, { folder: 'gvdesigntech/activities' });
+      if (result && result.isCloudinary) {
+        setActivityForm(prev => ({ ...prev, src: result.url }));
+        showToast('☁️ Activity photo uploaded to Cloudinary CDN!');
+      }
+    } catch (err) {
+      console.warn('Fallback to local image for activity:', err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const showToast = (msg) => {
     setToast(msg);
@@ -1102,266 +1222,438 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
             </form>
           </div>
 
-          {/* Modal Content Config (Title, Description, Date, Location) */}
+          {/* Unified Activities & Showcase Manager */}
           <div className="admin-card" style={{ marginBottom: '24px' }}>
-            <div className="admin-card-header">
+            <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
               <div>
                 <h3 className="admin-card-title">
-                  <span>📝</span>
-                  <span>Activity Popup Modal Content</span>
+                  <span>⚡</span>
+                  <span>Activities & Showcase Manager ({(config.recentActivity?.items || []).length} Activities)</span>
                 </h3>
                 <p style={{ margin: '4px 0 0', fontSize: '13px', color: '#94a3b8' }}>
-                  Edit the event headline, highlighted completion text, detailed description, date, and campus location shown inside the popup modal.
+                  Add or edit activity photos and event details together in one unified form. Each activity has its own photo, headline, accent, full story, date, and campus location.
                 </p>
               </div>
+              <button
+                type="button"
+                className="admin-btn-primary"
+                onClick={handleOpenAddActivity}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '14px', borderRadius: '10px', background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)', boxShadow: '0 4px 14px rgba(168, 85, 247, 0.4)' }}
+              >
+                <span>➕</span>
+                <span>Add New Activity</span>
+              </button>
             </div>
 
-            <form onSubmit={(e) => { e.preventDefault(); handleSaveAll(); }}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
-                <div className="admin-form-group">
-                  <label className="admin-label">Event Headline / Prefix</label>
-                  <input
-                    type="text"
-                    className="admin-input"
-                    placeholder="e.g. AI Workshop"
-                    value={config.recentActivity?.modalHeading !== undefined ? config.recentActivity.modalHeading : 'AI Workshop'}
-                    onChange={(e) => setConfig({
-                      ...config,
-                      recentActivity: { ...config.recentActivity, modalHeading: e.target.value }
-                    })}
-                  />
-                  <span style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px', display: 'block' }}>First part of title in white</span>
-                </div>
-
-                <div className="admin-form-group">
-                  <label className="admin-label">Headline Accent (Purple Highlighted)</label>
-                  <input
-                    type="text"
-                    className="admin-input"
-                    placeholder="e.g. Successfully Completed"
-                    value={config.recentActivity?.modalHeadingAccent !== undefined ? config.recentActivity.modalHeadingAccent : 'Successfully Completed'}
-                    onChange={(e) => setConfig({
-                      ...config,
-                      recentActivity: { ...config.recentActivity, modalHeadingAccent: e.target.value }
-                    })}
-                  />
-                  <span style={{ fontSize: '11px', color: '#c084fc', marginTop: '4px', display: 'block' }}>Second part highlighted with gradient</span>
-                </div>
-
-                <div className="admin-form-group">
-                  <label className="admin-label">📅 Event Date / Timing</label>
-                  <input
-                    type="text"
-                    className="admin-input"
-                    placeholder="e.g. September 2026"
-                    value={config.recentActivity?.modalDate !== undefined ? config.recentActivity.modalDate : 'September 2026'}
-                    onChange={(e) => setConfig({
-                      ...config,
-                      recentActivity: { ...config.recentActivity, modalDate: e.target.value }
-                    })}
-                  />
-                </div>
-
-                <div className="admin-form-group">
-                  <label className="admin-label">📍 Event Location</label>
-                  <input
-                    type="text"
-                    className="admin-input"
-                    placeholder="e.g. GV DesignTech, Oddanchatram, Tamil Nadu"
-                    value={config.recentActivity?.modalLocation !== undefined ? config.recentActivity.modalLocation : 'GV DesignTech, Oddanchatram, Tamil Nadu'}
-                    onChange={(e) => setConfig({
-                      ...config,
-                      recentActivity: { ...config.recentActivity, modalLocation: e.target.value }
-                    })}
-                  />
-                </div>
-
-                <div className="admin-form-group" style={{ gridColumn: '1 / -1' }}>
-                  <label className="admin-label">Event Full Description</label>
-                  <textarea
-                    className="admin-input"
-                    rows={3}
-                    placeholder="Students participated in a hands-on AI and technology workshop focused on practical learning, real-world applications, and future-ready skills."
-                    value={config.recentActivity?.modalText !== undefined ? config.recentActivity.modalText : 'Students participated in a hands-on AI and technology workshop focused on practical learning, real-world applications, and future-ready skills.'}
-                    onChange={(e) => setConfig({
-                      ...config,
-                      recentActivity: { ...config.recentActivity, modalText: e.target.value }
-                    })}
-                  />
-                </div>
-              </div>
-
-              {/* Live Preview Box */}
-              <div style={{
-                marginTop: '16px',
-                padding: '20px',
-                background: 'radial-gradient(ellipse at center, rgba(30, 18, 60, 0.7) 0%, rgba(10, 8, 25, 0.95) 100%)',
-                border: '1px solid rgba(139, 92, 246, 0.3)',
-                borderRadius: '16px',
-                textAlign: 'center'
-              }}>
-                <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
-                  Live Preview in Popup Modal
-                </div>
-                <h4 style={{ fontSize: '20px', fontWeight: '800', color: '#fff', margin: '0 0 10px' }}>
-                  {config.recentActivity?.modalHeading || 'AI Workshop'}{' '}
-                  <span style={{
-                    background: 'linear-gradient(135deg, #c084fc, #e879f9)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent'
-                  }}>
-                    {config.recentActivity?.modalHeadingAccent !== undefined ? config.recentActivity.modalHeadingAccent : 'Successfully Completed'}
-                  </span>
-                </h4>
-                <p style={{ fontSize: '14px', color: '#cbd5e1', maxWidth: '600px', margin: '0 auto 12px', lineHeight: 1.5 }}>
-                  {config.recentActivity?.modalText || 'Students participated in a hands-on AI and technology workshop focused on practical learning, real-world applications, and future-ready skills.'}
+            {/* List of current activities */}
+            {(!config.recentActivity?.items || config.recentActivity.items.length === 0) ? (
+              <div style={{ textAlign: 'center', padding: '40px 20px', background: 'rgba(255, 255, 255, 0.02)', borderRadius: '16px', border: '1px dashed rgba(255, 255, 255, 0.15)' }}>
+                <div style={{ fontSize: '32px', marginBottom: '10px' }}>📸</div>
+                <div style={{ fontSize: '15px', fontWeight: '700', color: '#f1f5f9', marginBottom: '6px' }}>No Activities Added Yet</div>
+                <p style={{ fontSize: '13px', color: '#94a3b8', maxWidth: '400px', margin: '0 auto 16px' }}>
+                  Click "Add New Activity" above to create your first activity with its photo, title, and description.
                 </p>
-                <div style={{ display: 'inline-flex', gap: '16px', fontSize: '12px', color: '#94a3b8', flexWrap: 'wrap', justifyContent: 'center' }}>
-                  <span>📅 {config.recentActivity?.modalDate || 'September 2026'}</span>
-                  <span>|</span>
-                  <span>📍 {config.recentActivity?.modalLocation || 'GV DesignTech, Oddanchatram, Tamil Nadu'}</span>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
-                <button type="submit" className="admin-btn-primary">
-                  💾 Save Modal Content
-                </button>
-              </div>
-            </form>
-          </div>
-
-          {/* Activity Carousel Slides */}
-          <div className="admin-card">
-            <div className="admin-card-header">
-              <h3 className="admin-card-title">
-                <span>🖼️</span>
-                <span>Interactive 3D Carousel Slides ({config.recentActivity?.items?.length || 0})</span>
-              </h3>
-            </div>
-
-            {/* List of current slides */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '16px', marginBottom: '24px' }}>
-              {(config.recentActivity?.items || []).map((item, idx) => (
-                <div
-                  key={item.id || idx}
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.03)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '14px',
-                    padding: '14px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '10px'
-                  }}
-                >
-                  <div style={{ width: '100%', height: '150px', borderRadius: '10px', overflow: 'hidden', background: '#000' }}>
-                    <img
-                      src={item.src}
-                      alt={item.alt}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>{item.alt || `Slide ${idx + 1}`}</div>
-                    <div style={{ fontSize: '11px', color: '#94a3b8', wordBreak: 'break-all' }}>{item.src}</div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const updatedItems = (config.recentActivity?.items || []).filter((_, i) => i !== idx);
-                      const updated = {
-                        ...config,
-                        recentActivity: { ...config.recentActivity, items: updatedItems }
-                      };
-                      handleSaveAll(updated);
-                    }}
-                    style={{
-                      padding: '6px 12px',
-                      background: 'rgba(239, 68, 68, 0.15)',
-                      border: '1px solid rgba(239, 68, 68, 0.3)',
-                      color: '#f87171',
-                      borderRadius: '8px',
-                      fontSize: '12px',
-                      fontWeight: '700',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    🗑️ Remove Slide
-                  </button>
-                </div>
-              ))}
-            </div>
-
-            {/* Add New Slide Form */}
-            <div style={{ padding: '20px', background: 'rgba(139, 92, 246, 0.08)', border: '1px dashed rgba(139, 92, 246, 0.4)', borderRadius: '16px' }}>
-              <h4 style={{ margin: '0 0 14px', color: '#c084fc', fontSize: '15px', fontWeight: '700' }}>
-                + Add New Activity Photo Slide
-              </h4>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px' }}>
-                <div className="admin-form-group">
-                  <label className="admin-label">Slide Caption / Alt Description</label>
-                  <input
-                    type="text"
-                    className="admin-input"
-                    placeholder="e.g. Hands-on Robotic Arm Assembly Workshop"
-                    value={newSlide.alt}
-                    onChange={(e) => setNewSlide({ ...newSlide, alt: e.target.value })}
-                  />
-                </div>
-
-                <div className="admin-form-group">
-                  <label className="admin-label">Image URL or Upload</label>
-                  <input
-                    type="text"
-                    className="admin-input"
-                    placeholder="Enter image URL"
-                    value={newSlide.src}
-                    onChange={(e) => setNewSlide({ ...newSlide, src: e.target.value })}
-                    style={{ marginBottom: '6px' }}
-                  />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileUpload(e, (url) => setNewSlide(prev => ({ ...prev, src: url })))}
-                    style={{ fontSize: '12px', color: '#94a3b8' }}
-                  />
-                </div>
-              </div>
-
-              {newSlide.src && (
-                <div style={{ marginTop: '12px', width: '120px', height: '80px', borderRadius: '8px', overflow: 'hidden' }}>
-                  <img src={newSlide.src} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-              )}
-
-              <div style={{ marginTop: '16px' }}>
                 <button
                   type="button"
                   className="admin-btn-primary"
-                  disabled={!newSlide.src || uploading}
-                  onClick={() => {
-                    if (!newSlide.src) return;
-                    const newItem = {
-                      id: Date.now(),
-                      src: newSlide.src,
-                      alt: newSlide.alt || 'GV DesignTech Recent Activity'
-                    };
-                    const updatedItems = [...(config.recentActivity?.items || []), newItem];
-                    const updated = {
-                      ...config,
-                      recentActivity: { ...config.recentActivity, items: updatedItems }
-                    };
-                    handleSaveAll(updated);
-                    setNewSlide({ src: '', alt: '' });
-                  }}
+                  onClick={handleOpenAddActivity}
                 >
-                  {uploading ? 'Processing Image...' : '+ Add Slide to Carousel'}
+                  + Add First Activity
                 </button>
               </div>
-            </div>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '18px' }}>
+                {config.recentActivity.items.map((item, idx) => (
+                  <div
+                    key={item.id || idx}
+                    style={{
+                      background: 'radial-gradient(ellipse at top left, rgba(168, 85, 247, 0.08) 0%, rgba(15, 23, 42, 0.85) 100%)',
+                      border: '1px solid rgba(168, 85, 247, 0.25)',
+                      borderRadius: '16px',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)',
+                      transition: 'transform 0.2s ease, border-color 0.2s ease'
+                    }}
+                  >
+                    {/* Activity Photo Thumbnail */}
+                    <div style={{ position: 'relative', width: '100%', height: '180px', background: '#0b0f19', overflow: 'hidden' }}>
+                      <img
+                        src={item.src}
+                        alt={item.alt || item.title || `Activity ${idx + 1}`}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                      <div style={{
+                        position: 'absolute',
+                        top: '10px',
+                        left: '10px',
+                        background: 'rgba(0, 0, 0, 0.75)',
+                        backdropFilter: 'blur(8px)',
+                        padding: '4px 10px',
+                        borderRadius: '20px',
+                        fontSize: '11px',
+                        fontWeight: '700',
+                        color: '#c084fc',
+                        border: '1px solid rgba(192, 132, 252, 0.4)'
+                      }}>
+                        Activity #{idx + 1}
+                      </div>
+                    </div>
+
+                    {/* Content Details */}
+                    <div style={{ padding: '16px', flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <div>
+                        <h4 style={{ margin: '0 0 4px', fontSize: '16px', fontWeight: '800', color: '#fff', lineHeight: 1.3 }}>
+                          {item.title || item.modalHeading || 'AI Workshop'}{' '}
+                          <span style={{ color: '#c084fc' }}>
+                            {item.accent !== undefined ? item.accent : (item.modalHeadingAccent || 'Successfully Completed')}
+                          </span>
+                        </h4>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', fontSize: '11px', color: '#94a3b8', marginTop: '6px' }}>
+                          <span>📅 {item.date || item.modalDate || 'September 2026'}</span>
+                          <span>•</span>
+                          <span>📍 {item.location || item.modalLocation || 'GV DesignTech'}</span>
+                        </div>
+                      </div>
+
+                      <p style={{
+                        margin: '6px 0 0',
+                        fontSize: '13px',
+                        color: '#cbd5e1',
+                        lineHeight: 1.45,
+                        display: '-webkit-box',
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        flex: 1
+                      }}>
+                        {item.desc || item.modalText || 'No description provided.'}
+                      </p>
+
+                      {/* Card Actions */}
+                      <div style={{ display: 'flex', gap: '8px', marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenEditActivity(item, idx)}
+                          style={{
+                            flex: 1,
+                            padding: '8px 14px',
+                            background: 'rgba(168, 85, 247, 0.15)',
+                            border: '1px solid rgba(168, 85, 247, 0.4)',
+                            color: '#d8b4fe',
+                            borderRadius: '10px',
+                            fontSize: '12px',
+                            fontWeight: '700',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '6px'
+                          }}
+                        >
+                          ✏️ Edit Photo & Content
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteActivity(idx)}
+                          style={{
+                            padding: '8px 12px',
+                            background: 'rgba(239, 68, 68, 0.12)',
+                            border: '1px solid rgba(239, 68, 68, 0.3)',
+                            color: '#f87171',
+                            borderRadius: '10px',
+                            fontSize: '12px',
+                            fontWeight: '700',
+                            cursor: 'pointer'
+                          }}
+                          title="Delete Activity"
+                        >
+                          🗑️
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
+
+          {/* Unified Add / Edit Activity Modal Dialog */}
+          {activityModalOpen && (
+            <div
+              style={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 99999,
+                background: 'rgba(5, 5, 12, 0.85)',
+                backdropFilter: 'blur(10px)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '20px'
+              }}
+              onClick={() => setActivityModalOpen(false)}
+            >
+              <div
+                style={{
+                  background: '#0e111d',
+                  border: '1px solid rgba(168, 85, 247, 0.4)',
+                  borderRadius: '20px',
+                  width: '100%',
+                  maxWidth: '680px',
+                  maxHeight: '90vh',
+                  overflowY: 'auto',
+                  boxShadow: '0 25px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(168, 85, 247, 0.2)',
+                  padding: '28px',
+                  position: 'relative'
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Modal Header */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '16px' }}>
+                  <div>
+                    <h3 style={{ margin: 0, fontSize: '20px', fontWeight: '800', color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span>{editingActivityIdx !== null ? '✏️' : '✨'}</span>
+                      <span>{editingActivityIdx !== null ? `Edit Activity #${editingActivityIdx + 1}` : 'Add New Activity'}</span>
+                    </h3>
+                    <p style={{ margin: '4px 0 0', fontSize: '13px', color: '#94a3b8' }}>
+                      Add or update the activity photo, title, accent, story description, date, and location in this single form.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setActivityModalOpen(false)}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.08)',
+                      border: 'none',
+                      color: '#cbd5e1',
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '50%',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '16px'
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                <form onSubmit={handleSaveActivity}>
+                  {/* Photo Section */}
+                  <div style={{
+                    padding: '16px',
+                    background: 'rgba(168, 85, 247, 0.06)',
+                    border: '1px dashed rgba(168, 85, 247, 0.35)',
+                    borderRadius: '14px',
+                    marginBottom: '20px'
+                  }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: '700', color: '#e2e8f0', marginBottom: '10px' }}>
+                      📷 Activity Photo <span style={{ color: '#ec4899' }}>*</span>
+                    </label>
+
+                    <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+                      {/* Thumbnail Preview */}
+                      <div style={{
+                        width: '120px',
+                        height: '90px',
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                        background: '#000',
+                        border: '2px solid rgba(168, 85, 247, 0.5)',
+                        flexShrink: 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        {activityForm.src ? (
+                          <img
+                            src={activityForm.src}
+                            alt="Activity Preview"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
+                        ) : (
+                          <span style={{ fontSize: '11px', color: '#94a3b8', textAlign: 'center', padding: '4px' }}>No photo selected</span>
+                        )}
+                      </div>
+
+                      <div style={{ flex: 1, minWidth: '220px' }}>
+                        <div style={{ marginBottom: '10px' }}>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleActivityImageUpload}
+                            id="activity-file-input"
+                            style={{ display: 'none' }}
+                          />
+                          <label
+                            htmlFor="activity-file-input"
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              padding: '8px 14px',
+                              background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)',
+                              color: '#fff',
+                              borderRadius: '8px',
+                              fontSize: '12px',
+                              fontWeight: '700',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            <span>📁</span>
+                            <span>Choose Photo from Device</span>
+                          </label>
+                          {uploading && <span style={{ marginLeft: '10px', fontSize: '12px', color: '#c084fc' }}>Uploading...</span>}
+                        </div>
+
+                        <div>
+                          <input
+                            type="text"
+                            className="admin-input"
+                            placeholder="Or paste image URL (e.g. /assets/recent-activity/workshop.jpg)"
+                            value={activityForm.src}
+                            onChange={(e) => setActivityForm(prev => ({ ...prev, src: e.target.value }))}
+                            style={{ fontSize: '12px' }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Headline & Accent */}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px', marginBottom: '16px' }}>
+                    <div className="admin-form-group">
+                      <label className="admin-label">Event Headline / Prefix <span style={{ color: '#ec4899' }}>*</span></label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        placeholder="e.g. AI Workshop"
+                        value={activityForm.title}
+                        onChange={(e) => setActivityForm(prev => ({ ...prev, title: e.target.value }))}
+                        required
+                      />
+                      <span style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px', display: 'block' }}>First part in clean bold white</span>
+                    </div>
+
+                    <div className="admin-form-group">
+                      <label className="admin-label">Headline Accent (Purple Highlighted)</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        placeholder="e.g. Successfully Completed"
+                        value={activityForm.accent}
+                        onChange={(e) => setActivityForm(prev => ({ ...prev, accent: e.target.value }))}
+                      />
+                      <span style={{ fontSize: '11px', color: '#c084fc', marginTop: '4px', display: 'block' }}>Second part highlighted with gradient</span>
+                    </div>
+                  </div>
+
+                  {/* Date & Location */}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px', marginBottom: '16px' }}>
+                    <div className="admin-form-group">
+                      <label className="admin-label">📅 Event Date / Timing</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        placeholder="e.g. September 2026"
+                        value={activityForm.date}
+                        onChange={(e) => setActivityForm(prev => ({ ...prev, date: e.target.value }))}
+                      />
+                    </div>
+
+                    <div className="admin-form-group">
+                      <label className="admin-label">📍 Event Location</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        placeholder="e.g. GV DesignTech, Oddanchatram, Tamil Nadu"
+                        value={activityForm.location}
+                        onChange={(e) => setActivityForm(prev => ({ ...prev, location: e.target.value }))}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <div className="admin-form-group" style={{ marginBottom: '16px' }}>
+                    <label className="admin-label">Event Full Description / Story</label>
+                    <textarea
+                      className="admin-input"
+                      rows={4}
+                      placeholder="Students participated in a hands-on AI and technology workshop focused on practical learning, real-world applications, and future-ready skills."
+                      value={activityForm.desc}
+                      onChange={(e) => setActivityForm(prev => ({ ...prev, desc: e.target.value }))}
+                    />
+                  </div>
+
+                  {/* Optional Alt text */}
+                  <div className="admin-form-group" style={{ marginBottom: '20px' }}>
+                    <label className="admin-label">Photo Description / Alt Label (Optional)</label>
+                    <input
+                      type="text"
+                      className="admin-input"
+                      placeholder="e.g. Hands-on Classroom Workshop Session"
+                      value={activityForm.alt}
+                      onChange={(e) => setActivityForm(prev => ({ ...prev, alt: e.target.value }))}
+                    />
+                  </div>
+
+                  {/* Live Modal Preview */}
+                  <div style={{
+                    marginBottom: '20px',
+                    padding: '16px',
+                    background: 'radial-gradient(ellipse at center, rgba(30, 18, 60, 0.7) 0%, rgba(10, 8, 25, 0.95) 100%)',
+                    border: '1px solid rgba(139, 92, 246, 0.3)',
+                    borderRadius: '14px',
+                    textAlign: 'center'
+                  }}>
+                    <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>
+                      Live Preview Inside 3D Showcase
+                    </div>
+                    <h4 style={{ fontSize: '18px', fontWeight: '800', color: '#fff', margin: '0 0 8px' }}>
+                      {activityForm.title || 'Activity Title'}{' '}
+                      <span style={{
+                        background: 'linear-gradient(135deg, #c084fc, #e879f9)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent'
+                      }}>
+                        {activityForm.accent || ''}
+                      </span>
+                    </h4>
+                    <p style={{ fontSize: '13px', color: '#cbd5e1', maxWidth: '520px', margin: '0 auto 8px', lineHeight: 1.45 }}>
+                      {activityForm.desc || 'Activity description will appear here as users scroll or select this slide.'}
+                    </p>
+                    <div style={{ display: 'inline-flex', gap: '12px', fontSize: '11px', color: '#94a3b8', flexWrap: 'wrap', justifyContent: 'center' }}>
+                      {activityForm.date && <span>📅 {activityForm.date}</span>}
+                      {activityForm.date && activityForm.location && <span>|</span>}
+                      {activityForm.location && <span>📍 {activityForm.location}</span>}
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+                    <button
+                      type="button"
+                      className="admin-btn-secondary"
+                      onClick={() => setActivityModalOpen(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="admin-btn-primary"
+                      disabled={uploading}
+                    >
+                      💾 {editingActivityIdx !== null ? 'Save Changes' : 'Add Activity'}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
