@@ -221,6 +221,7 @@ export default function App() {
           <Route path="headquarters" element={<AdminHomeCustomizer initialTab="contactInfo" />} />
           <Route path="contact" element={<AdminHomeCustomizer initialTab="contactInfo" />} />
           <Route path="demo-video" element={<AdminHomeCustomizer initialTab="demoVideo" />} />
+          <Route path="about-video" element={<AdminHomeCustomizer initialTab="aboutVideo" />} />
           <Route path="recent-activities" element={<AdminHomeCustomizer initialTab="recentActivity" />} />
           <Route path="impact-stats" element={<AdminHomeCustomizer initialTab="stats" />} />
           <Route path="lab-photos" element={<AdminHomeCustomizer initialTab="showcaseImages" />} />

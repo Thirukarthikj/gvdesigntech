@@ -45,6 +45,11 @@ export const initialSiteConfig = {
     title: 'Watch How We Shape the Future of CAD & Engineering Design Education',
     description: 'Take a guided virtual tour through our state-of-the-art CAD workstations, hands-on 3D printing & prototyping labs, BIM coordination studios, and placement training sessions at GV DesignTech.'
   },
+  aboutVideo: {
+    videoUrl: 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A',
+    title: 'GV DesignTech Academy Showcase',
+    tag: '3D 5-AXIS VMC MACHINING CENTER'
+  },
   recentActivity: {
     badge: 'NEW',
     title: 'Recent Activities',
@@ -745,6 +750,13 @@ export function getStoredSiteConfig() {
           ? (parsed.demoVideo?.videoUrl || '').trim()
           : formatVideoEmbedUrl(parsed.demoVideo?.videoUrl || initialSiteConfig.demoVideo.videoUrl)
       },
+      aboutVideo: {
+        ...initialSiteConfig.aboutVideo,
+        ...(parsed.aboutVideo || {}),
+        videoUrl: isVideoFile(parsed.aboutVideo?.videoUrl)
+          ? (parsed.aboutVideo?.videoUrl || '').trim()
+          : formatVideoEmbedUrl(parsed.aboutVideo?.videoUrl || initialSiteConfig.aboutVideo.videoUrl)
+      },
       recentActivity: {
         ...initialSiteConfig.recentActivity,
         ...(parsed.recentActivity || {}),
@@ -778,7 +790,13 @@ export function saveStoredSiteConfig(config) {
       videoUrl: isVideoFile(config.demoVideo.videoUrl)
         ? (config.demoVideo.videoUrl || '').trim()
         : formatVideoEmbedUrl(config.demoVideo.videoUrl || '')
-    } : config.demoVideo
+    } : config.demoVideo,
+    aboutVideo: config.aboutVideo ? {
+      ...config.aboutVideo,
+      videoUrl: isVideoFile(config.aboutVideo.videoUrl)
+        ? (config.aboutVideo.videoUrl || '').trim()
+        : formatVideoEmbedUrl(config.aboutVideo.videoUrl || '')
+    } : config.aboutVideo
   } : config;
 
   try {

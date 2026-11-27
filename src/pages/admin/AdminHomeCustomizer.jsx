@@ -17,6 +17,7 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
     const p = location.pathname;
     if (p.includes('contact-info') || p.includes('headquarters') || p.includes('contact')) return 'contactInfo';
     if (p.includes('demo-video')) return 'demoVideo';
+    if (p.includes('about-video')) return 'aboutVideo';
     if (p.includes('recent-activities')) return 'recentActivity';
     if (p.includes('impact-stats')) return 'stats';
     if (p.includes('lab-photos')) return 'showcaseImages';
@@ -46,6 +47,12 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
           icon: '🎬',
           title: 'Watch Demo Video Manager',
           desc: 'Configure the Watch Demo video link, title, and description displayed in the hero banner and video showcase modal.'
+        };
+      case 'aboutVideo':
+        return {
+          icon: '🎥',
+          title: 'Home About Section Video Player',
+          desc: 'Configure or upload the dedicated video shown in the About Us showcase card (replacing the 3D model) on the Home Page, separate from the Watch Demo Video option.'
         };
       case 'recentActivity':
         return {
@@ -173,7 +180,8 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '24px' }}>
         {[
           { id: 'contactInfo', route: '/admin/contact-info', icon: '📍', label: 'Headquarters & Contact' },
-          { id: 'demoVideo', route: '/admin/demo-video', icon: '🎬', label: 'Watch Demo Video' },
+          { id: 'demoVideo', route: '/admin/demo-video', icon: '🎬', label: 'Watch Demo Video (Hero)' },
+          { id: 'aboutVideo', route: '/admin/about-video', icon: '🎥', label: 'Home About Video (Card)' },
           { id: 'recentActivity', route: '/admin/recent-activities', icon: '⚡', label: 'Recent Activities' },
           { id: 'stats', route: '/admin/impact-stats', icon: '📈', label: 'Impact Numbers' },
           { id: 'showcaseImages', route: '/admin/lab-photos', icon: '🏫', label: 'Lab & Classroom Photos' },
@@ -770,6 +778,222 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
               </button>
               <button type="submit" className="admin-btn-primary">
                 💾 Save Video Configuration
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* ========================================================
+          TAB: HOME ABOUT SECTION VIDEO (CARD IN ABOUT US)
+          ======================================================== */}
+      {activeTab === 'aboutVideo' && (
+        <div className="admin-card">
+          <div className="admin-card-header">
+            <div>
+              <h3 className="admin-card-title">
+                <span>🎥</span>
+                <span>Home About Section Video Player</span>
+              </h3>
+              <p style={{ margin: '4px 0 0', fontSize: '13px', color: '#94a3b8' }}>
+                Dedicated video displayed inside the About Us card on the Home Page (separate from Watch Demo Video).
+              </p>
+            </div>
+            <span style={{ fontSize: '12px', color: '#94a3b8' }}>
+              Displayed in About Card next to "Master Industry-Standard CAD"
+            </span>
+          </div>
+
+          <form onSubmit={(e) => { e.preventDefault(); handleSaveAll(); }}>
+            {/* SOURCE SELECTION: Upload from Device OR Paste URL */}
+            <div style={{ marginBottom: '24px', padding: '20px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '16px' }}>
+              <div style={{ fontSize: '14px', fontWeight: '800', color: '#c084fc', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span>📁</span>
+                <span>OPTION 1: UPLOAD VIDEO FROM YOUR DEVICE</span>
+              </div>
+              <p style={{ margin: '0 0 14px', fontSize: '13px', color: '#94a3b8' }}>
+                Select an MP4, WebM, or MOV video file directly from your computer or phone for the About section card.
+              </p>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+                <label
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '12px 22px',
+                    borderRadius: '12px',
+                    background: videoUploading ? 'rgba(255,255,255,0.1)' : 'linear-gradient(135deg, #8b5cf6, #d946ef)',
+                    color: '#fff',
+                    fontWeight: '700',
+                    fontSize: '14px',
+                    cursor: videoUploading ? 'wait' : 'pointer',
+                    boxShadow: '0 8px 20px rgba(139, 92, 246, 0.35)',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <span>{videoUploading ? '⏳' : '📤'}</span>
+                  <span>{videoUploading ? 'Uploading Video from Device...' : 'Choose Video File from Device'}</span>
+                  <input
+                    type="file"
+                    accept="video/mp4,video/webm,video/quicktime,video/ogg,video/x-matroska,video/*"
+                    disabled={videoUploading}
+                    style={{ display: 'none' }}
+                    onChange={async (e) => {
+                      const file = e.target.files && e.target.files[0];
+                      if (!file) return;
+                      if (!file.type.startsWith('video/')) {
+                        alert('Please select a valid video file (MP4, WebM, MOV, OGG).');
+                        return;
+                      }
+                      setVideoUploading(true);
+                      setVideoFileInfo(`${file.name} (${(file.size / (1024 * 1024)).toFixed(1)} MB)`);
+                      try {
+                        showToast('⏳ Uploading video from device, please wait...');
+                        const res = await uploadVideoToCloudinary(file, { folder: 'gvdesigntech/videos' });
+                        if (res && res.url) {
+                          const updated = {
+                            ...config,
+                            aboutVideo: { ...(config.aboutVideo || {}), videoUrl: res.url }
+                          };
+                          setConfig(updated);
+                          handleSaveAll(updated);
+                          showToast(res.isCloudinary ? '☁️ Video uploaded to Cloudinary & saved live!' : '✓ Device video uploaded & saved live in About section!');
+                        }
+                      } catch (err) {
+                        console.error('Video upload error:', err);
+                        showToast('⚠️ Video upload error: ' + err.message);
+                      } finally {
+                        setVideoUploading(false);
+                      }
+                    }}
+                  />
+                </label>
+
+                {videoFileInfo && (
+                  <span style={{ fontSize: '13px', color: '#38bdf8', fontWeight: '600' }}>
+                    📎 {videoFileInfo}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* OPTION 2: Paste YouTube / Stream URL */}
+            <div className="admin-form-group" style={{ marginBottom: '20px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <label className="admin-label" style={{ margin: 0 }}>
+                  OPTION 2: Video Embed / Stream URL (or YouTube Link) <span style={{ color: '#d946ef' }}>*</span>
+                </label>
+                {config.aboutVideo?.videoUrl && isVideoFile(config.aboutVideo.videoUrl) && (
+                  <span style={{ fontSize: '11.5px', color: '#4ade80', fontWeight: '700' }}>
+                    ✓ Device Video Loaded
+                  </span>
+                )}
+                {config.aboutVideo?.videoUrl && !isVideoFile(config.aboutVideo.videoUrl) && config.aboutVideo.videoUrl.includes('embed') && (
+                  <span style={{ fontSize: '11.5px', color: '#c084fc', fontWeight: '700' }}>
+                    ✓ YouTube Embed Ready
+                  </span>
+                )}
+              </div>
+
+              <input
+                type="text"
+                className="admin-input"
+                required
+                placeholder="Paste YouTube link (e.g. https://youtu.be/...) or direct MP4 link"
+                value={config.aboutVideo?.videoUrl || ''}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  const formatted = formatVideoEmbedUrl(raw);
+                  setConfig(prev => ({
+                    ...prev,
+                    aboutVideo: { ...(prev.aboutVideo || {}), videoUrl: formatted }
+                  }));
+                }}
+              />
+              <span style={{ fontSize: '12px', color: '#94a3b8', marginTop: '6px', display: 'block' }}>
+                💡 <strong>YouTube Links Auto-Fixed:</strong> You can paste any YouTube URL (like <code>https://youtu.be/b68HETiNO98?si=...</code> or <code>https://youtube.com/watch?v=...</code>) and it will automatically convert to the working embed format.
+              </span>
+            </div>
+
+            <div className="admin-form-group">
+              <label className="admin-label">Top Badge Tag (Display Above Video)</label>
+              <input
+                type="text"
+                className="admin-input"
+                placeholder="e.g. 3D 5-AXIS VMC MACHINING CENTER"
+                value={config.aboutVideo?.tag || ''}
+                onChange={(e) => setConfig({
+                  ...config,
+                  aboutVideo: { ...(config.aboutVideo || {}), tag: e.target.value }
+                })}
+              />
+            </div>
+
+            <div className="admin-form-group">
+              <label className="admin-label">Headline / Title</label>
+              <input
+                type="text"
+                className="admin-input"
+                placeholder="e.g. Master Industry-Standard CAD & Engineering Design"
+                value={config.aboutVideo?.title || ''}
+                onChange={(e) => setConfig({
+                  ...config,
+                  aboutVideo: { ...(config.aboutVideo || {}), title: e.target.value }
+                })}
+              />
+            </div>
+
+            {/* Live Video Preview Box */}
+            <div style={{ marginTop: '24px', padding: '16px', background: 'rgba(0, 0, 0, 0.6)', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: '#c084fc' }}>
+                  📺 LIVE VIDEO PREVIEW (ABOUT CARD)
+                </div>
+                <span style={{ fontSize: '11.5px', color: '#94a3b8' }}>
+                  {isVideoFile(config.aboutVideo?.videoUrl) ? 'HTML5 Native Video Player' : 'Embedded Video Player'}
+                </span>
+              </div>
+
+              <div style={{ width: '100%', height: '380px', borderRadius: '12px', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {isVideoFile(config.aboutVideo?.videoUrl) ? (
+                  <video
+                    key={config.aboutVideo?.videoUrl}
+                    controls
+                    playsInline
+                    preload="metadata"
+                    src={config.aboutVideo.videoUrl}
+                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  >
+                    <source src={config.aboutVideo.videoUrl} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <iframe
+                    key={config.aboutVideo?.videoUrl}
+                    width="100%"
+                    height="100%"
+                    src={formatVideoEmbedUrl(config.aboutVideo?.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A')}
+                    title={config.aboutVideo?.title || 'Home About Section Video'}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    style={{ border: 'none' }}
+                  ></iframe>
+                )}
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
+              <button
+                type="button"
+                className="admin-btn-secondary"
+                onClick={() => handleSaveAll({ ...config, aboutVideo: initialSiteConfig.aboutVideo })}
+              >
+                Reset to Default
+              </button>
+              <button type="submit" className="admin-btn-primary">
+                💾 Save About Video Configuration
               </button>
             </div>
           </form>

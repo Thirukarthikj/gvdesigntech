@@ -46,6 +46,10 @@ export default function Home({ onOpenModal }) {
             demoVideo: {
               ...(current.demoVideo || {}),
               ...(data.demoVideo || {})
+            },
+            aboutVideo: {
+              ...(current.aboutVideo || {}),
+              ...(data.aboutVideo || {})
             }
           };
           setSiteConfig(merged);
@@ -346,10 +350,10 @@ export default function Home({ onOpenModal }) {
               {/* Live Showcase Video Tag */}
               <div className="cad-badge-tag">
                 <span className="cad-badge-dot" style={{ background: '#22c55e', boxShadow: '0 0 10px #22c55e' }}></span>
-                <span>{siteConfig.demoVideo?.title || 'GV DesignTech Academy Showcase'}</span>
+                <span>{(siteConfig.aboutVideo?.tag || siteConfig.aboutVideo?.title) || '3D 5-AXIS VMC MACHINING CENTER'}</span>
               </div>
 
-              {/* Video Player Display (Admin Configured Video) */}
+              {/* Video Player Display (Admin Dedicated About Section Video) */}
               <div
                 className="about-video-screen"
                 style={{
@@ -369,44 +373,48 @@ export default function Home({ onOpenModal }) {
                   zIndex: 2
                 }}
               >
-                {isVideoFile(siteConfig.demoVideo?.videoUrl) ? (
-                  <video
-                    key={siteConfig.demoVideo?.videoUrl}
-                    controls
-                    playsInline
-                    autoPlay
-                    muted
-                    loop
-                    preload="auto"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      display: 'block',
-                      borderRadius: '18px'
-                    }}
-                    src={siteConfig.demoVideo.videoUrl}
-                  >
-                    <source src={siteConfig.demoVideo.videoUrl} type="video/mp4" />
-                    <source src={siteConfig.demoVideo.videoUrl} type="video/webm" />
-                    Your browser does not support HTML5 video.
-                  </video>
-                ) : (
-                  <iframe
-                    key={siteConfig.demoVideo?.videoUrl}
-                    src={formatVideoEmbedUrl(siteConfig.demoVideo?.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A')}
-                    title={siteConfig.demoVideo?.title || 'GV DesignTech Academy Showcase'}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      border: 'none',
-                      display: 'block',
-                      borderRadius: '18px'
-                    }}
-                  />
-                )}
+                {(() => {
+                  const activeVideoUrl = siteConfig.aboutVideo?.videoUrl || siteConfig.demoVideo?.videoUrl;
+                  const activeTitle = siteConfig.aboutVideo?.title || 'GV DesignTech Academy Showcase';
+                  return isVideoFile(activeVideoUrl) ? (
+                    <video
+                      key={activeVideoUrl}
+                      controls
+                      playsInline
+                      autoPlay
+                      muted
+                      loop
+                      preload="auto"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                        borderRadius: '18px'
+                      }}
+                      src={activeVideoUrl}
+                    >
+                      <source src={activeVideoUrl} type="video/mp4" />
+                      <source src={activeVideoUrl} type="video/webm" />
+                      Your browser does not support HTML5 video.
+                    </video>
+                  ) : (
+                    <iframe
+                      key={activeVideoUrl}
+                      src={formatVideoEmbedUrl(activeVideoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A')}
+                      title={activeTitle}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        border: 'none',
+                        display: 'block',
+                        borderRadius: '18px'
+                      }}
+                    />
+                  );
+                })()}
               </div>
 
               <div className={P['about-stat-pill']} style={{ zIndex: 3 }}>
