@@ -308,7 +308,7 @@ export default function Navbar() {
               <Link to="/flagship/galleryPage" onClick={closeAll}>Gallery</Link>
               <Link to="/flagship/Placement" onClick={closeAll}>Placement</Link>
               <Link to="/flagship/Blog-page" onClick={closeAll}>Blog</Link>
-              <Link to="/certificate-verification" onClick={closeAll}>Certification Verification</Link>
+              <Link to="/certificate-verification" onClick={closeAll}>Certificate Verification</Link>
             </div>
           </div>
 
