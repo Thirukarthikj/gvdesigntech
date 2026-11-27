@@ -1072,143 +1072,188 @@
 }
 
 /* ==========================================================================
-   Hero Leaders Group (Founder / CEO, MD, Leadership Cards - Equal Sizes & 2-Col Grid)
+   Hero Leaders Group (Founder / CEO, Managing Director & Leadership Cards)
    ========================================================================== */
 .hero-leaders-group {
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(130px, 168px)) !important;
-  gap: 16px 14px !important;
-  z-index: 2 !important;
-  align-self: flex-start !important;
-  margin: 6px 0 0 0 !important;
-  justify-content: flex-start !important;
-  align-items: start !important;
-  width: fit-content !important;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  z-index: 2;
+  align-self: flex-start;
+  margin-left: 0;
 }
 
-/* Individual Leader Card - Guaranteed Identical Dimensions */
-.hero-leaders-group .hero-leader-card,
-.hero-leaders-group figure {
-  width: 100% !important;
-  max-width: 168px !important;
-  min-width: 130px !important;
+/* Equalize every leader card figure */
+.hero-leaders-group > figure {
   margin: 0 !important;
-  padding: 0 !important;
   display: flex !important;
   flex-direction: column !important;
-  align-self: start !important;
+  align-self: stretch !important;
 }
 
-/* 3rd Leader Card: when 3rd leader is added, place it under the two images */
-.hero-leaders-group > .hero-leader-card:nth-child(3):last-child,
-.hero-leaders-group > figure:nth-child(3):last-child {
-  grid-column: 1 / -1 !important;
-  justify-self: center !important;
-  max-width: 168px !important;
-}
-
-/* Outer Gradient Frame - Identical padding, border-radius, and height */
-.hero-leaders-group .hero-leader-card [class*="hero-chairman-frame"],
-.hero-leaders-group figure [class*="hero-chairman-frame"] {
-  width: 100% !important;
-  box-sizing: border-box !important;
-  border-radius: 20px !important;
-  padding: 2.5px !important;
-  background: linear-gradient(145deg, #8b5cf6, #d946ef 55%, rgba(139, 92, 246, 0.4)) !important;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7), 0 0 25px rgba(139, 92, 246, 0.3) !important;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease !important;
-}
-
-/* Inner Container - Strict 3:4 Aspect Ratio so all images are identically sized */
-.hero-leaders-group .hero-leader-card [class*="hero-chairman-inner"],
-.hero-leaders-group figure [class*="hero-chairman-inner"] {
-  width: 100% !important;
-  aspect-ratio: 3 / 4 !important;
-  height: auto !important;
-  border-radius: 18px !important;
-  overflow: hidden !important;
-  position: relative !important;
-  background: #0b0a1f !important;
-}
-
-/* Photo - Uniform fill across the entire 3:4 card */
-.hero-leaders-group .hero-leader-card [class*="hero-chairman-img"],
-.hero-leaders-group figure [class*="hero-chairman-img"] {
-  position: absolute !important;
-  inset: 0 !important;
+.hero-leaders-group [class*="hero-chairman-frame"] {
   width: 100% !important;
   height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  border-radius: 20px !important;
+  padding: 2px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.hero-leaders-group [class*="hero-chairman-inner"] {
+  width: 100% !important;
+  aspect-ratio: 3 / 4 !important;
+  position: relative !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  background: #0b0a1f !important;
+  display: block !important;
+}
+
+.hero-leaders-group [class*="hero-chairman-img"] {
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  inset: 0 !important;
   object-fit: cover !important;
   display: block !important;
 }
 
-/* Caption - Consistent height and styling across all cards */
-.hero-leaders-group .hero-leader-card [class*="hero-chairman-cap"],
-.hero-leaders-group figure [class*="hero-chairman-cap"] {
+.hero-leaders-group [class*="hero-chairman-cap"] {
   position: absolute !important;
   bottom: 0 !important;
   left: 0 !important;
   right: 0 !important;
-  padding: 34px 10px 10px !important;
-  background: linear-gradient(to top, rgba(2, 4, 18, 0.96) 0%, rgba(2, 4, 18, 0.8) 58%, transparent 100%) !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: flex-end !important;
+  align-items: center !important;
   text-align: center !important;
+  padding: 30px 8px 10px !important;
+  background: linear-gradient(to top, rgba(2, 4, 18, 0.96) 0%, rgba(2, 4, 18, 0.78) 55%, rgba(2, 4, 18, 0) 100%) !important;
   pointer-events: none !important;
-  min-height: 58px !important;
-  box-sizing: border-box !important;
 }
 
-.hero-leaders-group .hero-leader-card [class*="hero-chairman-role"],
-.hero-leaders-group figure [class*="hero-chairman-role"] {
-  color: #ffffff !important;
-  font-size: 13px !important;
+.hero-leaders-group [class*="hero-chairman-role"] {
+  color: #fff !important;
+  font-size: clamp(11px, 2.7vw, 13px) !important;
   font-weight: 700 !important;
-  line-height: 1.2 !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  display: block !important;
-}
-
-.hero-leaders-group .hero-leader-card [class*="hero-chairman-title"],
-.hero-leaders-group figure [class*="hero-chairman-title"] {
-  color: rgba(255, 255, 255, 0.92) !important;
-  font-size: 11px !important;
-  font-weight: 600 !important;
   line-height: 1.25 !important;
-  margin-top: 2px !important;
-  display: block !important;
+  white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-}
-
-.hero-leaders-group .hero-leader-card [class*="hero-chairman-org"],
-.hero-leaders-group figure [class*="hero-chairman-org"] {
-  color: #d946ef !important;
-  font-size: 10.5px !important;
-  font-weight: 700 !important;
-  line-height: 1.2 !important;
+  width: 100% !important;
+  text-align: center !important;
   display: block !important;
 }
 
-@media (max-width: 1200px) {
+/* Fixed height title box so 1-line vs 2-line role text NEVER causes uneven card height */
+.hero-leaders-group [class*="hero-chairman-title"] {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: clamp(9.5px, 2.3vw, 11px) !important;
+  font-weight: 600 !important;
+  height: 28px !important;
+  line-height: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  margin-top: 2px !important;
+}
+
+.hero-leaders-group [class*="hero-chairman-org"] {
+  color: #d946ef !important;
+  font-size: clamp(9.5px, 2.3vw, 11px) !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+  width: 100% !important;
+  display: block !important;
+}
+
+/* Desktop horizontal row sizing */
+@media (min-width: 801px) {
   .hero-leaders-group {
-    grid-template-columns: repeat(2, minmax(126px, 155px)) !important;
-    gap: 14px 10px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-end !important;
+    align-self: flex-start !important;
+    margin-left: 0 !important;
+    gap: 14px !important;
+    margin-top: 2px !important;
+  }
+
+  .hero-leaders-group > figure {
+    width: clamp(138px, 10.5vw, 165px) !important;
+    flex: 0 0 clamp(138px, 10.5vw, 165px) !important;
   }
 }
 
+@media (max-width: 1200px) and (min-width: 801px) {
+  .hero-leaders-group {
+    gap: 10px !important;
+  }
+  .hero-leaders-group > figure {
+    width: clamp(128px, 11vw, 150px) !important;
+    flex: 0 0 clamp(128px, 11vw, 150px) !important;
+  }
+}
+
+/* ==========================================================================
+   MOBILE VIEW: 
+   - 2 initial images side-by-side with exact identical size
+   - 3rd image added by admin appears UNDER the two images, centered!
+   ========================================================================== */
 @media (max-width: 800px) {
   .hero-leaders-group {
-    grid-template-columns: repeat(2, minmax(130px, 160px)) !important;
-    gap: 12px 10px !important;
-    justify-content: center !important;
-    margin: 12px auto 6px !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
     width: 100% !important;
-    max-width: 340px !important;
+    max-width: 350px !important;
+    margin: 10px auto 4px !important;
+    justify-content: center !important;
+    justify-items: center !important;
+    order: 1 !important;
+  }
+
+  .hero-leaders-group > figure {
+    width: 100% !important;
+    max-width: 165px !important;
+  }
+
+  /* 3rd image added by admin sits UNDER the two images, centered! */
+  .hero-leaders-group > figure:nth-child(3) {
+    grid-column: 1 / -1 !important;
+    justify-self: center !important;
+    max-width: 165px !important;
+    width: 100% !important;
+    margin-top: 4px !important;
+  }
+
+  /* If a 4th image is added, layout as a balanced 2x2 grid */
+  .hero-leaders-group > figure:nth-child(3):not(:last-child) {
+    grid-column: 1 !important;
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-leaders-group {
+    gap: 8px !important;
+    max-width: 320px !important;
+  }
+  .hero-leaders-group > figure {
+    max-width: 150px !important;
+  }
+  .hero-leaders-group > figure:nth-child(3) {
+    max-width: 150px !important;
   }
 }
 
@@ -1248,8 +1293,11 @@
   }
 
   .hero-leaders-group {
+    display: flex;
+    align-items: flex-end;
     align-self: flex-start !important;
     margin-left: 0 !important;
+    gap: 14px;
     margin-top: 2px;
   }
 
@@ -1275,10 +1323,6 @@
 
   .hero-leaders-col ._row-left_tpo9n_799 h1 {
     text-align: center !important;
-  }
-
-  .hero-leaders-group {
-    margin: 12px auto 6px !important;
   }
 }
 
