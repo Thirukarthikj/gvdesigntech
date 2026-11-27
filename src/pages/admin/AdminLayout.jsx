@@ -74,7 +74,7 @@ export default function AdminLayout() {
         { to: '/admin/content-placement', icon: '🎯', label: 'Manage Placements' },
         { to: '/admin/content-blog', icon: '📰', label: 'Manage Blogs' },
         { to: '/admin/content-certificates', icon: '📜', label: 'Certificate Registry' },
-        { to: '/admin/demo-video', icon: '🎬', label: 'Manage Videos' },
+        { to: '/admin/demo-video', icon: '🎬', label: 'Watch Demo Video' },
         { to: '/admin/recent-activities', icon: '⚡', label: 'Recent Activities' },
         { to: '/admin/impact-stats', icon: '📈', label: 'Impact Numbers & Stats' },
         { to: '/admin/lab-photos', icon: '🏫', label: 'Classroom & Lab Photos' },
@@ -103,7 +103,7 @@ export default function AdminLayout() {
     if (path.includes('content-placement')) return 'Placements, Hiring Partners & Student Stories';
     if (path.includes('content-blog')) return 'Technical Articles & Knowledge Insights';
     if (path.includes('content-certificates')) return 'Official Certificate Registry & Validation';
-    if (path.includes('demo-video') || path.includes('videos')) return 'Video Library & Showcase Manager';
+    if (path.includes('demo-video')) return 'Watch Demo Video Showcase';
     if (path.includes('recent-activities')) return 'Recent Activities & Floating Widget';
     if (path.includes('impact-stats')) return 'Key Impact Metrics & Statistics';
     if (path.includes('lab-photos')) return 'Classroom & CAD Lab Environment Photos';

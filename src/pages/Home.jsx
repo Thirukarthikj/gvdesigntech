@@ -22,7 +22,6 @@ export default function Home({ onOpenModal }) {
   const [galleryList, setGalleryList] = useState(() => getStoredGallery());
   const [siteConfig, setSiteConfig] = useState(() => getStoredSiteConfig());
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
-  const [activeVideoId, setActiveVideoId] = useState(null);
   const [cadViewMode, setCadViewMode] = useState('solid');
   const [selectedCadMachine, setSelectedCadMachine] = useState('5axis');
   const [isCadRotating, setIsCadRotating] = useState(true);
@@ -33,18 +32,6 @@ export default function Home({ onOpenModal }) {
     alumni: 0,
     awards: 0
   });
-
-  // Real-time synchronization when admin updates content in customizer
-  useEffect(() => {
-    return subscribeToContentUpdates(() => {
-      setSiteConfig(getStoredSiteConfig());
-      setLeaders(getStoredLeaders());
-      setBlogs(getStoredBlogs());
-      setGalleryList(getStoredGallery());
-      setPlacementData(getStoredPlacements());
-      setMous(getStoredMous());
-    });
-  }, []);
 
   useEffect(() => {
     // Fetch latest site config from MongoDB on mount to guarantee fresh live sync across devices
@@ -59,10 +46,7 @@ export default function Home({ onOpenModal }) {
             demoVideo: {
               ...(current.demoVideo || {}),
               ...(data.demoVideo || {})
-            },
-            videoList: Array.isArray(data.videoList) && data.videoList.length > 0
-              ? data.videoList
-              : (current.videoList || [])
+            }
           };
           setSiteConfig(merged);
           try {
@@ -197,23 +181,6 @@ export default function Home({ onOpenModal }) {
     'Finite Element Analysis (FEA) & Computational Simulation – ANSYS',
     'Master Diploma in Mechanical, Civil & Architectural CADD Systems'
   ];
-
-  const homeVideoList = (Array.isArray(siteConfig.videoList) && siteConfig.videoList.length > 0)
-    ? siteConfig.videoList
-    : (siteConfig.demoVideo ? [{
-        id: 'home-featured',
-        videoUrl: siteConfig.demoVideo.videoUrl,
-        title: siteConfig.demoVideo.title,
-        description: siteConfig.demoVideo.description,
-        tag: siteConfig.demoVideo.tag || 'Campus Tour',
-        isFeatured: true
-      }] : []);
-
-  const activeShowcaseVideo = (activeVideoId && homeVideoList.find(v => v.id === activeVideoId))
-    || homeVideoList.find(v => v.isFeatured)
-    || homeVideoList[0]
-    || siteConfig.demoVideo
-    || {};
 
   return (
     <div className={P['home-page']}>
@@ -376,60 +343,70 @@ export default function Home({ onOpenModal }) {
                 <div className={P['c-avatar']}>+</div>
               </div>
 
-              {/* 3D Model Top Badge */}
+              {/* Live Showcase Video Tag */}
               <div className="cad-badge-tag">
-                <span className="cad-badge-dot"></span>
-                <span>{selectedCadMachine === '5axis' ? '3D 5-Axis VMC Machining Center' : '3D Industrial CNC Mill'}</span>
+                <span className="cad-badge-dot" style={{ background: '#22c55e', boxShadow: '0 0 10px #22c55e' }}></span>
+                <span>{siteConfig.demoVideo?.title || 'GV DesignTech Academy Showcase'}</span>
               </div>
 
-              {/* 3D Rotating CAD Showcase Scene */}
-              <div className={`cad-3d-scene ${cadViewMode === 'wireframe' ? 'cad-wireframe-mode' : ''}`}>
-                <div className={`cad-3d-platform ${isCadRotating ? 'cad-platform-rotating' : ''}`}>
-                  <div className="cad-grid-lines"></div>
-                </div>
-
-                <div className={`cad-3d-model-inner ${isCadRotating ? 'cad-rotating-active' : ''}`}>
-                  <img
-                    src={selectedCadMachine === '5axis' ? '/assets/cad-cnc-machine-pro.jpg' : '/assets/cad-cnc-solid.jpg'}
-                    alt="GV DesignTech 3D CAD Industrial CNC Machining Center"
-                    className="cad-machine-img"
+              {/* Video Player Display (Admin Configured Video) */}
+              <div
+                className="about-video-screen"
+                style={{
+                  position: 'relative',
+                  width: '100%',
+                  aspectRatio: '16 / 10',
+                  minHeight: '260px',
+                  borderRadius: '20px',
+                  overflow: 'hidden',
+                  background: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.15) 0%, rgba(10, 10, 26, 0.98) 100%)',
+                  border: '1px solid rgba(139, 92, 246, 0.35)',
+                  boxShadow: '0 20px 45px rgba(0, 0, 0, 0.65), inset 0 0 30px rgba(139, 92, 246, 0.15)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '16px 0 20px',
+                  zIndex: 2
+                }}
+              >
+                {isVideoFile(siteConfig.demoVideo?.videoUrl) ? (
+                  <video
+                    key={siteConfig.demoVideo?.videoUrl}
+                    controls
+                    playsInline
+                    autoPlay
+                    muted
+                    loop
+                    preload="auto"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                      borderRadius: '18px'
+                    }}
+                    src={siteConfig.demoVideo.videoUrl}
+                  >
+                    <source src={siteConfig.demoVideo.videoUrl} type="video/mp4" />
+                    <source src={siteConfig.demoVideo.videoUrl} type="video/webm" />
+                    Your browser does not support HTML5 video.
+                  </video>
+                ) : (
+                  <iframe
+                    key={siteConfig.demoVideo?.videoUrl}
+                    src={formatVideoEmbedUrl(siteConfig.demoVideo?.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A')}
+                    title={siteConfig.demoVideo?.title || 'GV DesignTech Academy Showcase'}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      border: 'none',
+                      display: 'block',
+                      borderRadius: '18px'
+                    }}
                   />
-                </div>
-
-                {/* Technical HUD Coordinate Tripod Overlay */}
-                <div className="cad-hud-tripod">
-                  <span className="cad-axis cad-axis-x">X+</span>
-                  <span className="cad-axis cad-axis-y">Y+</span>
-                  <span className="cad-axis cad-axis-z">Z+</span>
-                </div>
-
-                {/* Interactive CAD Control Strip */}
-                <div className="cad-controls-strip">
-                  <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); setCadViewMode(m => m === 'solid' ? 'wireframe' : 'solid'); }}
-                    className={`cad-ctrl-btn ${cadViewMode === 'wireframe' ? 'active' : ''}`}
-                    title="Toggle Solid CAD vs Wireframe Blueprint Mode"
-                  >
-                    {cadViewMode === 'solid' ? '📐 Wireframe' : '🛠️ Solid CAD'}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); setIsCadRotating(r => !r); }}
-                    className={`cad-ctrl-btn ${isCadRotating ? 'active' : ''}`}
-                    title="Toggle 3D Orbit Motion"
-                  >
-                    {isCadRotating ? '⏸ Pause' : '🔄 Orbit 3D'}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); setSelectedCadMachine(m => m === '5axis' ? 'vmc' : '5axis'); }}
-                    className="cad-ctrl-btn"
-                    title="Switch Machine CAD Model"
-                  >
-                    {selectedCadMachine === '5axis' ? '⚙️ Switch Model' : '⚡ 5-Axis VMC'}
-                  </button>
-                </div>
+                )}
               </div>
 
               <div className={P['about-stat-pill']} style={{ zIndex: 3 }}>
@@ -487,178 +464,6 @@ export default function Home({ onOpenModal }) {
             </div>
           </div>
         </section>
-
-        {/* Section 2.5: Interactive Featured Video Showcase */}
-        {activeShowcaseVideo?.videoUrl && (
-          <section
-            id="featured-video-showcase"
-            style={{
-              padding: '60px 20px',
-              background: 'linear-gradient(180deg, rgba(8, 4, 24, 0.95) 0%, rgba(13, 8, 30, 0.98) 100%)',
-              borderTop: '1px solid rgba(139, 92, 246, 0.2)',
-              borderBottom: '1px solid rgba(139, 92, 246, 0.2)',
-              position: 'relative',
-              zIndex: 3
-            }}
-          >
-            <div style={{ maxWidth: '1060px', margin: '0 auto' }}>
-              {/* Eyebrow & Title */}
-              <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-                <div
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '6px 18px',
-                    borderRadius: '999px',
-                    background: 'rgba(217, 70, 239, 0.12)',
-                    border: '1px solid rgba(217, 70, 239, 0.35)',
-                    color: '#f0abfc',
-                    fontSize: '12px',
-                    fontWeight: '800',
-                    letterSpacing: '1px',
-                    textTransform: 'uppercase',
-                    marginBottom: '14px'
-                  }}
-                >
-                  <span>🎬</span>
-                  <span>CAMPUS &amp; CAD LAB TOUR DEMO</span>
-                </div>
-
-                <h2
-                  style={{
-                    fontSize: 'clamp(24px, 3.6vw, 40px)',
-                    fontWeight: '800',
-                    color: '#fff',
-                    lineHeight: 1.25,
-                    margin: '0 0 12px',
-                    letterSpacing: '-0.5px'
-                  }}
-                >
-                  {activeShowcaseVideo.title || 'GV DesignTech CAD & Engineering Training Tour'}
-                </h2>
-
-                <p
-                  style={{
-                    maxWidth: '680px',
-                    margin: '0 auto',
-                    fontSize: '15px',
-                    color: '#94a3b8',
-                    lineHeight: 1.6
-                  }}
-                >
-                  {activeShowcaseVideo.description || 'Watch hands-on mechanical modeling, 5-axis CNC machining, civil BIM architectural walkthroughs, and practical student workshops at GV DesignTech.'}
-                </p>
-              </div>
-
-              {/* Responsive Video Container with Vibrant Neon Glow */}
-              <div
-                style={{
-                  width: '100%',
-                  position: 'relative',
-                  borderRadius: '24px',
-                  padding: '3px',
-                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.6), rgba(217, 70, 239, 0.6), rgba(56, 189, 248, 0.5))',
-                  boxShadow: '0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(139, 92, 246, 0.25)',
-                  overflow: 'hidden'
-                }}
-              >
-                <div
-                  style={{
-                    width: '100%',
-                    aspectRatio: '16/9',
-                    maxHeight: '520px',
-                    borderRadius: '21px',
-                    overflow: 'hidden',
-                    background: '#010006',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    position: 'relative'
-                  }}
-                >
-                  {isVideoFile(activeShowcaseVideo.videoUrl) ? (
-                    <video
-                      key={activeShowcaseVideo.videoUrl}
-                      controls
-                      playsInline
-                      preload="metadata"
-                      src={activeShowcaseVideo.videoUrl}
-                      style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                    >
-                      <source src={activeShowcaseVideo.videoUrl} type="video/mp4" />
-                      <source src={activeShowcaseVideo.videoUrl} type="video/webm" />
-                      Your browser does not support the video tag.
-                    </video>
-                  ) : (
-                    <iframe
-                      key={activeShowcaseVideo.videoUrl}
-                      width="100%"
-                      height="100%"
-                      src={formatVideoEmbedUrl(activeShowcaseVideo.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A')}
-                      title={activeShowcaseVideo.title || 'GV DesignTech CAD Showcase Video'}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                      style={{ border: 'none', width: '100%', height: '100%' }}
-                    ></iframe>
-                  )}
-                </div>
-              </div>
-
-              {/* Playlist Switcher (if more than 1 video available) */}
-              {homeVideoList.length > 1 && (
-                <div style={{ marginTop: '24px' }}>
-                  <div style={{ fontSize: '12.5px', fontWeight: '700', color: '#c084fc', marginBottom: '12px', textAlign: 'center', letterSpacing: '0.5px' }}>
-                    📺 SELECT A VIDEO TO PLAY:
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      gap: '10px',
-                      justifyContent: 'center',
-                      flexWrap: 'wrap'
-                    }}
-                  >
-                    {homeVideoList.map((vid) => {
-                      const isCurrent = (activeShowcaseVideo.id && vid.id) ? (activeShowcaseVideo.id === vid.id) : (activeShowcaseVideo.videoUrl === vid.videoUrl);
-                      return (
-                        <button
-                          key={vid.id || vid.videoUrl}
-                          type="button"
-                          onClick={() => setActiveVideoId(vid.id)}
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            padding: '9px 16px',
-                            borderRadius: '12px',
-                            border: isCurrent ? '1px solid #d946ef' : '1px solid rgba(255, 255, 255, 0.1)',
-                            background: isCurrent ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(217, 70, 239, 0.4))' : 'rgba(255, 255, 255, 0.04)',
-                            color: isCurrent ? '#fff' : '#94a3b8',
-                            fontWeight: isCurrent ? '700' : '500',
-                            fontSize: '13px',
-                            cursor: 'pointer',
-                            boxShadow: isCurrent ? '0 0 20px rgba(217, 70, 239, 0.35)' : 'none',
-                            transition: 'all 0.2s'
-                          }}
-                        >
-                          <span style={{ color: isCurrent ? '#d946ef' : '#a855f7' }}>▶</span>
-                          <span>{vid.title}</span>
-                          {vid.tag && (
-                            <span style={{ fontSize: '10.5px', padding: '2px 6px', borderRadius: '4px', background: 'rgba(255,255,255,0.1)', color: '#cbd5e1' }}>
-                              {vid.tag}
-                            </span>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
-          </section>
-        )}
 
         {/* Section 3: Divider */}
         <div className={P['section-divider']}></div>

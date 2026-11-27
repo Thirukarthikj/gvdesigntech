@@ -186,6 +186,83 @@ export default function CertificateVerification() {
                   </div>
                 )}
 
+                {/* Verified Graduate Banner with Student Photo */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '22px',
+                  padding: '20px 24px',
+                  marginBottom: '26px',
+                  background: 'rgba(56, 189, 248, 0.06)',
+                  border: '1px solid rgba(56, 189, 248, 0.3)',
+                  borderRadius: '18px',
+                  flexWrap: 'wrap'
+                }}>
+                  <div style={{ position: 'relative', flexShrink: 0 }}>
+                    {(result.studentImage || result.image) ? (
+                      <img
+                        src={result.studentImage || result.image}
+                        alt={result.name}
+                        style={{
+                          width: '92px',
+                          height: '92px',
+                          borderRadius: '16px',
+                          objectFit: 'cover',
+                          border: '2px solid #38bdf8',
+                          boxShadow: '0 8px 24px rgba(56, 189, 248, 0.35)',
+                          display: 'block'
+                        }}
+                      />
+                    ) : (
+                      <div style={{
+                        width: '92px',
+                        height: '92px',
+                        borderRadius: '16px',
+                        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(56, 189, 248, 0.3))',
+                        border: '2px solid rgba(56, 189, 248, 0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#38bdf8',
+                        fontSize: '36px',
+                        fontWeight: '800'
+                      }}>
+                        {result.name ? result.name.charAt(0).toUpperCase() : '🎓'}
+                      </div>
+                    )}
+                    <div style={{
+                      position: 'absolute',
+                      bottom: '-7px',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      background: 'linear-gradient(135deg, #0ea5e9, #38bdf8)',
+                      color: '#000',
+                      fontSize: '9.5px',
+                      fontWeight: '900',
+                      letterSpacing: '0.6px',
+                      padding: '2px 8px',
+                      borderRadius: '999px',
+                      whiteSpace: 'nowrap',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.4)'
+                    }}>
+                      VERIFIED
+                    </div>
+                  </div>
+
+                  <div style={{ flex: 1, minWidth: '220px' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', letterSpacing: '1px', textTransform: 'uppercase', color: '#38bdf8', fontWeight: '800', marginBottom: '4px' }}>
+                      <span>🛡️</span>
+                      <span>VERIFIED GRADUATE STUDENT</span>
+                    </div>
+                    <h2 style={{ fontSize: 'clamp(22px, 3.5vw, 28px)', fontWeight: '800', color: '#fff', margin: '0 0 6px', letterSpacing: '-0.3px' }}>
+                      {result.name}
+                    </h2>
+                    <div style={{ fontSize: '14.5px', color: '#cbd5e1', fontWeight: '500', lineHeight: 1.4 }}>
+                      {result.course}
+                    </div>
+                  </div>
+                </div>
+
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '24px' }}>
                   <div>
                     <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '4px' }}>STUDENT NAME</div>

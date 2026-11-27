@@ -471,7 +471,7 @@ export default function AdminSkillTest() {
             </div>
           </div>
 
-          {/* Results Table */}
+          {/* Results Table & Mobile Top-to-Bottom Cards */}
           {filteredResults.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px', background: 'rgba(255, 255, 255, 0.02)', border: '1px dashed rgba(255, 255, 255, 0.15)', borderRadius: '20px' }}>
               <div style={{ fontSize: '40px', marginBottom: '12px' }}>📝</div>
@@ -489,78 +489,201 @@ export default function AdminSkillTest() {
               </a>
             </div>
           ) : (
-            <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '20px', overflow: 'hidden' }}>
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '850px' }}>
-                  <thead>
-                    <tr style={{ background: 'rgba(139, 92, 246, 0.1)', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                      <th style={{ padding: '16px 20px', fontSize: '12px', fontWeight: '700', color: '#cbd5e1', textTransform: 'uppercase' }}>Candidate</th>
-                      <th style={{ padding: '16px 20px', fontSize: '12px', fontWeight: '700', color: '#cbd5e1', textTransform: 'uppercase' }}>College &amp; Dept</th>
-                      <th style={{ padding: '16px 20px', fontSize: '12px', fontWeight: '700', color: '#cbd5e1', textTransform: 'uppercase' }}>Assessment Track</th>
-                      <th style={{ padding: '16px 20px', fontSize: '12px', fontWeight: '700', color: '#cbd5e1', textTransform: 'uppercase' }}>Score / Result</th>
-                      <th style={{ padding: '16px 20px', fontSize: '12px', fontWeight: '700', color: '#cbd5e1', textTransform: 'uppercase' }}>Date</th>
-                      <th style={{ padding: '16px 20px', fontSize: '12px', fontWeight: '700', color: '#cbd5e1', textTransform: 'uppercase', textAlign: 'right' }}>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredResults.map((r) => {
-                      const pct = r.percentage ?? (r.totalQuestions ? Math.round((r.score / r.totalQuestions) * 100) : 0);
-                      const isHigh = pct >= 75;
-                      const isPass = pct >= 50;
-
-                      return (
-                        <tr key={r.id} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)', transition: 'background 0.2s' }}>
-                          <td style={{ padding: '16px 20px' }}>
-                            <div style={{ fontWeight: '700', fontSize: '14.5px', color: '#fff' }}>{r.studentName}</div>
-                            <div style={{ fontSize: '13px', color: '#94a3b8' }}>{r.email}</div>
-                            <div style={{ fontSize: '12px', color: '#a78bfa' }}>📞 {r.phone}</div>
-                          </td>
-                          <td style={{ padding: '16px 20px' }}>
-                            <div style={{ fontSize: '13.5px', color: '#cbd5e1' }}>{r.college || 'N/A'}</div>
-                            <div style={{ fontSize: '12px', color: '#94a3b8' }}>{r.department} {r.year ? `• ${r.year}` : ''}</div>
-                          </td>
-                          <td style={{ padding: '16px 20px' }}>
-                            <span style={{ display: 'inline-block', padding: '4px 10px', background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '8px', fontSize: '12.5px', fontWeight: '600', color: '#c084fc' }}>
-                              {r.domainLabel || r.domain?.toUpperCase() || 'GENERAL'}
-                            </span>
-                          </td>
-                          <td style={{ padding: '16px 20px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                              <span style={{ fontSize: '16px', fontWeight: '800', color: isHigh ? '#34d399' : isPass ? '#38bdf8' : '#f87171' }}>
-                                {r.score} / {r.totalQuestions}
-                              </span>
-                              <span style={{ fontSize: '12px', padding: '2px 8px', borderRadius: '6px', background: isHigh ? 'rgba(52, 211, 153, 0.15)' : isPass ? 'rgba(56, 189, 248, 0.15)' : 'rgba(239, 68, 68, 0.15)', color: isHigh ? '#34d399' : isPass ? '#38bdf8' : '#f87171', fontWeight: '700' }}>
-                                {pct}%
-                              </span>
-                            </div>
-                            <div style={{ fontSize: '11.5px', color: isHigh ? '#34d399' : isPass ? '#38bdf8' : '#94a3b8', marginTop: '2px' }}>
-                              {r.status || (isHigh ? 'Qualified' : isPass ? 'Passed' : 'Needs Practice')}
-                            </div>
-                          </td>
-                          <td style={{ padding: '16px 20px', fontSize: '13px', color: '#94a3b8', whiteSpace: 'nowrap' }}>
-                            {r.submittedAt ? new Date(r.submittedAt).toLocaleDateString() : r.date || 'Today'}
-                          </td>
-                          <td style={{ padding: '16px 20px', textAlign: 'right', whiteSpace: 'nowrap' }}>
-                            <button
-                              type="button"
-                              onClick={() => setViewingResult(r)}
-                              style={{ background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.3)', color: '#c084fc', padding: '6px 12px', borderRadius: '8px', fontSize: '12px', fontWeight: '600', cursor: 'pointer', marginRight: '8px' }}
-                            >
-                              View Details
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleDeleteResult(r.id)}
-                              style={{ background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#f87171', padding: '6px 12px', borderRadius: '8px', fontSize: '12px', fontWeight: '600', cursor: 'pointer' }}
-                            >
-                              Delete
-                            </button>
-                          </td>
+            <div>
+              {/* Desktop Table View */}
+              <div className="admin-table-desktop">
+                <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '20px', overflow: 'hidden' }}>
+                  <div style={{ overflowX: 'auto' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '850px' }}>
+                      <thead>
+                        <tr style={{ background: 'rgba(139, 92, 246, 0.1)', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                          <th style={{ padding: '16px 20px', fontSize: '12px', fontWeight: '700', color: '#cbd5e1', textTransform: 'uppercase' }}>Candidate</th>
+                          <th style={{ padding: '16px 20px', fontSize: '12px', fontWeight: '700', color: '#cbd5e1', textTransform: 'uppercase' }}>College &amp; Dept</th>
+                          <th style={{ padding: '16px 20px', fontSize: '12px', fontWeight: '700', color: '#cbd5e1', textTransform: 'uppercase' }}>Assessment Track</th>
+                          <th style={{ padding: '16px 20px', fontSize: '12px', fontWeight: '700', color: '#cbd5e1', textTransform: 'uppercase' }}>Score / Result</th>
+                          <th style={{ padding: '16px 20px', fontSize: '12px', fontWeight: '700', color: '#cbd5e1', textTransform: 'uppercase' }}>Date</th>
+                          <th style={{ padding: '16px 20px', fontSize: '12px', fontWeight: '700', color: '#cbd5e1', textTransform: 'uppercase', textAlign: 'right' }}>Actions</th>
                         </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                      </thead>
+                      <tbody>
+                        {filteredResults.map((r) => {
+                          const pct = r.percentage ?? (r.totalQuestions ? Math.round((r.score / r.totalQuestions) * 100) : 0);
+                          const isHigh = pct >= 75;
+                          const isPass = pct >= 50;
+
+                          return (
+                            <tr key={r.id} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)', transition: 'background 0.2s' }}>
+                              <td style={{ padding: '16px 20px' }}>
+                                <div style={{ fontWeight: '700', fontSize: '14.5px', color: '#fff' }}>{r.studentName}</div>
+                                <div style={{ fontSize: '13px', color: '#94a3b8' }}>{r.email}</div>
+                                <div style={{ fontSize: '12px', color: '#a78bfa' }}>📞 {r.phone}</div>
+                              </td>
+                              <td style={{ padding: '16px 20px' }}>
+                                <div style={{ fontSize: '13.5px', color: '#cbd5e1' }}>{r.college || 'N/A'}</div>
+                                <div style={{ fontSize: '12px', color: '#94a3b8' }}>{r.department} {r.year ? `• ${r.year}` : ''}</div>
+                              </td>
+                              <td style={{ padding: '16px 20px' }}>
+                                <span style={{ display: 'inline-block', padding: '4px 10px', background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '8px', fontSize: '12.5px', fontWeight: '600', color: '#c084fc' }}>
+                                  {r.domainLabel || r.domain?.toUpperCase() || 'GENERAL'}
+                                </span>
+                              </td>
+                              <td style={{ padding: '16px 20px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                  <span style={{ fontSize: '16px', fontWeight: '800', color: isHigh ? '#34d399' : isPass ? '#38bdf8' : '#f87171' }}>
+                                    {r.score} / {r.totalQuestions}
+                                  </span>
+                                  <span style={{ fontSize: '12px', padding: '2px 8px', borderRadius: '6px', background: isHigh ? 'rgba(52, 211, 153, 0.15)' : isPass ? 'rgba(56, 189, 248, 0.15)' : 'rgba(239, 68, 68, 0.15)', color: isHigh ? '#34d399' : isPass ? '#38bdf8' : '#f87171', fontWeight: '700' }}>
+                                    {pct}%
+                                  </span>
+                                </div>
+                                <div style={{ fontSize: '11.5px', color: isHigh ? '#34d399' : isPass ? '#38bdf8' : '#94a3b8', marginTop: '2px' }}>
+                                  {r.status || (isHigh ? 'Qualified' : isPass ? 'Passed' : 'Needs Practice')}
+                                </div>
+                              </td>
+                              <td style={{ padding: '16px 20px', fontSize: '13px', color: '#94a3b8', whiteSpace: 'nowrap' }}>
+                                {r.submittedAt ? new Date(r.submittedAt).toLocaleDateString() : r.date || 'Today'}
+                              </td>
+                              <td style={{ padding: '16px 20px', textAlign: 'right', whiteSpace: 'nowrap' }}>
+                                <button
+                                  type="button"
+                                  onClick={() => setViewingResult(r)}
+                                  style={{ background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.3)', color: '#c084fc', padding: '6px 12px', borderRadius: '8px', fontSize: '12px', fontWeight: '600', cursor: 'pointer', marginRight: '8px' }}
+                                >
+                                  View Details
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteResult(r.id)}
+                                  style={{ background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#f87171', padding: '6px 12px', borderRadius: '8px', fontSize: '12px', fontWeight: '600', cursor: 'pointer' }}
+                                >
+                                  Delete
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobile Top-to-Bottom Vertical Cards (No Left-to-Right Scrolling) */}
+              <div className="admin-cards-mobile">
+                {filteredResults.map((r) => {
+                  const pct = r.percentage ?? (r.totalQuestions ? Math.round((r.score / r.totalQuestions) * 100) : 0);
+                  const isHigh = pct >= 75;
+                  const isPass = pct >= 50;
+
+                  return (
+                    <div key={r.id} className="admin-mobile-data-card">
+                      <div className="admin-mobile-card-header">
+                        <div>
+                          <h4 className="admin-mobile-card-title">{r.studentName}</h4>
+                          <div className="admin-mobile-card-subtitle">{r.email}</div>
+                          {r.phone && (
+                            <a href={`tel:${r.phone}`} style={{ fontSize: '12px', color: '#38bdf8', textDecoration: 'none', fontWeight: '600', display: 'inline-block', marginTop: '3px' }}>
+                              📞 {r.phone}
+                            </a>
+                          )}
+                        </div>
+                        <span
+                          className="admin-mobile-card-badge"
+                          style={{
+                            background: 'rgba(139, 92, 246, 0.15)',
+                            border: '1px solid rgba(139, 92, 246, 0.35)',
+                            color: '#c084fc',
+                            fontWeight: '700'
+                          }}
+                        >
+                          {r.domainLabel || r.domain?.toUpperCase() || 'GENERAL'}
+                        </span>
+                      </div>
+
+                      <div className="admin-mobile-card-body" style={{ gap: '10px' }}>
+                        {/* Prominent Score Highlight (Top to bottom flow) */}
+                        <div
+                          style={{
+                            background: isHigh ? 'rgba(52, 211, 153, 0.08)' : isPass ? 'rgba(56, 189, 248, 0.08)' : 'rgba(239, 68, 68, 0.08)',
+                            border: `1px solid ${isHigh ? 'rgba(52, 211, 153, 0.3)' : isPass ? 'rgba(56, 189, 248, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
+                            borderRadius: '10px',
+                            padding: '10px 14px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                          }}
+                        >
+                          <div>
+                            <div style={{ fontSize: '11px', textTransform: 'uppercase', color: '#94a3b8', fontWeight: '700' }}>
+                              Test Score
+                            </div>
+                            <div style={{ fontSize: '18px', fontWeight: '800', color: isHigh ? '#34d399' : isPass ? '#38bdf8' : '#f87171' }}>
+                              {r.score} / {r.totalQuestions}
+                              <span style={{ fontSize: '13px', marginLeft: '6px', opacity: 0.85 }}>({pct}%)</span>
+                            </div>
+                          </div>
+                          <span
+                            style={{
+                              padding: '3px 10px',
+                              borderRadius: '999px',
+                              fontSize: '11.5px',
+                              fontWeight: '700',
+                              background: isHigh ? 'rgba(52, 211, 153, 0.2)' : isPass ? 'rgba(56, 189, 248, 0.2)' : 'rgba(239, 68, 68, 0.2)',
+                              color: isHigh ? '#34d399' : isPass ? '#38bdf8' : '#f87171'
+                            }}
+                          >
+                            {r.status || (isHigh ? 'Qualified' : isPass ? 'Passed' : 'Needs Practice')}
+                          </span>
+                        </div>
+
+                        <div className="admin-mobile-card-item">
+                          <span>🎓</span>
+                          <span><strong>{r.college || 'Direct Candidate'}</strong> — {r.department} {r.year ? `(${r.year})` : ''}</span>
+                        </div>
+
+                        <div className="admin-mobile-card-item" style={{ fontSize: '12px', color: '#64748b' }}>
+                          <span>📅</span>
+                          <span>Submitted: {r.submittedAt ? new Date(r.submittedAt).toLocaleDateString() : r.date || 'Today'}</span>
+                        </div>
+                      </div>
+
+                      <div className="admin-mobile-card-footer" style={{ justifyContent: 'flex-end', gap: '8px' }}>
+                        <button
+                          type="button"
+                          onClick={() => setViewingResult(r)}
+                          style={{
+                            background: 'rgba(139, 92, 246, 0.15)',
+                            border: '1px solid rgba(139, 92, 246, 0.3)',
+                            color: '#c084fc',
+                            padding: '6px 14px',
+                            borderRadius: '8px',
+                            fontSize: '12px',
+                            fontWeight: '600',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          View Details
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteResult(r.id)}
+                          style={{
+                            background: 'rgba(239, 68, 68, 0.12)',
+                            border: '1px solid rgba(239, 68, 68, 0.3)',
+                            color: '#f87171',
+                            padding: '6px 14px',
+                            borderRadius: '8px',
+                            fontSize: '12px',
+                            fontWeight: '600',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}

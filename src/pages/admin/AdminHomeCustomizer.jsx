@@ -12,22 +12,11 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
   const [videoUploading, setVideoUploading] = useState(false);
   const [videoFileInfo, setVideoFileInfo] = useState('');
 
-  // Video Management Modal & Form State
-  const [videoModalOpen, setVideoModalOpen] = useState(false);
-  const [editingVideoId, setEditingVideoId] = useState(null);
-  const [videoFormData, setVideoFormData] = useState({
-    title: '',
-    tag: 'Campus Tour',
-    description: '',
-    videoUrl: '',
-    isFeatured: false
-  });
-
   // Determine active tab directly from URL route or prop
   const getTabFromRoute = () => {
     const p = location.pathname;
     if (p.includes('contact-info') || p.includes('headquarters') || p.includes('contact')) return 'contactInfo';
-    if (p.includes('demo-video') || p.includes('videos')) return 'demoVideo';
+    if (p.includes('demo-video')) return 'demoVideo';
     if (p.includes('recent-activities')) return 'recentActivity';
     if (p.includes('impact-stats')) return 'stats';
     if (p.includes('lab-photos')) return 'showcaseImages';
@@ -55,8 +44,8 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
       case 'demoVideo':
         return {
           icon: '🎬',
-          title: 'Video Library & Demo Showcase Manager',
-          desc: 'Add new videos, edit existing videos, manage the video showcase library, and choose which video is featured on the Home Page in real-time.'
+          title: 'Watch Demo Video Manager',
+          desc: 'Configure the Watch Demo video link, title, and description displayed in the hero banner and video showcase modal.'
         };
       case 'recentActivity':
         return {
@@ -142,151 +131,6 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
     }
   };
 
-  // Video Library List Computation
-  const rawVideoList = (Array.isArray(config.videoList) && config.videoList.length > 0)
-    ? config.videoList
-    : (config.demoVideo ? [{
-        id: 'video-default',
-        videoUrl: config.demoVideo.videoUrl || initialSiteConfig.demoVideo.videoUrl,
-        title: config.demoVideo.title || initialSiteConfig.demoVideo.title,
-        description: config.demoVideo.description || initialSiteConfig.demoVideo.description,
-        tag: config.demoVideo.tag || 'Campus Tour',
-        isFeatured: true
-      }] : initialSiteConfig.videoList);
-
-  const featuredVideo = rawVideoList.find((v) => v.isFeatured) || rawVideoList[0] || config.demoVideo || {};
-
-  const openAddVideoModal = () => {
-    setEditingVideoId(null);
-    setVideoFormData({
-      title: '',
-      tag: 'Campus Tour',
-      description: '',
-      videoUrl: '',
-      isFeatured: rawVideoList.length === 0
-    });
-    setVideoFileInfo('');
-    setVideoModalOpen(true);
-  };
-
-  const openEditVideoModal = (v) => {
-    setEditingVideoId(v.id);
-    setVideoFormData({
-      title: v.title || '',
-      tag: v.tag || 'Campus Tour',
-      description: v.description || '',
-      videoUrl: v.videoUrl || '',
-      isFeatured: !!v.isFeatured
-    });
-    setVideoFileInfo('');
-    setVideoModalOpen(true);
-  };
-
-  const handleSaveVideoModal = (e) => {
-    if (e) e.preventDefault();
-    if (!videoFormData.videoUrl || !videoFormData.videoUrl.trim()) {
-      alert('Please provide a video URL or upload a video file from your device.');
-      return;
-    }
-
-    let updatedList = [...rawVideoList];
-    const targetId = editingVideoId || ('video_' + Date.now());
-    const willBeFeatured = videoFormData.isFeatured || rawVideoList.length === 0;
-
-    const newVideoObj = {
-      id: targetId,
-      title: videoFormData.title.trim() || 'GV DesignTech CAD Showcase Video',
-      tag: videoFormData.tag.trim() || 'Campus Tour',
-      description: videoFormData.description.trim(),
-      videoUrl: videoFormData.videoUrl.trim(),
-      isFeatured: willBeFeatured
-    };
-
-    if (editingVideoId) {
-      updatedList = updatedList.map((v) => {
-        if (v.id === editingVideoId) {
-          return newVideoObj;
-        }
-        return willBeFeatured ? { ...v, isFeatured: false } : v;
-      });
-    } else {
-      if (willBeFeatured) {
-        updatedList = updatedList.map((v) => ({ ...v, isFeatured: false }));
-      }
-      updatedList.unshift(newVideoObj);
-    }
-
-    const featuredVid = willBeFeatured
-      ? newVideoObj
-      : (updatedList.find((v) => v.isFeatured) || updatedList[0]);
-
-    const updatedConfig = {
-      ...config,
-      videoList: updatedList,
-      demoVideo: {
-        videoUrl: featuredVid.videoUrl,
-        title: featuredVid.title,
-        description: featuredVid.description,
-        tag: featuredVid.tag,
-        isFeatured: true
-      }
-    };
-
-    handleSaveAll(updatedConfig);
-    setVideoModalOpen(false);
-    showToast(editingVideoId ? '✏️ Video updated successfully!' : '🎉 New video added successfully!');
-  };
-
-  const handleSetFeaturedVideo = (video) => {
-    const updatedList = rawVideoList.map((v) => ({
-      ...v,
-      isFeatured: v.id === video.id
-    }));
-    const updatedConfig = {
-      ...config,
-      videoList: updatedList,
-      demoVideo: {
-        videoUrl: video.videoUrl,
-        title: video.title,
-        description: video.description,
-        tag: video.tag,
-        isFeatured: true
-      }
-    };
-    handleSaveAll(updatedConfig);
-    showToast(`★ "${video.title}" is now featured on the Home Page!`);
-  };
-
-  const handleDeleteVideo = (videoId) => {
-    if (rawVideoList.length <= 1) {
-      alert('Cannot delete the last video. There must be at least one video in the showcase library.');
-      return;
-    }
-    const toDelete = rawVideoList.find((v) => v.id === videoId);
-    if (!window.confirm(`Are you sure you want to delete "${toDelete?.title || 'this video'}"?`)) {
-      return;
-    }
-    const updatedList = rawVideoList.filter((v) => v.id !== videoId);
-    let newFeatured = updatedList.find((v) => v.isFeatured);
-    if (!newFeatured) {
-      updatedList[0].isFeatured = true;
-      newFeatured = updatedList[0];
-    }
-    const updatedConfig = {
-      ...config,
-      videoList: updatedList,
-      demoVideo: {
-        videoUrl: newFeatured.videoUrl,
-        title: newFeatured.title,
-        description: newFeatured.description,
-        tag: newFeatured.tag,
-        isFeatured: true
-      }
-    };
-    handleSaveAll(updatedConfig);
-    showToast('🗑️ Video deleted from library.');
-  };
-
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
       {/* Toast Notification */}
@@ -329,7 +173,7 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '24px' }}>
         {[
           { id: 'contactInfo', route: '/admin/contact-info', icon: '📍', label: 'Headquarters & Contact' },
-          { id: 'demoVideo', route: '/admin/demo-video', icon: '🎬', label: 'Videos & Showcase' },
+          { id: 'demoVideo', route: '/admin/demo-video', icon: '🎬', label: 'Watch Demo Video' },
           { id: 'recentActivity', route: '/admin/recent-activities', icon: '⚡', label: 'Recent Activities' },
           { id: 'stats', route: '/admin/impact-stats', icon: '📈', label: 'Impact Numbers' },
           { id: 'showcaseImages', route: '/admin/lab-photos', icon: '🏫', label: 'Lab & Classroom Photos' },
@@ -724,106 +568,189 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
       )}
 
       {/* ========================================================
-          TAB 1: WATCH DEMO VIDEO & LIBRARY MANAGER
+          TAB 1: WATCH DEMO VIDEO
           ======================================================== */}
       {activeTab === 'demoVideo' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-          {/* Top Actions & Overview Card */}
-          <div className="admin-card">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-                  <span style={{ fontSize: '24px' }}>🎬</span>
-                  <h3 style={{ margin: 0, fontSize: '20px', fontWeight: '800', color: '#fff' }}>
-                    Video Showcase &amp; Library Manager
-                  </h3>
-                </div>
-                <p style={{ margin: 0, fontSize: '13px', color: '#94a3b8', maxWidth: '640px', lineHeight: 1.5 }}>
-                  Add, edit, or upload videos from your device or YouTube. Manage your entire academy video collection and pick which video appears featured on the website front page.
-                </p>
-              </div>
+        <div className="admin-card">
+          <div className="admin-card-header">
+            <h3 className="admin-card-title">
+              <span>🎬</span>
+              <span>Watch Demo Video Configuration</span>
+            </h3>
+            <span style={{ fontSize: '12px', color: '#94a3b8' }}>
+              Played when visitors click "Watch Demo" on Home &amp; on /showcase-video
+            </span>
+          </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Link
-                  to="/showcase-video"
-                  target="_blank"
-                  className="admin-btn-secondary"
-                  style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
-                >
-                  <span>🔗</span>
-                  <span>Public Page</span>
-                </Link>
-                <button
-                  type="button"
-                  onClick={openAddVideoModal}
+          <form onSubmit={(e) => { e.preventDefault(); handleSaveAll(); }}>
+            {/* SOURCE SELECTION: Upload from Device OR Paste URL */}
+            <div style={{ marginBottom: '24px', padding: '20px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '16px' }}>
+              <div style={{ fontSize: '14px', fontWeight: '800', color: '#c084fc', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span>📁</span>
+                <span>OPTION 1: UPLOAD VIDEO FROM YOUR DEVICE</span>
+              </div>
+              <p style={{ margin: '0 0 14px', fontSize: '13px', color: '#94a3b8' }}>
+                Select an MP4, WebM, or MOV video file directly from your computer or phone. It will be uploaded and served across the website.
+              </p>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+                <label
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '8px',
                     padding: '12px 22px',
                     borderRadius: '12px',
-                    background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
+                    background: videoUploading ? 'rgba(255,255,255,0.1)' : 'linear-gradient(135deg, #8b5cf6, #d946ef)',
                     color: '#fff',
-                    fontWeight: '800',
+                    fontWeight: '700',
                     fontSize: '14px',
-                    border: 'none',
-                    cursor: 'pointer',
-                    boxShadow: '0 8px 25px rgba(217, 70, 239, 0.4)',
+                    cursor: videoUploading ? 'wait' : 'pointer',
+                    boxShadow: '0 8px 20px rgba(139, 92, 246, 0.35)',
                     transition: 'all 0.2s'
                   }}
                 >
-                  <span style={{ fontSize: '16px' }}>➕</span>
-                  <span>Add New Video</span>
-                </button>
+                  <span>{videoUploading ? '⏳' : '📤'}</span>
+                  <span>{videoUploading ? 'Uploading Video from Device...' : 'Choose Video File from Device'}</span>
+                  <input
+                    type="file"
+                    accept="video/mp4,video/webm,video/quicktime,video/ogg,video/x-matroska,video/*"
+                    disabled={videoUploading}
+                    style={{ display: 'none' }}
+                    onChange={async (e) => {
+                      const file = e.target.files && e.target.files[0];
+                      if (!file) return;
+                      if (!file.type.startsWith('video/')) {
+                        alert('Please select a valid video file (MP4, WebM, MOV, OGG).');
+                        return;
+                      }
+                      setVideoUploading(true);
+                      setVideoFileInfo(`${file.name} (${(file.size / (1024 * 1024)).toFixed(1)} MB)`);
+                      try {
+                        showToast('⏳ Uploading video from device, please wait...');
+                        const res = await uploadVideoToCloudinary(file, { folder: 'gvdesigntech/videos' });
+                        if (res && res.url) {
+                          const updated = {
+                            ...config,
+                            demoVideo: { ...config.demoVideo, videoUrl: res.url }
+                          };
+                          setConfig(updated);
+                          handleSaveAll(updated);
+                          showToast(res.isCloudinary ? '☁️ Video uploaded to Cloudinary & saved live!' : '✓ Device video uploaded & saved live across website!');
+                        }
+                      } catch (err) {
+                        console.error('Video upload error:', err);
+                        showToast('⚠️ Video upload error: ' + err.message);
+                      } finally {
+                        setVideoUploading(false);
+                      }
+                    }}
+                  />
+                </label>
+
+                {videoFileInfo && (
+                  <span style={{ fontSize: '13px', color: '#38bdf8', fontWeight: '600' }}>
+                    📎 {videoFileInfo}
+                  </span>
+                )}
               </div>
             </div>
-          </div>
 
-          {/* Current Featured Home Page Video Highlight Card */}
-          <div
-            style={{
-              padding: '24px',
-              borderRadius: '20px',
-              background: 'linear-gradient(145deg, rgba(30, 20, 60, 0.8), rgba(10, 6, 24, 0.95))',
-              border: '1px solid rgba(217, 70, 239, 0.45)',
-              boxShadow: '0 15px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(217, 70, 239, 0.15)'
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', flexWrap: 'wrap', gap: '10px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ fontSize: '18px', color: '#f0abfc' }}>★</span>
-                <span style={{ fontSize: '13px', fontWeight: '800', color: '#f0abfc', letterSpacing: '1px', textTransform: 'uppercase' }}>
-                  Current Featured Home Page Video
-                </span>
+            {/* OPTION 2: Paste YouTube / Stream URL */}
+            <div className="admin-form-group" style={{ marginBottom: '20px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <label className="admin-label" style={{ margin: 0 }}>
+                  OPTION 2: Video Embed / Stream URL (or YouTube Link) <span style={{ color: '#d946ef' }}>*</span>
+                </label>
+                {config.demoVideo?.videoUrl && isVideoFile(config.demoVideo.videoUrl) && (
+                  <span style={{ fontSize: '11.5px', color: '#4ade80', fontWeight: '700' }}>
+                    ✓ Device Video Loaded
+                  </span>
+                )}
+                {config.demoVideo?.videoUrl && !isVideoFile(config.demoVideo.videoUrl) && config.demoVideo.videoUrl.includes('embed') && (
+                  <span style={{ fontSize: '11.5px', color: '#c084fc', fontWeight: '700' }}>
+                    ✓ YouTube Embed Ready
+                  </span>
+                )}
               </div>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 12px', borderRadius: '999px', background: 'rgba(34, 197, 94, 0.15)', border: '1px solid rgba(34, 197, 94, 0.35)', color: '#4ade80', fontSize: '11.5px', fontWeight: '700' }}>
-                <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#4ade80' }}></span>
-                Live on Front Page
+
+              <input
+                type="text"
+                className="admin-input"
+                required
+                placeholder="Paste YouTube link (e.g. https://youtu.be/...) or direct MP4 link"
+                value={config.demoVideo?.videoUrl || ''}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  const formatted = formatVideoEmbedUrl(raw);
+                  setConfig(prev => ({
+                    ...prev,
+                    demoVideo: { ...prev.demoVideo, videoUrl: formatted }
+                  }));
+                }}
+              />
+              <span style={{ fontSize: '12px', color: '#94a3b8', marginTop: '6px', display: 'block' }}>
+                💡 <strong>YouTube Links Auto-Fixed:</strong> You can paste any YouTube URL (like <code>https://youtu.be/b68HETiNO98?si=...</code> or <code>https://youtube.com/watch?v=...</code>) and it will automatically convert to the working embed format.
               </span>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', alignItems: 'center' }}>
-              {/* Left: Video Player Box */}
-              <div style={{ width: '100%', height: '280px', borderRadius: '16px', overflow: 'hidden', background: '#000', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {isVideoFile(featuredVideo.videoUrl) ? (
+            <div className="admin-form-group">
+              <label className="admin-label">Headline / Title</label>
+              <input
+                type="text"
+                className="admin-input"
+                value={config.demoVideo?.title || ''}
+                onChange={(e) => setConfig({
+                  ...config,
+                  demoVideo: { ...config.demoVideo, title: e.target.value }
+                })}
+              />
+            </div>
+
+            <div className="admin-form-group">
+              <label className="admin-label">Tour Description</label>
+              <textarea
+                className="admin-input"
+                rows={3}
+                value={config.demoVideo?.description || ''}
+                onChange={(e) => setConfig({
+                  ...config,
+                  demoVideo: { ...config.demoVideo, description: e.target.value }
+                })}
+              />
+            </div>
+
+            {/* Live Video Preview Box */}
+            <div style={{ marginTop: '24px', padding: '16px', background: 'rgba(0, 0, 0, 0.6)', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: '#c084fc' }}>
+                  📺 LIVE VIDEO PREVIEW
+                </div>
+                <span style={{ fontSize: '11.5px', color: '#94a3b8' }}>
+                  {isVideoFile(config.demoVideo?.videoUrl) ? 'HTML5 Native Video Player' : 'Embedded Video Player'}
+                </span>
+              </div>
+
+              <div style={{ width: '100%', height: '380px', borderRadius: '12px', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {isVideoFile(config.demoVideo?.videoUrl) ? (
                   <video
-                    key={featuredVideo.videoUrl}
+                    key={config.demoVideo?.videoUrl}
                     controls
                     playsInline
                     preload="metadata"
-                    src={featuredVideo.videoUrl}
+                    src={config.demoVideo.videoUrl}
                     style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                   >
-                    <source src={featuredVideo.videoUrl} type="video/mp4" />
+                    <source src={config.demoVideo.videoUrl} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                 ) : (
                   <iframe
-                    key={featuredVideo.videoUrl}
+                    key={config.demoVideo?.videoUrl}
                     width="100%"
                     height="100%"
-                    src={formatVideoEmbedUrl(featuredVideo.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A')}
-                    title="Featured Demo Video"
+                    src={formatVideoEmbedUrl(config.demoVideo?.videoUrl || 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A')}
+                    title="Demo Video Preview"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
@@ -831,472 +758,21 @@ export default function AdminHomeCustomizer({ initialTab = 'demoVideo' }) {
                   ></iframe>
                 )}
               </div>
-
-              {/* Right: Video Metadata & Edit CTA */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <div>
-                  <span style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '8px', background: 'rgba(139, 92, 246, 0.2)', color: '#c084fc', fontSize: '12px', fontWeight: '700', marginBottom: '8px' }}>
-                    🏷️ {featuredVideo.tag || 'Campus Tour'}
-                  </span>
-                  <h4 style={{ fontSize: '20px', fontWeight: '800', color: '#fff', margin: '0 0 10px', lineHeight: 1.3 }}>
-                    {featuredVideo.title || 'GV DesignTech CAD & Engineering Training Tour'}
-                  </h4>
-                  <p style={{ fontSize: '13.5px', color: '#94a3b8', lineHeight: 1.5, margin: 0 }}>
-                    {featuredVideo.description || 'Virtual guided tour showing our CAD labs, 3D printing equipment, CNC machining units, and student design workstations.'}
-                  </p>
-                </div>
-
-                <div style={{ fontSize: '11.5px', color: '#64748b', wordBreak: 'break-all' }}>
-                  <strong>Source:</strong> {featuredVideo.videoUrl}
-                </div>
-
-                <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
-                  <button
-                    type="button"
-                    onClick={() => openEditVideoModal(featuredVideo)}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      padding: '10px 20px',
-                      borderRadius: '10px',
-                      background: 'rgba(139, 92, 246, 0.25)',
-                      border: '1px solid #8b5cf6',
-                      color: '#fff',
-                      fontSize: '13.5px',
-                      fontWeight: '700',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <span>✏️</span>
-                    <span>Edit Featured Video</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Video Library Grid */}
-          <div className="admin-card">
-            <div className="admin-card-header" style={{ marginBottom: '20px' }}>
-              <div>
-                <h3 className="admin-card-title" style={{ margin: 0 }}>
-                  <span>📚</span>
-                  <span>Video Showcase Library ({rawVideoList.length})</span>
-                </h3>
-                <span style={{ fontSize: '12px', color: '#94a3b8' }}>
-                  Click "Set as Featured" on any video below to immediately display it on the Home Page.
-                </span>
-              </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '20px' }}>
-              {rawVideoList.map((v, idx) => {
-                const isFeatured = v.isFeatured || (v.id === featuredVideo.id);
-                return (
-                  <div
-                    key={v.id || idx}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.02)',
-                      border: isFeatured ? '1px solid rgba(217, 70, 239, 0.5)' : '1px solid rgba(255, 255, 255, 0.08)',
-                      borderRadius: '16px',
-                      overflow: 'hidden',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      boxShadow: isFeatured ? '0 8px 30px rgba(217, 70, 239, 0.2)' : 'none',
-                      transition: 'all 0.2s'
-                    }}
-                  >
-                    {/* Card Video Player / Preview */}
-                    <div style={{ width: '100%', height: '190px', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-                      {isVideoFile(v.videoUrl) ? (
-                        <video
-                          key={v.videoUrl}
-                          controls
-                          playsInline
-                          preload="metadata"
-                          src={v.videoUrl}
-                          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                        >
-                          <source src={v.videoUrl} type="video/mp4" />
-                          Your browser does not support the video tag.
-                        </video>
-                      ) : (
-                        <iframe
-                          key={v.videoUrl}
-                          width="100%"
-                          height="100%"
-                          src={formatVideoEmbedUrl(v.videoUrl || '')}
-                          title={v.title}
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                          allowFullScreen
-                          style={{ border: 'none' }}
-                        ></iframe>
-                      )}
-                    </div>
-
-                    {/* Card Body */}
-                    <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', flexGrow: 1, justifyContent: 'space-between', gap: '14px' }}>
-                      <div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                          <span style={{ padding: '3px 8px', borderRadius: '6px', background: 'rgba(139,92,246,0.15)', color: '#c084fc', fontSize: '11px', fontWeight: '700' }}>
-                            {v.tag || 'Showcase'}
-                          </span>
-                          {isFeatured && (
-                            <span style={{ fontSize: '11px', fontWeight: '800', color: '#f0abfc', background: 'rgba(217, 70, 239, 0.2)', padding: '2px 8px', borderRadius: '6px' }}>
-                              ★ FEATURED
-                            </span>
-                          )}
-                        </div>
-
-                        <h4 style={{ fontSize: '15px', fontWeight: '700', color: '#fff', margin: '0 0 6px', lineHeight: 1.35 }}>
-                          {v.title}
-                        </h4>
-                        <p style={{ fontSize: '12.5px', color: '#94a3b8', margin: 0, lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                          {v.description || 'No description provided.'}
-                        </p>
-                      </div>
-
-                      {/* Card Footer Actions */}
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', paddingTop: '10px', borderTop: '1px solid rgba(255, 255, 255, 0.06)' }}>
-                        <div>
-                          {isFeatured ? (
-                            <span style={{ fontSize: '12px', fontWeight: '700', color: '#4ade80' }}>
-                              ✓ Active on Home
-                            </span>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => handleSetFeaturedVideo(v)}
-                              style={{
-                                padding: '6px 12px',
-                                borderRadius: '8px',
-                                background: 'rgba(139, 92, 246, 0.15)',
-                                border: '1px solid rgba(139, 92, 246, 0.4)',
-                                color: '#c084fc',
-                                fontSize: '12px',
-                                fontWeight: '700',
-                                cursor: 'pointer'
-                              }}
-                            >
-                              ☆ Set as Home
-                            </button>
-                          )}
-                        </div>
-
-                        <div style={{ display: 'flex', gap: '6px' }}>
-                          <button
-                            type="button"
-                            onClick={() => openEditVideoModal(v)}
-                            style={{
-                              padding: '6px 12px',
-                              borderRadius: '8px',
-                              background: 'rgba(255, 255, 255, 0.08)',
-                              border: 'none',
-                              color: '#fff',
-                              fontSize: '12px',
-                              fontWeight: '600',
-                              cursor: 'pointer'
-                            }}
-                          >
-                            ✏️ Edit
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleDeleteVideo(v.id)}
-                            style={{
-                              padding: '6px 10px',
-                              borderRadius: '8px',
-                              background: 'rgba(239, 68, 68, 0.15)',
-                              border: '1px solid rgba(239, 68, 68, 0.3)',
-                              color: '#f87171',
-                              fontSize: '12px',
-                              cursor: 'pointer'
-                            }}
-                            title="Delete Video"
-                          >
-                            🗑️
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* ========================================================
-              ADD / EDIT VIDEO MODAL
-              ======================================================== */}
-          {videoModalOpen && (
-            <div
-              style={{
-                position: 'fixed',
-                inset: 0,
-                zIndex: 99999,
-                background: 'rgba(0, 0, 0, 0.85)',
-                backdropFilter: 'blur(10px)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '20px'
-              }}
-              onClick={() => setVideoModalOpen(false)}
-            >
-              <div
-                style={{
-                  maxWidth: '680px',
-                  width: '100%',
-                  maxHeight: '90vh',
-                  overflowY: 'auto',
-                  background: '#0e0b1f',
-                  border: '1px solid rgba(139, 92, 246, 0.5)',
-                  borderRadius: '24px',
-                  padding: '30px',
-                  boxShadow: '0 25px 70px rgba(0, 0, 0, 0.8), 0 0 40px rgba(139, 92, 246, 0.25)',
-                  animation: 'fadeIn 0.2s ease'
-                }}
-                onClick={(e) => e.stopPropagation()}
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
+              <button
+                type="button"
+                className="admin-btn-secondary"
+                onClick={() => handleSaveAll({ ...config, demoVideo: initialSiteConfig.demoVideo })}
               >
-                {/* Modal Header */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '22px', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '14px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ fontSize: '22px' }}>{editingVideoId ? '✏️' : '➕'}</span>
-                    <h3 style={{ margin: 0, fontSize: '20px', fontWeight: '800', color: '#fff' }}>
-                      {editingVideoId ? 'Edit Video Details' : 'Add New Video to Library'}
-                    </h3>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setVideoModalOpen(false)}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.08)',
-                      border: 'none',
-                      color: '#cbd5e1',
-                      width: '32px',
-                      height: '32px',
-                      borderRadius: '50%',
-                      cursor: 'pointer',
-                      fontSize: '15px'
-                    }}
-                  >
-                    ✕
-                  </button>
-                </div>
-
-                <form onSubmit={handleSaveVideoModal} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-                  <div className="admin-form-group">
-                    <label className="admin-label">
-                      Video Headline / Title <span style={{ color: '#d946ef' }}>*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="admin-input"
-                      required
-                      placeholder="e.g. GV DesignTech CAD & Engineering Training Tour"
-                      value={videoFormData.title}
-                      onChange={(e) => setVideoFormData({ ...videoFormData, title: e.target.value })}
-                    />
-                  </div>
-
-                  <div className="admin-form-group">
-                    <label className="admin-label">
-                      Category Tag / Badge
-                    </label>
-                    <input
-                      type="text"
-                      className="admin-input"
-                      placeholder="e.g. Campus Tour, 5-Axis CNC, Student Demo, CAD Tutorial"
-                      value={videoFormData.tag}
-                      onChange={(e) => setVideoFormData({ ...videoFormData, tag: e.target.value })}
-                    />
-                  </div>
-
-                  <div className="admin-form-group">
-                    <label className="admin-label">
-                      Tour / Video Description
-                    </label>
-                    <textarea
-                      className="admin-input"
-                      rows={3}
-                      placeholder="Describe what learners will experience in this video..."
-                      value={videoFormData.description}
-                      onChange={(e) => setVideoFormData({ ...videoFormData, description: e.target.value })}
-                    />
-                  </div>
-
-                  {/* SOURCE SELECTION: Upload from Device OR Paste URL */}
-                  <div style={{ padding: '16px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '16px' }}>
-                    <div style={{ fontSize: '13px', fontWeight: '800', color: '#c084fc', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span>📁</span>
-                      <span>OPTION 1: UPLOAD VIDEO FROM YOUR DEVICE</span>
-                    </div>
-
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
-                      <label
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          padding: '10px 18px',
-                          borderRadius: '10px',
-                          background: videoUploading ? 'rgba(255,255,255,0.1)' : 'linear-gradient(135deg, #8b5cf6, #d946ef)',
-                          color: '#fff',
-                          fontWeight: '700',
-                          fontSize: '13px',
-                          cursor: videoUploading ? 'wait' : 'pointer',
-                          transition: 'all 0.2s'
-                        }}
-                      >
-                        <span>{videoUploading ? '⏳' : '📤'}</span>
-                        <span>{videoUploading ? 'Uploading Video File...' : 'Choose Video File from Device'}</span>
-                        <input
-                          type="file"
-                          accept="video/mp4,video/webm,video/quicktime,video/ogg,video/x-matroska,video/*"
-                          disabled={videoUploading}
-                          style={{ display: 'none' }}
-                          onChange={async (e) => {
-                            const file = e.target.files && e.target.files[0];
-                            if (!file) return;
-                            if (!file.type.startsWith('video/')) {
-                              alert('Please select a valid video file (MP4, WebM, MOV, OGG).');
-                              return;
-                            }
-                            setVideoUploading(true);
-                            setVideoFileInfo(`${file.name} (${(file.size / (1024 * 1024)).toFixed(1)} MB)`);
-                            try {
-                              showToast('⏳ Uploading video from device, please wait...');
-                              const res = await uploadVideoToCloudinary(file, { folder: 'gvdesigntech/videos' });
-                              if (res && res.url) {
-                                setVideoFormData(prev => ({ ...prev, videoUrl: res.url }));
-                                showToast(res.isCloudinary ? '☁️ Video uploaded to Cloudinary CDN!' : '✓ Device video uploaded successfully!');
-                              }
-                            } catch (err) {
-                              console.error('Video upload error:', err);
-                              showToast('⚠️ Video upload error: ' + err.message);
-                            } finally {
-                              setVideoUploading(false);
-                            }
-                          }}
-                        />
-                      </label>
-
-                      {videoFileInfo && (
-                        <span style={{ fontSize: '12px', color: '#38bdf8', fontWeight: '600' }}>
-                          📎 {videoFileInfo}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* OPTION 2: Video Embed URL / YouTube */}
-                  <div className="admin-form-group">
-                    <label className="admin-label">
-                      OPTION 2: Video Embed / Stream URL (or YouTube Link) <span style={{ color: '#d946ef' }}>*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="admin-input"
-                      placeholder="Paste YouTube link (https://youtu.be/...) or direct MP4 link"
-                      value={videoFormData.videoUrl}
-                      onChange={(e) => {
-                        const raw = e.target.value;
-                        const formatted = formatVideoEmbedUrl(raw);
-                        setVideoFormData({ ...videoFormData, videoUrl: formatted });
-                      }}
-                    />
-                    <span style={{ fontSize: '11.5px', color: '#94a3b8', marginTop: '4px', display: 'block' }}>
-                      💡 YouTube URLs auto-convert to embed format.
-                    </span>
-                  </div>
-
-                  {/* Live Modal Preview */}
-                  {videoFormData.videoUrl && (
-                    <div style={{ marginTop: '6px', padding: '12px', background: 'rgba(0,0,0,0.6)', borderRadius: '14px', border: '1px solid rgba(255,255,255,0.08)' }}>
-                      <div style={{ fontSize: '12px', fontWeight: '700', color: '#c084fc', marginBottom: '8px' }}>
-                        📺 LIVE MODAL PREVIEW
-                      </div>
-                      <div style={{ width: '100%', height: '220px', borderRadius: '10px', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        {isVideoFile(videoFormData.videoUrl) ? (
-                          <video
-                            key={videoFormData.videoUrl}
-                            controls
-                            playsInline
-                            preload="metadata"
-                            src={videoFormData.videoUrl}
-                            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                          >
-                            <source src={videoFormData.videoUrl} type="video/mp4" />
-                            Your browser does not support the video tag.
-                          </video>
-                        ) : (
-                          <iframe
-                            key={videoFormData.videoUrl}
-                            width="100%"
-                            height="100%"
-                            src={formatVideoEmbedUrl(videoFormData.videoUrl)}
-                            title="Modal Video Preview"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen
-                            style={{ border: 'none' }}
-                          ></iframe>
-                        )}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Feature on Home Page Toggle */}
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.03)', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                    <input
-                      type="checkbox"
-                      checked={videoFormData.isFeatured}
-                      onChange={(e) => setVideoFormData({ ...videoFormData, isFeatured: e.target.checked })}
-                      style={{ width: '18px', height: '18px', accentColor: '#d946ef', cursor: 'pointer' }}
-                    />
-                    <div>
-                      <div style={{ fontSize: '14px', fontWeight: '700', color: '#fff' }}>
-                        ★ Set as Featured Video on Home Page
-                      </div>
-                      <div style={{ fontSize: '12px', color: '#94a3b8' }}>
-                        When checked, this video will be prominently showcased on the front page and public showcase.
-                      </div>
-                    </div>
-                  </label>
-
-                  {/* Actions */}
-                  <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '14px' }}>
-                    <button
-                      type="button"
-                      className="admin-btn-secondary"
-                      onClick={() => setVideoModalOpen(false)}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={videoUploading}
-                      style={{
-                        padding: '12px 24px',
-                        borderRadius: '12px',
-                        background: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
-                        color: '#fff',
-                        fontWeight: '800',
-                        fontSize: '14px',
-                        border: 'none',
-                        cursor: videoUploading ? 'wait' : 'pointer',
-                        boxShadow: '0 8px 25px rgba(217, 70, 239, 0.4)'
-                      }}
-                    >
-                      💾 Save Video
-                    </button>
-                  </div>
-                </form>
-              </div>
+                Reset to Default
+              </button>
+              <button type="submit" className="admin-btn-primary">
+                💾 Save Video Configuration
+              </button>
             </div>
-          )}
+          </form>
         </div>
       )}
 

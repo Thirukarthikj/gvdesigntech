@@ -43,20 +43,8 @@ export const initialSiteConfig = {
   demoVideo: {
     videoUrl: 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A',
     title: 'Watch How We Shape the Future of CAD & Engineering Design Education',
-    description: 'Take a guided virtual tour through our state-of-the-art CAD workstations, hands-on 3D printing & prototyping labs, BIM coordination studios, and placement training sessions at GV DesignTech.',
-    tag: 'Campus Tour',
-    isFeatured: true
+    description: 'Take a guided virtual tour through our state-of-the-art CAD workstations, hands-on 3D printing & prototyping labs, BIM coordination studios, and placement training sessions at GV DesignTech.'
   },
-  videoList: [
-    {
-      id: 'video-1',
-      videoUrl: 'https://www.youtube-nocookie.com/embed/videoseries?list=UCSTvrgSrwwi5hx3mdkXLX5A',
-      title: 'Watch How We Shape the Future of CAD & Engineering Design Education',
-      description: 'Take a guided virtual tour through our state-of-the-art CAD workstations, hands-on 3D printing & prototyping labs, BIM coordination studios, and placement training sessions at GV DesignTech.',
-      tag: 'Campus Tour',
-      isFeatured: true
-    }
-  ],
   recentActivity: {
     badge: 'NEW',
     title: 'Recent Activities',
@@ -163,6 +151,7 @@ export const defaultCertificates = {
   'GV-CAD-2024-105': {
     certId: 'GV-CAD-2024-105',
     name: 'Karthik Raja',
+    studentImage: '/assets/gokul-prasath.jpg',
     course: 'Master Diploma in Mechanical CAD & FEA Simulation',
     completionDate: '15 November 2026',
     grade: 'Distinction (A+)',
@@ -172,6 +161,7 @@ export const defaultCertificates = {
   'GV-BIM-2024-204': {
     certId: 'GV-BIM-2024-204',
     name: 'Praveen Kumar',
+    studentImage: '/assets/chairman-real-uq_F_5Yk.jpg',
     course: 'Civil CADD & Structural BIM Architecture',
     completionDate: '20 November 2026',
     grade: 'Distinction (A+)',
@@ -181,6 +171,7 @@ export const defaultCertificates = {
   'GV-CNC-2024-301': {
     certId: 'GV-CNC-2024-301',
     name: 'Suresh Babu',
+    studentImage: '',
     course: 'CNC Programming & MasterCAM Precision Machining',
     completionDate: '18 November 2026',
     grade: 'Distinction (A+)',
@@ -190,6 +181,7 @@ export const defaultCertificates = {
   'GV-AI-2024-001': {
     certId: 'GV-AI-2024-001',
     name: 'Arun Kumar',
+    studentImage: '',
     course: 'Artificial Intelligence & Deep Learning Master Track',
     completionDate: '14 August 2026',
     grade: 'Distinction (A+)',
@@ -199,6 +191,7 @@ export const defaultCertificates = {
   'GV-DS-2024-042': {
     certId: 'GV-DS-2024-042',
     name: 'Sanjana Priya',
+    studentImage: '',
     course: 'Advanced Data Science & MLOps Certification',
     completionDate: '28 September 2026',
     grade: 'Distinction (A+)',
@@ -208,6 +201,7 @@ export const defaultCertificates = {
   'GV-FS-2024-118': {
     certId: 'GV-FS-2024-118',
     name: 'Vignesh Kumar',
+    studentImage: '',
     course: 'Python Full Stack Web Developer Track',
     completionDate: '10 October 2026',
     grade: 'First Class (A)',
@@ -283,27 +277,12 @@ export async function syncWithMongo() {
       changed = true;
     }
     if (siteConfigRes.status === 'fulfilled' && siteConfigRes.value && typeof siteConfigRes.value === 'object') {
-      const activeDemo = { ...initialSiteConfig.demoVideo, ...(siteConfigRes.value.demoVideo || {}) };
-      const rawVideoList = (Array.isArray(siteConfigRes.value.videoList) && siteConfigRes.value.videoList.length > 0)
-        ? siteConfigRes.value.videoList
-        : [
-            {
-              id: 'video-mongo-featured',
-              videoUrl: activeDemo.videoUrl,
-              title: activeDemo.title,
-              description: activeDemo.description,
-              tag: activeDemo.tag || 'Campus Tour',
-              isFeatured: true
-            }
-          ];
-
       const mergedConfig = {
         ...initialSiteConfig,
         ...siteConfigRes.value,
         contactInfo: { ...initialSiteConfig.contactInfo, ...(siteConfigRes.value.contactInfo || {}) },
         socialLinks: { ...initialSiteConfig.socialLinks, ...(siteConfigRes.value.socialLinks || {}) },
-        demoVideo: activeDemo,
-        videoList: rawVideoList
+        demoVideo: { ...initialSiteConfig.demoVideo, ...(siteConfigRes.value.demoVideo || {}) }
       };
       localStorage.setItem(SITE_CONFIG_KEY, JSON.stringify(mergedConfig));
       changed = true;
@@ -766,23 +745,6 @@ export function getStoredSiteConfig() {
           ? (parsed.demoVideo?.videoUrl || '').trim()
           : formatVideoEmbedUrl(parsed.demoVideo?.videoUrl || initialSiteConfig.demoVideo.videoUrl)
       },
-      videoList: (Array.isArray(parsed.videoList) && parsed.videoList.length > 0)
-        ? parsed.videoList.map(v => ({
-            ...v,
-            videoUrl: isVideoFile(v.videoUrl) ? (v.videoUrl || '').trim() : formatVideoEmbedUrl(v.videoUrl || '')
-          }))
-        : [
-            {
-              id: 'video-default',
-              videoUrl: isVideoFile(parsed.demoVideo?.videoUrl)
-                ? (parsed.demoVideo?.videoUrl || '').trim()
-                : formatVideoEmbedUrl(parsed.demoVideo?.videoUrl || initialSiteConfig.demoVideo.videoUrl),
-              title: parsed.demoVideo?.title || initialSiteConfig.demoVideo.title,
-              description: parsed.demoVideo?.description || initialSiteConfig.demoVideo.description,
-              tag: 'Campus Tour',
-              isFeatured: true
-            }
-          ],
       recentActivity: {
         ...initialSiteConfig.recentActivity,
         ...(parsed.recentActivity || {}),
@@ -816,13 +778,7 @@ export function saveStoredSiteConfig(config) {
       videoUrl: isVideoFile(config.demoVideo.videoUrl)
         ? (config.demoVideo.videoUrl || '').trim()
         : formatVideoEmbedUrl(config.demoVideo.videoUrl || '')
-    } : config.demoVideo,
-    videoList: Array.isArray(config.videoList) ? config.videoList.map(v => ({
-      ...v,
-      videoUrl: isVideoFile(v.videoUrl)
-        ? (v.videoUrl || '').trim()
-        : formatVideoEmbedUrl(v.videoUrl || '')
-    })) : config.videoList
+    } : config.demoVideo
   } : config;
 
   try {

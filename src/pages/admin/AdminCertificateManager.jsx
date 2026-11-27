@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getStoredCertificates, saveStoredCertificates } from '../../data/contentPersistence.js';
+import { uploadImageToCloudinary, compressImageFile } from '../../services/cloudinaryService.js';
 
 export default function AdminCertificateManager() {
   const [certMap, setCertMap] = useState(() => getStoredCertificates());
@@ -9,10 +10,12 @@ export default function AdminCertificateManager() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCertId, setEditingCertId] = useState(null);
   const [toast, setToast] = useState('');
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const [formData, setFormData] = useState({
     certId: '',
     name: '',
+    studentImage: '',
     course: 'Master Diploma in Mechanical CAD & FEA Simulation',
     completionDate: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
     grade: 'Distinction (A+)',
@@ -36,6 +39,7 @@ export default function AdminCertificateManager() {
     setFormData({
       certId: `GV-ENG-${new Date().getFullYear()}-${randomSuffix}`,
       name: '',
+      studentImage: '',
       course: 'Master Diploma in Mechanical CAD & FEA Simulation',
       completionDate: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
       grade: 'Distinction (A+)',
@@ -48,8 +52,9 @@ export default function AdminCertificateManager() {
   const handleOpenEdit = (cert) => {
     setEditingCertId(cert.id);
     setFormData({
-      certId: cert.id,
+      certId: cert.id || cert.certId,
       name: cert.name || '',
+      studentImage: cert.studentImage || cert.image || '',
       course: cert.course || '',
       completionDate: cert.completionDate || '',
       grade: cert.grade || 'Distinction (A+)',
@@ -57,6 +62,30 @@ export default function AdminCertificateManager() {
       issuedBy: cert.issuedBy || 'GV DesignTech, Oddanchatram, Tamil Nadu'
     });
     setIsModalOpen(true);
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      setUploadingImage(true);
+      // 1. Instantly compress and attach local preview
+      const localData = await compressImageFile(file);
+      setFormData(prev => ({ ...prev, studentImage: localData }));
+      showNotification('📷 Student photo attached! Uploading to cloud CDN...');
+
+      // 2. Upload to Cloudinary CDN
+      const result = await uploadImageToCloudinary(file, { folder: 'gvdesigntech/certificates' });
+      if (result && result.isCloudinary) {
+        setFormData(prev => ({ ...prev, studentImage: result.url }));
+        showNotification('☁️ Student photo uploaded to Cloudinary CDN!');
+      }
+    } catch (err) {
+      console.error('Image upload error:', err);
+      showNotification('⚠️ Could not upload to cloud, using local compressed photo');
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   const handleDelete = (id, studentName) => {
@@ -97,6 +126,7 @@ export default function AdminCertificateManager() {
     updated[idKey] = {
       certId: idKey,
       name: formData.name.trim(),
+      studentImage: (formData.studentImage || '').trim(),
       course: formData.course.trim(),
       completionDate: formData.completionDate.trim(),
       grade: formData.grade.trim(),
@@ -231,7 +261,47 @@ export default function AdminCertificateManager() {
                           {cert.id}
                         </td>
                         <td style={{ fontWeight: '700', color: '#fff' }}>
-                          {cert.name}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            {(cert.studentImage || cert.image) ? (
+                              <img
+                                src={cert.studentImage || cert.image}
+                                alt={cert.name}
+                                style={{
+                                  width: '38px',
+                                  height: '38px',
+                                  borderRadius: '50%',
+                                  objectFit: 'cover',
+                                  border: '2px solid #8b5cf6',
+                                  boxShadow: '0 0 10px rgba(139, 92, 246, 0.3)',
+                                  flexShrink: 0
+                                }}
+                                onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                              />
+                            ) : (
+                              <div style={{
+                                width: '38px',
+                                height: '38px',
+                                borderRadius: '50%',
+                                background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(217, 70, 239, 0.3))',
+                                border: '1px solid rgba(139, 92, 246, 0.5)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontWeight: '800',
+                                fontSize: '14px',
+                                color: '#e879f9',
+                                flexShrink: 0
+                              }}>
+                                {cert.name ? cert.name.charAt(0).toUpperCase() : '🎓'}
+                              </div>
+                            )}
+                            <div>
+                              <div>{cert.name}</div>
+                              <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '400' }}>
+                                Verified Graduate
+                              </div>
+                            </div>
+                          </div>
                         </td>
                         <td style={{ color: '#cbd5e1', maxWidth: '280px' }}>
                           {cert.course}
@@ -330,10 +400,45 @@ export default function AdminCertificateManager() {
               return (
                 <div key={cert.id} className="admin-mobile-data-card">
                   <div className="admin-mobile-card-header">
-                    <div>
-                      <h4 className="admin-mobile-card-title">{cert.name}</h4>
-                      <div className="admin-mobile-card-subtitle" style={{ color: '#38bdf8', fontFamily: 'monospace', fontWeight: '700' }}>
-                        {cert.id}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      {(cert.studentImage || cert.image) ? (
+                        <img
+                          src={cert.studentImage || cert.image}
+                          alt={cert.name}
+                          style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                            border: '2px solid #8b5cf6',
+                            boxShadow: '0 0 10px rgba(139, 92, 246, 0.3)',
+                            flexShrink: 0
+                          }}
+                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                        />
+                      ) : (
+                        <div style={{
+                          width: '40px',
+                          height: '40px',
+                          borderRadius: '50%',
+                          background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(217, 70, 239, 0.3))',
+                          border: '1px solid rgba(139, 92, 246, 0.5)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontWeight: '800',
+                          fontSize: '14px',
+                          color: '#e879f9',
+                          flexShrink: 0
+                        }}>
+                          {cert.name ? cert.name.charAt(0).toUpperCase() : '🎓'}
+                        </div>
+                      )}
+                      <div>
+                        <h4 className="admin-mobile-card-title">{cert.name}</h4>
+                        <div className="admin-mobile-card-subtitle" style={{ color: '#38bdf8', fontFamily: 'monospace', fontWeight: '700' }}>
+                          {cert.id}
+                        </div>
                       </div>
                     </div>
                     <span
@@ -494,6 +599,124 @@ export default function AdminCertificateManager() {
                     }}
                   />
                 </div>
+              </div>
+
+              {/* Student Photo Upload & Preview */}
+              <div style={{
+                padding: '14px',
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px dashed rgba(139, 92, 246, 0.4)',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '16px',
+                flexWrap: 'wrap'
+              }}>
+                <div style={{ position: 'relative', flexShrink: 0 }}>
+                  {formData.studentImage ? (
+                    <img
+                      src={formData.studentImage}
+                      alt="Student Preview"
+                      style={{
+                        width: '64px',
+                        height: '64px',
+                        borderRadius: '12px',
+                        objectFit: 'cover',
+                        border: '2px solid #38bdf8',
+                        boxShadow: '0 4px 12px rgba(56, 189, 248, 0.3)'
+                      }}
+                    />
+                  ) : (
+                    <div style={{
+                      width: '64px',
+                      height: '64px',
+                      borderRadius: '12px',
+                      background: 'rgba(139, 92, 246, 0.15)',
+                      border: '1px solid rgba(139, 92, 246, 0.3)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#a78bfa',
+                      fontSize: '24px'
+                    }}>
+                      🎓
+                    </div>
+                  )}
+                </div>
+
+                <div style={{ flex: 1, minWidth: '220px' }}>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: '700', color: '#e2e8f0', marginBottom: '2px' }}>
+                    Student Photo (Official Credential Image)
+                  </label>
+                  <p style={{ margin: '0 0 10px', fontSize: '12px', color: '#94a3b8', lineHeight: 1.4 }}>
+                    Displayed on the public verification portal when employers or students check their certificate.
+                  </p>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                    <label style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '8px 14px',
+                      borderRadius: '8px',
+                      background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.35), rgba(217, 70, 239, 0.35))',
+                      border: '1px solid rgba(139, 92, 246, 0.5)',
+                      color: '#fff',
+                      fontSize: '12.5px',
+                      fontWeight: '700',
+                      cursor: uploadingImage ? 'wait' : 'pointer'
+                    }}>
+                      <span>{uploadingImage ? '⏳ Uploading...' : '📁 Upload Student Photo'}</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        disabled={uploadingImage}
+                        style={{ display: 'none' }}
+                      />
+                    </label>
+
+                    {formData.studentImage && (
+                      <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, studentImage: '' }))}
+                        style={{
+                          padding: '8px 12px',
+                          borderRadius: '8px',
+                          background: 'rgba(239, 68, 68, 0.15)',
+                          border: '1px solid rgba(239, 68, 68, 0.4)',
+                          color: '#f87171',
+                          fontSize: '12px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        ✕ Remove Photo
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>
+                  Or Direct Image URL / Cloudinary Link
+                </label>
+                <input
+                  type="text"
+                  placeholder="https://... or /assets/..."
+                  value={formData.studentImage}
+                  onChange={(e) => setFormData({ ...formData, studentImage: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '9px 12px',
+                    borderRadius: '8px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(139, 92, 246, 0.25)',
+                    color: '#cbd5e1',
+                    fontSize: '13px',
+                    outline: 'none'
+                  }}
+                />
               </div>
 
               <div>

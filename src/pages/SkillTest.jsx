@@ -176,7 +176,7 @@ export default function SkillTest() {
             <span>🎯</span> GV DESIGNTECH TECHNICAL BENCHMARK
           </div>
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 54px)', fontWeight: '800', lineHeight: 1.15, margin: '0 0 14px', background: 'linear-gradient(135deg, #ffffff 40%, #e879f9 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            Engineering Technical Assessment<br />Skill Test (P.S.T)
+            Engineering Technical Assessment<br />Skill Test
           </h1>
           <p style={{ maxWidth: '680px', margin: '0 auto', fontSize: '16px', color: '#94a3b8', lineHeight: 1.6 }}>
             Benchmark your engineering competence with our industry-evaluated assessment. Your score is automatically validated and registered with the GV DesignTech Placement Cell.
