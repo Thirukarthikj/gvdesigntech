@@ -792,17 +792,23 @@ export default function AdminInternships() {
               ) : (
                 filteredApplicants.map((item) => (
                   <div key={item.id} className="admin-mobile-data-card">
-                    <div className="admin-mobile-card-header">
-                      <div>
-                        <h4 className="admin-mobile-card-title">{item.candidateName}</h4>
-                        <div className="admin-mobile-card-subtitle">{item.email}</div>
+                    <div className="admin-mobile-card-header" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '8px', width: '100%', boxSizing: 'border-box' }}>
+                      <div style={{ width: '100%' }}>
+                        <h4 className="admin-mobile-card-title" style={{ wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{item.candidateName}</h4>
+                        <div className="admin-mobile-card-subtitle" style={{ wordBreak: 'break-all', overflowWrap: 'anywhere' }}>{item.email}</div>
                       </div>
                       <span
                         className="admin-mobile-card-badge"
                         style={{
                           background: 'rgba(34, 211, 238, 0.15)',
                           border: '1px solid rgba(34, 211, 238, 0.35)',
-                          color: '#22d3ee'
+                          color: '#22d3ee',
+                          whiteSpace: 'normal',
+                          wordBreak: 'break-word',
+                          overflowWrap: 'anywhere',
+                          maxWidth: '100%',
+                          display: 'inline-block',
+                          boxSizing: 'border-box'
                         }}
                       >
                         {item.internshipProgram}

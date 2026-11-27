@@ -577,10 +577,10 @@ export default function AdminSkillTest() {
 
                   return (
                     <div key={r.id} className="admin-mobile-data-card">
-                      <div className="admin-mobile-card-header">
-                        <div>
-                          <h4 className="admin-mobile-card-title">{r.studentName}</h4>
-                          <div className="admin-mobile-card-subtitle">{r.email}</div>
+                      <div className="admin-mobile-card-header" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '8px', width: '100%', boxSizing: 'border-box' }}>
+                        <div style={{ width: '100%' }}>
+                          <h4 className="admin-mobile-card-title" style={{ wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{r.studentName}</h4>
+                          <div className="admin-mobile-card-subtitle" style={{ wordBreak: 'break-all', overflowWrap: 'anywhere' }}>{r.email}</div>
                           {r.phone && (
                             <a href={`tel:${r.phone}`} style={{ fontSize: '12px', color: '#38bdf8', textDecoration: 'none', fontWeight: '600', display: 'inline-block', marginTop: '3px' }}>
                               📞 {r.phone}
@@ -593,7 +593,13 @@ export default function AdminSkillTest() {
                             background: 'rgba(139, 92, 246, 0.15)',
                             border: '1px solid rgba(139, 92, 246, 0.35)',
                             color: '#c084fc',
-                            fontWeight: '700'
+                            fontWeight: '700',
+                            whiteSpace: 'normal',
+                            wordBreak: 'break-word',
+                            overflowWrap: 'anywhere',
+                            maxWidth: '100%',
+                            display: 'inline-block',
+                            boxSizing: 'border-box'
                           }}
                         >
                           {r.domainLabel || r.domain?.toUpperCase() || 'GENERAL'}
